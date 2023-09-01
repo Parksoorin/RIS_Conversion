@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>    
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LIS 연습 </title>
+	<title>RIS  </title>
 	<meta name="description" content="">
 	<script src="https://unpkg.com/ag-grid/dist/ag-grid.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/css/risstyle.css" />
