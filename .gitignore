@@ -1,0 +1,6 @@
+globals.properties
+.classpath
+.settings
+*.class
+target
+bin
