@@ -30,4 +30,9 @@ public class BugController {
 		return "main/test";
 	}
 
+	@GetMapping("/ccc.do")
+	public String hello3() {
+		return "main/code/risCodeList";
+	}
+	
 }

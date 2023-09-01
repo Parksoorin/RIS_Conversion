@@ -36,6 +36,10 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/main/{1}/{2}.jsp" />
 	</definition>
 	
+	<definition name="main/*/*/*" extends="main">
+	<!-- ".main//" 패턴에 해당하는 URL에 "main" 정의를 확장하여 사용한다. 이번에는 URL 경로의 두 번째 부분을 {2}에 대입하여 해당 JSP 파일을 "content" 부분에 포함시킨다. -->
+		<put-attribute name="content" value="/WEB-INF/jsp/main/{1}/{2}/{3}.jsp" />
+	</definition>
 	
 
 </tiles-definitions>
