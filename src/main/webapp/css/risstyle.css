@@ -104,9 +104,127 @@ ul {
 }
 
 .user {
-	margin-right: 2px;
+	margin-right: 10px;
 }
 
-.key-img {
-	width: 16px
+/* 그리드 아래 크기 변경 부분 */
+.ui-jqgrid-resize,
+.ui-jqgrid-resize-mark {
+  display: none;
+}
+
+/* 그리드 헤드 테이블 */
+.ui-jqgrid .ui-jqgrid-htable {
+  color: #333333;
+  background-color: #ececec;
+  border-top: 2px solid #999;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+/* 그리드 헤드 th */
+.ui-jqgrid .ui-jqgrid-htable th {
+  height: 30px;
+}
+
+/* 그리드 헤드 셀 */
+.ui-state-default {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  border-right: 1px solid #dbdbdb;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.ui-jqgrid-hbox {
+  background-color: #ffffff;
+}
+
+.ui-widget-content {
+  background: #fcfdfd;
+  color: #333;
+}
+
+.ui-jqgrid .ui-jqgrid-bdiv {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  text-align: left;
+  height: 99%;
+  width: 100% !important;
+}
+
+.ui-jqgrid tr.ui-row-ltr td {
+  text-align: left;
+  border-right: 1px solid #dbdbdb;
+}
+
+.ui-jqgrid tr.jqgrow td {
+  overflow: hidden;
+  height: 30px;
+  padding: 6px 3px;
+  border-bottom: 1px solid #dbdbdb;
+  font-size: 12px;
+}
+
+.inquiry__page-flex input[type="text"],
+.inquiry__page-flex input[type="date"],
+.inquiry__page-flex select {
+  margin-left: 5px;
+  margin-right: 5px;
+  height: 24px;
+  padding-left: 5px;
+}
+
+.grid1 {
+  width: 100%;
+}
+
+.grid2 {
+  height: 50%;
+}
+
+.grid3 {
+  height: 50%;
+}
+
+.grid4 {
+  width: 50%;
+}
+
+.ui-jqgrid .loading {
+  position: absolute;
+  top: 25%;
+  left: 38%;
+  width: auto;
+  z-index: 101;
+  padding: 6px;
+  margin: 5px;
+  text-align: center;
+  font-weight: bold;
+  display: none;
+  border-width: 2px !important;
+  font-size: 11px;
+}
+
+.ui-jqgrid .jqgrid-overlay {
+  display: none;
+  z-index: 100;
+}
+
+/* 그리드 행 호버 시 */
+.ui-jqgrid-bdiv .ui-state-hover,
+.ui-widget-header .ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+  color: #333333;
+  background: #c6e4f9;
+}
+
+/* 그리드 행 선택 시 */
+.ui-state-highlight,
+.ui-widget-content .ui-state-highlight,
+.ui-widget-header .ui-state-highlight {
+  color: #fff;
+  background: #218ecb;
 }
