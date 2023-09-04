@@ -76,14 +76,14 @@
     </div>
     <!-- 언어, 유저 정보 -->
     <div class="header__user">
-        <select>
+        <select class="sel">
             <option value="">KOR</option>
             <option value="">ENG</option>
         </select>
-        <p>사용자:
+        <p class="user">사용자:
             <span>관리자</span>
         </p>
-        <img src="#" class="" />
+        <img src="#" class="key-img" />
     </div>
 
 </div>
