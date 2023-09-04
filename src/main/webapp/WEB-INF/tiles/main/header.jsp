@@ -6,7 +6,9 @@
 	<title>RIS  </title>
 	<meta name="description" content="">
 	<script src="https://unpkg.com/ag-grid/dist/ag-grid.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/css/risstyle.css" />
+	<link rel="stylesheet" href="/js/jqgrid/jquery-ui.css" />
+    <link rel="stylesheet" href="/css/risstyle.css" />
+    <link rel="stylesheet" href="/css/grid.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/jqgrid_common.js'/>'></script>
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/jquery-1.9.0.min.js'/>'></script>
@@ -15,4 +17,5 @@
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/grid.locale-kr.js'/>'></script>
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/jquery.form.js'/>'></script>
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/jquery.form.min.js'/>'></script>
+	<script type="text/javascript" src='<c:url value='/js/jqgrid/jquery-ui.js'/>'></script> 
 	<script type="text/javascript" src='<c:url value='/js/jqgrid/jquery-ui.min.js'/>'></script> 

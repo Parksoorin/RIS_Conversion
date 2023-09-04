@@ -35,4 +35,8 @@ public class BugController {
 		return "main/code/risCodeList";
 	}
 	
+	@GetMapping("/oneGrid.do")
+	public String oneGrid() {
+		return "main/oneGrid";
+	}
 }
