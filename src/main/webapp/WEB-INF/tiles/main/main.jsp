@@ -12,7 +12,7 @@
 		</div>
 		<div id="contents">
 		<tiles:insertAttribute name="content" />	
-		<tiles:insertAttribute name="foot" />
+		<%-- <tiles:insertAttribute name="foot" /> --%>
 		</div>
 	</div>
 </body>
