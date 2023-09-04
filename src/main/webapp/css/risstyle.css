@@ -41,8 +41,8 @@ ul {
 	background-color: #E3F2FF;
 }
 
-.main__menu-items:hover .main__menu-item {
-	opacity: 0.8;
+.main__menu-items:hover {
+	cursor: pointer;
 }
 
 .main__menu-items {
@@ -79,6 +79,7 @@ ul {
 }
 
 .sub__menu-item a:hover {
+	cursor: pointer;
 	background-color: #96B9D7;
 }
 
@@ -94,4 +95,12 @@ ul {
 	justify-content: flex-end;
 	width: 100%;
 	font-size: 12px;
+}
+
+.sel {
+	margin-right: 10px;
+}
+
+.user {
+	margin-right: 10px;
 }
