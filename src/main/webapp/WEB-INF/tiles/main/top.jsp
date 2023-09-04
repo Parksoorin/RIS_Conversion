@@ -83,7 +83,7 @@
         <p class="user">사용자:
             <span>관리자</span>
         </p>
-        <img src="#" class="key-img" />
+        <img src="/images/icons/icon-key2.png" class="key-img" />
     </div>
 
 </div>
