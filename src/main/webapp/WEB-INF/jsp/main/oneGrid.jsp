@@ -18,20 +18,20 @@
         <button class="search__btn">검색</button>
       </section>
 
+      <!-- 그리드 타이틀 -->
+      <div class="grid__title">
+        <p>그리드 타이틀</p>
+
+        <!-- 버튼 컨테이너 -->
+        <div class="btn__container">
+          <button>수정</button>
+          <button>삭제</button>
+          <button>입력</button>
+          <button>저장</button>
+        </div>
+      </div>
       <!-- 그리드 -->
       <div class="grid__container">
-        <!-- 그리드 타이틀 -->
-        <div class="grid__title">
-          <p>그리드 타이틀</p>
-
-          <!-- 버튼 컨테이너 -->
-          <div class="btn__container">
-            <button>수정</button>
-            <button>삭제</button>
-            <button>입력</button>
-            <button>저장</button>
-          </div>
-        </div>
         <section class="grid__box">
           <!-- 그리드 -->
           <table id="list1" class="grid1"></table>
@@ -215,7 +215,7 @@
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "90%",
+          height: "94%",
           rownumbers: true,
           multiselect: true,
           sortname: "id",
