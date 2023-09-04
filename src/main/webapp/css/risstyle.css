@@ -76,6 +76,7 @@ ul {
 	text-decoration: none;
 	display: block;
 	text-align: left;
+	font-size: 10px;
 }
 
 .sub__menu-item a:hover {
@@ -95,6 +96,7 @@ ul {
 	justify-content: flex-end;
 	width: 100%;
 	font-size: 12px;
+	align-items: center;
 }
 
 .sel {
@@ -102,5 +104,9 @@ ul {
 }
 
 .user {
-	margin-right: 10px;
+	margin-right: 2px;
+}
+
+.key-img {
+	width: 16px
 }

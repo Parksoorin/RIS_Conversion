@@ -8,68 +8,69 @@
             <li class="main__menu-items">
                 업무메뉴
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
+                    <a href="#">메뉴재생성</a>
+                    <a href="#">로그아웃</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 기준정보관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
-                    <a href="#">Link 5</a>
+                    <a href="#">공통코드관리</a>
+                    <a href="#">기준정보 입력관리</a>
+                    <a href="#">촬영실 관리</a>
+                    <a href="#">촬영실 장비관리</a>
+                    <a href="#">촬영코드 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 메뉴관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
-                    <a href="#">Link 5</a>
+                    <a href="#">메뉴정보 관리</a>
+                    <a href="#">사용자 관리</a>
+                    <a href="#">프로그램정보 관리</a>
+                    <a href="#">사용자별 메뉴관리</a>
+                    <a href="#">프로그램 기능 권한 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 예약스케줄관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
+                    <a href="#">예약기준관리</a>
+                    <a href="#">예외 기준 관리</a>
+                    <a href="#">휴일 기준관리</a>
+                    <a href="#">예약 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 환자관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
+                    <a href="#">환자정보 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 접수관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
-                    <a href="#">Link 5</a>
+                    <a href="#">영상 접수관리</a>
+                    <a href="#">CD 접수관리</a>
+                    <a href="#">이동촬영 접수</a>
+                    <a href="#">처방 정보 관리</a>
+                    <a href="#">영상 실시 관리</a>
+                    <a href="#">워크리스트</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 판독관리
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
+                    <a href="#">영상 판독문구 관리</a>
+                    <a href="#">영상 판독관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 각종 통계현황
                 <div class="sub__menu-item">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
+                    <a href="#">촬영실별 통계</a>
+                    <a href="#">장비별 통계</a>
+                    <a href="#">판독의별 통계</a>
                 </div>
             </li>
         </ul>
