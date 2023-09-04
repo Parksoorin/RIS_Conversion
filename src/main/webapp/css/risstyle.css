@@ -104,7 +104,11 @@ ul {
 }
 
 .user {
-	margin-right: 10px;
+	margin-right: 2px;
+}
+
+.key-img {
+	width: 16px
 }
 
 /* 그리드 아래 크기 변경 부분 */
