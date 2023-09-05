@@ -232,3 +232,7 @@ ul {
   color: #fff;
   background: #218ecb;
 }
+
+.ui-jqgrid-sortable {
+  position: relative;
+}

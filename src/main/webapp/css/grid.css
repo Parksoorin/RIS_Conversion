@@ -1,7 +1,12 @@
 .main__container {
+  padding: 10px;
   width: 100%;
-  height: calc(100% - 147px);
-  background-color: #fff;
+  height: calc(100% - 87px);
+  background-color: #fafafa;
+}
+
+.twoGrid__container {
+  width: 50%;
 }
 
 .search__container {
@@ -13,6 +18,7 @@
   font-weight: bold;
   color: #fff;
   background-color: #005d92;
+  border-radius: 5px 5px 0 0;
 }
 
 .filter__container {
@@ -35,8 +41,21 @@
 .grid__container {
   padding: 10px;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 110px);
   background-color: #fff;
+  border: 1px solid #DBDBDB;
+  border-top: 0;
+  border-radius: 0 0 5px 5px;
+}
+
+.main__container-twoGrid {
+  display: flex;
+  gap: 5px;
+  height: calc(100% - 60px);
+}
+
+.twoGrid__container {
+  height: calc(100% - 25px);
 }
 
 .grid__title {
@@ -53,8 +72,31 @@
 }
 
 .grid__box {
-  padding: 10px;
   width: 100%;
-  height: calc(100% - 70px);
-  border: 1px solid #dbdbdb;
+  height: 100%;
+}
+
+.twoGrid__box {
+  padding: 10px;
+  height: calc(100% - 27px);
+  border: 1px solid #DBDBDB;
+  border-top: 0;
+}
+
+.threeGrid__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: calc(100% - 7px);
+  gap: 5px;
+}
+
+.threeGrid__container-subcontainer {
+  width: 100%;
+  height: 50%;
+}
+
+.threeGrid__box {
+  height: calc(100% - 50px);
 }
