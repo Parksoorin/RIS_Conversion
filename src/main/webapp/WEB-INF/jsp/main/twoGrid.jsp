@@ -33,10 +33,12 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
           <!-- 그리드 -->
-          <section class="grid__box twoGrid__box">
+          <div class="twoGrid__box">
+          <section class="grid__box">
             <!-- 그리드 -->
             <table id="list1" class="grid1"></table>
           </section>
+          </div>
         </div>
 
         <div class="twoGrid__container">
@@ -53,10 +55,12 @@ pageEncoding="UTF-8"%>
             </div>
           </div>
           <!-- 그리드 -->
-          <section class="grid__box twoGrid__box">
+          <div class="twoGrid__box">
+          <section class="grid__box">
             <!-- 그리드 -->
             <table id="list2" class="grid1"></table>
           </section>
+          </div>
         </div>
       </div>
     </main>

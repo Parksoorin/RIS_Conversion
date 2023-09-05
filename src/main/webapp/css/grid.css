@@ -77,5 +77,8 @@
 }
 
 .twoGrid__box {
+  padding: 10px;
   height: calc(100% - 27px);
+  border: 1px solid #DBDBDB;
+  border-top: 0;
 }
