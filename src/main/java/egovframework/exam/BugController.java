@@ -39,4 +39,14 @@ public class BugController {
 	public String oneGrid() {
 		return "main/oneGrid";
 	}
+
+	@GetMapping("/twoGrid.do")
+	public String twoGrid() {
+		return "main/twoGrid";
+	}
+
+	@GetMapping("/threeGrid.do")
+	public String threeGrid() {
+		return "main/threeGrid";
+	}
 }

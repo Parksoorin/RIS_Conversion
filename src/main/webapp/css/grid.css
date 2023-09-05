@@ -5,6 +5,10 @@
   background-color: #fafafa;
 }
 
+.twoGrid__container {
+  width: 50%;
+}
+
 .search__container {
   display: flex;
   align-items: center;
@@ -44,6 +48,16 @@
   border-radius: 0 0 5px 5px;
 }
 
+.main__container-twoGrid {
+  display: flex;
+  gap: 5px;
+  height: calc(100% - 60px);
+}
+
+.twoGrid__container {
+  height: calc(100% - 25px);
+}
+
 .grid__title {
   display: flex;
   align-items: center;
@@ -60,4 +74,8 @@
 .grid__box {
   width: 100%;
   height: 100%;
+}
+
+.twoGrid__box {
+  height: calc(100% - 27px);
 }
