@@ -82,3 +82,21 @@
   border: 1px solid #DBDBDB;
   border-top: 0;
 }
+
+.threeGrid__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: calc(100% - 7px);
+  gap: 5px;
+}
+
+.threeGrid__container-subcontainer {
+  width: 100%;
+  height: 50%;
+}
+
+.threeGrid__box {
+  height: calc(100% - 50px);
+}
