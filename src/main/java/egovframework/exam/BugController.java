@@ -19,7 +19,7 @@ public class BugController {
 	@GetMapping("/aaa.do")
 	public String hello() {
 		System.out.println("hello");
-		return "main/test";
+		return ".main/test";
 	}
 	
 	@GetMapping("/bbb.do")
@@ -27,26 +27,26 @@ public class BugController {
 		System.out.println("hello2");
 		int size = testMapper2.findAll();
 		System.out.println("데이터의 사이즈 : " + size);
-		return "main/test";
+		return ".main/test";
 	}
 
 	@GetMapping("/ccc.do")
 	public String hello3() {
-		return "main/code/risCodeList";
+		return ".main/code/risCodeList";
 	}
 	
 	@GetMapping("/oneGrid.do")
 	public String oneGrid() {
-		return "main/oneGrid";
+		return ".main/oneGrid";
 	}
 
 	@GetMapping("/twoGrid.do")
 	public String twoGrid() {
-		return "main/twoGrid";
+		return ".main/twoGrid";
 	}
 
 	@GetMapping("/threeGrid.do")
 	public String threeGrid() {
-		return "main/threeGrid";
+		return ".main/threeGrid";
 	}
 }
