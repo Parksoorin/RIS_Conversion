@@ -48,6 +48,10 @@
   border-radius: 0 0 5px 5px;
 }
 
+.btn__container {
+	display: flex;
+}
+
 .main__container-twoGrid {
   display: flex;
   gap: 5px;

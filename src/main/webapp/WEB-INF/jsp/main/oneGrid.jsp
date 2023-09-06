@@ -24,10 +24,8 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-          <button>수정</button>
-          <button>삭제</button>
-          <button>입력</button>
-          <button>저장</button>
+		    <button class="all__btn img__btn delete__btn">삭제</button>
+		    <button class="all__btn text__btn">글자만</button>
         </div>
       </div>
       <!-- 그리드 -->

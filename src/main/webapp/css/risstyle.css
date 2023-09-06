@@ -15,6 +15,45 @@
 	box-sizing: border-box;
 }
 
+/* 버튼 */
+.all__btn {
+    display: flex;
+    padding: 7px 10px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    background: #FFF;
+    position: relative;
+    font-size: 14px;
+}
+
+.all__btn:hover {
+    cursor: pointer;
+    background: #E8E8E8;
+}
+
+.img__btn {
+    padding-left: 26px;
+}
+
+.img__btn::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.delete__btn::before {
+    background-image: url("/images/icons/delete.png");
+}
+
 .all__header {
 	min-width: 1200px;
 }
