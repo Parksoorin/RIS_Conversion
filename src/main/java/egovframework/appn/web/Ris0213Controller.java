@@ -34,7 +34,7 @@ public class Ris0213Controller {
 			System.out.println(dto.getHsptId());
 		}
 		
-		return "main/test";
+		return ".main/test";
 	}
 	
 	

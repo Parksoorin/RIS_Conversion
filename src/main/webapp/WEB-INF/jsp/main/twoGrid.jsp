@@ -58,7 +58,7 @@ pageEncoding="UTF-8"%>
           <div class="twoGrid__box">
             <section class="grid__box">
               <!-- 그리드 -->
-              <table id="list1" class="grid1"></table>
+              <table id="list2" class="grid1"></table>
             </section>
           </div>
         </div>
