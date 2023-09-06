@@ -49,4 +49,9 @@ public class BugController {
 	public String threeGrid() {
 		return "main/threeGrid";
 	}
+	
+	@GetMapping("/patientSearch.do")
+	public String patientSearch() {
+		return "main/jubsu/patientSearch";
+	}
 }

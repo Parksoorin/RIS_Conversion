@@ -34,10 +34,10 @@
           </div>
           <!-- 그리드 -->
           <div class="twoGrid__box">
-          <section class="grid__box">
-            <!-- 그리드 -->
-            <table id="list1" class="grid1"></table>
-          </section>
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
+            </section>
           </div>
         </div>
 		
@@ -56,11 +56,11 @@
 	            </div>
 	          </div>
 	          <!-- 그리드 -->
-	          <div class="twoGrid__box threeGrid__box">
-	          <section class="grid__box">
-	            <!-- 그리드 -->
-	            <table id="list2" class="grid1"></table>
-	          </section>
+	            <div class="twoGrid__box threeGrid__box">
+	            <section class="grid__box">
+	              <!-- 그리드 -->
+	              <table id="list3" class="grid1"></table>
+	            </section>
 	          </div>
 	        </div>
 	        
@@ -78,11 +78,11 @@
 	            </div>
 	          </div>
 	          <!-- 그리드 -->
-	          <div class="twoGrid__box threeGrid__box">
-	          <section class="grid__box">
-	            <!-- 그리드 -->
-	            <table id="list3" class="grid1"></table>
-	          </section>
+	            <div class="twoGrid__box threeGrid__box">
+	            <section class="grid__box">
+	              <!-- 그리드 -->
+	              <table id="list3" class="grid1"></table>
+	            </section>
 	          </div>
 	        </div>
         </div>
@@ -270,7 +270,6 @@
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
-          rownumbers: true,
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
@@ -301,116 +300,116 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+        
         $("#list2").jqGrid({
-            datatype: "local",
-            data: mydata,
-            colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
-            colModel: [
-              { name: "date", index: "date", width: 90, align: "center" },
-              { name: "name", index: "name", width: 100, align: "center" },
-              {
-                name: "id",
-                index: "id",
-                width: 150,
-                align: "center",
-              },
-              { name: "product", index: "product", width: 80, align: "center" },
-              { name: "amount", index: "amount", width: 80, align: "center" },
-              { name: "total", index: "total", width: 80, align: "center" },
-            ],
-            guiStyle: "bootstrap",
-            autowidth: true,
-            height: "85%",
-            rownumbers: true,
-            multiselect: true,
-            sortname: "id",
-            sortorder: "asc",
-            rownumbers: true,
-            gridview: true, // 선표시 true/false
-            viewsortcols: [true, "vertical", true],
-            loadComplete: function (data) {
-              console.log(data);
-            }, // loadComplete END
-            onSelectRow: function (rowid) {
-              console.log(rowid);
+          datatype: "local",
+          data: mydata,
+          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colModel: [
+            { name: "date", index: "date", width: 90, align: "center" },
+            { name: "name", index: "name", width: 100, align: "center" },
+            {
+              name: "id",
+              index: "id",
+              width: 150,
+              align: "center",
             },
-            onSortCol: function (index, idxcol, sortorder) {
-              // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-              // (화살표 css 변경하기 전 Frozen을 풀어주고)
-              $("#list1").jqGrid("destroyFrozenColumns");
-              var $icons = $(this.grid.headers[idxcol].el).find(
-                ">div.ui-jqgrid-sortable>span.s-ico"
-              );
-              if (this.p.sortorder === "asc") {
-                //$icons.find('>span.ui-icon-asc').show();
-                $icons.find(">span.ui-icon-asc")[0].style.display = "";
-                $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-                $icons.find(">span.ui-icon-desc").hide();
-              } else {
-                //$icons.find('>span.ui-icon-desc').show();
-                $icons.find(">span.ui-icon-desc")[0].style.display = "";
-                $icons.find(">span.ui-icon-asc").hide();
-              }
-              // (화살표 css 변경 후 Frozen을 다시 설정)
-              $("#list1").jqGrid("setFrozenColumns");
-              //alert(index+'/'+idxcol+'/'+sortorder);
-            },
-          });
+            { name: "product", index: "product", width: 80, align: "center" },
+            { name: "amount", index: "amount", width: 80, align: "center" },
+            { name: "total", index: "total", width: 80, align: "center" },
+          ],
+          guiStyle: "bootstrap",
+          autowidth: true,
+          height: "85%",
+          rownumbers: true,
+          multiselect: true,
+          sortname: "id",
+          sortorder: "asc",
+          gridview: true, // 선표시 true/false
+          viewsortcols: [true, "vertical", true],
+          loadComplete: function (data) {
+            console.log(data);
+          }, // loadComplete END
+          onSelectRow: function (rowid) {
+            console.log(rowid);
+          },
+          onSortCol: function (index, idxcol, sortorder) {
+            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+            $("#list1").jqGrid("destroyFrozenColumns");
+            var $icons = $(this.grid.headers[idxcol].el).find(
+              ">div.ui-jqgrid-sortable>span.s-ico"
+            );
+            if (this.p.sortorder === "asc") {
+              //$icons.find('>span.ui-icon-asc').show();
+              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+              $icons.find(">span.ui-icon-desc").hide();
+            } else {
+              //$icons.find('>span.ui-icon-desc').show();
+              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc").hide();
+            }
+            // (화살표 css 변경 후 Frozen을 다시 설정)
+            $("#list1").jqGrid("setFrozenColumns");
+            //alert(index+'/'+idxcol+'/'+sortorder);
+          },
+        });
+        
         $("#list3").jqGrid({
-            datatype: "local",
-            data: mydata,
-            colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
-            colModel: [
-              { name: "date", index: "date", width: 90, align: "center" },
-              { name: "name", index: "name", width: 100, align: "center" },
-              {
-                name: "id",
-                index: "id",
-                width: 150,
-                align: "center",
-              },
-              { name: "product", index: "product", width: 80, align: "center" },
-              { name: "amount", index: "amount", width: 80, align: "center" },
-              { name: "total", index: "total", width: 80, align: "center" },
-            ],
-            guiStyle: "bootstrap",
-            autowidth: true,
-            height: "85%",
-            rownumbers: true,
-            multiselect: true,
-            sortname: "id",
-            sortorder: "asc",
-            rownumbers: true,
-            gridview: true, // 선표시 true/false
-            viewsortcols: [true, "vertical", true],
-            loadComplete: function (data) {
-              console.log(data);
-            }, // loadComplete END
-            onSelectRow: function (rowid) {
-              console.log(rowid);
+          datatype: "local",
+          data: mydata,
+          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colModel: [
+            { name: "date", index: "date", width: 90, align: "center" },
+            { name: "name", index: "name", width: 100, align: "center" },
+            {
+              name: "id",
+              index: "id",
+              width: 150,
+              align: "center",
             },
-            onSortCol: function (index, idxcol, sortorder) {
-              // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-              // (화살표 css 변경하기 전 Frozen을 풀어주고)
-              $("#list1").jqGrid("destroyFrozenColumns");
-              var $icons = $(this.grid.headers[idxcol].el).find(
-                ">div.ui-jqgrid-sortable>span.s-ico"
-              );
-              if (this.p.sortorder === "asc") {
-                //$icons.find('>span.ui-icon-asc').show();
-                $icons.find(">span.ui-icon-asc")[0].style.display = "";
-                $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-                $icons.find(">span.ui-icon-desc").hide();
-              } else {
-                //$icons.find('>span.ui-icon-desc').show();
-                $icons.find(">span.ui-icon-desc")[0].style.display = "";
-                $icons.find(">span.ui-icon-asc").hide();
-              }
-              // (화살표 css 변경 후 Frozen을 다시 설정)
-              $("#list1").jqGrid("setFrozenColumns");
-              //alert(index+'/'+idxcol+'/'+sortorder);
-            },
-          });
+            { name: "product", index: "product", width: 80, align: "center" },
+            { name: "amount", index: "amount", width: 80, align: "center" },
+            { name: "total", index: "total", width: 80, align: "center" },
+          ],
+          guiStyle: "bootstrap",
+          autowidth: true,
+          height: "85%",
+          rownumbers: true,
+          multiselect: true,
+          sortname: "id",
+          sortorder: "asc",
+          gridview: true, // 선표시 true/false
+          viewsortcols: [true, "vertical", true],
+          loadComplete: function (data) {
+            console.log(data);
+          }, // loadComplete END
+          onSelectRow: function (rowid) {
+            console.log(rowid);
+          },
+          onSortCol: function (index, idxcol, sortorder) {
+            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+            $("#list1").jqGrid("destroyFrozenColumns");
+            var $icons = $(this.grid.headers[idxcol].el).find(
+              ">div.ui-jqgrid-sortable>span.s-ico"
+            );
+            if (this.p.sortorder === "asc") {
+              //$icons.find('>span.ui-icon-asc').show();
+              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+              $icons.find(">span.ui-icon-desc").hide();
+            } else {
+              //$icons.find('>span.ui-icon-desc').show();
+              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc").hide();
+            }
+            // (화살표 css 변경 후 Frozen을 다시 설정)
+            $("#list1").jqGrid("setFrozenColumns");
+            //alert(index+'/'+idxcol+'/'+sortorder);
+          },
+        });
       });
     </script>
   </body>

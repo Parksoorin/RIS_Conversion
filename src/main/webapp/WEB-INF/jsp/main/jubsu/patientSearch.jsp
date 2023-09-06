@@ -1,46 +1,104 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Insert title here</title>
+
+<!-- css -->
+<link rel="stylesheet" type="text/css" href="/css/patientSearch.css" />
 </head>
-  <body>
-    <main class="main__container">
-      <!-- 검색 -->
-      <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
-        <button class="all__btn img__btn search__btn">검색</button>
-      </section>
+<body>
+	<main class="main__container">
+		<!-- 검색 -->
+		<section class="search__container">
+			<p class="filter__keyword">검색어 :</p>
+				<input />
+			<button class="search__btn">검색</button>
+		</section>
 
-      <!-- 그리드 타이틀 -->
-      <div class="grid__title">
-        <p>그리드 타이틀</p>
+		<div class="grid__container main__container-twoGrid">
+			<div class="twoGrid__container">
+				<!-- 그리드 타이틀 -->
+				<div class="grid__title">
+					<p>환자정보 목록</p>
+				</div>
 
-        <!-- 버튼 컨테이너 -->
-        <div class="btn__container">
-        	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
-		    <button class="all__btn text__btn">글자만</button>
-        </div>
-      </div>
-      <!-- 그리드 -->
-      <div class="grid__container">
-        <section class="grid__box">
-          <!-- 그리드 -->
-          <table id="list1" class="grid1"></table>
-        </section>
-      </div>
-    </main>
+				<!-- 그리드 -->
+				<div class="twoGrid__box">
+					<section class="grid__box">
+						<!-- 그리드 -->
+						<table id="list1" class="grid1"></table>
+					</section>
+				</div>
+			</div>
 
-    <script>
+			<div class="twoGrid__container">
+				<!-- 그리드 타이틀 -->
+				<div class="grid__title">
+					<p>환자 상세정보</p>
+				</div>
+
+				<!-- 그리드 -->
+				<div class="two__box">
+					<table>
+						<tr>
+							<th>환자ID</th>
+							<td>
+								<input type="text" />
+								
+							</td>
+						</tr>
+						<tr>
+							<th>환자명</th>
+							<td>
+								<input type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>영문 명</th>
+							<td>
+								<input type="text" />
+								<input type="text" />
+								<input type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>생년월일</th>
+							<td>
+								<input type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>성별</th>
+							
+						</tr>
+						<tr>
+							<th>전화번호</th>
+							<td>
+								<input type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>국가</th>
+							<td>
+								<input type="text" />
+							</td>
+						</tr>
+						<tr>
+							<th>참고내용</th>
+							<td>
+								<input type="text" />
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script>
       $(document).ready(function () {
         var mydata = [
           {
@@ -49,7 +107,6 @@
             id: "id",
             product: "상품1",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-02",
@@ -57,7 +114,6 @@
             id: "id2",
             product: "상품1",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-01",
@@ -65,7 +121,6 @@
             id: "id3",
             product: "상품1",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-10-04",
@@ -73,7 +128,6 @@
             id: "id4",
             product: "상품1",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-05",
@@ -81,7 +135,6 @@
             id: "id5",
             product: "상품1",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-06",
@@ -89,7 +142,6 @@
             id: "id6",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-10-04",
@@ -97,7 +149,6 @@
             id: "id7",
             product: "상품2",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-03",
@@ -105,7 +156,6 @@
             id: "id8",
             product: "상품2",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-01",
@@ -113,7 +163,6 @@
             id: "id9",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-10-01",
@@ -121,7 +170,6 @@
             id: "id10",
             product: "상품2",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-02",
@@ -129,7 +177,6 @@
             id: "id11",
             product: "상품2",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-01",
@@ -137,7 +184,6 @@
             id: "id12",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-10-04",
@@ -145,7 +191,6 @@
             id: "id13",
             product: "상품2",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-05",
@@ -153,7 +198,6 @@
             id: "id14",
             product: "상품2",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-06",
@@ -161,7 +205,6 @@
             id: "id15",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-10-04",
@@ -169,7 +212,6 @@
             id: "id16",
             product: "상품2",
             amount: "10.00",
-            total: "210.00",
           },
           {
             date: "2007-10-03",
@@ -177,7 +219,6 @@
             id: "id17",
             product: "상품2",
             amount: "20.00",
-            total: "320.00",
           },
           {
             date: "2007-09-01",
@@ -185,7 +226,6 @@
             id: "id18",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
           {
             date: "2007-09-01",
@@ -193,14 +233,13 @@
             id: "id19",
             product: "상품2",
             amount: "30.00",
-            total: "430.00",
           },
         ];
 
         $("#list1").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colNames: ["환자ID", "환자명", "성별", "나이", "생년월일"],
           colModel: [
             { name: "date", index: "date", width: 90, align: "center" },
             { name: "name", index: "name", width: 100, align: "center" },
@@ -212,13 +251,12 @@
             },
             { name: "product", index: "product", width: 80, align: "center" },
             { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
           ],
-          guiStyle: "bootstrap",
+          
           autowidth: true,
-          height: "94%",
+          height: "74%",
           rownumbers: true,
-          multiselect: true,
+          multiselect: false,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
@@ -250,8 +288,8 @@
             $("#list1").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
-        });
+        }); 
       });
     </script>
-  </body>
+</body>
 </html>
