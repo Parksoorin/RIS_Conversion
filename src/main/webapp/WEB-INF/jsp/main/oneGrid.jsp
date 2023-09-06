@@ -218,7 +218,6 @@
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
-          rownumbers: true,
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {

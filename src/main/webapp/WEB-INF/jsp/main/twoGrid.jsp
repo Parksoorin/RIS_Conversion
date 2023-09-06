@@ -32,12 +32,12 @@ pageEncoding="UTF-8"%>
               <button>저장</button>
             </div>
           </div>
-          <!-- 그리드 -->
+          <!-- 그리드 박스 -->
           <div class="twoGrid__box">
-          <section class="grid__box">
-            <!-- 그리드 -->
-            <table id="list1" class="grid1"></table>
-          </section>
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
+            </section>
           </div>
         </div>
 
@@ -54,12 +54,12 @@ pageEncoding="UTF-8"%>
               <button>저장</button>
             </div>
           </div>
-          <!-- 그리드 -->
+          <!-- 그리드 박스 -->
           <div class="twoGrid__box">
-          <section class="grid__box">
-            <!-- 그리드 -->
-            <table id="list2" class="grid1"></table>
-          </section>
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
+            </section>
           </div>
         </div>
       </div>
@@ -246,7 +246,6 @@ pageEncoding="UTF-8"%>
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
-          rownumbers: true,
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
@@ -302,7 +301,6 @@ pageEncoding="UTF-8"%>
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
-          rownumbers: true,
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
