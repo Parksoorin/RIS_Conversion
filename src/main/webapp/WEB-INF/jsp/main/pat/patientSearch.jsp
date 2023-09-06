@@ -41,8 +41,8 @@
 				</div>
 
 				<!-- 그리드 -->
-				<div class="two__box">
-					<table>
+				<div class="twoGrid__box">
+					<table class="tableClass">
 						<tr>
 							<th>환자ID</th>
 							<td>
@@ -107,55 +107,6 @@
             id: "id",
             product: "상품1",
             amount: "10.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id2",
-            product: "상품1",
-            amount: "20.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id3",
-            product: "상품1",
-            amount: "30.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id4",
-            product: "상품1",
-            amount: "10.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id5",
-            product: "상품1",
-            amount: "20.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id6",
-            product: "상품2",
-            amount: "30.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id7",
-            product: "상품2",
-            amount: "10.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id8",
-            product: "상품2",
-            amount: "20.00",
           },
           {
             date: "2007-09-01",
@@ -254,7 +205,7 @@
           ],
           
           autowidth: true,
-          height: "74%",
+          height: "68%",
           rownumbers: true,
           multiselect: false,
           sortname: "id",
