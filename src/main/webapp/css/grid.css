@@ -50,6 +50,7 @@
 
 .btn__container {
 	display: flex;
+	gap: 5px;
 }
 
 .main__container-twoGrid {

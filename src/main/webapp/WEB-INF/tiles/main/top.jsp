@@ -26,7 +26,7 @@
                 메뉴관리
                 <div class="sub__menu-item">
                     <a href="#">메뉴정보 관리</a>
-                    <a href="#">사용자 관리</a>
+                    <a href="/user.do">사용자 관리</a>
                     <a href="#">프로그램정보 관리</a>
                     <a href="#">사용자별 메뉴관리</a>
                     <a href="#">프로그램 기능 권한 관리</a>
