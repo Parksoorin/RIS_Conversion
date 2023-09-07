@@ -4,8 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<link rel="stylesheet" type="text/css" href="http://192.168.0.77:8081/css/risstyle.css" />
-	
+<link rel="stylesheet" type="text/css" href="/css/code/risCodeView.css"/>	
 
 </head>
 	<body>

@@ -5,15 +5,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/css/code/detail.css"/>
+<link rel="stylesheet" type="text/css" href="/css/code/risCodeInsert.css"/>
 </head>
   <body>
-    
-    
-    
-    
-    
-    
+ 
     <!-- Main 화면 영역  Start -->
 	
 	<!-- 검색영역 설정 Start --> 
