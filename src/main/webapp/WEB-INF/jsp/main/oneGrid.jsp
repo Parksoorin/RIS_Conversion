@@ -24,7 +24,7 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn img__btn update__btn">수정</button>
+        	<button class="all__btn img__btn update__btn">수정</button>
         	<button class="all__btn img__btn insert__btn">입력</button>
 		    <button class="all__btn img__btn delete__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
