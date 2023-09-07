@@ -13,9 +13,9 @@
 	<main class="main__container">
 		<!-- 검색 -->
 		<section class="search__container">
-			<p class="filter__keyword">검색어 :</p>
-				<input />
-			<button class="search__btn">검색</button>
+			<p class="filter__keyword">환자명 :</p>
+			<input />
+			<button class="all__btn img__btn search__btn left__btn">검색</button>
 		</section>
 
 		<div class="grid__container main__container-twoGrid">
@@ -38,58 +38,73 @@
 				<!-- 그리드 타이틀 -->
 				<div class="grid__title">
 					<p>환자 상세정보</p>
+					<div class="btn__container">
+						<button class="all__btn img__btn img__btn update__btn">수정</button>
+			        	<button class="all__btn img__btn insert__btn">입력</button>
+			    		<button class="all__btn img__btn save__btn">저장</button>
+					</div>
 				</div>
 
 				<!-- 그리드 -->
 				<div class="twoGrid__box">
 					<table class="tableClass">
+						<colgroup>
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+							<col width="25%">
+						</colgroup>
 						<tr>
-							<th>환자ID</th>
-							<td>
-								<input type="text" />
+							<th class="thNeed">환자ID</th>
+							<td colspan="3"><input type="text" class="tdInputClass" placeholder="test" maxlength="20" style="width: 28%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th class="thNeed">환자명</th>
+							<td><input type="text" class="tdInputClass" placeholder="test" maxlength="100" style="width:85%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
+							<td colspan="2"></td>
+						</tr>
+						<tr>
+							<th>영문 명</th>
+							<td> <input type="text" value="HONG" maxlength="20" style="width:85%;" readonly="readonly" disabled="disabled" /> </td>
+							<td> <input type="text" value="GIL" maxlength="20" style="width:85%;" readonly="readonly" disabled="disabled" /> </td>
+							<td> <input type="text" value="DONG" maxlength="20" style="width:85%;" readonly="readonly" disabled="disabled" /> </td>
+						</tr>
+						<tr>
+							<th class="thNeed">생년월일</th>
+							<td colspan="3"><input type="date" class="dateClass" value="2023-09-07" style="width:28%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
+						</tr>
+						<tr>
+							<th class="thNeed">성별</th>
+							<td colspan="3">
+								<label><input type="radio" name="MF_btn" value="M" onclick="return false">남</label>
+								<label><input type="radio" name="MF_btn" value="F" onclick="return false">여</label>
 								
 							</td>
 						</tr>
 						<tr>
-							<th>환자명</th>
-							<td>
-								<input type="text" />
-							</td>
-						</tr>
-						<tr>
-							<th>영문 명</th>
-							<td>
-								<input type="text" />
-								<input type="text" />
-								<input type="text" />
-							</td>
-						</tr>
-						<tr>
-							<th>생년월일</th>
-							<td>
-								<input type="text" />
-							</td>
-						</tr>
-						<tr>
-							<th>성별</th>
-							
-						</tr>
-						<tr>
 							<th>전화번호</th>
-							<td>
-								<input type="text" />
-							</td>
+							<td colspan="3"><input id="inputNumId" class="tdInputClass" type="text" placeholder="'-'를 제외하고 입력해주세요." oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" maxlength="11" style="width: 28%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
 						</tr>
 						<tr>
-							<th>국가</th>
-							<td>
-								<input type="text" />
+							<th class="thNeed">국가</th>
+							<td colspan="3">
+								<select style="width:28%;" disabled="disabled">
+									<option value="KOR">대한한국</option>
+									<option value="USA">미국</option>
+									<option value="JPN">일본</option>
+									<option value="CHN">중국</option>
+									<option value="VNM">베트남</option>
+									<option value="PHL">필리핀</option>
+									<option value="PER">페루</option>
+									<option value="PAK">파키스탄</option>
+									
+								</select>
 							</td>
 						</tr>
 						<tr>
 							<th>참고내용</th>
-							<td>
-								<input type="text" />
+							<td colspan="3">
+								<textarea rows="4" style="width:95%;resize:none;" maxlength="999" readonly="readonly" disabled="disabled"></textarea>
 							</td>
 						</tr>
 					</table>
@@ -99,6 +114,8 @@
 	</main>
 
 	<script>
+	  document.getElementById("inputNumId").value = "01012345678";
+	
       $(document).ready(function () {
         var mydata = [
           {
@@ -170,20 +187,6 @@
             id: "id17",
             product: "상품2",
             amount: "20.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id18",
-            product: "상품2",
-            amount: "30.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test4",
-            id: "id19",
-            product: "상품2",
-            amount: "30.00",
           },
         ];
 

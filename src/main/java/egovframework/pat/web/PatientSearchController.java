@@ -1,4 +1,4 @@
-package egovframework.jubsu.web;
+package egovframework.pat.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
