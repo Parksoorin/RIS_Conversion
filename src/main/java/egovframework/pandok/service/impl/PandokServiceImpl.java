@@ -1,11 +1,14 @@
 package egovframework.pandok.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import egovframework.pandok.mapper.PandokMapper;
 import egovframework.pandok.service.PandokService;
+import egovframework.pandok.model.Ris0601DTO;
 
 @Service("PandokService")
 public class PandokServiceImpl implements PandokService {
@@ -13,7 +16,7 @@ public class PandokServiceImpl implements PandokService {
 	private PandokMapper pandokMapper;
 	
 	@Override
-	public int getRis0601List() {
+	public List<Ris0601DTO> getRis0601List() {
 		return pandokMapper.getRis0601List();
 	}
 }
