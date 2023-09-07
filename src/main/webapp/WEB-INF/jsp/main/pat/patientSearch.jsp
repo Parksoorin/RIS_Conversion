@@ -60,7 +60,7 @@
 						</tr>
 						<tr>
 							<th class="thNeed">환자명</th>
-							<td><input type="text" class="tdInputClass" placeholder="test" maxlength="100" style="width:85%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
+							<td><input type="text" class="tdInputClass" placeholder="test" maxlength="100" style="width:85%; height: 50%;" readonly="r eadonly" disabled="disabled" /></td>
 							<td colspan="2"></td>
 						</tr>
 						<tr>
