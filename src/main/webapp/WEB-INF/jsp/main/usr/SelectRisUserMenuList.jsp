@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>비밀번호 초기화</title>
-<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
-</head>
-<body>
-<main class="main__container">
+  <head>
+    <meta charset="UTF-8" />
+    <title>사용자별 메뉴 관리</title>
+    <link rel="stylesheet" type="text/css" href="/css/com/user.css" />
+  </head>
+  <body>
+    <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">사용자 명 :</p>
+        <p class="filter__keyword">검색어 입력 :</p>
         <select class="filter__options">
           <option value="">option 1</option>
           <option value="">option 2</option>
@@ -19,25 +19,42 @@
         <button class="all__btn img__btn search__btn">검색</button>
       </section>
 
-      <!-- 그리드 타이틀 -->
-      <div class="grid__title">
-        <p>사용자 현황</p>
-
-        <!-- 버튼 컨테이너 -->
-        <div class="btn__container">
-        <button class="all__btn text__btn">비밀번호 초기화</button>
-        	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
+      <div class="grid__container main__container-twoGrid">
+        <div class="leftGrid__container">
+          <!-- 그리드 타이틀 -->
+          <div class="grid__title">
+            <p>사용자 정보 목록</p>
+          </div>
+          <!-- 그리드 박스 -->
+          <div class="twoGrid__box">
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
+            </section>
+          </div>
         </div>
-      </div>
-      <!-- 그리드 -->
-      <div class="grid__container">
-        <section class="grid__box">
-          <!-- 그리드 -->
-          <table id="list1" class="grid1"></table>
-        </section>
+
+        <div class="rightGrid__container">
+          <!-- 그리드 타이틀 -->
+          <div class="grid__title">
+            <p>해당 프로그램 목록</p>
+
+            <!-- 버튼 컨테이너 -->
+            <div class="btn__container">
+             	<button class="all__btn img__btn img__btn update__btn">수정</button>
+        		<button class="all__btn img__btn insert__btn">입력</button>
+		    	<button class="all__btn img__btn delete__btn">삭제</button>
+    			<button class="all__btn img__btn save__btn">저장</button>
+            </div>
+          </div>
+          <!-- 그리드 박스 -->
+          <div class="twoGrid__box">
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list2" class="grid1"></table>
+            </section>
+          </div>
+        </div>
       </div>
     </main>
 
@@ -201,28 +218,69 @@
         $("#list1").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colNames: ["사용자ID", "사용자명", "권한", "유효여부"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
-            },
+            { name: "date", index: "date", width: 135, align: "center" },
+            { name: "name", index: "name", width: 135, align: "center" },
+            { name: "id", index: "id", width: 135, align: "center" },
             { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "94%",
+          height: "93%",
           rownumbers: true,
-          multiselect: true,
           sortname: "id",
           sortorder: "asc",
+          gridview: true, // 선표시 true/false
+          viewsortcols: [true, "vertical", true],
+          loadComplete: function (data) {
+            console.log(data);
+          }, // loadComplete END
+          onSelectRow: function (rowid) {
+            console.log(rowid);
+          },
+          onSortCol: function (index, idxcol, sortorder) {
+            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+            $("#list1").jqGrid("destroyFrozenColumns");
+            var $icons = $(this.grid.headers[idxcol].el).find(
+              ">div.ui-jqgrid-sortable>span.s-ico"
+            );
+            if (this.p.sortorder === "asc") {
+              //$icons.find('>span.ui-icon-asc').show();
+              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+              $icons.find(">span.ui-icon-desc").hide();
+            } else {
+              //$icons.find('>span.ui-icon-desc').show();
+              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc").hide();
+            }
+            // (화살표 css 변경 후 Frozen을 다시 설정)
+            $("#list1").jqGrid("setFrozenColumns");
+            //alert(index+'/'+idxcol+'/'+sortorder);
+          },
+        });
+
+        $("#list2").jqGrid({
+          datatype: "local",
+          data: mydata,
+          colNames: ["메뉴그룹ID", "메뉴그룹명", "메뉴ID", "메뉴명", "메뉴권한", "사용여부", "정렬순서"],
+          colModel: [
+            { name: "id", index: "id", width: 100, align: "center" },
+            { name: "name", index: "name", width: 150, align: "center" },
+            { name: "id", index: "id", width: 100, align: "center" },
+            { name: "product", index: "product", width: 150, align: "center" },
+            { name: "amount", index: "amount", width: 80, align: "center" },
+            { name: "total", index: "total", width: 50, align: "center" },
+            { name: "total", index: "total", width: 50, align: "center" }
+          ],
+          guiStyle: "bootstrap",
+          autowidth: true,
+          height: "93%",
           rownumbers: true,
+          sortname: "id",
+          sortorder: "asc",
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
@@ -255,5 +313,5 @@
         });
       });
     </script>
-</body>
+  </body>
 </html>

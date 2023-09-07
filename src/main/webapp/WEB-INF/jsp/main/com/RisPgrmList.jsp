@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>프로그램 등록 현황</title>
-<link rel="stylesheet" type="text/css" href="/css/memu/user.css" />
+<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
 </head>
 <body>
 <main class="main__container">

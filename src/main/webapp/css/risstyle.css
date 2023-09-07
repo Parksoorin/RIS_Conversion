@@ -60,6 +60,10 @@
 }
 
 .insert__btn::before {
+    background-image: url("/images/icons/insert2.png");
+}
+
+.insert2__btn::before {
     background-image: url("/images/icons/insert.png");
 }
 
