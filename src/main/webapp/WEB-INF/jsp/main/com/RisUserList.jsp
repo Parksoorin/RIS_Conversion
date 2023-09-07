@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 초기화</title>
-<link rel="stylesheet" type="text/css" href="/css/memu/user.css" />
+<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
 </head>
 <body>
 <main class="main__container">

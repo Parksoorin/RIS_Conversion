@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.code.mapper.Ris0101Mapper">
+	<select id="findListAll" resultType="egovframework.code.model.Ris0101DTO">
+		SELECT HSPT_ID
+			 , LRGC_CD
+			 , LRGC_KR_NM
+			 , LRGC_ENGL_NM
+			 , LRGC_ABBR_NM
+			 , LRGC_ACPH
+			 , OTPT_SQNC
+			 , APPL_DATE
+			 , EXPR_DATE
+			 , CHRC1
+			 , CHRC2
+			 , CHRC3
+			 , CHRC4
+			 , CHRC5
+			 , NMBR1
+			 , NMBR2
+			 , NMBR3
+			 , NMBR4
+			 , NMBR5
+			 , RGST_ID
+			 , RGST_DTTM
+			 , MDFC_ID
+			 , MDFC_DTTM
+        FROM RIS0101
+	</select>
+</mapper>

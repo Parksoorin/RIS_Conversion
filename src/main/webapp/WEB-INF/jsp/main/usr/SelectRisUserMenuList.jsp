@@ -4,13 +4,14 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Insert title here</title>
+    <title>사용자별 메뉴 관리</title>
+    <link rel="stylesheet" type="text/css" href="/css/com/user.css" />
   </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
+        <p class="filter__keyword">검색어 입력 :</p>
         <select class="filter__options">
           <option value="">option 1</option>
           <option value="">option 2</option>
@@ -19,18 +20,10 @@ pageEncoding="UTF-8"%>
       </section>
 
       <div class="grid__container main__container-twoGrid">
-        <div class="twoGrid__container">
+        <div class="leftGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>그리드 타이틀</p>
-
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-              	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        		<button class="all__btn img__btn insert__btn">입력</button>
-		    	<button class="all__btn img__btn delete__btn">삭제</button>
-    			<button class="all__btn img__btn save__btn">저장</button>
-            </div>
+            <p>사용자 정보 목록</p>
           </div>
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
@@ -41,10 +34,10 @@ pageEncoding="UTF-8"%>
           </div>
         </div>
 
-        <div class="twoGrid__container">
+        <div class="rightGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>그리드 타이틀</p>
+            <p>해당 프로그램 목록</p>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
@@ -52,7 +45,6 @@ pageEncoding="UTF-8"%>
         		<button class="all__btn img__btn insert__btn">입력</button>
 		    	<button class="all__btn img__btn delete__btn">삭제</button>
     			<button class="all__btn img__btn save__btn">저장</button>
-		    	<button class="all__btn text__btn">글자만</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -226,25 +218,17 @@ pageEncoding="UTF-8"%>
         $("#list1").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colNames: ["사용자ID", "사용자명", "권한", "유효여부"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
-            },
+            { name: "date", index: "date", width: 135, align: "center" },
+            { name: "name", index: "name", width: 135, align: "center" },
+            { name: "id", index: "id", width: 135, align: "center" },
             { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "94%",
+          height: "93%",
           rownumbers: true,
-          multiselect: true,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
@@ -281,25 +265,20 @@ pageEncoding="UTF-8"%>
         $("#list2").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colNames: ["메뉴그룹ID", "메뉴그룹명", "메뉴ID", "메뉴명", "메뉴권한", "사용여부", "정렬순서"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
-            },
-            { name: "product", index: "product", width: 80, align: "center" },
+            { name: "id", index: "id", width: 100, align: "center" },
+            { name: "name", index: "name", width: 150, align: "center" },
+            { name: "id", index: "id", width: 100, align: "center" },
+            { name: "product", index: "product", width: 150, align: "center" },
             { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
+            { name: "total", index: "total", width: 50, align: "center" },
+            { name: "total", index: "total", width: 50, align: "center" }
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "94%",
+          height: "93%",
           rownumbers: true,
-          multiselect: true,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
