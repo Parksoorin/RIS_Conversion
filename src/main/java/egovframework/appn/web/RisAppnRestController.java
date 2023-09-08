@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.model.Ris0213DTO;
 import egovframework.appn.service.RisAppnService;
 
@@ -63,9 +64,9 @@ public class RisAppnRestController {
 	@GetMapping("/ris0212List/ris0212.do")
 	public ResponseEntity<?> ris0212ListGetMapping() {
 		System.out.println("/appn/ris0212List/ris0212.do Get Mapping!!!");
+		List<Ris0212DTO> rows = risAppnService.ris0212FindAll();
 		
-		
-		return ResponseEntity.ok().body("");
+		return ResponseEntity.ok().body(rows);
 	}
 	
 	/*

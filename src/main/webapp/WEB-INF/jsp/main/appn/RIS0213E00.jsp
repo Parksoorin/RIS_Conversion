@@ -54,6 +54,7 @@
         $("#list1").jqGrid({
           url: "/appn/ris0213List/ris0213.do",
           reordercolNames : true,
+          datatype: "json",
           jsonReader: {
             repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
             root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
@@ -61,11 +62,11 @@
           },     
           colNames: ["구분", "촬영실", "예외일자", "시작시간", "종료시간", "예외사유"],
           colModel: [
-            { name: "flag", index: "flag", width: 90, align: "center" },
+            { name: "flag", index: "flag", width: 40, align: "center" },
             { name: "hsptId", index: "hsptId", width: 100, align: "center" },
             {
-              name: "starDate",
-              index: "starDate",
+              name: "strtDate",
+              index: "strtDate",
               width: 150,
               align: "center",
             },
@@ -85,6 +86,7 @@
           loadonce: true,
           loadComplete: function (data) {
             console.log(data);
+            console.log('ㅎㅇㅎㅇ');
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
