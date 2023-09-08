@@ -1,6 +1,4 @@
 package egovframework.com.model;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.validation.constraints.Max;
@@ -15,7 +13,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class RISPRGMQ00DTO {
+public class RisGrmuDTO {
 	// 최초입력일시
 	private String sysDate;
 	// 작업자
@@ -26,28 +24,34 @@ public class RISPRGMQ00DTO {
 	// 병원(회원) ID
 	@Max(10)
 	private String hsptId;
-	// 시스템ID            
+	// 시스템ID
 	@Max(10)
 	private String systemId;
-	// 프로그램 ID      
+	// 프로그램 ID
+	@Max(10)
+	private String menuGroupId;
+	// 메뉴 ID  
+	@Max(20)
+	private String menuId;
+	// 프로그램 ID     
 	@Max(20)
 	private String pgrmId;
-	// 프로그램 명칭          
-	@Max(100)
-	private String pgrmName;
-	// 프로그램 URL          
-	@Max(200)
-	private String pgrmUrl;
-	// 프로그램 유형(화면유형)
-	@Max(1)
-	private String pgrmType;
-	// 프로그램 호출방식()M : Main 화면 , P : 팝업화면
-	@Max(1)
-	private String pgrmInfo;
+	// 상위메뉴 ID
+	@Max(20)
+	private String upperMenuId;
+	// 메뉴LEVEL
+	@Max(10)
+	private String menuLevel;
+	// 메뉴명
+	@Max(50)
+	private String menuName;
+	// 정렬순서
+	@Max(11)
+	private String otptSqnc;
 	// 사용여부
 	@Max(1)
 	private String useYn;
-	// 완료여부
-	@Max(1)
-	private String endYn;
+	// 메뉴명 SUB
+	@Max(50)
+	private String menuNameSub;
 }

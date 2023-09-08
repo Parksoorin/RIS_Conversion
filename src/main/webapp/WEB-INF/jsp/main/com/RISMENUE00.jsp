@@ -68,187 +68,49 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-      $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id2",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id3",
-            product: "상품1",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id4",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id5",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id6",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id7",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id8",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id9",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id10",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id11",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id12",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id13",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id14",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id15",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id16",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id17",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id18",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test4",
-            id: "id19",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-        ];
-
-        $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["메뉴ID", "메뉴그룹명", "순서", "사용"],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 200, align: "center" },
-            { name: "id", index: "id", width: 60, align: "center" },
-            { name: "product", index: "product", width: 50, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "93%",
-          rownumbers: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
+      	$(document).ready(function () {
+    	  	var mydata = [
+              	{
+	                date: "2007-10-01",
+	                name: "test",
+	                id: "id",
+	                product: "상품1",
+	                amount: "10.00",
+	                total: "210.00",
+              	},
+          	];
+		$("#list1").jqGrid({
+        	url: "/RISMENUE00.do",   // 서버주소 
+            reordercolNames:true,
+            postData : { type: 'A' }, // 보낼 파라미터
+            mtype:'POST',   // 전송 타입
+            datatype: "json",
+          	colNames: ["메뉴ID", "메뉴그룹명", "순서", "사용"],
+          	colModel: [
+	            { name: "menuGroupId", index: "menuGroupId", width: 90, align: "center" },
+	            { name: "menuGroupName", index: "menuGroupName", width: 200, align: "center" },
+	            { name: "otptSqnc", index: "otptSqnc", width: 60, align: "center" },
+	            { name: "useYn", index: "useYn", width: 50, align: "center" },
+          	],
+          	jsonReader: 
+		  	{
+			  	repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
+		  	},
+          	guiStyle: "bootstrap",
+          	autowidth: true,
+          	height: "93%",
+          	rownumbers: true,
+          	gridview: true, // 선표시 true/false
+          	viewsortcols: [true, "vertical", true],
+          	loadComplete: function (data) {
+            	console.log(data);
+          	}, // loadComplete END
+          	onSelectRow: function (rowid) {
+            	console.log(rowid);
+          	},
+          	onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
             $("#list1").jqGrid("destroyFrozenColumns");
@@ -272,35 +134,44 @@ pageEncoding="UTF-8"%>
         });
 
         $("#list2").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
-          colModel: [
-            { name: "id", index: "id", width: 50, align: "center" },
-            { name: "name", index: "name", width: 90, align: "center" },
-            { name: "id", index: "id", width: 150, align: "center" },
-            { name: "product", index: "product", width: 120, align: "center" },
-            { name: "amount", index: "amount", width: 120, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 60, align: "center" },
-            { name: "total", index: "total", width: 50, align: "center" },
-            { name: "total", index: "total", width: 50, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "93%",
-          rownumbers: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
+        	url: "/RISUSERQ002.do",   // 서버주소 
+            reordercolNames:true,
+            postData : { type: 'A' }, // 보낼 파라미터
+            mtype:'POST',   // 전송 타입
+            datatype: "json",
+            colNames: ["메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
+            colModel: [
+	            { name: "menuId", index: "menuId", width: 50, align: "center" },
+	            { name: "pgrmId", index: "pgrmId", width: 90, align: "center" },
+	            { name: "menuName", index: "menuName", width: 150, align: "center" },
+	            { name: "menuName", index: "menuName", width: 120, align: "center" },
+	            { name: "menuNameSub", index: "menuNameSub", width: 120, align: "center" },
+	            { name: "upperMenuId", index: "upperMenuId", width: 80, align: "center" },
+	            { name: "menuLevel", index: "menuLevel", width: 60, align: "center" },
+	            { name: "otptSqnc", index: "otptSqnc", width: 50, align: "center" },
+	            { name: "useYn", index: "useYn", width: 50, align: "center" },
+          	],
+          	jsonReader: 
+		  	{
+			  	repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
+		  	},
+          	guiStyle: "bootstrap",
+          	autowidth: true,
+          	height: "93%",
+          	rownumbers: true,
+          	sortname: "id",
+          	sortorder: "asc",
+          	gridview: true, // 선표시 true/false
+          	viewsortcols: [true, "vertical", true],
+          	loadComplete: function (data) {
+            	console.log(data);
+          	}, // loadComplete END
+          	onSelectRow: function (rowid) {
+            	console.log(rowid);
+          	},
+          	onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
             $("#list1").jqGrid("destroyFrozenColumns");

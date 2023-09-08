@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibatis.common.logging.Log;
 
-import egovframework.com.model.RISUSERQ00DTO;
+import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
 
@@ -45,8 +45,8 @@ public class RISUSERQ00Controller {
 		
 		System.out.println("/RISUSERQ00.do POST!!!!");
 		JSONObject json = new JSONObject(); 
-		List<RISUSERQ00DTO> data =comService.RisUserList(); 
-		for(RISUSERQ00DTO dto : data) {
+		List<RisUserDTO> data =comService.RisUserList(); 
+		for(RisUserDTO dto : data) {
 			System.out.println(dto.getLoginId());
 		}
 		  
