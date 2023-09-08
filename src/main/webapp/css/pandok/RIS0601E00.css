@@ -7,17 +7,13 @@
 .filter__options {
 	margin-right: 0;
 	padding: 2px;
-	width: 120px;
+	width: 200px;
 	height: 30px;
-	font-size: 14px;
+	font-size: 12px;
 	border-radius: 3px;
 }
 
-.search__btn {
-	margin-left: 10px;
-}
-
-.fontawesom__btn::before {
+.fontawesome__btn::before {
 	width: 14px;
 	height: 14px;
 	font-family: "Font Awesome 5 Free";
@@ -25,19 +21,66 @@
 	font-size: 14px;
 }
 
+.fontawesome__btn:hover {
+	background-color: #CFE9FF;
+}
+
+.fontawesome__btn:active {
+	color: #fff;
+	background-color: #218ECB;
+}
+
+.fontawesome__btn:active::before{	
+	color: #fff;
+}
+
+.search__icon {
+	margin-left: 10px;
+}
+
+.search__icon::before {
+	content: "\f002";
+	color: #218ECB;
+}
+
 .copy__icon::before {
 	content: "\f0c5";
 	color: #999;
+	font-weight: 500;
 }
 
 .paste__icon::before {
 	content: "\f0ea";
 	color: #999;
+	font-weight: 500;
 }
 
 .rotate__icon::before {
 	content: "\f2f1";
 	color: #999;
+}
+
+.insert__icon::before {
+	content: "\2b";
+	color: #00A932;
+}
+
+.update__icon::before {
+	content: "\f304";
+	color: #999;
+}
+
+.delete__icon::before {
+	content: "\f00d";
+	color: #f00d;
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+
+.save__icon::before {
+	content: "\f0c7";
+	color: #218ECB;
 }
 
 .textarea__box {
