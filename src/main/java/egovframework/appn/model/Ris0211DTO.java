@@ -24,17 +24,17 @@ public class Ris0211DTO {
 	@Max(20)
 	private String imgnRoomCd;
 	@NotBlank
-	private LocalDate exmnDate;
+	private String exmnDate;
 	@NotBlank
-	private LocalTime strtTime;
-	private LocalTime endTime;
+	private String strtTime;
+	private String endTime;
 	private Integer appnOutpPssbCnt;
 	private Integer appnInptPssbCnt;
 	private Integer appnHlxmPssbCnt;
 	@Max(20)
 	private String rgstId;
-	private LocalDateTime rgstDttm;
+	private String rgstDttm;
 	@Max(20)
 	private String mdfcId;
-	private LocalDateTime mdfcDttm;
+	private String mdfcDttm;
 }

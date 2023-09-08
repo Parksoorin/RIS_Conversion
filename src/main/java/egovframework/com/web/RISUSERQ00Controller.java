@@ -21,32 +21,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibatis.common.logging.Log;
 
-import egovframework.com.model.RisUserDTO;
+import egovframework.com.model.RISUSERQ00DTO;
 import egovframework.com.service.ComService;
 
 
 @Controller
-public class RisUserListController {
+public class RISUSERQ00Controller {
 	
 	@Resource(name="ComService")
 	private ComService comService;
 	
 	
-	@RequestMapping(value = "/RisUserList.do")
+	@RequestMapping(value = "/RISUSERQ00.do")
 	public String menu(Model model) throws Exception {
 		System.out.print("=====123123123==");
-		return ".main/com/RisUserList";
+		return ".main/com/RISUSERQ00";
 	}
 	
-	@RequestMapping(value = "/RisUserList.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/RISUSERQ00.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RisUserList(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISUSERQ00(@RequestParam String type, HttpSession session, HttpServletRequest request,
         HttpServletResponse response, Model model) throws Exception {
 		
-		System.out.println("/RisUserList.do POST!!!!");
+		System.out.println("/RISUSERQ00.do POST!!!!");
 		JSONObject json = new JSONObject(); 
-		List<RisUserDTO> data =comService.RisUserList(); 
-		for(RisUserDTO dto : data) {
+		List<RISUSERQ00DTO> data =comService.RisUserList(); 
+		for(RISUSERQ00DTO dto : data) {
 			System.out.println(dto.getLoginId());
 		}
 		  

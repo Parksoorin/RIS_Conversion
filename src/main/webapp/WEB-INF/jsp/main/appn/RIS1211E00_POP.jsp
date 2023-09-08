@@ -4,14 +4,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>프로그램 등록 현황</title>
-<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
+<title>Insert title here</title>
+<link rel="stylesheet" href="/css/appn/appnCommon.css">
 </head>
-<body>
-<main class="main__container">
+  <body>
+    <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 입력 :</p>
+        <p class="filter__keyword">검색어 :</p>
         <select class="filter__options">
           <option value="">option 1</option>
           <option value="">option 2</option>
@@ -21,7 +21,7 @@
 
       <!-- 그리드 타이틀 -->
       <div class="grid__title">
-        <p>프로그램 등록 현황</p>
+        <p>그리드 타이틀</p>
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
@@ -29,6 +29,7 @@
         	<button class="all__btn img__btn insert__btn">입력</button>
 		    <button class="all__btn img__btn delete__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
+		    <button class="all__btn text__btn">글자만</button>
         </div>
       </div>
       <!-- 그리드 -->
@@ -221,7 +222,6 @@
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
-          rownumbers: true,
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
@@ -254,5 +254,5 @@
         });
       });
     </script>
-</body>
+  </body>
 </html>
