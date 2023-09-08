@@ -28,7 +28,7 @@ public class Ris1211DTO {
 	private String ptntId;
 	@Max(100)
 	private String ptntKrNm;
-	private LocalDate brth;
+	private String brth;
 	@Max(20)	
 	private String gndrDvsn;
 	@Max(50)
@@ -42,18 +42,18 @@ public class Ris1211DTO {
 	private String imgnRoomCd;
 	@Max(1)
 	private String pmntYn;
-	private LocalDate dsrdDate;
-	private LocalTime dsrdTime;
-	private LocalDate appnDate;
-	private LocalTime appnTime;
+	private String dsrdDate;
+	private String dsrdTime;
+	private String appnDate;
+	private String appnTime;
 	@Max(20)
 	private String appnPrgrDvsn;
 	@Max(1000)
 	private String appnNoteText;
 	@Max(20)
 	private String rgstId;
-	private LocalDateTime rgstDttm;
+	private String rgstDttm;
 	@Max(20)
 	private String mdfcId;
-	private LocalDateTime mdfcDttm;
+	private String mdfcDttm;
 }

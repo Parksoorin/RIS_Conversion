@@ -27,15 +27,15 @@ public class Ris0210DTO {
 	@Size(max = 10)
 	private String wkdy;
 	@NotBlank
-	private LocalTime strtTime;
-	private LocalTime endTime;
+	private String strtTime;
+	private String endTime;
 	private Integer appnOutpPssbCnt;
 	private Integer appnInptPssbCnt;
 	private Integer appnHlxmPssbCnt;
 	@Size(max = 20)
 	private String rgstId;
-	private LocalDateTime rgstDttm;
+	private String rgstDttm;
 	@Size(max = 20)
 	private String mdfcId;
-	private LocalDateTime mdfcDttm;
+	private String mdfcDttm;
 }

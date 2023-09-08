@@ -35,10 +35,10 @@
             <li class="main__menu-items">
                 예약스케줄관리
                 <div class="sub__menu-item">
-                    <a href="#">예약기준관리</a>
-                    <a href="#">예외 기준 관리</a>
-                    <a href="#">휴일 기준관리</a>
-                    <a href="#">예약 관리</a>
+                    <a href="/appn/risappn.do">예약기준관리</a>
+                    <a href="/appn/ris0213List.do">예외 기준 관리</a>
+                    <a href="/appn/ris0212List.do">휴일 기준관리</a>
+                    <a href="/appn/ris1211e00.do">예약 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">

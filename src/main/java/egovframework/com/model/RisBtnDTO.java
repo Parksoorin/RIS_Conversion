@@ -1,11 +1,10 @@
-package egovframework.appn.model;
+package egovframework.com.model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import javax.validation.constraints.Max;
 import org.springmodules.validation.bean.conf.loader.annotation.handler.NotBlank;
-
 
 import lombok.*;
 
@@ -16,21 +15,25 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Ris0211DTO {
-	@NotBlank
+public class RisBtnDTO {
+	// 병원ID
 	@Max(20)
 	private String hsptId;
-	@NotBlank
+	// 데이터 구분 M: GRADE, U: 사용자
+	@Max(1)
+	private String dataGubun;
+	// M: SADU, U : 예외 사용자
 	@Max(20)
-	private String imgnRoomCd;
-	@NotBlank
-	private String exmnDate;
-	@NotBlank
-	private String strtTime;
-	private String endTime;
-	private Integer appnOutpPssbCnt;
-	private Integer appnInptPssbCnt;
-	private Integer appnHlxmPssbCnt;
+	private String userGrade;
+	// 프로그램 ID
+	@Max(100)
+	private String pgrmId;
+	// 버튼 ID
+	@Max(100)
+	private String pgrmBtn;
+	// 사용여부
+	@Max(1)
+	private String useYn;
 	@Max(20)
 	private String rgstId;
 	private String rgstDttm;

@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.com.mapper.ComMapper;
-import egovframework.com.model.RISPRGMQ00DTO;
-import egovframework.com.model.RISUSERQ00DTO;
+import egovframework.com.model.RisBtnDTO;
+import egovframework.com.model.RisGrupDTO;
+import egovframework.com.model.RisPgrmDTO;
+import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
 
@@ -18,13 +20,23 @@ public class ComServiceImpl implements ComService {
 	@Resource(name = "ComMapper")
 	private ComMapper comMapper;
 	@Override
-	public List<RISUSERQ00DTO> RisUserList() {
+	public List<RisUserDTO> RisUserList() {
 		// TODO Auto-generated method stub
 		return comMapper.RisUserList();
 	}
 	@Override
-	public List<RISPRGMQ00DTO> RisPrgmList() {
+	public List<RisPgrmDTO> RisPrgmList() {
 		// TODO Auto-generated method stub
 		return comMapper.RisPrgmList();
+	}
+	@Override
+	public List<RisBtnDTO> RisBtnList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisBtnList();
+	}
+	@Override
+	public List<RisGrupDTO> RisMenuList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisMenuList();
 	}
 }

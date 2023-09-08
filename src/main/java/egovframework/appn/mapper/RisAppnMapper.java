@@ -5,7 +5,7 @@ import java.util.List;
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 import egovframework.appn.model.*;
 
-@Mapper("ris0213Mapper")
-public interface Ris0213Mapper {
-	public List<Ris0213DTO> findAll();
+@Mapper("risAppnMapper")
+public interface RisAppnMapper {
+	public List<Ris0213DTO> ris0213FindAll();
 }

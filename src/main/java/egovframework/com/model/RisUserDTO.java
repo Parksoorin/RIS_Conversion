@@ -15,7 +15,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class RISUSERQ00DTO {
+public class RisUserDTO {
 	// 최초 입력 일시
 	private String sysDate;
 	// 작업자

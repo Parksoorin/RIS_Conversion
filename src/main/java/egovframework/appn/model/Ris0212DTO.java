@@ -21,13 +21,13 @@ public class Ris0212DTO {
 	@Max(20)
 	private String hsptId;
 	@NotBlank
-	private LocalDate hldyDate;
+	private String hldyDate;
 	@Max(20)
 	private String hldyText;
 	@Max(20)
 	private String rgstId;
-	private LocalDateTime rgstDttm;
+	private String rgstDttm;
 	@Max(20)
 	private String mdfcId;
-	private LocalDateTime mdfcDttm;
+	private String mdfcDttm;
 }

@@ -2,10 +2,14 @@ package egovframework.com.service;
 
 import java.util.List;
 
-import egovframework.com.model.RISPRGMQ00DTO;
-import egovframework.com.model.RISUSERQ00DTO;
+import egovframework.com.model.RisBtnDTO;
+import egovframework.com.model.RisGrupDTO;
+import egovframework.com.model.RisPgrmDTO;
+import egovframework.com.model.RisUserDTO;
 
 public interface ComService {
-	List<RISUSERQ00DTO> RisUserList();
-	List<RISPRGMQ00DTO> RisPrgmList();
+	List<RisUserDTO> RisUserList();
+	List<RisPgrmDTO> RisPrgmList();
+	List<RisBtnDTO> RisBtnList();
+	List<RisGrupDTO> RisMenuList();
 }

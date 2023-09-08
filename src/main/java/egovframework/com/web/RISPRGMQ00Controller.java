@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import egovframework.com.model.RISPRGMQ00DTO;
+import egovframework.com.model.RisPgrmDTO;
 import egovframework.com.service.ComService;
 
 @Controller
@@ -38,10 +38,7 @@ public class RISPRGMQ00Controller {
 			
 			System.out.println("/RISPRGMQ00.do POST!!!!");
 			JSONObject json = new JSONObject(); 
-			List<RISPRGMQ00DTO> data =comService.RisPrgmList(); 
-			for(RISPRGMQ00DTO dto : data) {
-				System.out.println(dto.getUserId());
-			}
+			List<RisPgrmDTO> data =comService.RisPrgmList(); 
 			  
 			JSONArray rowsArray = new JSONArray(); 
 			JSONObject row = new JSONObject(); 
