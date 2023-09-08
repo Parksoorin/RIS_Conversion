@@ -7,5 +7,10 @@ import egovframework.appn.model.*;
 
 @Mapper("risAppnMapper")
 public interface RisAppnMapper {
+	
+	// 예약 예외 목록
 	public List<Ris0213DTO> ris0213FindAll();
+	
+	// 예약 휴일 목록
+	public List<Ris0212DTO> ris0212FindAll();
 }
