@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.com.mapper.ComMapper;
 import egovframework.com.model.RisBtnDTO;
+import egovframework.com.model.RisGrmuDTO;
 import egovframework.com.model.RisGrupDTO;
 import egovframework.com.model.RisPgrmDTO;
 import egovframework.com.model.RisUserDTO;
@@ -35,8 +36,13 @@ public class ComServiceImpl implements ComService {
 		return comMapper.RisBtnList();
 	}
 	@Override
-	public List<RisGrupDTO> RisMenuList() {
+	public List<RisGrupDTO> RisGrupList() {
 		// TODO Auto-generated method stub
-		return comMapper.RisMenuList();
+		return comMapper.RisGrupList();
+	}
+	@Override
+	public List<RisGrmuDTO> RisGrmuList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrmuList();
 	}
 }

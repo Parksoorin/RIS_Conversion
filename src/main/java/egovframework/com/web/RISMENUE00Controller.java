@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.model.RisGrmuDTO;
 import egovframework.com.model.RisGrupDTO;
 import egovframework.com.service.ComService;
 
@@ -37,7 +38,7 @@ public class RISMENUE00Controller {
 		
 		System.out.println("/RISMENUE00.do POST!!!!");
 		JSONObject json = new JSONObject(); 
-		List<RisGrupDTO> data =comService.RisMenuList(); 
+		List<RisGrupDTO> data =comService.RisGrupList(); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 
@@ -46,5 +47,23 @@ public class RISMENUE00Controller {
 
 		return json;
 	}
+	
+	@RequestMapping(value = "/RISMENUE002.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RISMENUE002(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	        HttpServletResponse response, Model model) throws Exception {
+		
+		System.out.println("/RISMENUE002.do POST!!!!");
+		JSONObject json = new JSONObject(); 
+		List<RisGrmuDTO> data =comService.RisGrmuList(); 
+		  
+		JSONArray rowsArray = new JSONArray(); 
+		JSONObject row = new JSONObject(); 
+		  
+		json.put("rows", data);
+
+		return json;
+	}
+	
 }
 
