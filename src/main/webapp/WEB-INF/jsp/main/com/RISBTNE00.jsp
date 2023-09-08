@@ -26,8 +26,8 @@
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
         	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
+        	<button class="all__btn img__btn insert__btn" id="add-row__btn">입력</button>
+		    <button class="all__btn img__btn delete__btn" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
         </div>
       </div>
@@ -42,178 +42,26 @@
 
     <script>
       $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id2",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id3",
-            product: "상품1",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id4",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id5",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id6",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id7",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id8",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id9",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id10",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id11",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id12",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id13",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id14",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id15",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id16",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id17",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id18",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test4",
-            id: "id19",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-        ];
-
         $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+        	url: "/RISBTNE00.do",   // 서버주소 
+        	reordercolNames:true,
+            postData : { type: 'A' }, // 보낼 파라미터
+            mtype:'POST',   // 전송 타입
+            datatype: "json",
+          colNames: ["구분", "사용자명", "프로그램명", "기능명", "사용"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
-            },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
+            { name: "dataGubun", index: "dataGubun", width: 50, align: "center" },
+            { name: "userGrade", index: "userGrade", width: 100, align: "center" },
+            { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
+            { name: "pgrmBtn", index: "pgrmBtn", width: 100, align: "center" },
+            { name: "useYn", index: "useYn", width: 50, align: "center" },
           ],
+          jsonReader: 
+		  	{
+			  	repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
+		  	},
           guiStyle: "bootstrap",
           autowidth: true,
           height: "94%",
@@ -251,6 +99,19 @@
             $("#list1").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
+        });
+        $("#add-row__btn").on("click", function () {
+        	var newRowData = {};
+        	var grid = $("#list1");
+    	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+    	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+    	    newRowData.flag = 'I';
+        });
+        $("#delete-row__btn").on("click", function () {
+        	var grid = $("#list1");
+    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
+    	    } else { alert('Please select a row to delete.'); }
         });
       });
     </script>
