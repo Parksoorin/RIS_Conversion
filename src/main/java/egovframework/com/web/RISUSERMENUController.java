@@ -1,4 +1,4 @@
-package egovframework.user;
+package egovframework.com.web;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class userController {
-	@RequestMapping(value = "/user.do")
+public class RISUSERMENUController {
+	@RequestMapping(value = "/RISUSERMENU.do")
 	public String menu(Model model) throws Exception {
-		return ".main/menu/user";
+		return ".main/com/RISUSERMENU";
 	}
 }
 

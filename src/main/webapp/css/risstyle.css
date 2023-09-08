@@ -60,6 +60,10 @@
 }
 
 .insert__btn::before {
+    background-image: url("/images/icons/insert2.png");
+}
+
+.insert2__btn::before {
     background-image: url("/images/icons/insert.png");
 }
 
@@ -253,19 +257,28 @@ ul {
   width: 50%;
 }
 
+.ui-widget.ui-widget-content {
+  position: relative;
+}
+
 .ui-jqgrid .loading {
-  position: absolute;
-  top: 25%;
-  left: 38%;
-  width: auto;
-  z-index: 101;
-  padding: 6px;
-  margin: 5px;
-  text-align: center;
-  font-weight: bold;
   display: none;
-  border-width: 2px !important;
-  font-size: 11px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  margin: 5px;
+  padding: 6px;
+  text-align: center;
+  font-size: 12px;
+  transform: translate(-50%, -50%);
+  z-index: 101;
+}
+
+/* 그리드 데이터 로드 텍스트 스타일 */
+.ui-state-active, .ui-widget-content .ui-state-active {
+  background: #fff;
+  font-weight: bold;
+  color: #000;
 }
 
 .ui-jqgrid .jqgrid-overlay {

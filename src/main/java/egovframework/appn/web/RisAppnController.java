@@ -19,67 +19,46 @@ public class RisAppnController {
 	private RisAppnService risAppnService;
 	
 	/*
-	 * GET		/appn/risappn.do	risappn Data를 전체 조회
-	 * POST								risappn 새로운 Data 저장
-	 * PATCH							risappn 기존 Data 수정
-	 * DELETE							risappn 기존 Data 삭제
+	 * 예약 기준 관리
+	 * GET		/appn/risappn/ris0210.do	
 	 */
-	
 	@GetMapping("/risappn.do")
 	public String risappnGetMapping() {
 		System.out.println("/risappn.do Get Request!!!");
 		
-		
 		return ".main/appn/RIS0201E00";
 	}
 	
-	
 	/*
-	 * GET		/appn/ris0213List.do	ris0213List Data를 전체 조회
-	 * POST								ris0213List 새로운 Data 저장
-	 * PATCH							ris0213List 기존 Data 수정
-	 * DELETE							ris0213List 기존 Data 삭제
+	 * 예외 기준 관리
+	 * GET		/appn/ris0213List.do	WEB-INF/appn/RIS0213E00.jsp forward
 	 */
 	
 	@GetMapping("/ris0213List.do")
 	public String ris0213ListGetMapping() {
 		System.out.println("/ris0213List.do Get Request!!!");
-		List<Ris0213DTO> list = risAppnService.ris0213FindAll();
-		
-		for(Ris0213DTO dto : list) {
-			System.out.println(dto.getHsptId());
-		}
-		
 		return ".main/appn/RIS0213E00";
 	}
 	
-	
 	/*
-	 * GET		/appn/ris0212List.do	ris0212List Data를 전체 조회
-	 * POST								ris0212List 새로운 Data 저장
-	 * PATCH							ris0212List 기존 Data 수정
-	 * DELETE							ris0212List 기존 Data 삭제
+	 * 휴일 기준 관리
+	 * GET		/appn/ris0212List.do	WEB-INF/appn/RIS0212E00.jsp forward
 	 */
 	
 	@GetMapping("/ris0212List.do")
 	public String ris0212ListGetMapping() {
-		System.out.println("ris0212List.do Get Request!!!");
-		
-		
+		System.out.println("ris0212List.do Get Mapping!!!");		
 		return ".main/appn/RIS0212E00";
 	}
 	
 	/*
-	 * GET		/appn/RIS1211E00.do	ris0213List Data를 전체 조회
-	 * POST								ris0213List 새로운 Data 저장
-	 * PATCH							ris0213List 기존 Data 수정
-	 * DELETE							ris0213List 기존 Data 삭제
+	 * 예약 관리 페이지!
+	 * GET		/appn/RIS1211E00.do	WEB-INF/appn/RIS1211E00.jsp forward
 	 */
 	
 	@GetMapping("/ris1211e00.do")
 	public String ris1211e00GetMapping() {
-		System.out.println("/ris1211e00.do Get Request!!!");
-		
+		System.out.println("/ris1211e00.do Get Mapping!!!");
 		return ".main/appn/RIS1211E00";
 	}
 	

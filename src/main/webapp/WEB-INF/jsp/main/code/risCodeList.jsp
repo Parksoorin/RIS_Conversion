@@ -286,12 +286,13 @@
       // 대분류 상세 버튼 클릭 시
       $('#lrgcDetail').click(function(){
     	  alert('대분류 코드 상세');
+    	  location.href = "/risCodeView.do";
       });
 
    	  // 대분류 입력 버튼 클릭 시
       $('#lrgcReg').click(function(){
     	  alert('대분류 코드 입력');
-    	  location.href = "/risCodeReg.do";
+    	  location.href = "/risCodeInsert.do";
       });
     </script>
   </body>

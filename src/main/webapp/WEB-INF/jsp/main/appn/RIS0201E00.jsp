@@ -52,6 +52,15 @@ pageEncoding="UTF-8"%>
         
       }
 
+      .center {
+        display: flex;
+        justify-content: center;
+      }
+
+      .bold-text{
+        font-weight: 700;
+        font-size: 1.2em;
+      }
     
       
     </style>
@@ -143,8 +152,19 @@ pageEncoding="UTF-8"%>
         </div>
 
         <div class="twoGrid__container">
+          
            <!-- calendar 태그 -->
-          <div id='calendar-container'>
+          <div id='calendar-container '>
+            <div class="btn__container center bold-text">
+              <select  id="appointment-year">
+                <option></option>
+              </select>
+              <label for="appointment-year">년  </label>
+              <select  id="appointment-month">
+                <option></option>
+              </select>
+              <label for="appointment-month">월  </label>
+            </div>
             <div id='calendar'></div>
           </div>
           <!-- 그리드 타이틀 -->
@@ -355,10 +375,12 @@ pageEncoding="UTF-8"%>
         slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
         // 해더에 표시할 툴바
         headerToolbar: {
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
-        },
+              start: '', // 왼쪽 영역 숨기기
+              center: '', // 중앙 영역 숨기기
+              end: '' // 오른쪽 영역 숨기기
+          },
+        header : false,
+        
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
@@ -467,6 +489,7 @@ pageEncoding="UTF-8"%>
             { name: "amount", index: "amount", width: 80, align: "center" },
             { name: "total", index: "total", width: 80, align: "center" },
           ],
+          
           guiStyle: "bootstrap",
           autowidth: true,
           height: "94%",

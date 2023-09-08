@@ -4,6 +4,31 @@
 	height: 100%;
     width: 100%;
 	
-	text-align: center;
-	margin: 0 auto;
+	padding: 10px;
+}
+
+
+::placeholder {
+	color: white;
+}
+
+.dateClass {
+	color:white;
+	font-size: 12px;
+}
+
+.thNeed::before {
+	content: "*"
+}
+
+#inputNumId {
+	color: white;
+}
+
+.tdInputClass {
+	font-size: 12px;
+}
+
+.left__btn {
+	margin-left: 10px;
 }

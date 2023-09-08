@@ -15,7 +15,7 @@ pageEncoding="UTF-8"%>
           <option value="">option 1</option>
           <option value="">option 2</option>
         </select>
-        <button class="search__btn">검색</button>
+        <button class="all__btn img__btn search__btn">검색</button>
       </section>
 
       <div class="grid__container main__container-twoGrid">
@@ -26,10 +26,10 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button>수정</button>
-              <button>삭제</button>
-              <button>입력</button>
-              <button>저장</button>
+              	<button class="all__btn img__btn img__btn update__btn">수정</button>
+        		<button class="all__btn img__btn insert__btn">입력</button>
+		    	<button class="all__btn img__btn delete__btn">삭제</button>
+    			<button class="all__btn img__btn save__btn">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -48,10 +48,11 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button>수정</button>
-              <button>삭제</button>
-              <button>입력</button>
-              <button>저장</button>
+             	<button class="all__btn img__btn img__btn update__btn">수정</button>
+        		<button class="all__btn img__btn insert__btn">입력</button>
+		    	<button class="all__btn img__btn delete__btn">삭제</button>
+    			<button class="all__btn img__btn save__btn">저장</button>
+		    	<button class="all__btn text__btn">글자만</button>
             </div>
           </div>
           <!-- 그리드 박스 -->

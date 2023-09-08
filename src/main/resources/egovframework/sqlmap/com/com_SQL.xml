@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.com.mapper.ComMapper">
+	<select id="RisUserList" resultType="egovframework.com.model.RISUSERQ00DTO">
+		select LOGIN_ID, LOGIN_NM, LOGIN_PWD, USER_GRADE, START_DATE, END_DATE, ERROR_CNT
+		FROM risuser
+	</select>
+	
+	<select id="RisPrgmList" resultType="egovframework.com.model.RISPRGMQ00DTO">
+		select SYSTEM_ID, PGRM_ID, PGRM_NAME, PGRM_URL, PGRM_TYPE, PGRM_INFO, USE_YN, END_YN
+		FROM rispgrm
+	</select>
+</mapper>

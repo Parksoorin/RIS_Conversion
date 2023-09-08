@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>비밀번호 초기화</title>
-<link rel="stylesheet" type="text/css" href="/css/memu/user.css" />
+<title>프로그램 기능 권한 관리</title>
+<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
 </head>
 <body>
 <main class="main__container">
@@ -21,11 +21,10 @@
 
       <!-- 그리드 타이틀 -->
       <div class="grid__title">
-        <p>사용자 현황</p>
+        <p>프로그램 기능 권한 관리</p>
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        <button class="all__btn text__btn">비밀번호 초기화</button>
         	<button class="all__btn img__btn img__btn update__btn">수정</button>
         	<button class="all__btn img__btn insert__btn">입력</button>
 		    <button class="all__btn img__btn delete__btn">삭제</button>

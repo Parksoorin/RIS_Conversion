@@ -103,14 +103,14 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <label for="appointment-year">년 : </label>
               <select  id="appointment-year">
                 <option></option>
               </select>
-              <label for="appointment-month">월 : </label>
+              <label for="appointment-year">년  </label>
               <select  id="appointment-month">
                 <option></option>
               </select>
+              <label for="appointment-month">월  </label>
             </div>
           </div>
           <!-- 그리드 박스 -->
