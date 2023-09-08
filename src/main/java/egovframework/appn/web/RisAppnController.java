@@ -30,7 +30,7 @@ public class RisAppnController {
 		System.out.println("/risappn.do Get Request!!!");
 		
 		
-		return ".main/appn/risappn";
+		return ".main/appn/RIS0201E00";
 	}
 	
 	
@@ -50,7 +50,7 @@ public class RisAppnController {
 			System.out.println(dto.getHsptId());
 		}
 		
-		return ".main/appn/ris0213List";
+		return ".main/appn/RIS0213E00";
 	}
 	
 	
@@ -66,7 +66,7 @@ public class RisAppnController {
 		System.out.println("ris0212List.do Get Request!!!");
 		
 		
-		return ".main/appn/ris0212List";
+		return ".main/appn/RIS0212E00";
 	}
 	
 	/*
@@ -80,7 +80,7 @@ public class RisAppnController {
 	public String ris1211e00GetMapping() {
 		System.out.println("/ris1211e00.do Get Request!!!");
 		
-		return ".main/appn/ris1211E00";
+		return ".main/appn/RIS1211E00";
 	}
 	
 	

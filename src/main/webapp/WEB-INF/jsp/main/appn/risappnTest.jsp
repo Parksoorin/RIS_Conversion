@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>예약 기준 관리</title>
+<link rel="stylesheet" href="/css/appn/appnCommon.css">
 </head>
   <body>
     <main class="main__container">
@@ -19,29 +20,10 @@
       </section>
 
       <div class="grid__container main__container-twoGrid">
-        <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
-          <div class="grid__title">
-            <p>그리드 타이틀</p>
-
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-              <button>수정</button>
-              <button>삭제</button>
-              <button>입력</button>
-              <button>저장</button>
-            </div>
-          </div>
-          <!-- 그리드 -->
-          <div class="twoGrid__box">
-            <section class="grid__box">
-              <!-- 그리드 -->
-              <table id="list1" class="grid1"></table>
-            </section>
-          </div>
-        </div>
-		
-		<div class="threeGrid__container">
+        
+        
+        
+        <div class="threeGrid__container">
 	        <div class="twoGrid__container threeGrid__container-subcontainer">
 	          <!-- 그리드 타이틀 -->
 	          <div class="grid__title">
@@ -49,10 +31,10 @@
 	
 	            <!-- 버튼 컨테이너 -->
 	            <div class="btn__container">
-	              <button>수정</button>
-	              <button>삭제</button>
-	              <button>입력</button>
-	              <button>저장</button>
+	              <button class="all__btn img__btn update__btn">수정</button>
+                <button class="all__btn img__btn delete__btn">삭제</button>
+                <button class="all__btn img__btn insert__btn">입력</button>
+                <button class="all__btn img__btn save__btn">저장</button>
 	            </div>
 	          </div>
 	          <!-- 그리드 -->
@@ -71,10 +53,10 @@
 	
 	            <!-- 버튼 컨테이너 -->
 	            <div class="btn__container">
-	              <button>수정</button>
-	              <button>삭제</button>
-	              <button>입력</button>
-	              <button>저장</button>
+	              <button class="all__btn img__btn update__btn">수정</button>
+                <button class="all__btn img__btn delete__btn">삭제</button>
+                <button class="all__btn img__btn insert__btn">입력</button>
+                <button class="all__btn img__btn save__btn">저장</button>
 	            </div>
 	          </div>
 	          <!-- 그리드 -->
@@ -86,6 +68,76 @@
 	          </div>
 	        </div>
         </div>
+		
+		<div class="threeGrid__container">
+	        <div class="twoGrid__container threeGrid__container-subcontainer">
+	          <!-- 그리드 타이틀 -->
+	          <div class="grid__title">
+	            <p>그리드 타이틀</p>
+	
+	            <!-- 버튼 컨테이너 -->
+	            <div class="btn__container">
+	              <button class="all__btn img__btn update__btn">수정</button>
+                <button class="all__btn img__btn delete__btn">삭제</button>
+                <button class="all__btn img__btn insert__btn">입력</button>
+                <button class="all__btn img__btn save__btn">저장</button>
+	            </div>
+	          </div>
+	          <!-- 그리드 -->
+	            <div class="twoGrid__box threeGrid__box">
+	            <section class="grid__box">
+	              <!-- 그리드 -->
+	              <table id="list3" class="grid1"></table>
+	            </section>
+	          </div>
+	        </div>
+	        
+	        <div class="twoGrid__container threeGrid__container-subcontainer">
+	          <!-- 그리드 타이틀 -->
+	          <div class="grid__title">
+	            <p>그리드 타이틀</p>
+	
+	            <!-- 버튼 컨테이너 -->
+	            <div class="btn__container">
+	              <button class="all__btn img__btn update__btn">수정</button>
+                <button class="all__btn img__btn delete__btn">삭제</button>
+                <button class="all__btn img__btn insert__btn">입력</button>
+                <button class="all__btn img__btn save__btn">저장</button>
+	            </div>
+	          </div>
+	          <!-- 그리드 -->
+	            <div class="twoGrid__box threeGrid__box">
+	            <section class="grid__box">
+	              <!-- 그리드 -->
+	              <table id="list3" class="grid1"></table>
+	            </section>
+	          </div>
+	        </div>
+        </div>
+
+        <div class="twoGrid__container">
+          <!-- 그리드 타이틀 -->
+          <div class="grid__title">
+            <p>그리드 타이틀</p>
+
+            <!-- 버튼 컨테이너 -->
+            <div class="btn__container">
+              <button class="all__btn img__btn update__btn">수정</button>
+              <button class="all__btn img__btn delete__btn">삭제</button>
+              <button class="all__btn img__btn insert__btn">입력</button>
+              <button class="all__btn img__btn save__btn">저장</button>
+            </div>
+          </div>
+          <!-- 그리드 -->
+            <div class="twoGrid__box">
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list3" class="grid1"></table>
+            </section>
+          </div>
+        </div>
+
+
       </div>
     </main>
 

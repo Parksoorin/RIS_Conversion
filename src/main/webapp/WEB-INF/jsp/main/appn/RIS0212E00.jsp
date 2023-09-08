@@ -4,31 +4,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>휴일 기준 관리</title>
+<link rel="stylesheet" href="/css/appn/appnCommon.css">
 </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <p class="filter__keyword">조회일자 </p>
+        <input type="date">
+        <p class="filter__keyword ma_left_1"> ~</p>
+        <input type="date">
+        <button class="all__btn img__btn search__btn ma_left_1">검색</button>
       </section>
-
+      
       <!-- 그리드 타이틀 -->
       <div class="grid__title">
-        <p>그리드 타이틀</p>
-
+        <div class="flex line_1">
+          <p>휴일 목록 </p>
+          <button class="all__btn text__btn ma_left_1 title_align">갱신</button>
+        </div>
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn img__btn update__btn">수정</button>
+        	<button class="all__btn img__btn update__btn">수정</button>
         	<button class="all__btn img__btn insert__btn">입력</button>
 		    <button class="all__btn img__btn delete__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
-		    <button class="all__btn text__btn">글자만</button>
         </div>
       </div>
       <!-- 그리드 -->

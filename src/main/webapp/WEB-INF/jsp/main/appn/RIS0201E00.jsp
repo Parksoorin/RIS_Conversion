@@ -4,139 +4,157 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>예약 관리</title>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js" defer></script>
     <link rel="stylesheet" href="/css/appn/appnCommon.css">
+    
+    <title>예약 기준 관리</title>
     <style>
-      .color-1{
-        background: #005d92;
+      .select {
+          display: flex;
+          padding: 15px 10px;
+      }
+      .select input[type=radio]{
+          display: none;
+      }
+      .select input[type=radio]+label{
+          display: inline-block;
+          cursor: pointer;
+          height: 24px;
+          width: 60px;
+          border: 1px solid #333;
+          line-height: 24px;
+          text-align: center;
+          font-weight:bold;
+          font-size:13px;
+      }
+      .select input[type=radio]+label{
+          background-color: #fff;
+          color: #333;
+      }
+      .select input[type=radio]:checked+label{
+          background-color: #333;
+          color: #fff;
       }
 
-      .twoGrid__box .appointment-detail-container{
-        padding: 10px;
-        color: #fff;
+      .grid__title__custom {
+        padding: 0 20px;
+        height: 100px;
+        font-size: 14px;
+        font-weight: bold;
+        background-color: #f1f1f1;
+        border: 1px solid #dbdbdb;
+        border-bottom: 0;
+      }
+      .grid__title__flex{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
       }
 
-      .appointment-detail-container textarea{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        width: 100%;
-        height: 70px;
-        overflow: auto;
-        resize: none;
-      }
-      .mb-10{
-        margin-bottom: 10px;
-      }
-
+    
+      
     </style>
   </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword margin-10">조회일자 </p>
-        <input type="date" class="margin-10">
-        <p class="margin-10"> ~ </p>
-        <input type="date" class="margin-10">
-        <p class="filter__keyword margin-10">환자명 </p>
-        <input type="text" class="margin-10">
-        <button class="all__btn img__btn img__btn update__btn margin-10">찾기</button>
-        <p class="filter__keyword margin-10">촬영구분환자명 </p>
-        <select class="margin-10">
-          <option>전체</option>
+        <p class="filter__keyword">검색어 :</p>
+        <select class="filter__options">
+          <option value="">option 1</option>
+          <option value="">option 2</option>
         </select>
-        <p class="filter__keyword margin-10">촬영실 </p>
-        <select class="margin-10">
-          <option>전체</option>
-        </select>
-        <p class="filter__keyword margin-10">예약 여부 </p>
-        <input type="radio" id="appointment-total" class="margin-10" name="appointment-gubun" checked>
-        <label for="appointment-total" class="filter__keyword margin-10">전체 </label>
-        <input type="radio" id="appointment-reserved" class="margin-10" name="appointment-gubun" checked>
-        <label for="appointment-reserved" class="filter__keyword margin-10">예약 </label>
-        <input type="radio" id="appointment-unreserved" class="margin-10" name="appointment-gubun" checked>
-        <label for="appointment-unreserved" class="filter__keyword margin-10">미예약 </label>
- 
+        <button class="search__btn">검색</button>
       </section>
-      <!-- 그리드 -->
-      <div class="grid__container height-40">
-        <section class="grid__box">
-          <!-- 그리드 -->
-          <table id="list1" class="grid1"></table>
-        </section>
-      </div>
-    
 
-
-      <div class="grid__container main__container-twoGrid height-45">
+      <div class="grid__container main__container-twoGrid">
         <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
-          <div class="grid__title">
-            <p>예약 상세정보</p>
-          </div>
-          <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
-            <section class="grid__box color-1 appointment-detail-container">
-               <div class="mb-10">
-                    <label for="imaging">촬영실 : </label>
-                    <select  id="imaging">
-                      <option>처방을 선택하세요</option>
-                    </select>
+          <div class="form__container padding-5">
+              <div class="flex height-fix-50">
+                <div class="width-20">시간 설정</div>
+                <div class="flex width-80 flex-end">
+                  <div class="margin-10">* 생성구분 </div>
+                  <label for="new-create" class="margin-10">새로 생성 </label>
+                  <input type="radio" id="new-create" class="margin-10" name="create-gubun" checked>
+                  <label for="addition-create" class="margin-10">추가 생성 </label>
+                  <input class="margin-10"  type="radio" id="addition-create" name="create-gubun">
+                  <button class="all__btn img__btn update__btn top-25 margin-10">기준 생성 </button>
                 </div>
-                <div>처방참고내용</div>
-                <div>
-                  <textarea></textarea>
-                </div>
-                <div>예약참고내용</div>
-                <div>  
-                  <textarea></textarea>
-                </div>
-            </section>
-          </div>
-        </div>
-
-        <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
-          <div class="grid__title">
-            <p>예약일자</p>
-
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-              <label for="appointment-year">년 : </label>
-              <select  id="appointment-year">
-                <option></option>
-              </select>
-              <label for="appointment-month">월 : </label>
-              <select  id="appointment-month">
-                <option></option>
-              </select>
-            </div>
-          </div>
-          <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
-            <section class="grid__box">
-               <!-- calendar 태그 -->
-              <div id='calendar-container'>
-                <div id='calendar'></div>
               </div>
+              <div class="height-fix-50 flex space-between">
+                  <label for="start-time">시작시간</label>
+                  <input type="text" id="start-time" class="input-box input-box-custom ">
+                  <label for="end-time">종료시간</label>
+                  <input type="text" id="end-time" class="input-box input-box-custom  ">
+                  <label for="interval">간격</label>
+                  <input type="text" id="interval" class="input-box input-box-custom  ">
+                  <p>분</p>
+                  <p>휴게시간 </p>
+                  <input type="text" id="rest-start-time" class="input-box input-box-custom  ">
+                  <p> ~ </p>
+                  <input type="text" id="rest-end-time" class="input-box input-box-custom ">
+              </div>
+              <div class="height-fix-50 flex space-between">
+                <label for="out-patient">외래</label>
+                <input type="text" id="out-patient" class="input-box  input-box-custom ">
+                <label for="in-patient">입원</label>
+                <input type="text" id="in-patient" class="input-box  input-box-custom ">
+                <label for="health-examination">건진</label>
+                <input type="text" id="health-examination" class="input-box  input-box-custom ">
+                <input type="checkbox" id="week-batch" class="height-md input-box-custom">
+                <label for="week-batch">월 ~ 금 일괄적용</label>
+              </div>
+            </div>
+          
+          <!-- 그리드 타이틀 -->
+          <div class="grid__title__custom">
+            <div class="select">
+              <input type="radio" id="monday" name="week"><label for="monday">월</label>
+              <input type="radio" id="tuesday" name="week"><label for="tuesday">화</label>
+              <input type="radio" id="wednesday" name="week"><label for="wednesday">수</label>
+              <input type="radio" id="thursday" name="week"><label for="thursday">목</label>
+              <input type="radio" id="friday" name="week"><label for="friday">금</label>
+              <input type="radio" id="saturday" name="week"><label for="saturday">토</label>
+              <input type="radio" id="sunday" name="week"><label for="sunday">일</label>
+            </div>
+            <div class="grid__title__flex">
+              <div class="flex">
+                <p class="line-height-50 margin-10">요일설정</p>
+                <button class="all__btn img__btn update__btn top-25">갱신</button>
+              </div>
+              
+              <!-- 버튼 컨테이너 -->
+              <div class="btn__container">
+                <button class="all__btn img__btn update__btn">수정</button>
+                <button class="all__btn img__btn insert__btn">입력</button>
+                <button class="all__btn img__btn delete__btn">삭제</button>
+                <button class="all__btn img__btn save__btn">저장</button>
+              </div>
+           </div>
+          </div>
+          <!-- 그리드 박스 -->
+          <div class="twoGrid__box height-65">
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
             </section>
           </div>
         </div>
 
         <div class="twoGrid__container">
+           <!-- calendar 태그 -->
+          <div id='calendar-container'>
+            <div id='calendar'></div>
+          </div>
           <!-- 그리드 타이틀 -->
-          
-            <div class="grid__title">
-            <p></p>
-         
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-              <button class="all__btn img__btn save__btn">예약</button>
-            </div>
+          <div class="grid__title">
+            <p>예약 변동 내역</p>
+
+        
           </div>
           <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
+          <div class="twoGrid__box__custom">
             <section class="grid__box">
               <!-- 그리드 -->
               <table id="list2" class="grid1"></table>
@@ -147,20 +165,25 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p></p>
+            <button class="all__btn img__btn update__btn">갱신</button>
+
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button class="all__btn img__btn save__btn">취소</button>
+              <button class="all__btn img__btn update__btn">수정</button>
+              <button class="all__btn img__btn insert__btn">입력</button>
+              <button class="all__btn img__btn delete__btn">삭제</button>
+              <button class="all__btn img__btn save__btn">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
             <section class="grid__box">
               <!-- 그리드 -->
-              <table id="list3" class="grid3"></table>
+              <table id="list3" class="grid1"></table>
             </section>
           </div>
         </div>
+
       </div>
     </main>
 
@@ -326,19 +349,19 @@ pageEncoding="UTF-8"%>
       var calendarEl = $('#calendar')[0];
       // full-calendar 생성하기
       var calendar = new FullCalendar.Calendar(calendarEl, {
-        headerToolbar: {
-        start: '', // 왼쪽 영역 숨기기
-        center: '', // 중앙 영역 숨기기
-        end: '' // 오른쪽 영역 숨기기
-        },
-        height: '97%', // calendar 높이 설정
+        height: '70%', // calendar 높이 설정
         expandRows: true, // 화면에 맞게 높이 재설정
         slotMinTime: '08:00', // Day 캘린더에서 시작 시간
         slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
-        header: false, 
+        // 해더에 표시할 툴바
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+        },
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
         initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-        navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+        navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         editable: true, // 수정 가능?
         selectable: true, // 달력 일자 드래그 설정가능
         nowIndicator: true, // 현재 시간 마크
@@ -501,7 +524,7 @@ pageEncoding="UTF-8"%>
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "94%",
+          height: "80%",
           rownumbers: true,
           multiselect: true,
           sortname: "id",
@@ -536,60 +559,7 @@ pageEncoding="UTF-8"%>
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
-        $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
-            },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "94%",
-          rownumbers: true,
-          multiselect: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
+
 
         $("#list3").jqGrid({
           datatype: "local",
