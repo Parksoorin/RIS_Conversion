@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>처방 정보 관리</title>
 </head>
   <body>
     <main class="main__container">

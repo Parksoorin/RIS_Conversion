@@ -10,7 +10,7 @@ public class PatController {
 	// 환자 정보 관리 페이지
 	@RequestMapping(value = "/pat/PatientSearch.do")
 	private String patientSearch(Model model) throws Exception {
-		return ".main/pat/patientSearch";
+		return ".main/pat/RIS1101E00";
 	}
 
 	

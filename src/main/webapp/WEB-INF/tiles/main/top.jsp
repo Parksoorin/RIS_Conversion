@@ -44,17 +44,17 @@
             <li class="main__menu-items">
                 환자관리
                 <div class="sub__menu-item">
-                    <a href="#">환자정보 관리</a>
+                    <a href="/pat/PatientSearch.do">환자정보 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 접수관리
                 <div class="sub__menu-item">
-                    <a href="#">영상 접수관리</a>
+                    <a href="/jubsu/RIS1201E00.do">영상 접수관리</a>
                     <a href="#">CD 접수관리</a>
-                    <a href="#">이동촬영 접수</a>
-                    <a href="#">처방 정보 관리</a>
-                    <a href="#">영상 실시 관리</a>
+                    <a href="/jubsu/RIS1201E02.do">이동촬영 접수</a>
+                    <a href="/jubsu/RIS1201E03.do">처방 정보 관리</a>
+                    <a href="/jubsu/RIS1201E04.do">영상 실시 관리</a>
                     <a href="#">워크리스트</a>
                 </div>
             </li>

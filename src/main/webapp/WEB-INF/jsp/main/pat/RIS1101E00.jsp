@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<title>환자 정보 관리</title>
 
 <!-- css -->
-<link rel="stylesheet" type="text/css" href="/css/patientSearch.css" />
+<link rel="stylesheet" type="text/css" href="/css/pat/RIS1101E00.css" />
 </head>
 <body>
 	<main class="main__container">
@@ -56,7 +56,12 @@
 						</colgroup>
 						<tr>
 							<th class="thNeed">환자ID</th>
-							<td colspan="3"><input type="text" class="tdInputClass" placeholder="test" maxlength="20" style="width: 28%; height: 50%;" readonly="readonly" disabled="disabled" /></td>
+							<td>
+								<input type="text" class="tdInputClass" placeholder="test" maxlength="20" style="width: 85%; height: 34%;" readonly="readonly" disabled="disabled" />
+							</td>
+							<td colspan="2">
+								<button class="all__btn text__btn">중복확인</button>
+							</td>
 						</tr>
 						<tr>
 							<th class="thNeed">환자명</th>
