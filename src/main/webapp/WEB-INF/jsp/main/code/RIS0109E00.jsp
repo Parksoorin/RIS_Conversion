@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>기준정보 입력관리</title>
 </head>
   <body>
     <main class="main__container">
@@ -29,7 +29,6 @@
 		    <button class="all__btn img__btn delete__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
 		    <button class="all__btn text__btn">글자만</button>
-		    <button class="all__btn icon__btn"></button>
         </div>
       </div>
       <!-- 그리드 -->

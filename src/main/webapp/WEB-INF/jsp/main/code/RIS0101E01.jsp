@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<link rel="stylesheet" type="text/css" href="/css/code/risCodeView.css"/>	
-
+<meta charset="UTF-8">
+<title>코드상세</title>
+<link rel="stylesheet" type="text/css" href="/css/code/RIS0101E01.css"/>
 </head>
 	<body>
 		<form commandName="VO" id="savefrm" name="savefrm" method="post">
@@ -32,37 +32,17 @@
         <!-- 검색조건 영역 Start -->
 			<div class="inquiry__search-flex" style="justify-content:space-between;"> <!-- 1 Row -->
 				<div class="box__flex">
-					<a href="javascript:fn_query()" class="ml-2">
-						<button class="process__btn">
-						<img src="../images/icons/white/process.png" class='mr-1' alt="삭제 " class="icon__img" width="22px"/>
-<!-- 						<span class="box__label">목록</span> -->
-						<span class="box__label">목록</span>
-						</button>
-					</a>
-								   
-					
+					<button class="all__btn img__btn mokrok__btn">목록</button>							   					
 				</div>
 				<div class="box__flex">
 					<a href="javascript:fn_update();" class="ml-2">
-						<button class="process__btn">
-						<img src='/images/jqgrid/btn_modify.png' class='mr-1' alt='수정' />
-<!-- 						<span class="box__label">수정</span> -->
-						<span>수정</span>
-						</button>
+						<button class="all__btn img__btn img__btn update__btn">수정</button>
 					</a>
 					<a href="javascript:fn_expr('D');" class="ml-2">
-						<button class="process__btn">
-						<img src="../images/jqgrid/btn_x_w.png" class='mr-1' alt="불용" />
-<!-- 						<span class="box__label">불용</span> -->
-						<span>불용</span>
-						</button>
+						<button class="all__btn img__btn bullyong__btn">불용</button>	
 					</a>
 					<a href="javascript:fn_delete('D');" class="ml-2">
-						<button class="process__btn">
-						<img src='/images/jqgrid/btn_delete_w.png' class='mr-1' />
-<!-- 						<span class="box__label">삭제</span> -->
-						<span>삭제</span>
-						</button>
+			    		<button class="all__btn img__btn delete__btn">삭제</button>
 					</a>
 				</div>
 			</div>
@@ -250,53 +230,27 @@
 <!-- 							<span style="font-weight:bold;">중분류 코드</span> -->
 							<span style="font-weight:bold;">중분류 코드</span>
 							<a href='javascript:reloadGrid("list")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_refresh.png' alt='새로 고침' />
-								</button>
+								<button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
 							</a>
 							<a href='javascript:fn_viewer("M")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_eye_w.png' alt='상세 보기' />
-<!-- 									<span>상세</span> -->
-									<span>상세</span>
-								</button>
+							<button class="all__btn img__btn img__btn detail__btn">상세</button> 
 							</a>
 						</div>
 						<div class="box__flex">
 							<a href='javascript:fn_edit("M")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_modify.png' alt='수정'/>
-<!-- 									<span>수정</span> -->
-									<span>수정</span>
-								</button>
+									<button class="all__btn img__btn img__btn update__btn">수정</button>
 							</a>
 							<a href='javascript:fn_add("M")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_add_w.png' alt='추가' />
-<!-- 									<span>입력</span> -->
-									<span>입력</span>
-								</button>
+								<button class="all__btn img__btn insert__btn">입력</button>
 							</a>
 							<a href='javascript:fn_expr("M")' class="ml-2">
-								<button class='process__btn2'>
-									<img src='/images/jqgrid/btn_x_w.png' alt='불용'  />
-<!-- 									<span>불용</span> -->
-									<span>불용</span>
-								</button>
+								<button class="all__btn img__btn bullyong__btn">불용</button>	
 							</a>
 							<a href='javascript:fn_delete("M")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_delete_w.png' alt='삭제'  />
-<!-- 									<span>삭제</span> -->
-									<span>삭제</span>
-								</button>
+								<button class="all__btn img__btn delete__btn">삭제</button>
 							</a>
 							<a href='javascript:fn_save("M")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_save_w.png' alt='저장'  />
-<!-- 									<span>저장</span> -->
-									<span>저장</span>
-								</button>
+								<button class="all__btn img__btn save__btn">저장</button>
 							</a>
 						</div>
 					</div>
@@ -308,52 +262,27 @@
 <!-- 							<span style="font-weight:bold;">소분류 코드</span> -->
 							<span style="font-weight:bold;">소분류 코드</span>
 							<a href='javascript:reloadGrid("list2)' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_refresh.png' alt='조회 아이콘' />
-								</button>
+								<button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
 							</a> 
 							<a href='javascript:fn_viewer("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_eye_w.png' alt='상세 보기' />
-									<span>상세</span>
-								</button>
+								<button class="all__btn img__btn img__btn detail__btn">상세</button> 
 							</a>
 							</div>
 							<div class="box__flex">
 							<a href='javascript:fn_edit("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_modify.png' alt='수정' />
-<!-- 									<span>수정</span> -->
-									<span>수정</span>
-								</button>
+								<button class="all__btn img__btn img__btn update__btn">수정</button>
 							</a>
 							<a href='javascript:fn_add("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_add_w.png' alt='추가' />
-<!-- 									<span>입력</span> -->
-									<span>입력</span>
-								</button>
+								<button class="all__btn img__btn insert__btn">입력</button>
 							</a>
 							<a href='javascript:fn_expr("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_x_w.png' alt='불용' />
-<!-- 									<span>불용</span> -->
-									<span>불용</span>
-								</button>
+								<button class="all__btn img__btn bullyong__btn">불용</button>	
 							</a>
 							<a href='javascript:fn_delete("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_delete_w.png' alt='삭제' />
-<!-- 									<span>삭제</span> -->
-									<span>삭제</span>
-								</button>
+								<button class="all__btn img__btn delete__btn">삭제</button>
 							</a>
 							<a href='javascript:fn_save("S")' class="ml-2">
-								<button class='process__btn2 '>
-									<img src='/images/jqgrid/btn_save_w.png' alt='저장' />
-<!-- 									<span>저장</span> -->
-									<span>저장</span>
-								</button>
+								<button class="all__btn img__btn save__btn">저장</button>
 							</a>
 						</div>
 					</div>

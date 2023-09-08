@@ -411,7 +411,7 @@ ul.twoDepth__menu-items li:first-child{
 }
 .inquiry__page-flex section.inquiry__search-section {
 	width:100%;
-	height:5%;
+	height:8%;
     border-bottom: 1px solid rgb(249,250,251);
 }
 .inquiry__page-flex .inquiry__search-flex {
@@ -421,6 +421,7 @@ ul.twoDepth__menu-items li:first-child{
     align-items: center;
     box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
     height:100%;
+    margin-top:4px;
 }
 .srcArea {
     padding: 5px 15px;
@@ -435,6 +436,7 @@ ul.twoDepth__menu-items li:first-child{
 .inquiry__page-flex .box__flex {
     display: flex;
     align-items: center;
+    margin-top: 20px;
 }
 .ml-2{
   margin-left: .5rem!important;
@@ -741,6 +743,82 @@ li.ui-state-default.ui-corner-top{
 .ui-icon-triangle-1-e { background-position: -32px -16px; }
 .ui-icon-triangle-1-s { background-position: -64px -16px; }
 .ui-icon-radio-off { background-position: -96px -144px; }
+
+/* 버튼 */
+.all__btn {
+    display: flex;
+    padding: 7px 10px;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #CCC;
+    background: #FFF;
+    position: relative;
+    font-size: 14px;
+}
+
+.all__btn:hover {
+    cursor: pointer;
+    background: #E8E8E8;
+}
+
+.img__btn {
+    padding-left: 26px;
+}
+
+.img__btn::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.search__btn::before {
+    background-image: url("/images/icons/search2.png");
+}
+
+.update__btn::before {
+    background-image: url("/images/icons/update.png");
+}
+
+.insert__btn::before {
+    background-image: url("/images/icons/insert2.png");
+}
+
+.insert2__btn::before {
+    background-image: url("/images/icons/insert.png");
+}
+
+.delete__btn::before {
+    background-image: url("/images/icons/delete.png");
+}
+
+.save__btn::before {
+	background-image: url("/images/icons/diskette.png");
+}
+
+.refresh__btn::before {
+	background-image: url("/images/icons/refresh2.png");
+}
+
+.mokrok__btn::before {
+	background-image: url("/images/icons/mokrok2.png");
+}
+
+.bullyong__btn::before {
+	background-image: url("/images/icons/bullyong2.png");
+}
+
+.detail__btn::before {
+	background-image: url("/images/icons/detail.png");
+}
 
 
 

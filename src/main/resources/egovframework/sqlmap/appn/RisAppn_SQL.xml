@@ -24,7 +24,18 @@
 	</select>
 		
 	<!-- 휴일 기준 관리 -->
-	
+	<select id="ris0212FindAll" resultType="egovframework.appn.model.Ris0212DTO">
+		SELECT
+				 HSPT_ID
+				,HLDY_DATE
+				,HLDY_TEXT
+				,RGST_ID
+				,RGST_DTTM
+				,MDFC_ID
+				,MDFC_DTTM
+		FROM
+				RIS0212
+	</select>
 	
 	<!-- 예약 관리 -->
 	

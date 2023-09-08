@@ -51,6 +51,24 @@
     background-size: contain;
 }
 
+.icon__btn {
+    width: 60px;
+}
+
+.icon__btn::before {
+	content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("/images/icons/search2.png");
+}
+
 .search__btn::before {
     background-image: url("/images/icons/search2.png");
 }
@@ -74,6 +92,7 @@
 .save__btn::before {
 	background-image: url("/images/icons/diskette.png");
 }
+
 
 .all__header {
 	min-width: 1200px;

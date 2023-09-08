@@ -16,9 +16,14 @@
 		FROM risbtn
 	</select>
 	
-	<select id="RisMenuList" resultType="egovframework.com.model.RisGrupDTO">
+	<select id="RisGrupList" resultType="egovframework.com.model.RisGrupDTO">
 		SELECT DISTINCT MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
 		FROM risgrup
 		ORDER BY OTPT_SQNC ASC
+	</select>
+	
+	<select id="RisGrmuList" resultType="egovframework.com.model.RisGrmuDTO">
+		SELECT MENU_ID, PGRM_ID, MENU_NAME, MENU_NAME_SUB, UPPER_MENU_ID, MENU_LEVEL, OTPT_SQNC, USE_YN
+		FROM risgrmu
 	</select>
 </mapper>

@@ -26,5 +26,6 @@
 			 , MDFC_ID
 			 , MDFC_DTTM
         FROM RIS0101
+        ORDER BY OTPT_SQNC
 	</select>
 </mapper>
