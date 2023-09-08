@@ -5,6 +5,7 @@ public class Ris0601DTO {
 	private String docId;
 	private String tmplCd;
 	private String imgnDvsnCd;
+	private String mddlKrNm;
 	private String viewAbbrNm;
 	private String viewText;
 	
@@ -31,6 +32,12 @@ public class Ris0601DTO {
 	}
 	public void setImgnDvsnCd(String imgnDvsnCd) {
 		this.imgnDvsnCd = imgnDvsnCd;
+	}
+	public String getMddlKrNm() {
+		return mddlKrNm;
+	}
+	public void setMddlKrNm(String mddlKrNm) {
+		this.mddlKrNm = mddlKrNm;
 	}
 	public String getViewAbbrNm() {
 		return viewAbbrNm;
