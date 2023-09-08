@@ -16,17 +16,20 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Ris0101DTO {
+public class Ris0102DTO {
 	@NotBlank
 	@Size(max = 20)
 	private String hsptId; 
 	@NotBlank
 	@Size(max = 20)
 	private String lrgcCd;
-	private String lrgcKrNm;
-	private String lrgcEnglNm;
-	private String lrgcAbbrNm;
-	private String lrgcAcph;
+	@NotBlank
+	@Size(max = 20)
+	private String mddlCd;
+	private String mddlKrNm;
+	private String mddlEnglNm;
+	private String mddlAbbrNm;
+	private String mddlAcph;
 	private Integer otptSqnc;
 	private String applDate;
 	private String exprDate;

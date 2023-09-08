@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,9 +10,8 @@
       <!-- 검색 -->
       <section class="search__container">
         <p class="filter__keyword">검색어 입력 :</p>
-       	<input type="text" name="searchWord" maxlength="30" />      
-        &nbsp; &nbsp;<button class="search__btn">검색</button>
-        
+       	<input type="text" name="searchWord" maxlength="30" />
+        &nbsp; &nbsp;<button class="all__btn img__btn search__btn">검색</button>
           <!--
         <select class="filter__options">
           <option value="">option 1</option>
@@ -99,6 +97,8 @@
 
     <script>
       $(document).ready(function () {
+    	var jsonData = ${data};
+    	  
         var mydata = [
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "1",applDate: "2023-09-05",exprDate: "9999-12-12",},
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "2",applDate: "2023-09-05",exprDate: "9999-12-12",},
@@ -131,15 +131,17 @@
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "29",applDate: "2023-09-05",exprDate: "9999-12-12",},
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "30",applDate: "2023-09-05",exprDate: "9999-12-12",}
         ];
-
+        
+        console.log('>>>>>>>>>>>\n ${data}');
         $("#list1").jqGrid({
           datatype: "local",
-          data: mydata,
-          colNames: ["대분류코드", "대분류 한글명", "자릿수", "출력순", "적용일자", "불용일자"],
+          data: jsonData,
+          colNames: ["HSPT_ID", "대분류코드", "대분류 한글명", "자릿수", "출력순", "적용일자", "불용일자"],
           colModel: [
-            { name: "lrgcCd", index: "lrgcCd", width: 90, align: "center" },
+            { name: "hsptId", index: "hsptId", width: 90, align: "center" },
+            { name: "lrgcCd", index: "lrgcCd", width: 150, align: "center" },
             { name: "lrgcKrNm", index: "lrgcKrNm", width: 100, align: "center" },
-            { name: "mddlAcph", index: "mddlAcph", width: 150,align: "center"},
+            { name: "lrgcAcph", index: "lrgcAcph", width: 150,align: "center"},
             { name: "otptSqnc", index: "otptSqnc", width: 80, align: "center" },
             { name: "applDate", index: "applDate", width: 80, align: "center" },
             { name: "exprDate", index: "exprDate", width: 80, align: "center" },
@@ -158,7 +160,24 @@
             console.log(data);
           }, // loadComplete END
           onSelectRow: function (rowid) {
+            var params = {};
+            var rowObject = $("#list1").jqGrid('getRowData',rowid);
             console.log(rowid);
+            jQuery('#list2').jqGrid('clearGridData'); // 그리드2 데이터 삭제
+            jQuery('#list3').jqGrid('clearGridData'); // 그리드3 데이터 삭제
+            params.hsptId = rowObject.hsptId;
+            params.lrgcCd = rowObject.lrgcCd;
+
+            $("#list2").setGridParam({
+				datatype : "json",
+				postData : params ,
+				url : "/risCodeList2.do", // 중분류 리스트 조회
+				mtype    : 'POST', // 전송 타입 */
+				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
+				function(postData){
+// 					console.log("load complate");
+				} 
+			}).trigger("reloadGrid");
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -182,14 +201,23 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+
         $("#list2").jqGrid({
             datatype: "local",
-            data: mydata,
-            colNames: ["중분류코드", "중분류 한글명", "자릿수", "출력순", "적용일자", "불용일자"],
+			url : "/risCodeList2.do", // 중분류 리스트 조회
+			reordercolNames: true, //컬럼명을 드래그하여 재정렬할 수 있는 기능을 활성화
+			postData: { 
+				type     : "DCList2", //그리드 데이터를 요청할때 함께 보낼 파라미터 설정
+				isSearch : "false", // 화면 처음 로딩 시 검색여부 boolean 값(=false)
+			}, // 보낼 파라미터
+			mtype    : 'POST', // 전송 타입
+            colNames: ["HSPT_ID", "대분류코드", "중분류코드", "중분류 한글명", "자릿수", "출력순", "적용일자", "불용일자"],
             colModel: [
+            	{ name: "hsptId", index: "hsptId", width: 90, align: "center" },
+            	{ name: "lrgcCd", index: "lrgcCd", width: 150, align: "center" },
             	{ name: "mddlCd", index: "mddlCd", width: 90, align: "center" },
                 { name: "mddlKrNm", index: "mddlKrNm", width: 100, align: "center" },
-                { name: "smllAcph", index: "smllAcph", width: 150,align: "center"},
+                { name: "mddlAcph", index: "mddlAcph", width: 150,align: "center"},
                 { name: "otptSqnc", index: "otptSqnc", width: 80, align: "center" },
                 { name: "applDate", index: "applDate", width: 80, align: "center" },
                 { name: "exprDate", index: "exprDate", width: 80, align: "center" },
@@ -208,7 +236,24 @@
               console.log(data);
             }, // loadComplete END
             onSelectRow: function (rowid) {
-              console.log(rowid);
+            	var params = {};
+                var rowObject = $("#list2").jqGrid('getRowData',rowid);
+                console.log(rowid);
+                jQuery('#list3').jqGrid('clearGridData'); // 그리드2 데이터 삭제
+                params.hsptId = rowObject.hsptId;
+                params.lrgcCd = rowObject.lrgcCd;
+                params.mddlCd = rowObject.mddlCd;
+
+                $("#list3").setGridParam({
+    				datatype : "json",
+    				postData : params ,
+    				url : "/risCodeList3.do", // 중분류 리스트 조회
+    				mtype    : 'POST', // 전송 타입 */
+    				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
+    				function(postData){
+//     					console.log("load complate");
+    				} 
+    			}).trigger("reloadGrid");
             },
             onSortCol: function (index, idxcol, sortorder) {
               // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -233,8 +278,14 @@
             },
           });
         $("#list3").jqGrid({
-            datatype: "local",
-            data: mydata,
+        	datatype: "local",
+			url : "/risCodeList3.do", // 중분류 리스트 조회
+			reordercolNames: true, //컬럼명을 드래그하여 재정렬할 수 있는 기능을 활성화
+			postData: { 
+				type     : "DCList2", //그리드 데이터를 요청할때 함께 보낼 파라미터 설정
+				isSearch : "false", // 화면 처음 로딩 시 검색여부 boolean 값(=false)
+			}, // 보낼 파라미터
+			mtype    : 'POST', // 전송 타입
             colNames: ["소분류 코드", "소분류 한글명", "출력순", "적용일자", "불용일자"],
             colModel: [
             	{ name: "smllCd", index: "smllCd", width: 90, align: "center" },
@@ -285,14 +336,12 @@
       
       // 대분류 상세 버튼 클릭 시
       $('#lrgcDetail').click(function(){
-    	  alert('대분류 코드 상세');
-    	  location.href = "/risCodeView.do";
+    	  location.href = "/RIS0101E01.do";
       });
 
    	  // 대분류 입력 버튼 클릭 시
       $('#lrgcReg').click(function(){
-    	  alert('대분류 코드 입력');
-    	  location.href = "/risCodeInsert.do";
+    	  location.href = "/RIS0101E02.do";
       });
     </script>
   </body>

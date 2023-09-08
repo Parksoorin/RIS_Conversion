@@ -4,8 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="/css/code/risCodeInsert.css"/>
+<title>코드등록</title>
+<link rel="stylesheet" type="text/css" href="/css/code/RIS0101E02.css"/>
 </head>
   <body>
  
@@ -17,28 +17,16 @@
         <!-- 검색조건 영역 Start -->
        <div class="inquiry__search-flex" style="justify-content:space-between;"> <!-- 1 Row -->
 			<div class="box__flex">
-				<button class="process__btn ml-2" type="button" id="lrgc_reset" onclick="reset()">
-					<img src="http://192.168.0.77:8081/images/jqgrid/btn_clear.png" class="mr-1" width="22px"/>
-<!-- 					<span>새로고침</span> -->
-					<span>새로고침</span>
-				</button>
+				<button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
 				
 				<a href="javascript:fn_query()" class="ml-2">
-					<button class="process__btn">
-						<img src="http://192.168.0.77:8081/images/icons/white/calendar.png" class="mr-1" alt="수정" width="22px" />
-<!-- 						<span>목록</span> -->
-						<span>목록</span>
-					</button>
+					<button class="all__btn img__btn mokrok__btn">목록</button>
 				</a>
 			</div>
 			<div class="box__flex">
 	            <a href="javascript:goSave('L');
 					"  class="ml-2">
-					<button class="process__btn">
-						<img src='http://192.168.0.77:8081/images/jqgrid/btn_save.png' class="mr-1" alt='저장' width='22px' />
-<!-- 						<span>저장</span> -->
-						<span>저장</span>
-					</button>
+					<button class="all__btn img__btn save__btn">저장</button>
 				</a>
         	</div>
         </div>
