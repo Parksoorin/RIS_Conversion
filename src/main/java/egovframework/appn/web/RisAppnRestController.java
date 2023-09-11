@@ -3,9 +3,12 @@ package egovframework.appn.web;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -39,34 +42,43 @@ public class RisAppnRestController {
 	/*
 	 * 예외 기준 관리
 	 * GET		/appn/ris0213List/ris0213.do	ris0213 조건에 맞는 조회
-	 * POST										ris0213 새로운 Data 저장
-	 * PATCH									ris0213 기존 Data 수정
-	 * DELETE									ris0213 기존 Data 삭제
+	 * POST		/appn/ris0213List/ris0213.do	ris0213 모든 변경사항 저장
 	 */
 	
 	@GetMapping("/ris0213List/ris0213.do")
 	public ResponseEntity<?> ris0213ListGetMapping() {
-		System.out.println("/ris0213List/ris0213.do Get Mapping!!!");
-		List<Ris0213DTO> rows = risAppnService.ris0213FindAll();
+		System.out.println("/appn/ris0213List/ris0213.do Get Mapping!!!");
+		List<Ris0213DTO> rows = risAppnService.ris0213Select();
 		
 		return ResponseEntity.ok().body(rows);
+	}
+	
+	@PostMapping("/ris0213List/ris0213.do")
+	public ResponseEntity<?> ris0213ListPostMapping(@Valid @RequestBody List<Ris0213DTO> list){
+		System.out.println("/appn/ris0213List/ris0213.do Post Mapping!!!");
+		int result = risAppnService.ris0213Process(list);
+		return ResponseEntity.ok().body(result);
 	}
 	
 	
 	/*
 	 * 휴일 기준 관리
 	 * GET		/appn/ris0212List/ris0212.do	ris0212 Data를 전체 조회
-	 * POST										ris0212List 새로운 Data 저장
-	 * PATCH									ris0212List 기존 Data 수정
-	 * DELETE									ris0212List 기존 Data 삭제
+	 * POST		/appn/ris0212List/ris0212.do	ris0212List 모든 변경사항 저장
 	 */
 	
 	@GetMapping("/ris0212List/ris0212.do")
 	public ResponseEntity<?> ris0212ListGetMapping() {
 		System.out.println("/appn/ris0212List/ris0212.do Get Mapping!!!");
-		List<Ris0212DTO> rows = risAppnService.ris0212FindAll();
+		List<Ris0212DTO> rows = risAppnService.ris0212Select();
 		
 		return ResponseEntity.ok().body(rows);
+	}
+	
+	@PostMapping("/ris0212List/ris0212.do")
+	public ResponseEntity<?> ris0212ListPostMapping(@Valid @RequestBody List<Ris0212DTO> list){
+		System.out.println("/appn/ris0212List/ris0212.do Post Mapping!!!");
+		return ResponseEntity.ok('2');
 	}
 	
 	/*

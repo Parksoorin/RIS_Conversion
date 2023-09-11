@@ -1,5 +1,6 @@
 package egovframework.appn.service.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,26 +11,83 @@ import egovframework.appn.mapper.RisAppnMapper;
 import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.model.Ris0213DTO;
 import egovframework.appn.service.RisAppnService;
+import egovframework.appn.util.RisAppnUtil;
+import lombok.extern.slf4j.Slf4j;
+
 
 @Service("risAppnService")
+@Slf4j
 public class RisAppnServiceImpl implements RisAppnService{
 
 	@Resource(name="risAppnMapper")
 	private RisAppnMapper risAppnMapper;
 	
-	// 예약 예외
+	// 예약 예외 기준 관리
 
 	@Override
-	public List<Ris0213DTO> ris0213FindAll() {
-		return risAppnMapper.ris0213FindAll();
+	public List<Ris0213DTO> ris0213Select() {
+		return risAppnMapper.ris0213Select();
 	}
 
 	
-	// 예약 휴일
-	
 	@Override
-	public List<Ris0212DTO> ris0212FindAll() {
-		return risAppnMapper.ris0212FindAll();
+	public int ris0213Process(final List<Ris0213DTO> list) {
+		
+		int result = 0;
+		List<Ris0213DTO> insertList = new ArrayList<>();
+		List<Ris0213DTO> updateList = new ArrayList<>();
+		List<Ris0213DTO> deleteList = new ArrayList<>();
+		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+		log.info("Ris0213 Process --- 1 {}", result);
+		for(Ris0213DTO dto : list) {
+			String flag = dto.getFlag();	
+			switch(flag) {
+			case "입력":
+				insertList.add(dto);
+				break;
+			case "수정":
+				updateList.add(dto);
+				break;
+			case "삭제":
+				deleteList.add(dto);
+				break;
+			default:
+				new IllegalArgumentException("ris0213Process 잘못된 요청입니다.(RisAppnService)");
+			}
+		};
+		
+		if(insertList.size()>0) {
+			result += risAppnMapper.ris0213Insert(insertList);
+		}
+		
+		if(updateList.size()>0) {
+			result += risAppnMapper.ris0213Update(updateList);
+		}
+		
+		if(deleteList.size()>0) {
+			result += risAppnMapper.ris0213Delete(deleteList);
+		}
+		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
+		log.info("Ris0213 Process --- 2 {}", result);
+		
+		return result;
 	}
 	
+	
+	
+	
+	@Override
+	public List<Ris0212DTO> ris0212Select() {
+		return risAppnMapper.ris0212Select();
+	}
+
+	@Override
+	public int ris0212Process(final List<Ris0212DTO> list) {
+		int result = 0;
+		
+		return result;
+	}
+
+
+
 }

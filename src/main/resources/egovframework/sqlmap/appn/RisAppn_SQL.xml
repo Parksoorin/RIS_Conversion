@@ -7,7 +7,7 @@
 	
 	
 	<!-- 예외 기준 관리 -->
-	<select id="ris0213FindAll" resultType="egovframework.appn.model.Ris0213DTO">
+	<select id="ris0213Select" resultType="egovframework.appn.model.Ris0213DTO">
 		SELECT
 				 HSPT_ID
 				,IMGN_ROOM_CD
@@ -22,9 +22,77 @@
 		  FROM
 		  		 RIS0213
 	</select>
+	
+	<update id="ris0213Update" parameterType="egovframework.appn.model.Ris0213DTO">	
+	   	<foreach collection="list" item='item' separator=";">
+		UPDATE	 
+			   RIS0213
+		   SET 
+	   	  	   APPNN_IMPS_TEXT = #{item.appnImpsText}
+		 	<where>	
+		 		<if test="item.hsptId != null">
+		 			    HSPT_ID = #{item.hsptId}
+		 		</if>
+		 		<if test="item.imgnRoomCd != null">
+		 			AND IMGN_ROOM_CD = #{item.imgnRoomCd}
+		 		</if>
+		 		<if test="item.strtDate != null">
+		 			AND STRT_DATE = #{item.strtDate}
+		 		</if>
+		 		<if test="item.strtTime != null">
+		 			AND STRT_TIME = #{item.strtTime"}
+		 		</if>
+		 	</where>
+		</foreach>
+	</update>
+	
+	<insert id="ris0213Insert" parameterType="egovframework.appn.model.Ris0213DTO">
 		
+		INSERT INTO RIS0213(
+							 HSPT_ID
+							,IMGN_ROOM_CD
+							,STRT_DATE
+							,STRT_TIME
+							,END_TIME
+							,APPN_IMPS_TEXT
+							) 
+					 VALUES
+					 <foreach collection="list" item='item' separator=',' >
+					 (
+					 		 #{item.hsptId}
+					 		,#{item.imgnRoomCd}
+					 		,#{item.strtDate}
+					 		,#{item.strtTime}
+					 		,#{item.endTime}
+					 		,#{item.appnImpsText}
+					 		)
+		  			</foreach>
+	</insert>
+		
+	<delete id="ris0213Delete" parameterType="egovframework.appn.model.Ris0213DTO">
+		DELETE 
+		  FROM RIS0213 
+		  <where>
+		  	   <foreach collection="list" item="item" open="(" close=")" separator="OR">
+			  	   <if test="item.hsptId != null">
+			  	   HSPT_ID= #{item.hsptId}
+			  	   </if>
+			  	   <if test="item.imgnRoomCd != null"> 
+			  	   AND IMGN_ROOM_CD = #{item.imgnRoomCd} 
+			  	   </if>
+			  	   <if test="item.strtDate != null">
+			  	   AND STRT_DATE = #{item.strtDate} 
+			  	   </if>
+			  	   <if test="item.strtTime != null">
+			  	   AND STRT_TIME = #{item.strtTime}		 	
+			  	   </if>
+		  	   </foreach>
+		  </where>
+		  
+	</delete>	
+	
 	<!-- 휴일 기준 관리 -->
-	<select id="ris0212FindAll" resultType="egovframework.appn.model.Ris0212DTO">
+	<select id="ris0212Select" resultType="egovframework.appn.model.Ris0212DTO">
 		SELECT
 				 HSPT_ID
 				,HLDY_DATE
@@ -37,6 +105,17 @@
 				RIS0212
 	</select>
 	
+	<update id="ris0212Update" parameterType="egovframework.appn.model.Ris0212DTO">
+	
+	</update>
+	
+	<insert id="ris0212Insert" parameterType="egovframework.appn.model.Ris0212DTO">
+	
+	</insert>
+		
+	<delete id="ris0212Delete" parameterType="egovframework.appn.model.Ris0212DTO">
+	
+	</delete>	
 	<!-- 예약 관리 -->
 	
 
