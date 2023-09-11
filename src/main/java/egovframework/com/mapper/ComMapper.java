@@ -17,5 +17,5 @@ public interface ComMapper {
 	List<RisPgrmDTO> RisPrgmList();
 	List<RisBtnDTO> RisBtnList();
 	List<RisGrupDTO> RisGrupList();
-	List<RisGrmuDTO> RisGrmuList();
+	List<RisGrmuDTO> RisGrmuList(String type);
 }

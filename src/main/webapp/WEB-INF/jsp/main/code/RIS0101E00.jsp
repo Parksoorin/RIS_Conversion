@@ -11,7 +11,7 @@
       <section class="search__container">
         <p class="filter__keyword">검색어 입력 :</p>
        	<input type="text" name="searchWord" maxlength="30" />
-        &nbsp; &nbsp;<button class="all__btn img__btn search__btn">검색</button>
+        &nbsp; &nbsp;<button class="all__btn img__btn search__btn" onclick="jsSearch();">검색</button>
           <!--
         <select class="filter__options">
           <option value="">option 1</option>
@@ -132,9 +132,9 @@
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "30",applDate: "2023-09-05",exprDate: "9999-12-12",}
         ];
         
-        console.log('>>>>>>>>>>>\n ${data}');
         $("#list1").jqGrid({
           datatype: "local",
+          url : "/risCodeList1Search.do", // 대분류 리스트 조회
           data: jsonData,
           colNames: ["HSPT_ID", "대분류코드", "대분류 한글명", "자릿수", "출력순", "적용일자", "불용일자"],
           colModel: [
@@ -157,12 +157,10 @@
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
-            console.log(data);
           }, // loadComplete END
           onSelectRow: function (rowid) {
             var params = {};
             var rowObject = $("#list1").jqGrid('getRowData',rowid);
-            console.log(rowid);
             jQuery('#list2').jqGrid('clearGridData'); // 그리드2 데이터 삭제
             jQuery('#list3').jqGrid('clearGridData'); // 그리드3 데이터 삭제
             params.hsptId = rowObject.hsptId;
@@ -175,7 +173,6 @@
 				mtype    : 'POST', // 전송 타입 */
 				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
 				function(postData){
-// 					console.log("load complate");
 				} 
 			}).trigger("reloadGrid");
           },
@@ -201,6 +198,7 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+        
 
         $("#list2").jqGrid({
             datatype: "local",
@@ -233,12 +231,10 @@
             gridview: true, // 선표시 true/false
             viewsortcols: [true, "vertical", true],
             loadComplete: function (data) {
-              console.log(data);
             }, // loadComplete END
             onSelectRow: function (rowid) {
             	var params = {};
                 var rowObject = $("#list2").jqGrid('getRowData',rowid);
-                console.log(rowid);
                 jQuery('#list3').jqGrid('clearGridData'); // 그리드2 데이터 삭제
                 params.hsptId = rowObject.hsptId;
                 params.lrgcCd = rowObject.lrgcCd;
@@ -251,7 +247,6 @@
     				mtype    : 'POST', // 전송 타입 */
     				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
     				function(postData){
-//     					console.log("load complate");
     				} 
     			}).trigger("reloadGrid");
             },
@@ -277,6 +272,8 @@
               //alert(index+'/'+idxcol+'/'+sortorder);
             },
           });
+        
+        
         $("#list3").jqGrid({
         	datatype: "local",
 			url : "/risCodeList3.do", // 중분류 리스트 조회
@@ -305,10 +302,8 @@
             gridview: true, // 선표시 true/false
             viewsortcols: [true, "vertical", true],
             loadComplete: function (data) {
-              console.log(data);
             }, // loadComplete END
             onSelectRow: function (rowid) {
-              console.log(rowid);
             },
             onSortCol: function (index, idxcol, sortorder) {
               // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -343,6 +338,22 @@
       $('#lrgcReg').click(function(){
     	  location.href = "/RIS0101E02.do";
       });
+   	  
+   	  
+      function jsSearch(){
+    	  jQuery('#list1').jqGrid('clearGridData'); // 그리드1 데이터 삭제
+    	  jQuery('#list2').jqGrid('clearGridData'); // 그리드2 데이터 삭제
+          jQuery('#list3').jqGrid('clearGridData'); // 그리드3 데이터 삭제
+    	  $("#list1").setGridParam({
+				datatype : "json",
+				postData : {"searchWord" : $("[name='searchWord']").val()} ,
+				url : "/risCodeList1Search.do", // 중분류 리스트 조회
+				mtype    : 'POST', // 전송 타입 */
+				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
+				function(postData){
+				} 
+			}).trigger("reloadGrid");
+      }
     </script>
   </body>
 </html>

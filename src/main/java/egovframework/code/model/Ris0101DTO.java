@@ -1,4 +1,4 @@
-package egovframework.code.model;
+ package egovframework.code.model;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
@@ -23,8 +23,10 @@ public class Ris0101DTO {
 	@NotBlank
 	@Size(max = 20)
 	private String lrgcCd;
+	private String lrgc_cd;
 	private String lrgcKrNm;
 	private String lrgcEnglNm;
+	private String lrgc_engl_nm;
 	private String lrgcAbbrNm;
 	private String lrgcAcph;
 	private Integer otptSqnc;

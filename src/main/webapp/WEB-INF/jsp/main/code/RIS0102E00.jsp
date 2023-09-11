@@ -4,56 +4,46 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>사용자별 메뉴 관리</title>
-    <link rel="stylesheet" type="text/css" href="/css/com/com.css" />
+    <title>촬영실 관리</title>
+    <link rel="stylesheet" type="text/css" href="/css/code/RIS0102E00.css"/>
   </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 입력 :</p>
-        <input type="text" class="filter__options" id="search" placeholder="Enter text to search..."></input>
-        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
+        <p class="filter__keyword">쵤영실 코드 관리</p>
+				<label class="box__label">사용여부</label>
+					<input style="margin-left:2rem;" type="radio" name="use_yn" id="use_yn1" value="Y" onchange="fn_egov_selectGrid();" checked/>
+					<label style="margin-right:2rem;" for="use_yn1" >사용</label>
+					<input type="radio" name="use_yn" id="use_yn2" value="N" onchange="fn_egov_selectGrid();" />
+					<label style="margin-right:2rem;" for="use_yn2">불용</label>					
+				<label class="box__label ml-2">검색 : </label>
+	            <input type="text" id="searchKeyword" value="" onkeydown="enter()"/> 
+          		<div class="inquiry__btn-right ml-2">
+		        	<a href="javascript:fn_egov_selectGrid();" class="ml-2">
+        <button class="all__btn img__btn search__btn">검색</button>
       </section>
 
-      <div class="grid__container main__container-twoGrid">
-        <div class="leftGrid__container">
+      <div class="grid__container main__container-twoGrid" style="display: flex; width: 30%;">
+        <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
-          <div class="grid__title">
-            <p>사용자 정보 목록</p>
+          <div class="grid__title" style="display: flex; width: 200%;">
+            <p>그리드 타이틀</p>
+
           </div>
           <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
+          <div class="twoGrid__box" style="display: flex; width: 200%;">
             <section class="grid__box">
               <!-- 그리드 -->
               <table id="list1" class="grid1"></table>
-            </section>
+            </section>                      
           </div>
         </div>
-
-        <div class="rightGrid__container">
-          <!-- 그리드 타이틀 -->
-          <div class="grid__title">
-            <p>해당 프로그램 목록</p>
-
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-             	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
-    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
-            </div>
-          </div>
-          <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
-            <section class="grid__box">
-              <!-- 그리드 -->
-              <table id="list2" class="grid1"></table>
-            </section>
-          </div>
-        </div>
-      </div>
-    </main>
+  </main>
+  
+  
+    
+    
 
     <script>
       $(document).ready(function () {
@@ -215,17 +205,17 @@ pageEncoding="UTF-8"%>
         $("#list1").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["사용자ID", "사용자명", "권한", "유효여부"],
+          colNames: ["구분", "코드", "코드명"],
           colModel: [
-            { name: "date", index: "date", width: 135, align: "center" },
-            { name: "name", index: "name", width: 135, align: "center" },
-            { name: "id", index: "id", width: 135, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" },
+            { name: "division", index: "division", width: 25, align: "center" },
+            { name: "code", index: "code", width: 60, align: "center" },
+            { name: "name", index: "name", width: 100, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "93%",
+          height: "94%",
           rownumbers: true,
+          multiselect: true,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
@@ -262,20 +252,25 @@ pageEncoding="UTF-8"%>
         $("#list2").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["메뉴그룹ID", "메뉴그룹명", "메뉴ID", "메뉴명", "메뉴권한", "사용여부", "정렬순서"],
+          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
           colModel: [
-            { name: "id", index: "id", width: 100, align: "center" },
-            { name: "name", index: "name", width: 150, align: "center" },
-            { name: "id", index: "id", width: 100, align: "center" },
-            { name: "product", index: "product", width: 150, align: "center" },
+            { name: "date", index: "date", width: 90, align: "center" },
+            { name: "name", index: "name", width: 100, align: "center" },
+            {
+              name: "id",
+              index: "id",
+              width: 150,
+              align: "center",
+            },
+            { name: "product", index: "product", width: 80, align: "center" },
             { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 50, align: "center" },
-            { name: "total", index: "total", width: 50, align: "center" }
+            { name: "total", index: "total", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "93%",
+          height: "94%",
           rownumbers: true,
+          multiselect: true,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false

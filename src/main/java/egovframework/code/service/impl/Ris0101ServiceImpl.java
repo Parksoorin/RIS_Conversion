@@ -1,6 +1,7 @@
 package egovframework.code.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -17,9 +18,19 @@ public class Ris0101ServiceImpl implements Ris0101Service{
 	private Ris0101Mapper ris0101Mapper;
 	
 	@Override
-	public List<Ris0101DTO> findAll() {
-		System.out.println("imple findAll >>>>>");
-		return ris0101Mapper.findListAll();
+	public List<Ris0101DTO> findAll(Map<String, Object> requestMap) {
+		return ris0101Mapper.findListAll(requestMap);
 	}
+	
+	@Override
+	public int insertRis0101Data(Map<String, Object> requestMap) {
+		return ris0101Mapper.insertRis0101Data(requestMap);
+	}
+
+	@Override
+	public int codeDuplicateCheck(Map<String, Object> requestMap) {
+		return ris0101Mapper.codeDuplicateCheck(requestMap);
+	}
+	
 	
 }

@@ -51,60 +51,36 @@
     background-size: contain;
 }
 
-.fontawesome__btn::before {
-    width: 14px;
-    height: 14px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 14px;
+.search__btn::before {
+    background-image: url("/images/icons/search2.png");
 }
 
-.fontawesome__btn:hover {
-    background-color: #CFE9FF;
+.update__btn::before {
+    background-image: url("/images/icons/update.png");
 }
 
-.fontawesome__btn:active {
-    color: #fff;
-    background-color: #218ECB;
+.insert__btn::before {
+    background-image: url("/images/icons/insert2.png");
 }
 
-.fontawesome__btn:active::before {
-    color: #fff;
+.insert2__btn::before {
+    background-image: url("/images/icons/insert.png");
 }
 
-.search__icon::before {
-    content: "\f002";
-    color: #218ECB;
+.delete__btn::before {
+    background-image: url("/images/icons/delete.png");
 }
 
-.update__icon::before {
-    content: "\f304";
-    color: #218ECB;
+.save__btn::before {
+	background-image: url("/images/icons/diskette.png");
 }
 
-.insert__icon::before {
-    content: "\2b";
-    color: #00A932;
+.refresh__btn::before {
+	background-image: url("/images/icons/refresh2.png");
 }
 
-.delete__icon::before {
-    content: "\f00d";
-    color: #f00d;
-}
-
-.save__icon::before {
-    content: "\f0c7";
-    color: #218ECB;
-}
-
-.rotate__icon::before {
-	content: "\f2f1";
-	color: #999;
-}
-
-.list__icon::before {
-	content: "\f03a";
-	color: #218ECB;
+.mokrok__btn::before {
+	background-image: url("/images/icons/mokrok2.png");
 }
 
 

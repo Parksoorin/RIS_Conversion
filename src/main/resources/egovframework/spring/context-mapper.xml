@@ -13,6 +13,7 @@
 				<value>classpath:/egovframework/sqlmap/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/test/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/appn/*.xml</value>
+				<value>classpath:/egovframework/sqlmap/code/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/pandok/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/com/*.xml</value>
 			</list>

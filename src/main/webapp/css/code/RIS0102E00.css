@@ -51,60 +51,46 @@
     background-size: contain;
 }
 
-.fontawesome__btn::before {
-    width: 14px;
-    height: 14px;
-    font-family: "Font Awesome 5 Free";
-    font-weight: 900;
-    font-size: 14px;
+.icon__btn {
+    width: 60px;
 }
 
-.fontawesome__btn:hover {
-    background-color: #CFE9FF;
+.icon__btn::before {
+	content: "";
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    top: 50%;
+    left: 30px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-image: url("/images/icons/search2.png");
 }
 
-.fontawesome__btn:active {
-    color: #fff;
-    background-color: #218ECB;
+.search__btn::before {
+    background-image: url("/images/icons/search2.png");
 }
 
-.fontawesome__btn:active::before {
-    color: #fff;
+.update__btn::before {
+    background-image: url("/images/icons/update.png");
 }
 
-.search__icon::before {
-    content: "\f002";
-    color: #218ECB;
+.insert__btn::before {
+    background-image: url("/images/icons/insert2.png");
 }
 
-.update__icon::before {
-    content: "\f304";
-    color: #218ECB;
+.insert2__btn::before {
+    background-image: url("/images/icons/insert.png");
 }
 
-.insert__icon::before {
-    content: "\2b";
-    color: #00A932;
+.delete__btn::before {
+    background-image: url("/images/icons/delete.png");
 }
 
-.delete__icon::before {
-    content: "\f00d";
-    color: #f00d;
-}
-
-.save__icon::before {
-    content: "\f0c7";
-    color: #218ECB;
-}
-
-.rotate__icon::before {
-	content: "\f2f1";
-	color: #999;
-}
-
-.list__icon::before {
-	content: "\f03a";
-	color: #218ECB;
+.save__btn::before {
+	background-image: url("/images/icons/diskette.png");
 }
 
 
@@ -338,3 +324,29 @@ ul {
 .ui-jqgrid-sortable {
   position: relative;
 }
+
+
+.search__container {
+    display: flex;
+    align-items: center;
+}
+
+.box__label {
+    margin-right: 0.7rem;
+}
+
+.filter__keyword {
+    margin-right: 3rem; /* "촬영실 코드 관리"와 "사용여부" 사이의 간격을 넓힘 */
+}
+
+
+.search__btn {
+    margin-left: 1rem; /* 검색 버튼을 오른쪽으로 이동 */
+}
+
+#searchKeyword {
+    margin-right: 0.1rem; /* 검색창을 왼쪽으로 이동 */
+}
+
+
+

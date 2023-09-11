@@ -19,7 +19,6 @@ public class Ris0102ServiceImpl implements Ris0102Service{
 	
 	@Override
 	public List<Ris0102DTO> findAll(Map<String, Object> requestMap) {
-		System.out.println("imple findAll >>>>>");
 		return ris0102Mapper.findListAll(requestMap);
 	}
 	

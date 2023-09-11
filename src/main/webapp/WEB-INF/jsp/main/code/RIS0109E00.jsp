@@ -5,17 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>기준정보 입력관리</title>
+<link rel="stylesheet" type="text/css" href="/css/code/RIS0109E00.css"/>
 </head>
   <body>
     <main class="main__container">
-      <!-- 검색 -->
+      <!-- 대분류코드 리스트 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
+        <p class="filter__keyword">대분류 코드 :</p>
         <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
+          <option value="">대분류 코드를 선택해주세요.</option>
+          <option value="">컬럼적용구분</option>
+          <option value="">의사정보관리</option>
+          <option value="">사용자 권한</option>
+          <option value="">진료과 리스트</option>
+          <option value="">촬영구분</option>
+          <option value="">촬영부위</option>
+          <option value="">방향</option>
+          <option value="">촬영실 장비 코드</option>
+          <option value="">촬영실 코드</option>
+          <option value="">안내장 서식구분</option>
+          <option value="">촬영실 코드</option>
+          <option value="">안내장 서식구분</option>
+          <option value="">인터페이스 코드</option>
+          <option value="">다국어구분</option>
+          <option value="">다국어 주인어</option>
+          <option value="">국가 코드</option>
+          <option value="">통계구분</option>
+          <option value="">내원구분 관리</option>
         </select>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
       </section>
 
       <!-- 그리드 타이틀 -->
@@ -28,7 +46,6 @@
         	<button class="all__btn img__btn insert__btn">입력</button>
 		    <button class="all__btn img__btn delete__btn">삭제</button>
     		<button class="all__btn img__btn save__btn">저장</button>
-		    <button class="all__btn text__btn">글자만</button>
         </div>
       </div>
       <!-- 그리드 -->

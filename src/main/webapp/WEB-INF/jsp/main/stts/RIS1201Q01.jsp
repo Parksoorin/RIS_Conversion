@@ -14,11 +14,29 @@
 	<main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
+      	<div class="search__options">
+          <p class="filter__keyword">조회년도</p>
+          <select class="filter__options">
+            <option value="">option 1</option>
+            <option value="">option 2</option>
+          </select>
+        </div>
+        
+      	<div class="search__options">
+          <p class="filter__keyword">촬영구분</p>
+          <select class="filter__options">
+            <option value="">option 1</option>
+            <option value="">option 2</option>
+          </select>
+        </div>
+        
+      	<div class="search__options">
+          <p class="filter__keyword">촬영실</p>
+          <select class="filter__options">
+            <option value="">option 1</option>
+            <option value="">option 2</option>
+          </select>
+        </div>
         <button class="all__btn img__btn search__btn">검색</button>
       </section>
 		
@@ -33,10 +51,10 @@
       </section>
       
       <section class="chart__section">
-      	<div style="width: 60%">
+      	<div class="chart__box1">
       	  <canvas id="chart1"></canvas>
       	</div>
-      	<div style="width: 40%">
+      	<div class="chart__box2">
           <canvas id="chart2"></canvas>
         </div>
       </section>
