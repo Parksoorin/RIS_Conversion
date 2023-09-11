@@ -51,46 +51,60 @@
     background-size: contain;
 }
 
-.icon__btn {
-    width: 60px;
+.fontawesome__btn::before {
+    width: 14px;
+    height: 14px;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 14px;
 }
 
-.icon__btn::before {
-	content: "";
-    width: 12px;
-    height: 12px;
-    position: absolute;
-    top: 50%;
-    left: 30px;
-    transform: translate(-50%, -50%);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    background-image: url("/images/icons/search2.png");
+.fontawesome__btn:hover {
+    background-color: #CFE9FF;
 }
 
-.search__btn::before {
-    background-image: url("/images/icons/search2.png");
+.fontawesome__btn:active {
+    color: #fff;
+    background-color: #218ECB;
 }
 
-.update__btn::before {
-    background-image: url("/images/icons/update.png");
+.fontawesome__btn:active::before {
+    color: #fff;
 }
 
-.insert__btn::before {
-    background-image: url("/images/icons/insert2.png");
+.search__icon::before {
+    content: "\f002";
+    color: #218ECB;
 }
 
-.insert2__btn::before {
-    background-image: url("/images/icons/insert.png");
+.update__icon::before {
+    content: "\f304";
+    color: #218ECB;
 }
 
-.delete__btn::before {
-    background-image: url("/images/icons/delete.png");
+.insert__icon::before {
+    content: "\2b";
+    color: #00A932;
 }
 
-.save__btn::before {
-	background-image: url("/images/icons/diskette.png");
+.delete__icon::before {
+    content: "\f00d";
+    color: #f00d;
+}
+
+.save__icon::before {
+    content: "\f0c7";
+    color: #218ECB;
+}
+
+.rotate__icon::before {
+	content: "\f2f1";
+	color: #999;
+}
+
+.list__icon::before {
+	content: "\f03a";
+	color: #218ECB;
 }
 
 

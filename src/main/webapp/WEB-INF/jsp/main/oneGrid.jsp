@@ -15,7 +15,7 @@
           <option value="">option 1</option>
           <option value="">option 2</option>
         </select>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
       <!-- 그리드 타이틀 -->
@@ -24,12 +24,13 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
-		    <button class="all__btn text__btn">글자만</button>
-		    <button class="all__btn icon__btn"></button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+		    <button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
+    		<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+		    <button class="all__btn fontawesome__btn text__btn">글자만</button>
+		    <button class="all__btn fontawesome__btn rotate__icon"></button>
+		    <button class="all__btn fontawesome__btn list__icon"></button>
         </div>
       </div>
       <!-- 그리드 -->
