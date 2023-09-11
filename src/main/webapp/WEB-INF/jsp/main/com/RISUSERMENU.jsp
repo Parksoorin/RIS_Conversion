@@ -5,18 +5,15 @@ pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>사용자별 메뉴 관리</title>
-    <link rel="stylesheet" type="text/css" href="/css/com/user.css" />
+    <link rel="stylesheet" type="text/css" href="/css/com/com.css" />
   </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
         <p class="filter__keyword">검색어 입력 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <input type="text" class="filter__options" id="search" placeholder="Enter text to search..."></input>
+        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
       <div class="grid__container main__container-twoGrid">
@@ -41,10 +38,10 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-             	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        		<button class="all__btn img__btn insert__btn">입력</button>
-		    	<button class="all__btn img__btn delete__btn">삭제</button>
-    			<button class="all__btn img__btn save__btn">저장</button>
+             	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->

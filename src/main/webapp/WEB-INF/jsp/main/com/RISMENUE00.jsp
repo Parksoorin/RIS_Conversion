@@ -5,18 +5,15 @@ pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>메뉴 그룹 정보</title>
-    <link rel="stylesheet" type="text/css" href="/css/com/user.css" />
+    <link rel="stylesheet" type="text/css" href="/css/com/com.css" />
   </head>
   <body>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
         <p class="filter__keyword">검색어 입력 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <input type="text" class="filter__options" id="search" placeholder="Enter text to search..."></input>
+        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
       <div class="grid__container main__container-twoGrid">
@@ -27,10 +24,10 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        		<button class="all__btn img__btn insert__btn">입력</button>
-		    	<button class="all__btn img__btn delete__btn">삭제</button>
-    			<button class="all__btn img__btn save__btn">저장</button>
+              	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -49,11 +46,11 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-             	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        		<button class="all__btn img__btn insert__btn">입력</button>
-        		<button class="all__btn img__btn insert2__btn">하위메뉴</button>
-		    	<button class="all__btn img__btn delete__btn">삭제</button>
-    			<button class="all__btn img__btn save__btn">저장</button>
+             	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+        		<button class="all__btn img__btn fontawesome__btn insert2__icon">하위메뉴</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -69,16 +66,6 @@ pageEncoding="UTF-8"%>
 
     <script>
       	$(document).ready(function () {
-    	  	var mydata = [
-              	{
-	                date: "2007-10-01",
-	                name: "test",
-	                id: "id",
-	                product: "상품1",
-	                amount: "10.00",
-	                total: "210.00",
-              	},
-          	];
 		$("#list1").jqGrid({
         	url: "/RISMENUE00.do",   // 서버주소 
             reordercolNames:true,
@@ -102,6 +89,7 @@ pageEncoding="UTF-8"%>
           	autowidth: true,
           	height: "93%",
           	rownumbers: true,
+            multiselect: true,
           	gridview: true, // 선표시 true/false
           	viewsortcols: [true, "vertical", true],
           	loadComplete: function (data) {
@@ -134,7 +122,10 @@ pageEncoding="UTF-8"%>
         });
 
         $("#list2").jqGrid({
-        	url: "/RISUSERQ002.do",   // 서버주소 
+        	/* $('#list1').getRowData(rowid);
+        	var rowid, groupId;
+        	rowid  = $("#lisc001DTO").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값 */
+        	url: "/RISMENUE002.do",   // 서버주소 
             reordercolNames:true,
             postData : { type: 'A' }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
@@ -161,6 +152,7 @@ pageEncoding="UTF-8"%>
           	autowidth: true,
           	height: "93%",
           	rownumbers: true,
+            multiselect: true,
           	sortname: "id",
           	sortorder: "asc",
           	gridview: true, // 선표시 true/false

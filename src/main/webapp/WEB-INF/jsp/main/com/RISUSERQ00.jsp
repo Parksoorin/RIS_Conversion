@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>비밀번호 초기화</title>
-<link rel="stylesheet" type="text/css" href="/css/com/user.css" />
+<link rel="stylesheet" type="text/css" href="/css/com/com.css" />
 </head>
 <body>
 <main class="main__container">
@@ -13,7 +13,7 @@
       <section class="search__container">
         <p class="filter__keyword">사용자 명 :</p>
         <input type="text" class="filter__options" id="search" placeholder="Enter text to search..."></input>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
       <!-- 그리드 타이틀 -->
@@ -23,10 +23,10 @@
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
         <button class="all__btn text__btn">비밀번호 초기화</button>
-        	<button class="all__btn img__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn" id="add-row__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn" id="delete-row__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
+		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
+    		<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
         </div>
       </div>
       <!-- 그리드 -->
