@@ -1,0 +1,55 @@
+.inputDateClass {
+	margin-right : 7px;
+	
+	width : 120px;
+}
+
+.inputBetween {
+	margin-right : 7px;
+}
+
+.ptntNmInputClass {
+	margin-left: 7px;
+	margin-right: 10px;
+	
+	width : 140px;
+}
+
+.ptntNm {
+	margin-left: 5px;
+}
+
+.search::before {
+	background-image: url("../../images/icons/search.png");
+}
+
+.search {
+	margin-right: 10px;
+}
+
+.tableBackground {
+	background-color : rgb(82,86,89);
+	
+	height: 100%;
+}
+
+.tableClass {
+	color : #fff;
+	height: 100%;
+}
+
+.thNeed::before {
+	content: "*";
+}
+
+.selectClass {
+	width: 170px;
+}
+
+.tableInput {
+	width: 170px;
+}
+
+.disuniteInput {
+	width: 32%;
+}
