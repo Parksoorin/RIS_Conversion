@@ -41,8 +41,8 @@ public class ComServiceImpl implements ComService {
 		return comMapper.RisGrupList();
 	}
 	@Override
-	public List<RisGrmuDTO> RisGrmuList() {
+	public List<RisGrmuDTO> RisGrmuList(String type) {
 		// TODO Auto-generated method stub
-		return comMapper.RisGrmuList();
+		return comMapper.RisGrmuList(type);
 	}
 }

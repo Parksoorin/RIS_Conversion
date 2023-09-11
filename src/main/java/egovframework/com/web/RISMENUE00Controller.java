@@ -54,8 +54,9 @@ public class RISMENUE00Controller {
 	        HttpServletResponse response, Model model) throws Exception {
 		
 		System.out.println("/RISMENUE002.do POST!!!!");
+		
 		JSONObject json = new JSONObject(); 
-		List<RisGrmuDTO> data =comService.RisGrmuList(); 
+		List<RisGrmuDTO> data =comService.RisGrmuList(type); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 
