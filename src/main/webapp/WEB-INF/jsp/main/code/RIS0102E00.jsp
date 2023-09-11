@@ -1,61 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>기준정보 입력관리</title>
-<link rel="stylesheet" type="text/css" href="/css/code/RIS0109E00.css"/>
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <title>촬영실 관리</title>
+    <link rel="stylesheet" type="text/css" href="/css/code/RIS0102E00.css"/>
+  </head>
   <body>
     <main class="main__container">
-      <!-- 대분류코드 리스트 -->
+      <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">대분류 코드 :</p>
-        <select class="filter__options">
-          <option value="">대분류 코드를 선택해주세요.</option>
-          <option value="">컬럼적용구분</option>
-          <option value="">의사정보관리</option>
-          <option value="">사용자 권한</option>
-          <option value="">진료과 리스트</option>
-          <option value="">촬영구분</option>
-          <option value="">촬영부위</option>
-          <option value="">방향</option>
-          <option value="">촬영실 장비 코드</option>
-          <option value="">촬영실 코드</option>
-          <option value="">안내장 서식구분</option>
-          <option value="">촬영실 코드</option>
-          <option value="">안내장 서식구분</option>
-          <option value="">인터페이스 코드</option>
-          <option value="">다국어구분</option>
-          <option value="">다국어 주인어</option>
-          <option value="">국가 코드</option>
-          <option value="">통계구분</option>
-          <option value="">내원구분 관리</option>
-        </select>
-        <button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
+        <p class="filter__keyword">쵤영실 코드 관리</p>
+				<label class="box__label">사용여부</label>
+					<input style="margin-left:2rem;" type="radio" name="use_yn" id="use_yn1" value="Y" onchange="fn_egov_selectGrid();" checked/>
+					<label style="margin-right:2rem;" for="use_yn1" >사용</label>
+					<input type="radio" name="use_yn" id="use_yn2" value="N" onchange="fn_egov_selectGrid();" />
+					<label style="margin-right:2rem;" for="use_yn2">불용</label>					
+				<label class="box__label ml-2">검색 : </label>
+	            <input type="text" id="searchKeyword" value="" onkeydown="enter()"/> 
+          		<div class="inquiry__btn-right ml-2">
+		        	<a href="javascript:fn_egov_selectGrid();" class="ml-2">
+        <button class="all__btn img__btn search__btn">검색</button>
       </section>
 
-      <!-- 그리드 타이틀 -->
-      <div class="grid__title">
-        <p>그리드 타이틀</p>
+      <div class="grid__container main__container-twoGrid" style="display: flex; width: 30%;">
+        <div class="twoGrid__container">
+          <!-- 그리드 타이틀 -->
+          <div class="grid__title" style="display: flex; width: 200%;">
+            <p>그리드 타이틀</p>
 
-        <!-- 버튼 컨테이너 -->
-        <div class="btn__container">
-        	<button class="all__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
+          </div>
+          <!-- 그리드 박스 -->
+          <div class="twoGrid__box" style="display: flex; width: 200%;">
+            <section class="grid__box">
+              <!-- 그리드 -->
+              <table id="list1" class="grid1"></table>
+            </section>                      
+          </div>
         </div>
-      </div>
-      <!-- 그리드 -->
-      <div class="grid__container">
-        <section class="grid__box">
-          <!-- 그리드 -->
-          <table id="list1" class="grid1"></table>
-        </section>
-      </div>
-    </main>
+  </main>
+  
+  
+    
+    
 
     <script>
       $(document).ready(function () {
@@ -215,6 +203,53 @@
         ];
 
         $("#list1").jqGrid({
+          datatype: "local",
+          data: mydata,
+          colNames: ["구분", "코드", "코드명"],
+          colModel: [
+            { name: "division", index: "division", width: 25, align: "center" },
+            { name: "code", index: "code", width: 60, align: "center" },
+            { name: "name", index: "name", width: 100, align: "center" },
+          ],
+          guiStyle: "bootstrap",
+          autowidth: true,
+          height: "94%",
+          rownumbers: true,
+          multiselect: true,
+          sortname: "id",
+          sortorder: "asc",
+          gridview: true, // 선표시 true/false
+          viewsortcols: [true, "vertical", true],
+          loadComplete: function (data) {
+            console.log(data);
+          }, // loadComplete END
+          onSelectRow: function (rowid) {
+            console.log(rowid);
+          },
+          onSortCol: function (index, idxcol, sortorder) {
+            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+            $("#list1").jqGrid("destroyFrozenColumns");
+            var $icons = $(this.grid.headers[idxcol].el).find(
+              ">div.ui-jqgrid-sortable>span.s-ico"
+            );
+            if (this.p.sortorder === "asc") {
+              //$icons.find('>span.ui-icon-asc').show();
+              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+              $icons.find(">span.ui-icon-desc").hide();
+            } else {
+              //$icons.find('>span.ui-icon-desc').show();
+              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+              $icons.find(">span.ui-icon-asc").hide();
+            }
+            // (화살표 css 변경 후 Frozen을 다시 설정)
+            $("#list1").jqGrid("setFrozenColumns");
+            //alert(index+'/'+idxcol+'/'+sortorder);
+          },
+        });
+
+        $("#list2").jqGrid({
           datatype: "local",
           data: mydata,
           colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],

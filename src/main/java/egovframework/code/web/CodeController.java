@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,51 +38,96 @@ public class CodeController {
 	
 	// 공통코드 리스트
 	@RequestMapping(value = "/RIS0101E00.do")
-	public String RIS0101E00(Model model) throws Exception {
+	public String RIS0101E00(Model model, Map<String, Object> requestMap) throws Exception {
 		ObjectMapper objectMapper = new ObjectMapper();
-		List<Ris0101DTO> list = ris0101Service.findAll(); // 대분류 코드 리스트 데이터
+		List<Ris0101DTO> list = ris0101Service.findAll(requestMap); // 대분류 코드 리스트 데이터
 		
 		String jsonString = objectMapper.writeValueAsString(list); // 리스트 to json String
 		
 		model.addAttribute("data", jsonString);
 		return ".main/code/RIS0101E00";
 	}
-	
+
+	// 공통코드 상세화면
 	@RequestMapping(value = "/RIS0101E01.do")
 	public String RIS0101E01(Model model) throws Exception {
-		
-		List<Ris0101DTO> list = ris0101Service.findAll();
+//		List<Ris0101DTO> list = ris0101Service.findAll();
 		return ".main/code/RIS0101E01";
 	}
 
+	// 공통코드 등록화면
 	@RequestMapping(value = "/RIS0101E02.do")
 	public String RIS0101E02(Model model) throws Exception {
 		return ".main/code/RIS0101E02";
 	}
 	
+	// 기준정보 입력관리화면
 	@RequestMapping(value = "/RIS0109E00.do")
 	public String RIS0109E00(Model model) throws Exception {
 		return ".main/code/RIS0109E00";
 	}
+	
+	//촬영실 관리화면
+	@RequestMapping(value = "/RIS0102E00.do")
+	public String RIS0102E00(Model model) throws Exception {
+		return ".main/code/RIS0102E00";
+	}
+	
+	// 공통코드 대분류 리스트
+		@RequestMapping(value = "/risCodeList1Search.do", method = RequestMethod.POST)
+		@ResponseBody
+		public JSONObject risCodeList1Search(@RequestParam Map<String, Object> requestMap) throws Exception {
+			JSONObject json = new JSONObject();
+			List<Ris0101DTO> list = ris0101Service.findAll(requestMap); // 대분류 코드 리스트 데이터
+			json.put("rows", list);
+			
+			return json;
+		}
+	
 	
 	// 공통코드 중분류 리스트
 	@RequestMapping(value = "/risCodeList2.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject risCodeList2(@RequestParam Map<String, Object> requestMap) throws Exception {
 		JSONObject json = new JSONObject();
-		List<Ris0102DTO> list = ris0102Service.findAll(requestMap); // 대분류 코드 리스트 데이터
+		List<Ris0102DTO> list = ris0102Service.findAll(requestMap); // 중분류 코드 리스트 데이터
 		json.put("rows", list);
 		
 		return json;
 	}
+	
+	
 
 	// 공통코드 소분류 리스트
 	@RequestMapping(value = "/risCodeList3.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject risCodeList3(@RequestParam Map<String, Object> requestMap) throws Exception {
 		JSONObject json = new JSONObject();
-		List<Ris0103DTO> list = ris0103Service.findAll(requestMap); // 대분류 코드 리스트 데이터
+		List<Ris0103DTO> list = ris0103Service.findAll(requestMap); // 소분류 코드 리스트 데이터
 		json.put("rows", list);
+		
+		return json;
+	}
+	
+	
+	@RequestMapping(value = "/risCodeInsertData.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject risCodeInsertData(@RequestBody Map<String, Object> requestMap) throws Exception {
+		JSONObject json = new JSONObject();
+		json.put("result", "true");
+		int result = ris0101Service.insertRis0101Data(requestMap); // 대분류 코드 등록 리스트 데이터
+
+		return json;
+	}
+
+	@RequestMapping(value = "/codeDuplicateCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject codeDuplicateCheck(@RequestParam Map<String, Object> requestMap) throws Exception {
+		int result = 0;
+		JSONObject json = new JSONObject();
+		
+		result = ris0101Service.codeDuplicateCheck(requestMap); // 대분류 코드 등록 중복체크 데이터
+		json.put("result", result);
 		
 		return json;
 	}
