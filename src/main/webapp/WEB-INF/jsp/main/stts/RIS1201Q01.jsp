@@ -296,6 +296,14 @@
       });
       
       $("#selectYear").change(function() {
+    	  if (chart1) {
+          	chart1.destroy();
+          }
+          
+          if (chart2) {
+          	chart2.destroy();
+          }
+          
     	  drawGrid(); 
       });
     </script>
