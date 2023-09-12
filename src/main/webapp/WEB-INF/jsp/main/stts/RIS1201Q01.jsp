@@ -62,54 +62,41 @@
     
     <script>
       $(document).ready(function () {
-        var mydata = [
-          {date: "2007-10-01",name: "test",id: "id",product: "상품1",amount: "10.00",total: "210.00"},
-          {date: "2007-10-02",name: "test2",id: "id2",product: "상품1",amount: "20.00",total: "320.00"},
-          {date: "2007-09-01",name: "test3",id: "id3",product: "상품1",amount: "30.00",total: "430.00"},
-          {date: "2007-10-04",name: "test",id: "id4",product: "상품1",amount: "10.00",total: "210.00"},
-          {date: "2007-10-05",name: "test2",id: "id5",product: "상품1",amount: "20.00",total: "320.00",},
-          {date: "2007-09-06",name: "test3",id: "id6",product: "상품2",amount: "30.00",total: "430.00",},
-          {date: "2007-10-04",name: "test",id: "id7",product: "상품2",amount: "10.00",total: "210.00",},
-          {date: "2007-10-03",name: "test2",id: "id8",product: "상품2",amount: "20.00",total: "320.00",},
-          {date: "2007-09-01",name: "test3",id: "id9",product: "상품2",amount: "30.00",total: "430.00",},
-          {date: "2007-10-01",name: "test",id: "id10",product: "상품2",amount: "10.00",total: "210.00",},
-          {date: "2007-10-02",name: "test2",id: "id11",product: "상품2",amount: "20.00",total: "320.00",},
-          {date: "2007-09-01",name: "test3",id: "id12",product: "상품2",amount: "30.00",total: "430.00",},
-          {date: "2007-10-04",name: "test",id: "id13",product: "상품2",amount: "10.00",total: "210.00",},
-          {date: "2007-10-05",name: "test2",id: "id14",product: "상품2",amount: "20.00",total: "320.00",},
-          {date: "2007-09-06",name: "test3",id: "id15",product: "상품2",amount: "30.00",total: "430.00",},
-          {date: "2007-10-04",name: "test",id: "id16",product: "상품2",amount: "10.00",total: "210.00",},
-          {date: "2007-10-03",name: "test2",id: "id17",product: "상품2",amount: "20.00",total: "320.00",},
-          {date: "2007-09-01",name: "test3",id: "id18",product: "상품2",amount: "30.00",total: "430.00",},
-          {date: "2007-09-01",name: "test4",id: "id19",product: "상품2",amount: "30.00",total: "430.00",},
-        ];
-
         $("#list1").jqGrid({
+          url: "/stts/RIS1201Q01.do",
        	  reordercolNames:true,
-          // datatype: "json",
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          datatype: "json",
+          colNames: ["촬영실", "촬영구분", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "합계"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            { name: "id", index: "id", width: 150, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
+            { name: "roomNm", index: "roomNm", width: 100, align: "center" },
+            { name: "imgnNm", index: "imgnNm", width: 100, align: "center" },
+            { name: "january", index: "january", width: 80, align: "center" },
+            { name: "feburary", index: "feburary", width: 80, align: "center" },
+            { name: "march", index: "march", width: 80, align: "center" },
+            { name: "april", index: "april", width: 80, align: "center" },
+            { name: "may", index: "may", width: 80, align: "center" },
+            { name: "june", index: "june", width: 80, align: "center" },
+            { name: "july", index: "july", width: 80, align: "center" },
+            { name: "august", index: "august", width: 80, align: "center" },
+            { name: "september", index: "september", width: 80, align: "center" },
+            { name: "october", index: "october", width: 80, align: "center" },
+            { name: "november", index: "november", width: 80, align: "center" },
+            { name: "december", index: "december", width: 80, align: "center" },
             { name: "total", index: "total", width: 80, align: "center" },
           ],
           jsonReader: {
    		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-   		    root:'ris0601Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+   		    root:'ris1201Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
    		    records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
    	      },
           autowidth: true,
           height: "94%",
-          autoScroll: true,loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
+          autoScroll: true,
+          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
   		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
   		  rowNum: 999999,
           rownumbers: true,
-          sortname: "id",
+          sortname: "roomNm",
           sortorder: "asc",
           loadonce: true,
           viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
@@ -118,12 +105,6 @@
           }, // loadComplete END
           onSelectRow: function (rowid) {
             var rowData = $("#list1").getRowData(rowid);
-            
-        	// 판독 내용 disabled
-        	$("#viewText").attr("disabled", true);
-        	
-        	// 판독 내용에 데이터 삽입
-            $("#viewText").val(rowData.viewText);
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
