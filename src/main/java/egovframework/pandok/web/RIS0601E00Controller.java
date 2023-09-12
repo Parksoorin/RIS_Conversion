@@ -23,7 +23,7 @@ import egovframework.pandok.model.RisUserDTO;
 import egovframework.pandok.service.PandokService;
 
 @Controller
-public class PandokController {
+public class RIS0601E00Controller {
 	@Resource(name="PandokService")
 	PandokService pandokService;
 	
