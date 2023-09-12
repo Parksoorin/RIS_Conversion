@@ -1,6 +1,20 @@
 .search__options {
+	margin-right: 20px;
 	display: flex;
-	margin-right: 15px;
+	align-items: center;
+}
+
+.filter__options {
+	margin-right: 0;
+	padding: 2px;
+	width: 200px;
+	height: 30px;
+	font-size: 12px;
+	border-radius: 3px;
+}
+
+.filter__year {
+	width: 100px;
 }
 
 .grid__section {

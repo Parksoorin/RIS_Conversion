@@ -16,9 +16,15 @@
       <section class="search__container">
       	<div class="search__options">
           <p class="filter__keyword">조회년도</p>
-          <select class="filter__options">
-            <option value="">option 1</option>
-            <option value="">option 2</option>
+          <select id="selectYear" class="filter__options filter__year">
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+            <option value="2020">2020</option>
+            <option value="2019">2019</option>
+            <option value="2018">2018</option>
+            <option value="2017">2017</option>
+            <option value="2016">2016</option>
           </select>
         </div>
         
@@ -37,7 +43,7 @@
             <option value="">option 2</option>
           </select>
         </div>
-        <button class="all__btn img__btn search__btn">검색</button>
+        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 		
 	  <section class="grid__section">
@@ -61,179 +67,237 @@
     </main>
     
     <script>
+	  var months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+	  var chart1 = null;
+	  var chart2 = null;
+	  
+	  function drawGrid() {
+		  var year = $("#selectYear").val();
+	    	console.log(year);
+	    	
+	    	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
+	        $("#list1").jqGrid({
+	          url: "/stts/getRis1201Q01List.do",
+	       	  reordercolNames:true,
+	          postData : { 
+		      	  year: year,
+			  }, // 보낼 파라미터
+		      mtype:'POST',	// 전송 타입
+	          datatype: "json",
+	          colNames: [
+	        	  "촬영실", "촬영구분", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "합계",
+	        	  "1Last", "2Last", "3Last", "4Last", "5Last", "6Last", "7Last", "8Last", "9Last", "10Last", "11Last", "12Last","전년"
+	          ],
+	          colModel: [
+	            { name: "roomNm", 				index: "roomNm", 				width: 100, 	align: "center" },
+	            { name: "imgnNm", 				index: "imgnNm", 				width: 200, 	align: "center" },
+	            { name: "january", 				index: "january", 				width: 50, 		align: "center" },
+	            { name: "february", 			index: "february", 				width: 50, 		align: "center" },
+	            { name: "march", 				index: "march", 				width: 50, 		align: "center" },
+	            { name: "april", 				index: "april", 				width: 50, 		align: "center" },
+	            { name: "may", 					index: "may", 					width: 50, 		align: "center" },
+	            { name: "june", 				index: "june", 					width: 50, 		align: "center" },
+	            { name: "july", 				index: "july", 					width: 50, 		align: "center" },
+	            { name: "august", 				index: "august", 				width: 50, 		align: "center" },
+	            { name: "september", 			index: "september", 			width: 50, 		align: "center" },
+	            { name: "october", 				index: "october", 				width: 50, 		align: "center" },
+	            { name: "november", 			index: "november", 				width: 50, 		align: "center" },
+	            { name: "december", 			index: "december", 				width: 50, 		align: "center" },
+	            { name: "total", 				index: "total", 				width: 50, 		align: "center" },
+	            { name: "januaryLastYear", 		index: "januaryLastYear", 		hidden: true },
+	            { name: "februaryLastYear", 	index: "februaryLastYear", 		hidden: true },
+	            { name: "marchLastYear", 		index: "marchLastYear", 		hidden: true },
+	            { name: "aprilLastYear", 		index: "aprilLastYear", 		hidden: true },
+	            { name: "mayLastYear", 			index: "mayLastYear", 			hidden: true },
+	            { name: "juneLastYear", 		index: "juneLastYear", 			hidden: true },
+	            { name: "julyLastYear", 		index: "julyLastYear", 			hidden: true },
+	            { name: "augustLastYear", 		index: "augustLastYear", 		hidden: true },
+	            { name: "septemberLastYear", 	index: "septemberLastYear", 	hidden: true },
+	            { name: "octoberLastYear", 		index: "octoberLastYear", 		hidden: true },
+	            { name: "novemberLastYear", 	index: "novemberLastYear", 		hidden: true },
+	            { name: "decemberLastYear", 	index: "decemberLastYear", 		hidden: true },
+	            { name: "totalLastYear", 		index: "totalLastYear", 		width: 50, 		align: "center" }
+	          ],
+	          jsonReader: {
+	   		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+	   		    root:'ris1201Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+	   		    records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
+	   	      },
+	          autowidth: true,
+	          height: "94%",
+	          scroll: true,
+	          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
+	  		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
+	  		  rowNum: 999999,
+	          rownumbers: true,
+	          sortname: "roomNm",
+	          sortorder: "asc",
+	          loadonce: true,
+	          viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
+	          loadComplete: function (data) {
+	            console.log(data);
+	          }, // loadComplete END
+	          rowattr: function(rowData, currentObj, rowId) {
+	              // "소 계"인 행의 배경색 설정
+	              if (rowData.imgnNm === "소 계") {
+	                  return {'style': 'background-color: #ccc;'};
+	              } else if (rowData.roomNm === "총 합") {
+	            	  return {'style': 'background-color: #999;'};
+	              }
+	              
+	              // 스타일을 지정하지 않는 경우 빈 객체를 반환합니다.
+	              return {};
+	          },
+	          onSelectRow: function (rowid) {
+	            var rowData = $("#list1").getRowData(rowid);
+	            var year = $("#selectYear").val();
+	            var lastYear = year - 1;
+	            var monthlyData = [];
+	            var lastMonthlyData = [];
+	            var totalData = {};
+	            var lastTotalData = {};
+	            
+	            for (month of months) {
+	            	var monthValue = parseInt(rowData[month]);
+	            	monthlyData.push(monthValue);
+	            }
+	            
+	            for (month of months) {
+	            	var lastMonthValue = parseInt(rowData[month + "LastYear"]);
+	            	lastMonthlyData.push(lastMonthValue);
+	            }
+	            
+	            totalData[year] = parseInt(rowData["total"]);
+	            lastTotalData[lastYear] = parseInt(rowData["totalLastYear"]);
+	            
+	            console.log(totalData, lastTotalData);
+	            
+	            if (chart1) {
+	            	chart1.destroy();
+	            }
+	            
+	            if (chart2) {
+	            	chart2.destroy();
+	            }
+	            
+	            var context1 = $('#chart1')[0].getContext('2d');
+	            var context2 = $('#chart2')[0].getContext('2d');
+	      	  
+	    		chart1 = new Chart(context1, {
+	    			type: 'line', // 차트의 형태
+	    			data: { // 차트에 들어갈 데이터
+	    				labels: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+	       	            datasets: [
+	       	            	{ 
+	    	   	            	//데이터
+	    	   	                label: '올해 데이터',
+	    						data: monthlyData,
+	    						backgroundColor: 'rgba(255, 99, 132, 0.2)',
+	    						borderColor: 'rgba(255, 99, 132, 1)',
+	    						borderWidth: 1
+	    	   	            },
+	    	   	         	{ 
+	    	   	            	//데이터
+	    	   	                label: '전년도 데이터',
+	    						data: lastMonthlyData,
+	    						backgroundColor: 'rgba(54, 162, 235, 0.2)',
+	    						borderColor: 'rgba(54, 162, 235, 1)',
+	    						borderWidth: 1
+	    	   	            }
+	       	            ]
+	       	        },
+	       	        options: {
+	       	        	maintainAspectRatio: false, // 비율 유지 false, 부모 크기의 100%, 100%로 맞춤
+	       	        	elements: {
+	       	        		line: {
+	       	        			tension: 0.4,
+	       	        		}
+	       	        	},
+	       	            scales: {
+	       	            	xAxes: [{
+	       	            		offset: true, // true이면, 양쪽 가장자리에 추가 공간이 추가되고 축이 차트 영역에 맞게 조정
+	                			ticks: {
+	                				beginAtZero: true,
+	                			}
+	                		}],
+	       	                yAxes: [{
+	                            ticks: {
+	                                beginAtZero: true
+	                            }
+	       	                }]
+	       	            }
+	       	        }
+	       	    });
+	    		
+	    		const labels = [Object.keys(totalData)[0], Object.keys(lastTotalData)[0]];
+	      	    const values = [Object.values(totalData)[0], Object.values(lastTotalData)[0]];
+	    		
+	    		chart2 = new Chart(context2, {
+	    		    type: 'bar', // 차트의 형태
+	    		    data: { // 차트에 들어갈 데이터
+	    	            //x 축
+	    		        labels: labels,
+	    		        datasets: [
+	    		        	{
+	    		                label: 'total 데이터 비교',
+	    		                fill: false,
+	    		                data: values,
+	    		                backgroundColor: [
+	    		                	'rgba(255, 99, 132, 0.2)',
+	    		                	'rgba(54, 162, 235, 0.2)'
+	    		                ],
+	    		                borderColor: [
+	    		                	'rgba(255, 99, 132, 1)',
+	    		                	'rgba(54, 162, 235, 1)'
+	    		                ],
+	    		                borderWidth: 1
+	    		            }
+	    		        ]
+	    		    },
+	    		    options: {
+	    		    	maintainAspectRatio: false,
+	    		        scales: {
+	       	                yAxes: [{
+	                            ticks: {
+	                                beginAtZero: true
+	                            }
+	       	                }]
+	    		        }
+	    		    }
+	    		});
+	          },
+	          onSortCol: function (index, idxcol, sortorder) {
+	            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+	            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+	            $("#list1").jqGrid("destroyFrozenColumns");
+	            var $icons = $(this.grid.headers[idxcol].el).find(
+	              ">div.ui-jqgrid-sortable>span.s-ico"
+	            );
+	            if (this.p.sortorder === "asc") {
+	              //$icons.find('>span.ui-icon-asc').show();
+	              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+	              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+	              $icons.find(">span.ui-icon-desc").hide();
+	            } else {
+	              //$icons.find('>span.ui-icon-desc').show();
+	              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+	              $icons.find(">span.ui-icon-asc").hide();
+	            }
+	            // (화살표 css 변경 후 Frozen을 다시 설정)
+	            $("#list1").jqGrid("setFrozenColumns");
+	            //alert(index+'/'+idxcol+'/'+sortorder);
+	          },
+	        });
+	  }
+      
+      
       $(document).ready(function () {
-        $("#list1").jqGrid({
-          url: "/stts/RIS1201Q01.do",
-       	  reordercolNames:true,
-          datatype: "json",
-          colNames: ["촬영실", "촬영구분", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "합계"],
-          colModel: [
-            { name: "roomNm", index: "roomNm", width: 100, align: "center" },
-            { name: "imgnNm", index: "imgnNm", width: 100, align: "center" },
-            { name: "january", index: "january", width: 80, align: "center" },
-            { name: "feburary", index: "feburary", width: 80, align: "center" },
-            { name: "march", index: "march", width: 80, align: "center" },
-            { name: "april", index: "april", width: 80, align: "center" },
-            { name: "may", index: "may", width: 80, align: "center" },
-            { name: "june", index: "june", width: 80, align: "center" },
-            { name: "july", index: "july", width: 80, align: "center" },
-            { name: "august", index: "august", width: 80, align: "center" },
-            { name: "september", index: "september", width: 80, align: "center" },
-            { name: "october", index: "october", width: 80, align: "center" },
-            { name: "november", index: "november", width: 80, align: "center" },
-            { name: "december", index: "december", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          jsonReader: {
-   		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-   		    root:'ris1201Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
-   		    records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
-   	      },
-          autowidth: true,
-          height: "94%",
-          autoScroll: true,
-          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
-  		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
-  		  rowNum: 999999,
-          rownumbers: true,
-          sortname: "roomNm",
-          sortorder: "asc",
-          loadonce: true,
-          viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            var rowData = $("#list1").getRowData(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
+    	  drawGrid();
       });
       
-      
-      // 차트
-      var context1 = $('#chart1')[0].getContext('2d');
-      var context2 = $('#chart2')[0].getContext('2d');
-      
-      var chart1 = new Chart(context1, {
-        type: 'line', // 차트의 형태
-        data: { // 차트에 들어갈 데이터
-            labels: [
-                //x 축
-                '1','2','3','4','5','6','7'
-            ],
-            datasets: [
-                { //데이터
-                    label: 'test1', //차트 제목
-                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-                    data: [
-                        21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
-                    ],
-                    backgroundColor: [
-                        //색상
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        //경계선 색상
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1 //경계선 굵기
-                }
-            ]
-        },
-        options: {
-        	maintainAspectRatio: false,
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                ]
-            }
-        }
-    });
-      
-    var chart2 = new Chart(context2, {
-        type: 'line', // 차트의 형태
-        data: { // 차트에 들어갈 데이터
-            labels: [
-                //x 축
-                '1','2','3','4','5','6','7'
-            ],
-            datasets: [
-                { //데이터
-                    label: 'test1', //차트 제목
-                    fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-                    data: [
-                        21,19,25,20,23,26,25 //x축 label에 대응되는 데이터 값
-                    ],
-                    backgroundColor: [
-                        //색상
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        //경계선 색상
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1 //경계선 굵기
-                }
-            ]
-        },
-        options: {
-        	maintainAspectRatio: false,
-            scales: {
-                yAxes: [
-                    {
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }
-                ]
-            }
-        }
-    });
+      $("#selectYear").change(function() {
+    	  drawGrid(); 
+      });
     </script>
 </body>
 </html>

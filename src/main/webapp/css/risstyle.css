@@ -333,6 +333,7 @@ ul {
 .ui-widget-header .ui-state-highlight {
   color: #fff;
   background: #218ecb;
+  font-weight: bold;
 }
 
 .ui-jqgrid-sortable {
