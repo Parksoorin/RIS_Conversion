@@ -1,6 +1,7 @@
 package egovframework.stts.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -16,7 +17,7 @@ public class SttsServiceImpl implements SttsService {
 	private SttsMapper sttsMapper;
 	
 	@Override
-	public List<Ris1201DTO> getRis1201Q01() {
-		return sttsMapper.getRis1201Q01();
+	public List<Ris1201DTO> getRis1201List(Map<String, Integer> param) {
+		return sttsMapper.getRis1201List(param);
 	}
 }

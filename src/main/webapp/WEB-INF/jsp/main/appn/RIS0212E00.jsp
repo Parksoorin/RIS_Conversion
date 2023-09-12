@@ -45,7 +45,7 @@
       $(document).ready(function () {
        
         $("#list1").jqGrid({
-          url: '/appn/ris0212List/ris0212.do',
+          url: '/appn/RIS0212E00/ris0212.do',
           datatype: "json",
           jsonReader: {
             repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
