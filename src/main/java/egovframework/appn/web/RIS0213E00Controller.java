@@ -55,7 +55,7 @@ public class RIS0213E00Controller {
 	
 	@PostMapping("/ris0213List/ris0213.do")
 	@ResponseBody
-	public ResponseEntity<?> ris0213ListPostMapping(@Valid @RequestBody List<Ris0213DTO> list){
+	public ResponseEntity<?> ris0213ListPostMapping(@RequestBody List<Ris0213DTO> list){
 		System.out.println("/appn/ris0213List/ris0213.do Post Mapping!!!");
 		int result = service.ris0213Process(list);
 		return ResponseEntity.ok().body(result);

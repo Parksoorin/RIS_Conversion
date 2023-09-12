@@ -20,14 +20,14 @@
 	</select>
 	
 	<update id="ris0213Update" parameterType="egovframework.appn.model.Ris0213DTO">	
-	   	<foreach collection="list" item='item' separator=";">
-		UPDATE	 
+		<foreach collection="list" item='item' separator=';' >
+	   	UPDATE	 
 			   RIS0213
-		   SET 
-	   	  	   APPNN_IMPS_TEXT = #{item.appnImpsText}
-		 	<where>	
+		SET
+	   	  	   APPN_IMPS_TEXT = #{item.appnImpsText}
+		WHERE    	
 		 		<if test="item.hsptId != null">
-		 			    HSPT_ID = #{item.hsptId}
+				    HSPT_ID = #{item.hsptId}
 		 		</if>
 		 		<if test="item.imgnRoomCd != null">
 		 			AND IMGN_ROOM_CD = #{item.imgnRoomCd}
@@ -36,10 +36,9 @@
 		 			AND STRT_DATE = #{item.strtDate}
 		 		</if>
 		 		<if test="item.strtTime != null">
-		 			AND STRT_TIME = #{item.strtTime"}
+		 			AND STRT_TIME = #{item.strtTime}
 		 		</if>
-		 	</where>
-		</foreach>
+		 </foreach>
 	</update>
 	
 	<insert id="ris0213Insert" parameterType="egovframework.appn.model.Ris0213DTO">
