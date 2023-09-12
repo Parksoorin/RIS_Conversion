@@ -1,0 +1,90 @@
+.dateDiv {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-right: 5px;
+}
+
+.ptntNmClass {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-right: 5px;
+}
+
+.selectClass {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+.inputDateClass {
+	margin-right : 7px;
+	
+	width : 120px;
+}
+
+.inputBetween {
+	margin-right : 7px;
+}
+
+.ptntNm {
+	margin-left: 5px;
+}
+
+.ptntNmInputClass {
+	margin-left: 7px;
+	margin-right: 10px;
+	
+	width : 140px;
+}
+
+.icon__btn {
+	margin-right: 10px;
+}
+
+.statusClass {
+	margin-right: 7px;
+}
+
+.roomClass {
+	margin-left: 10px;
+	margin-right: 7px;
+}
+
+.statusSelectClass {
+	width: 110px;
+}
+
+.roomSelectClass {
+	width: 200px;
+}
+
+.pacsUserDiv {
+	display: flex;
+}
+
+.pacsSelectClass {
+	margin-left: 10px;
+}
+
+.fileCheck__icon::before {
+	content: "\e5a0";
+	color: #218ECB;
+}
+
+.fileXmark__icon::before {
+	content: "\e5a1";
+	color: rgb(255, 128, 64);
+}
+
+.ptntGrid {
+	width: 40%;
+}
+
+.pacsGrid {
+	width: 60%;
+}

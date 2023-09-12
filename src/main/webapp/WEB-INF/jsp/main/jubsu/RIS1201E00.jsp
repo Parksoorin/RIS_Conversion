@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>영상 접수 관리</title>
+<link rel="stylesheet" href="/css/jubsu/RIS1201E00.css" />
 </head>
   <body>
     <main class="main__container">
@@ -19,7 +20,7 @@
       </section>
 
       <div class="grid__container main__container-twoGrid">
-        <div class="twoGrid__container">
+        <div class="twoGrid__container ptntGrid">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
             <p>그리드 타이틀</p>
@@ -41,7 +42,7 @@
           </div>
         </div>
 		
-		<div class="threeGrid__container">
+		<div class="threeGrid__container roomGrid">
 	        <div class="twoGrid__container threeGrid__container-subcontainer">
 	          <!-- 그리드 타이틀 -->
 	          <div class="grid__title">

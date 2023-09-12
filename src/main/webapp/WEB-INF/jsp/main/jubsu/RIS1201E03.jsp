@@ -24,7 +24,7 @@
 		</section>
 
 		<div class="grid__container main__container-twoGrid">
-			<div class="twoGrid__container">
+			<div class="twoGrid__container recipeGrid">
 				<!-- 그리드 타이틀 -->
 				<div class="grid__title">
 					<p>처방 목록</p>
@@ -39,7 +39,7 @@
 				</div>
 			</div>
 
-			<div class="threeGrid__container">
+			<div class="threeGrid__container ptntGrid">
 				<div class="twoGrid__container threeGrid__container-subcontainer">
 					<!-- 그리드 타이틀 -->
 					<div class="grid__title">
