@@ -29,12 +29,12 @@ public class RIS0213E00Controller {
 	
 	/*
 	 * 예외 기준 관리 - Controller
-	 * GET		/appn/ris0213List.do	WEB-INF/appn/RIS0213E00.jsp forward
+	 * GET		/appn/RIS0213E00.do	WEB-INF/appn/RIS0213E00.jsp forward
 	 */
 	
-	@GetMapping("/ris0213List.do")
+	@GetMapping("/RIS0213E00.do")
 	public String ris0213ListGetMapping() {
-		System.out.println("/ris0213List.do Get Request!!!");
+		System.out.println("/RIS0213E00.do Get Request!!!");
 		return ".main/appn/RIS0213E00";
 	}
 	
@@ -44,19 +44,19 @@ public class RIS0213E00Controller {
 	 * POST		/appn/ris0213List/ris0213.do	ris0213 모든 변경사항 저장
 	 */
 	
-	@GetMapping("/ris0213List/ris0213.do")
+	@GetMapping("/RIS0213E00/ris0213.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0213ListRestGetMapping() {
-		System.out.println("/appn/ris0213List/ris0213.do Get Mapping!!!");
+		System.out.println("/appn/RIS0213E00/ris0213.do Get Mapping!!!");
 		List<Ris0213DTO> rows = service.ris0213Select();
 		
 		return ResponseEntity.ok().body(rows);
 	}
 	
-	@PostMapping("/ris0213List/ris0213.do")
+	@PostMapping("/RIS0213E00/ris0213.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0213ListPostMapping(@RequestBody List<Ris0213DTO> list){
-		System.out.println("/appn/ris0213List/ris0213.do Post Mapping!!!");
+		System.out.println("/appn/RIS0213E00/ris0213.do Post Mapping!!!");
 		int result = service.ris0213Process(list);
 		return ResponseEntity.ok().body(result);
 	}

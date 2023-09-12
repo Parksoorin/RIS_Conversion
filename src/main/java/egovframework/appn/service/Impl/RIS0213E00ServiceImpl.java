@@ -63,13 +63,8 @@ public class RIS0213E00ServiceImpl implements RIS0213E00Service{
 		}
 		
 		if(updateList.size()>0) {
-			
-			updateList.stream().forEach(e -> System.out.println(e.getFlag()));
 			result += mapper.ris0213Update(updateList);
-			
-//			for(Ris0213DTO dto : updateList) {
-//				result += mapper.ris0213Update(dto);				
-//			}
+		
 			
 		}
 		

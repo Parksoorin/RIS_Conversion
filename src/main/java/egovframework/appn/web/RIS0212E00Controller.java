@@ -28,34 +28,34 @@ public class RIS0212E00Controller {
 	
 	/*
 	 * 휴일 기준 관리 - Controller
-	 * GET		/appn/ris0212List.do	WEB-INF/appn/RIS0212E00.jsp forward
+	 * GET		/appn/RIS0212E00.do	WEB-INF/appn/RIS0212E00.jsp forward
 	 */
 	
-	@GetMapping("/ris0212List.do")
+	@GetMapping("/RIS0212E00.do")
 	public String ris0212ListGetMapping() {
-		System.out.println("ris0212List.do Get Mapping!!!");		
+		System.out.println("RIS0212E00.do Get Mapping!!!");		
 		return ".main/appn/RIS0212E00";
 	}
 	
 	/*
 	 * 휴일 기준 관리 - RestController
-	 * GET		/appn/ris0212List/ris0212.do	ris0212 Data를 전체 조회
-	 * POST		/appn/ris0212List/ris0212.do	ris0212List 모든 변경사항 저장
+	 * GET		/appn/RIS0212E00/ris0212.do	ris0212 Data를 전체 조회
+	 * POST		/appn/RIS0212E00/ris0212.do	ris0212List 모든 변경사항 저장
 	 */
 	
-	@GetMapping("/ris0212List/ris0212.do")
+	@GetMapping("/RIS0212E00/ris0212.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0212ListRestGetMapping() {
-		System.out.println("/appn/ris0212List/ris0212.do Get Mapping!!!");
+		System.out.println("/appn/RIS0212E00/ris0212.do Get Mapping!!!");
 		List<Ris0212DTO> rows = service.ris0212Select();
 		
 		return ResponseEntity.ok().body(rows);
 	}
 	
-	@PostMapping("/ris0212List/ris0212.do")
+	@PostMapping("/RIS0212E00/ris0212.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0212ListPostMapping(@Valid @RequestBody List<Ris0212DTO> list){
-		System.out.println("/appn/ris0212List/ris0212.do Post Mapping!!!");
+		System.out.println("/appn/RIS0212E00/ris0212.do Post Mapping!!!");
 		return ResponseEntity.ok('2');
 	}
 	

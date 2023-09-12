@@ -30,9 +30,9 @@ public class RIS1211E00Controller {
 	 * GET		/appn/RIS1211E00.do	WEB-INF/appn/RIS1211E00.jsp forward
 	 */
 	
-	@GetMapping("/ris1211e00.do")
+	@GetMapping("/RIS1211E00.do")
 	public String ris1211e00GetMapping() {
-		System.out.println("/ris1211e00.do Get Mapping!!!");
+		System.out.println("/RIS1211E00.do Get Mapping!!!");
 		return ".main/appn/RIS1211E00";
 	}
 	
@@ -42,9 +42,9 @@ public class RIS1211E00Controller {
 	 * POST										ris0211 새로운 Data 저장
 	 */
 	
-	@GetMapping("/ris1211e00/ris0211.do")
+	@GetMapping("/RIS1211E00/ris0211.do")
 	public ResponseEntity<?> ris1211e00RestGetMapping() {
-		System.out.println("appn/ris1211e00/ris0211.do Get Mapping!!!");
+		System.out.println("appn/RIS1211E00/ris0211.do Get Mapping!!!");
 		return ResponseEntity.ok().body("");
 	}
 	

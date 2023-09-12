@@ -52,7 +52,7 @@
         
 
         $("#list1").jqGrid({
-          url: "/appn/ris0213List/ris0213.do",
+          url: "/appn/RIS0213E00/ris0213.do",
           reordercolNames : true,
           datatype: "json",
           jsonReader: {

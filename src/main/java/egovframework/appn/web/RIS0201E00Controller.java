@@ -30,26 +30,26 @@ public class RIS0201E00Controller {
 	
 	/*
 	 * 예약 기준 관리 - Controller
-	 * GET		/appn/risappn/ris0210.do	
+	 * GET		/appn/risappn/RIS0201E00.do	
 	*/
-	@GetMapping("/risappn.do")
+	@GetMapping("/RIS0201E00.do")
 	
 	public String risappnGetMapping() {
-		System.out.println("/risappn.do Get Request!!!");
+		System.out.println("/RIS0201E00.do Get Request!!!");
 		
 		return ".main/appn/RIS0201E00";
 	} 
 	 
 	 /*
 	 * 예약 기준 관리 - RESTController
-	 * GET		/appn/risappn/ris0210.do	ris0210 조건에 맞는 조회
+	 * GET		/appn/RIS0201E00/ris0210.do	ris0210 조건에 맞는 조회
 	 * POST									ris0210 새로운 Data 저장
 	 */
 	
-	@GetMapping("/risappn/ris0210.do")
+	@GetMapping("/RIS0201E00/ris0210.do")
 	@ResponseBody
 	public ResponseEntity<?> risappnRestGetMapping() {
-		System.out.println("/appn/risappn/ris0210.do	 Get Mapping!!!");
+		System.out.println("/appn/RIS0201E00/ris0210.do	 Get Mapping!!!");
 
 		return ResponseEntity.ok().body("");
 	}
