@@ -7,26 +7,28 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import egovframework.appn.mapper.RIS0213E00Mapper;
 import egovframework.appn.mapper.RisAppnMapper;
 import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.model.Ris0213DTO;
+import egovframework.appn.service.RIS0213E00Service;
 import egovframework.appn.service.RisAppnService;
 import egovframework.appn.util.RisAppnUtil;
 import lombok.extern.slf4j.Slf4j;
 
-
-@Service("risAppnService")
+// 예외 기준 관리
+@Service("RIS0213E00Service")
 @Slf4j
-public class RisAppnServiceImpl implements RisAppnService{
+public class RIS0213E00ServiceImpl implements RIS0213E00Service{
 
-	@Resource(name="risAppnMapper")
-	private RisAppnMapper risAppnMapper;
+	@Resource(name="RIS0213E00Mapper")
+	private RIS0213E00Mapper mapper;
 	
 	// 예약 예외 기준 관리
 
 	@Override
 	public List<Ris0213DTO> ris0213Select() {
-		return risAppnMapper.ris0213Select();
+		return mapper.ris0213Select();
 	}
 
 	
@@ -57,15 +59,15 @@ public class RisAppnServiceImpl implements RisAppnService{
 		};
 		
 		if(insertList.size()>0) {
-			result += risAppnMapper.ris0213Insert(insertList);
+			result += mapper.ris0213Insert(insertList);
 		}
 		
 		if(updateList.size()>0) {
-			result += risAppnMapper.ris0213Update(updateList);
+			result += mapper.ris0213Update(updateList);
 		}
 		
 		if(deleteList.size()>0) {
-			result += risAppnMapper.ris0213Delete(deleteList);
+			result += mapper.ris0213Delete(deleteList);
 		}
 		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 		log.info("Ris0213 Process --- 2 {}", result);
@@ -76,17 +78,8 @@ public class RisAppnServiceImpl implements RisAppnService{
 	
 	
 	
-	@Override
-	public List<Ris0212DTO> ris0212Select() {
-		return risAppnMapper.ris0212Select();
-	}
 
-	@Override
-	public int ris0212Process(final List<Ris0212DTO> list) {
-		int result = 0;
-		
-		return result;
-	}
+	
 
 
 
