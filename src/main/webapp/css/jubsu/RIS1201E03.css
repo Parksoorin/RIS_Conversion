@@ -19,12 +19,13 @@
 	margin-left: 5px;
 }
 
-.search::before {
-	background-image: url("../../images/icons/search.png");
+.icon_margin {
+	margin-right: 10px;
 }
 
-.search {
-	margin-right: 10px;
+.circlePlus__icon::before {
+	content: "\e494";
+    color: rgb(128, 128, 128);
 }
 
 .tableBackground {

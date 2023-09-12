@@ -30,10 +30,6 @@
 	width : 140px;
 }
 
-.search::before {
-	background-image: url("../../images/icons/search.png");
-}
-
 .searchKubun__div {
 	display: flex;
 	justify-content: center;
@@ -63,29 +59,8 @@
 	width : 110px;
 }
 
-.pacsUserSearch {
+.icon__margin {
 	margin-right : 10px;
-}
-
-.fontawesome__btn::before {
-	width: 14px;
-	height: 14px;
-	font-family: "Font Awesome 5 Free";
-	font-weight: 900;
-	font-size: 14px;
-}
-
-.fontawesome__btn:hover {
-	background-color: #CFE9FF;
-}
-
-.fontawesome__btn:active {
-	color: #fff;
-	background-color: #218ECB;
-}
-
-.fontawesome__btn:active::before{	
-	color: #fff;
 }
 
 .receipt__icon::before {

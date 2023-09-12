@@ -16,10 +16,10 @@
 			<p class="inputBetween">~</p>
 			<input type="date" class="inputDateClass" />
 			<p class="ptntNm">환자명</p>
-			<input type="text" class="ptntNmInputClass"/>
+			<input type="text" class="ptntNmInputClass" />
 
-			<button class="all__btn img__btn search__btn search"></button>
-			<button class="all__btn img__btn search__btn pacsUserSearch"></button>
+			<button class="all__btn fontawesome__btn list__icon icon_margin"></button>
+			<button class="all__btn img__btn fontawesome__btn search__icon"></button>
 
 		</section>
 
@@ -48,10 +48,10 @@
 						<!-- 버튼 컨테이너 -->
 						<div class="btn__container">
 
-							<button class="all__btn img__btn img__btn update__btn">수정</button>
-							<button class="all__btn img__btn insert__btn">입력</button>
-							<button class="all__btn img__btn insert__btn">처방추가</button>
-							<button class="all__btn img__btn save__btn">저장</button>
+							<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+							<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+							<button class="all__btn img__btn fontawesome__btn circlePlus__icon">처방추가</button>
+							<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
 
 						</div>
 					</div>
@@ -68,55 +68,51 @@
 										<col width="35%">
 									</colgroup>
 									<tbody class="tbodyClass">
-									<tr>
-										<th class="thNeed">환자명</th>
-										<td><input type="text" class="tableInput" disabled="disabled" /></td>
-										<th class="thNeed">환자ID</th>
-										<td><input type="text" class="tableInput" disabled="disabled" /></td>
-									</tr>
-									
-									<tr>
-										<th class="thNeed">처방일</th>
-										<td><input type="date" class="tableInput" disabled="disabled" /></td>
-										<th class="thNeed">내원구분</th>
-										<td>
-											<select class="selectClass" disabled="disabled">
-												<option>외래</option>
-												<option>입원</option>
-												<option>응급</option>
-												<option>검진</option>
-											</select>
-										</td>
-									</tr>
-									
-									<tr>
-										<th class="thNeed">진료과</th>
-										<td>
-											<select class="selectClass" disabled="disabled">
-												<option>선택</option>
-												<option>내과</option>
-												<option>정형외과</option>
-											</select>
-										</td>
-										<th class="thNeed">의사정보</th>
-										<td>
-											<select class="selectClass" disabled="disabled">
-												<option>의사정보</option>
-												<option>이동준</option>
-											</select>
-										</td>
-									</tr>
-									
-									<tr>
-										<th>희망일</th>
-										<td><input type="date" class="tableInput" disabled="disabled" /></td>
-										<th>병동/병실</th>
-										<td class="tdDisplay">
-											<input type="text" class="disuniteInput" disabled="disabled" />
-											/
-											<input type="text" class="disuniteInput" disabled="disabled" />
-										</td>
-									</tr>
+										<tr>
+											<th class="thNeed">환자명</th>
+											<td><input type="text" class="tableInput"
+												disabled="disabled" /></td>
+											<th class="thNeed">환자ID</th>
+											<td><input type="text" class="tableInput"
+												disabled="disabled" /></td>
+										</tr>
+
+										<tr>
+											<th class="thNeed">처방일</th>
+											<td><input type="date" class="tableInput"
+												disabled="disabled" /></td>
+											<th class="thNeed">내원구분</th>
+											<td><select class="selectClass" disabled="disabled">
+													<option>외래</option>
+													<option>입원</option>
+													<option>응급</option>
+													<option>검진</option>
+											</select></td>
+										</tr>
+
+										<tr>
+											<th class="thNeed">진료과</th>
+											<td><select class="selectClass" disabled="disabled">
+													<option>선택</option>
+													<option>내과</option>
+													<option>정형외과</option>
+											</select></td>
+											<th class="thNeed">의사정보</th>
+											<td><select class="selectClass" disabled="disabled">
+													<option>의사정보</option>
+													<option>이동준</option>
+											</select></td>
+										</tr>
+
+										<tr>
+											<th>희망일</th>
+											<td><input type="date" class="tableInput"
+												disabled="disabled" /></td>
+											<th>병동/병실</th>
+											<td class="tdDisplay"><input type="text"
+												class="disuniteInput" disabled="disabled" /> / <input
+												type="text" class="disuniteInput" disabled="disabled" /></td>
+										</tr>
 									</tbody>
 								</table>
 							</div>
