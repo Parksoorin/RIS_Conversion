@@ -65,7 +65,8 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-      	$(document).ready(function () {
+    $(document).ready(function () {
+    	$("#list1").jqGrid("GridUnload");
 		$("#list1").jqGrid({
         	url: "/RISMENUE00.do",   // 서버주소 
             reordercolNames:true,
@@ -85,107 +86,102 @@ pageEncoding="UTF-8"%>
 			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
 			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
 		  	},
-          	guiStyle: "bootstrap",
           	autowidth: true,
           	height: "93%",
           	rownumbers: true,
             multiselect: true,
           	gridview: true, // 선표시 true/false
-          	viewsortcols: [true, "vertical", true],
           	loadComplete: function (data) {
             	console.log(data);
           	}, // loadComplete END
           	onSelectRow: function (rowid) {
             	console.log(rowid);
           	},
-          	onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
+          	
+          	onCellSelect: function(rowid, iCol, cellcontent, e) {
+                $('#list1').jqGrid('setSelection',rowid);
+                Grid2(); // Grid3 함수 호출
             }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
+            
         });
 
-        $("#list2").jqGrid({
-        	/* $('#list1').getRowData(rowid);
-        	var rowid, groupId;
-        	rowid  = $("#lisc001DTO").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값 */
-        	url: "/RISMENUE002.do",   // 서버주소 
-            reordercolNames:true,
-            postData : { type: 'A' }, // 보낼 파라미터
-            mtype:'POST',   // 전송 타입
-            datatype: "json",
-            colNames: ["메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
-            colModel: [
-	            { name: "menuId", index: "menuId", width: 50, align: "center" },
-	            { name: "pgrmId", index: "pgrmId", width: 90, align: "center" },
-	            { name: "menuName", index: "menuName", width: 150, align: "center" },
-	            { name: "menuName", index: "menuName", width: 120, align: "center" },
-	            { name: "menuNameSub", index: "menuNameSub", width: 120, align: "center" },
-	            { name: "upperMenuId", index: "upperMenuId", width: 80, align: "center" },
-	            { name: "menuLevel", index: "menuLevel", width: 60, align: "center" },
-	            { name: "otptSqnc", index: "otptSqnc", width: 50, align: "center" },
-	            { name: "useYn", index: "useYn", width: 50, align: "center" },
-          	],
-          	jsonReader: 
-		  	{
-			  	repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
-			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
-		  	},
-          	guiStyle: "bootstrap",
-          	autowidth: true,
-          	height: "93%",
-          	rownumbers: true,
-            multiselect: true,
-          	sortname: "id",
-          	sortorder: "asc",
-          	gridview: true, // 선표시 true/false
-          	viewsortcols: [true, "vertical", true],
-          	loadComplete: function (data) {
-            	console.log(data);
-          	}, // loadComplete END
-          	onSelectRow: function (rowid) {
-            	console.log(rowid);
-          	},
-          	onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
-      });
+
+		function Grid2(){
+			$('#list1').getRowData(rowid);
+	        var rowid, menuGroupId;
+	        rowid  = $("#list1").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값 */
+	        menuGroupId = $("#list1").jqGrid('getRowData', rowid).menuGroupId;
+			
+	        $("#list2").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
+			$("#list2").jqGrid({
+	        	url: "/RISMENUE002.do",   // 서버주소 
+	            reordercolNames:true,
+	            postData : { type: menuGroupId }, // 보낼 파라미터
+	            mtype:'POST',   // 전송 타입
+	            datatype: "json",
+	            colNames: ["메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
+	            colModel: [
+		            { name: "menuId", index: "menuId", width: 50, align: "center" },
+		            { name: "pgrmId", index: "pgrmId", width: 90, align: "center" },
+		            { name: "menuName", index: "menuName", width: 150, align: "center" },
+		            { name: "menuName", index: "menuName", width: 120, align: "center" },
+		            { name: "menuNameSub", index: "menuNameSub", width: 120, align: "center" },
+		            { name: "upperMenuId", index: "upperMenuId", width: 80, align: "center" },
+		            { name: "menuLevel", index: "menuLevel", width: 60, align: "center" },
+		            { name: "otptSqnc", index: "otptSqnc", width: 50, align: "center" },
+		            { name: "useYn", index: "useYn", width: 50, align: "center" },
+	          	],
+	          	jsonReader: 
+			  	{
+				  	repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+				  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+				  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
+			  	},
+	          	guiStyle: "bootstrap",
+	          	autowidth: true,
+	          	height: "93%",
+	          	rownumbers: true,
+	            multiselect: true,
+	          	sortname: "id",
+	          	sortorder: "asc",
+	          	gridview: true, // 선표시 true/false
+	          	viewsortcols: [true, "vertical", true],
+	          	loadComplete: function (data) {
+	            	console.log(data);
+	          	}, // loadComplete END
+	          	onSelectRow: function (rowid) {
+	            	console.log(rowid);
+	          	},
+	          	onSortCol: function (index, idxcol, sortorder) {
+		            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+		            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+		            $("#list1").jqGrid("destroyFrozenColumns");
+		            var $icons = $(this.grid.headers[idxcol].el).find(
+		              ">div.ui-jqgrid-sortable>span.s-ico"
+		            );
+		            if (this.p.sortorder === "asc") {
+		              //$icons.find('>span.ui-icon-asc').show();
+		              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+		              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+		              $icons.find(">span.ui-icon-desc").hide();
+		            } else {
+		              //$icons.find('>span.ui-icon-desc').show();
+		              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+		              $icons.find(">span.ui-icon-asc").hide();
+		            }
+		            // (화살표 css 변경 후 Frozen을 다시 설정)
+		            $("#list1").jqGrid("setFrozenColumns");
+		            //alert(index+'/'+idxcol+'/'+sortorder);
+	          	},
+	        });
+		};
+		
+        
+        
+        
+        
+        
+    });
     </script>
   </body>
 </html>

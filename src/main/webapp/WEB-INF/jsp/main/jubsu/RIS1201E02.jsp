@@ -20,7 +20,7 @@
 				<input type="date" class="inputDateEnd " />
 				<p class="ptntNmClass">환자명</p>
 				<input type="text" class="ptntNmInputClass" />
-				<button class="all__btn img__btn search__btn search"></button>
+				<button class="all__btn fontawesome__btn list__icon"></button>
 			</div>
 			
 			<div class="searchKubun__div">
@@ -39,7 +39,7 @@
 					<option>pacsUser4</option>
 				</select>
 				
-				<button class="all__btn img__btn search__btn pacsUserSearch"></button>
+				<button class="all__btn img__btn fontawesome__btn search__icon icon__margin"></button>
 				<button class="all__btn img__btn fontawesome__btn receipt__icon">접수</button>
 			</div>
 		</section>

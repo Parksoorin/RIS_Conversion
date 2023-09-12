@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.com.mapper.ComMapper">
+	<!-- 사용자관리 페이지 그리드 -->
 	<select id="RisUserList" resultType="egovframework.com.model.RisUserDTO">
 		SELECT LOGIN_ID, LOGIN_NM, LOGIN_PWD, USER_GRADE, START_DATE, END_DATE, ERROR_CNT
 		FROM risuser
 	</select>
 	
+	<!-- 프로그램 정보 관리 그리드 -->
 	<select id="RisPrgmList" resultType="egovframework.com.model.RisPgrmDTO">
 		SELECT SYSTEM_ID, PGRM_ID, PGRM_NAME, PGRM_URL, PGRM_TYPE, PGRM_INFO, USE_YN, END_YN
 		FROM rispgrm
 	</select>
 	
+	<!-- 프로그램 기능 권한 그리드 -->
 	<select id="RisBtnList" resultType="egovframework.com.model.RisBtnDTO">
 		SELECT DATA_GUBUN, USER_GRADE, PGRM_ID, PGRM_BTN, USE_YN
 		FROM risbtn
 	</select>
 	
+	<!-- 메뉴 정보 관리 그리드1 -->
 	<select id="RisGrupList" resultType="egovframework.com.model.RisGrupDTO">
 		SELECT DISTINCT MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
 		FROM risgrup
 		ORDER BY OTPT_SQNC ASC
 	</select>
 	
-	<select id="RisGrmuList" resultType="egovframework.com.model.RisGrmuDTO">
+	<!-- 메뉴 정보 관리 그리드2 -->
+	<select id="RisGrmuList" parameterType="String" resultType="egovframework.com.model.RisGrmuDTO">
 		SELECT MENU_ID, PGRM_ID, MENU_NAME, MENU_NAME_SUB, UPPER_MENU_ID, MENU_LEVEL, OTPT_SQNC, USE_YN
 		FROM risgrmu
+		WHERE MENU_GROUP_ID = #{type}
+	</select>
+	
+	<!-- 사용자별 메뉴관리 그리드1 -->
+	<select id="RisUserMenuList" resultType="egovframework.com.model.RisUserDTO">
+		SELECT DISTINCT LOGIN_ID, LOGIN_NM, USER_GRADE, USER_GRADE, HSPT_ID
+		FROM risuser
+	</select>
+	
+	<!-- 사용자별 메뉴관리 그리드2 -->
+	<select id="RisUserMenuList2" parameterType="String" resultType="egovframework.com.model.RisUrmnDTO">
+		SELECT MENU_GROUP_ID, MENU_NAME, MENU_ID, MENU_GRADE, USE_YN, OTPT_SQNC
+		FROM risurmn
+		WHERE LOGIN_ID = #{type}
+		AND HSPT_ID = #{type2}
 	</select>
 </mapper>

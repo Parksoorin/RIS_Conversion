@@ -1,0 +1,113 @@
+.ptntGrid {
+	width: 40%;
+}
+
+.roomGrid {
+	width: 60%;
+}
+
+.searchDaily__div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-right: 5px;
+}
+
+.ptntNm__div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-right: 5px;
+}
+
+.kubun__div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-right: 5px;
+	margin-left: 7px;
+}
+
+.inputDateStart {
+	margin-right : 7px;
+	
+	width : 120px;
+}
+
+.inputDateEnd {	
+	margin-left : 7px;
+	margin-right : 7px;
+	
+	width : 120px;
+}
+
+.ptntNmClass {
+	margin-right : 7px;
+}
+
+.ptntNmInputClass {
+	margin-right : 7px;
+	
+	width : 140px;
+}
+
+.statusClass {
+	margin-right: 7px;
+}
+
+.roomClass {
+	margin-left: 10px;
+	margin-right: 7px;
+}
+
+.statusSelectClass {
+	width: 110px;
+}
+
+.roomSelectClass {
+	width: 200px;
+}
+
+.room__Div {
+	display: flex;
+}
+
+.room__Class {
+	margin-left: 10px;
+}
+
+.pacsUserDiv {
+	display: flex;
+	
+	margin-left: 15px;
+}
+
+.pacsSelectClass {
+	margin-left: 10px;
+}
+
+.fileCheck__icon::before {
+	content: "\e5a0";
+	color: #218ECB;
+}
+
+.calenderCheck__icon::before {
+	content: "\f274";
+	color: rgb(128, 100, 255);
+}
+
+.fileXmark__icon::before {
+	content: "\e5a1";
+	color: rgb(255, 128, 64);
+}
+
+.reservation__div {
+	display: flex;
+}
+
+.reservation__keyword {
+	margin-right: 10px;
+}

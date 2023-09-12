@@ -17,6 +17,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class Ris0211DTO {
+	private String flag;
 	@NotBlank
 	@Max(20)
 	private String hsptId;

@@ -17,6 +17,7 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 public class Ris1211DTO {
+	private String flag;
 	@NotBlank
 	private Integer pkris1211;
 	@NotBlank
