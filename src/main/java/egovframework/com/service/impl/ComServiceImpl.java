@@ -1,6 +1,7 @@
 package egovframework.com.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +12,7 @@ import egovframework.com.model.RisBtnDTO;
 import egovframework.com.model.RisGrmuDTO;
 import egovframework.com.model.RisGrupDTO;
 import egovframework.com.model.RisPgrmDTO;
+import egovframework.com.model.RisUrmnDTO;
 import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
@@ -44,5 +46,16 @@ public class ComServiceImpl implements ComService {
 	public List<RisGrmuDTO> RisGrmuList(String type) {
 		// TODO Auto-generated method stub
 		return comMapper.RisGrmuList(type);
+	}
+	@Override
+	public List<RisUserDTO> RisUserMenuList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisUserMenuList();
+	}
+
+	@Override
+	public List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		return comMapper.RisUserMenuList2(params);
 	}
 }

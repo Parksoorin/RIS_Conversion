@@ -173,8 +173,6 @@ pageEncoding="UTF-8"%>
 		            $("#list1").jqGrid("setFrozenColumns");
 		            //alert(index+'/'+idxcol+'/'+sortorder);
 	          	},
-	          	
-	          	
 	        });
 		};
 		
