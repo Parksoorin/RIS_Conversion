@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="egovframework.appn.mapper.RisAppnMapper">
+<mapper namespace="egovframework.appn.mapper.RIS0213E00Mapper">
 	<!-- 작성자 : 송유근  -->
-	<!-- 예약 기준 관리 -->
-	
-	
-	
 	<!-- 예외 기준 관리 -->
 	<select id="ris0213Select" resultType="egovframework.appn.model.Ris0213DTO">
 		SELECT
@@ -24,14 +20,14 @@
 	</select>
 	
 	<update id="ris0213Update" parameterType="egovframework.appn.model.Ris0213DTO">	
-	   	<foreach collection="list" item='item' separator=";">
-		UPDATE	 
+		<foreach collection="list" item='item' separator=';' >
+	   	UPDATE	 
 			   RIS0213
-		   SET 
-	   	  	   APPNN_IMPS_TEXT = #{item.appnImpsText}
-		 	<where>	
+		SET
+	   	  	   APPN_IMPS_TEXT = #{item.appnImpsText}
+		WHERE    	
 		 		<if test="item.hsptId != null">
-		 			    HSPT_ID = #{item.hsptId}
+				    HSPT_ID = #{item.hsptId}
 		 		</if>
 		 		<if test="item.imgnRoomCd != null">
 		 			AND IMGN_ROOM_CD = #{item.imgnRoomCd}
@@ -40,10 +36,9 @@
 		 			AND STRT_DATE = #{item.strtDate}
 		 		</if>
 		 		<if test="item.strtTime != null">
-		 			AND STRT_TIME = #{item.strtTime"}
+		 			AND STRT_TIME = #{item.strtTime}
 		 		</if>
-		 	</where>
-		</foreach>
+		 </foreach>
 	</update>
 	
 	<insert id="ris0213Insert" parameterType="egovframework.appn.model.Ris0213DTO">
@@ -91,32 +86,7 @@
 		  
 	</delete>	
 	
-	<!-- 휴일 기준 관리 -->
-	<select id="ris0212Select" resultType="egovframework.appn.model.Ris0212DTO">
-		SELECT
-				 HSPT_ID
-				,HLDY_DATE
-				,HLDY_TEXT
-				,RGST_ID
-				,RGST_DTTM
-				,MDFC_ID
-				,MDFC_DTTM
-		FROM
-				RIS0212
-	</select>
 	
-	<update id="ris0212Update" parameterType="egovframework.appn.model.Ris0212DTO">
-	
-	</update>
-	
-	<insert id="ris0212Insert" parameterType="egovframework.appn.model.Ris0212DTO">
-	
-	</insert>
-		
-	<delete id="ris0212Delete" parameterType="egovframework.appn.model.Ris0212DTO">
-	
-	</delete>	
-	<!-- 예약 관리 -->
 	
 
 </mapper>
