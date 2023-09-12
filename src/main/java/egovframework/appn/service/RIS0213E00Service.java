@@ -1,7 +1,6 @@
 package egovframework.appn.service;
 import java.util.List;
 
-import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.model.Ris0213DTO;
 
 

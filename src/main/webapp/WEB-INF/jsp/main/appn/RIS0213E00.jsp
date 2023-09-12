@@ -21,21 +21,21 @@
         <input type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input type="date">
-        <button class="all__btn img__btn search__btn ma_left_1">검색</button>
+        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1">검색</button>
       </section>
 
       <!-- 그리드 타이틀 -->
       <div class="grid__title">
         <div class="flex line_1">
           <p>예약 예외 목록 </p>
-          <button class="all__btn text__btn ma_left_1 title_align">갱신</button>
+          <button id="reload-btn" class="all__btn text__btn ma_left_1 title_align">갱신</button>
         </div>
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn update__btn">수정</button>
-        	<button class="all__btn img__btn insert__btn">입력</button>
-		    <button class="all__btn img__btn delete__btn">삭제</button>
-    		<button class="all__btn img__btn save__btn">저장</button>
+        	<button id="update-btn" class="all__btn img__btn update__btn">수정</button>
+        	<button id="input-btn" class="all__btn img__btn insert__btn">입력</button>
+		    <button id="delete-btn" class="all__btn img__btn delete__btn">삭제</button>
+    		<button id="save-btn" class="all__btn img__btn save__btn">저장</button>
         </div>
       </div>
       <!-- 그리드 -->
@@ -49,7 +49,29 @@
 
     <script>
       $(document).ready(function () {
-        
+        $('#search-btn').click(function(){
+          console.log('검색 버튼 눌림');
+        })
+
+        $('#reload-btn').click(function(){
+          console.log('갱신 버튼 눌림');
+        })
+
+        $('#input-btn').click(function(){
+          console.log('입력 버튼 눌림');
+        })
+
+        $('#update-btn').click(function(){
+          console.log('수정 버튼 눌림');
+        })
+
+        $('#delete-btn').click(function(){
+          console.log('삭제 버튼 눌림');
+        })
+
+        $('#save-btn').click(function(){
+          console.log('저장 버튼 눌림');
+        })
 
         $("#list1").jqGrid({
           url: "/appn/RIS0213E00/ris0213.do",

@@ -3,20 +3,17 @@ package egovframework.appn.web;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import egovframework.appn.model.Ris0212DTO;
-import egovframework.appn.model.Ris0213DTO;
+import egovframework.appn.model.ImagingDTO;
+import egovframework.appn.model.ImagingDivisionPatientDTO;
 import egovframework.appn.service.RIS1211E00Service;
-import egovframework.appn.service.RisAppnService;
+import egovframework.appn.service.RISAppnCommonService;
 
 @Controller
 @RequestMapping("/appn")
@@ -25,14 +22,21 @@ public class RIS1211E00Controller {
 	@Resource(name="RIS1211E00Service")
 	private RIS1211E00Service service;
 	
+	@Resource(name="RISAppnCommonService")
+	private RISAppnCommonService risAppnCommonService;
+	
 	/*
 	 * 예약 관리 - Controller
 	 * GET		/appn/RIS1211E00.do	WEB-INF/appn/RIS1211E00.jsp forward
 	 */
 	
 	@GetMapping("/RIS1211E00.do")
-	public String ris1211e00GetMapping() {
+	public String ris1211e00GetMapping(Model model) {
 		System.out.println("/RIS1211E00.do Get Mapping!!!");
+		List<ImagingDTO> imagingList = risAppnCommonService.imagingSelect();
+		List<ImagingDivisionPatientDTO> imagingDivisionPatientList = risAppnCommonService.imagingDivisionPatientSelect();
+		model.addAttribute("imagingList", imagingList);
+		model.addAttribute("imagingDivisionPatientList", imagingDivisionPatientList);
 		return ".main/appn/RIS1211E00";
 	}
 	

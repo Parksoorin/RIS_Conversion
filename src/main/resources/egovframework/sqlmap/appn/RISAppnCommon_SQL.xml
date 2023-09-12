@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.appn.mapper.RISAppnCommonMapper">
+	<!-- 작성자 : 송유근  -->	
+	<!-- 예약 페이지 공통   -->
+	
+	<!-- 촬영 환자 구분명 조회 -->
+	<select id="imagingDivisionPatientSelect" resultType="egovframework.appn.model.ImagingDivisionPatientDTO">
+		SELECT 
+				 DISTINCT MDDL_CD
+				,MDDL_KR_NM
+		FROM	 RIS0102
+		WHERE	 LRGC_CD 			=	 'IMGN_DVSN_CD'
+	</select>
+	
+	<!-- 촬영실 조회 -->
+	<select id="imagingSelect" resultType="egovframework.appn.model.ImagingDTO">
+		SELECT 
+					 DISTINCT MDDL_CD
+					,MDDL_KR_NM
+					,MDDL_ENGL_NM
+		FROM		 RIS0102
+		WHERE		 LRGC_CD = 'IMGN_ROOM_CD'
+	</select>
+	<!-- 환자 조회  -->	
+	<select id="patientSelect" resultType="egovframework.appn.model.PatientDTO">
+		SELECT 
+					 HSPT_ID
+					,PTNT_ID
+				   	,PTNT_KRNM
+				   	,BRTH
+				   	,GNDR_DVSN
+				   	,MOBL
+		FROM 		 RIS1101;
+	</select>
+
+	
+
+
+</mapper>

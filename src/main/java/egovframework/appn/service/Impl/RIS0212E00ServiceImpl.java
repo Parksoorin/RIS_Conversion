@@ -1,6 +1,5 @@
 package egovframework.appn.service.Impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,12 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.appn.mapper.RIS0212E00Mapper;
-import egovframework.appn.mapper.RisAppnMapper;
 import egovframework.appn.model.Ris0212DTO;
-import egovframework.appn.model.Ris0213DTO;
 import egovframework.appn.service.RIS0212E00Service;
-import egovframework.appn.service.RisAppnService;
-import egovframework.appn.util.RisAppnUtil;
 import lombok.extern.slf4j.Slf4j;
 
 // 휴일 기준관리
