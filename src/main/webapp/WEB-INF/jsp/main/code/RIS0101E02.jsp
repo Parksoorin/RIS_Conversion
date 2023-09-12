@@ -20,7 +20,7 @@
 			<div class="box__flex">
 				<button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
 				
-				<a href="javascript:fn_query()" class="ml-2">
+				<a href="javascript:fn_query()" class="ml-2" onclick="showConfirmation();">
 					<button class="all__btn img__btn mokrok__btn">목록</button>
 				</a>
 			</div>
@@ -308,6 +308,45 @@
 	     		}
 	     	});
 	    }
+	    
+	    /* 새로고침 버튼클릭시 필드값 초기화 & 페이지 리로드 */
+	    function refreshPage() {
+	        // 입력 필드의 값을 초기화합니다.
+	        document.getElementById("lrgc_cd").value = "";
+	        document.getElementById("lrgc_kr_nm").value = "";
+	        document.getElementById("lrgc_engl_nm").value = "";
+	        document.getElementById("lrgc_abbr_nm").value = "";
+	        document.getElementById("lrgc_acph").value = "";
+	        document.getElementById("otpt_sqnc").value = "";
+	        document.getElementById("appl_date").value = "";
+	        document.getElementById("expr_date").value = "3000-01-01";
+	        document.getElementById("chrc1").value = "";
+	        document.getElementById("nmbr1").value = "";
+	        document.getElementById("chrc2").value = "";
+	        document.getElementById("nmbr2").value = "";
+	        document.getElementById("chrc3").value = "";
+	        document.getElementById("nmbr3").value = "";
+	        document.getElementById("chrc4").value = "";
+	        document.getElementById("nmbr4").value = "";
+	        document.getElementById("chrc5").value = "";
+	        document.getElementById("nmbr5").value = "";
+
+	        // 페이지를 다시 로딩합니다.
+	        location.reload();
+	    }
+
+	    // 새로고침 버튼 클릭 이벤트 핸들러 등록
+	    document.querySelector(".refresh__btn").addEventListener("click", refreshPage);
+	    
+	    
+		/* 목록 버튼 클릭시 공통코드관리 메인페이지로 이동  */
+	    function showConfirmation() {
+	        var isConfirmed = confirm("등록/수정중인 정보가 있습니다. 그래도 이동하시겠습니까?");
+	        if (isConfirmed) {
+	            window.location.href = 'http://localhost:8080/RIS0101E00.do';
+	        }
+	    }
+	    	    
 	    
 		/**
 		* Division code 중복체크
