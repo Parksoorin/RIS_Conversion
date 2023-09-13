@@ -44,7 +44,7 @@
             <li class="main__menu-items">
                 환자관리
                 <div class="sub__menu-item">
-                    <a href="/pat/PatientSearch.do">환자정보 관리</a>
+                    <a href="/pat/RIS1101E00.do">환자정보 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">

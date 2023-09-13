@@ -17,6 +17,7 @@
 				<value>classpath:/egovframework/sqlmap/pandok/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/com/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/stts/*.xml</value>
+				<value>classpath:/egovframework/sqlmap/pat/*.xml</value>
 			</list>
 		</property>
 	</bean>
