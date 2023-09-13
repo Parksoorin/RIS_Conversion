@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.stts.model.Ris0102DTO;
 import egovframework.stts.model.Ris1201DTO;
 import egovframework.stts.service.SttsService;
 
@@ -27,6 +28,12 @@ public class RIS1201Q01Controller {
 	
 	@RequestMapping(value = "/stts/risImgnStts.do")
 	public String risImgnSttsPage(Model model) throws Exception {
+		List<Ris0102DTO> risImgnList = sttsService.getRisImgnList();
+		List<Ris0102DTO> risRoomList = sttsService.getRisRoomList();
+		
+		model.addAttribute("risImgnList", risImgnList);
+		model.addAttribute("risRoomList", risRoomList);
+		
 		return ".main/stts/RIS1201Q01";
 	}
 	
@@ -36,13 +43,24 @@ public class RIS1201Q01Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
-		int year = Integer.parseInt(map.get("year").toString());
-		Map<String, Integer> param = new HashMap<>();
+		// service로 보낼 parameter 생성
+		Map<String, String> param = new HashMap<>();
 		
-		param.put("year", year);
-		param.put("lastYear", year - 1);
+		// 현재 년도와 전 년도를 추가
+		String yearStr = map.get("year").toString(); // year를 문자열로 변환
+		
+		param.put("year", yearStr);
+		param.put("lastYear", String.valueOf(Integer.parseInt(yearStr) - 1)); // 문자열로 변환하여 다시 put
+
+		// 촬영구분과 촬영실 필터 값을 추가 (값이 null일 경우를 고려)
+		param.put("imgn", map.get("imgn").toString());
+		param.put("room", map.get("room").toString());
+		
+		System.out.println(param);
 		
 		List<Ris1201DTO> ris1201Data = sttsService.getRis1201List(param);
+		
+		System.out.println(ris1201Data);
 
 		json.put("ris1201Data", ris1201Data);
 		
