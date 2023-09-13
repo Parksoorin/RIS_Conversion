@@ -25,7 +25,7 @@
         	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
-    		<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+    		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
         </div>
       </div>
       <!-- 그리드 -->
@@ -97,6 +97,8 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+        
+     	// 그리드1 입력, 삭제
         $("#add-row__btn").on("click", function () {
         	var newRowData = {};
         	var grid = $("#list1");
