@@ -41,4 +41,5 @@ public class RisGrupDTO {
 	// 정렬순서
 	@Max(11)
 	private String otptSqnc;
+	private String flag;
 }

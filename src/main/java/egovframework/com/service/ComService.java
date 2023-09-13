@@ -18,4 +18,5 @@ public interface ComService {
 	List<RisGrmuDTO> RisGrmuList(String type);
 	List<RisUserDTO> RisUserMenuList();
 	List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params);
+	int addList1Data(RisGrupDTO dto);
 }

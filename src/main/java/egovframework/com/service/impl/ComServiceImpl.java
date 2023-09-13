@@ -58,4 +58,9 @@ public class ComServiceImpl implements ComService {
 		// TODO Auto-generated method stub
 		return comMapper.RisUserMenuList2(params);
 	}
+	@Override
+	public int addList1Data(RisGrupDTO dto) {
+		// TODO Auto-generated method stub
+		return comMapper.addList1Data(dto);
+	}
 }

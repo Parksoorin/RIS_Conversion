@@ -46,4 +46,15 @@
 		WHERE LOGIN_ID = #{type}
 		AND HSPT_ID = #{type2}
 	</select>
+	
+	<!-- risMenuE00 그리드1 저장(메뉴정보 관리) -->
+	<insert id="addList1Data" parameterType="egovframework.com.model.RisGrupDTO">
+		INSERT INTO risgrup (
+			MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
+		)
+		VALUES (
+			#{menuGroupId}, #{menuGroupName}, #{otptSqnc}, #{useYn}
+		)
+	</insert>
+	
 </mapper>

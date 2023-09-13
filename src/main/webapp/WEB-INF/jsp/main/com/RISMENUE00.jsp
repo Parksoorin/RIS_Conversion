@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>메뉴 그룹 정보</title>
+    <title>메뉴 정보 관리</title>
     <link rel="stylesheet" type="text/css" href="/css/com/com.css" />
   </head>
   <body>
@@ -237,8 +237,24 @@ pageEncoding="UTF-8"%>
         
         
         // 그리드1 저장
-        
-        
+      	$("#save__btn").click(function(){
+			// list1 데이터 전송
+			var list1Data = $("#list1").getRowData();
+			
+			$.ajax({
+			    type : 'post',           // 타입 (get, post, put 등등)
+			    url : '/saveBtn.do',           // 요청할 서버url
+			    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+			    dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+			    data : JSON.stringify(list1Data),
+			    success : function(result) { // 결과 성공 콜백함수
+			        console.log(result);
+			    },
+			    error : function(error) { // 결과 에러 콜백함수
+			        console.log(error)
+			    }
+			});
+		});
         
         // 그리드2 저장
         
