@@ -17,7 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 
 public class RIS1201DTO {
-	
+
 	private int pkris1201; 			// pk 값
 	private String hsptId;  		// 병원 ID, pk 값
 	
@@ -62,13 +62,10 @@ public class RIS1201DTO {
 	private String ordrPrgrDvsn; 	// 처방 진행구분
 	private String ordrNoteText; 	// 처방 참고내용
 	private String exmnNoteText; 	// 검사 참고내용
-	
-	private String rgstId; 			// 검사 참고내용
-	private String rgstDttm; 		// 검사 참고내용
-	private String mdfcId; 			// 검사 참고내용
-	private String mdfcDttm; 		// 검사 참고내용
-	
-	
-	
-	
+
+	private String rgstId; 			
+	private String rgstDttm; 		
+	private String mdfcId; 			
+	private String mdfcDttm; 		
+
 }

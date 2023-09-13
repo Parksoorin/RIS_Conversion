@@ -166,6 +166,10 @@
             params.hsptId = rowObject.hsptId;
             params.lrgcCd = rowObject.lrgcCd;
 
+            
+            
+            
+            
             $("#list2").setGridParam({
 				datatype : "json",
 				postData : params ,
