@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.stts.mapper.SttsMapper;
 import egovframework.stts.service.SttsService;
+import egovframework.stts.model.Ris0102DTO;
 import egovframework.stts.model.Ris1201DTO;
 
 @Service("SttsService")
@@ -17,7 +18,17 @@ public class SttsServiceImpl implements SttsService {
 	private SttsMapper sttsMapper;
 	
 	@Override
-	public List<Ris1201DTO> getRis1201List(Map<String, Integer> param) {
+	public List<Ris1201DTO> getRis1201List(Map<String, String> param) {
 		return sttsMapper.getRis1201List(param);
+	}
+	
+	@Override
+	public List<Ris0102DTO> getRisImgnList() {
+		return sttsMapper.getRisImgnList();
+	}
+	
+	@Override
+	public List<Ris0102DTO> getRisRoomList() {
+		return sttsMapper.getRisRoomList();
 	}
 }

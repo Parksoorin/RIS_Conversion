@@ -4,7 +4,7 @@ pageEncoding="UTF-8"%>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>메뉴 그룹 정보</title>
+    <title>메뉴 정보 관리</title>
     <link rel="stylesheet" type="text/css" href="/css/com/com.css" />
   </head>
   <body>
@@ -25,9 +25,9 @@ pageEncoding="UTF-8"%>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
               	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
-    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -47,10 +47,10 @@ pageEncoding="UTF-8"%>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
              	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn2">입력</button>
         		<button class="all__btn img__btn fontawesome__btn insert2__icon">하위메뉴</button>
-		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
-    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn2">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn2">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -73,8 +73,9 @@ pageEncoding="UTF-8"%>
             postData : { type: 'A' }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-          	colNames: ["메뉴ID", "메뉴그룹명", "순서", "사용"],
+          	colNames: ["flag", "메뉴ID", "메뉴그룹명", "순서", "사용"],
           	colModel: [
+          		{ name: "flag", index: "flag", hidden: true},
 	            { name: "menuGroupId", index: "menuGroupId", width: 90, align: "center" },
 	            { name: "menuGroupName", index: "menuGroupName", width: 200, align: "center" },
 	            { name: "otptSqnc", index: "otptSqnc", width: 60, align: "center" },
@@ -86,26 +87,49 @@ pageEncoding="UTF-8"%>
 			  	root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
 			  	records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
 		  	},
-          	autowidth: true,
-          	height: "93%",
-          	rownumbers: true,
-            multiselect: true,
-          	gridview: true, // 선표시 true/false
-          	loadComplete: function (data) {
+		  	guiStyle: "bootstrap",
+      		autowidth: true,
+      		height: "93%",
+      		rownumbers: true,
+      		sortname: "id",
+      		sortorder: "asc",
+      		gridview: true, // 선표시 true/false
+      		viewsortcols: [true, "vertical", true],
+      		loadComplete: function (data) {
             	console.log(data);
           	}, // loadComplete END
           	onSelectRow: function (rowid) {
             	console.log(rowid);
           	},
-          	
+          	onSortCol: function (index, idxcol, sortorder) {
+            	// 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+	            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+	            $("#list1").jqGrid("destroyFrozenColumns");
+	            var $icons = $(this.grid.headers[idxcol].el).find(
+	              	">div.ui-jqgrid-sortable>span.s-ico"
+	            );
+	            if (this.p.sortorder === "asc") {
+              		//$icons.find('>span.ui-icon-asc').show();
+              		$icons.find(">span.ui-icon-asc")[0].style.display = "";
+              		$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+              		$icons.find(">span.ui-icon-desc").hide();
+	            } else {
+	              	//$icons.find('>span.ui-icon-desc').show();
+	              	$icons.find(">span.ui-icon-desc")[0].style.display = "";
+	              	$icons.find(">span.ui-icon-asc").hide();
+	            }
+	            // (화살표 css 변경 후 Frozen을 다시 설정)
+	            $("#list1").jqGrid("setFrozenColumns");
+	            //alert(index+'/'+idxcol+'/'+sortorder);
+   			},
           	onCellSelect: function(rowid, iCol, cellcontent, e) {
                 $('#list1').jqGrid('setSelection',rowid);
                 Grid2(); // Grid3 함수 호출
             }
-            
         });
 
-
+        
+        
 		function Grid2(){
 			$('#list1').getRowData(rowid);
 	        var rowid, menuGroupId;
@@ -119,8 +143,9 @@ pageEncoding="UTF-8"%>
 	            postData : { type: menuGroupId }, // 보낼 파라미터
 	            mtype:'POST',   // 전송 타입
 	            datatype: "json",
-	            colNames: ["메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
+	            colNames: ["flag", "메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
 	            colModel: [
+	            	{ name: "flag", index: "flag", hidden: true},
 		            { name: "menuId", index: "menuId", width: 50, align: "center" },
 		            { name: "pgrmId", index: "pgrmId", width: 90, align: "center" },
 		            { name: "menuName", index: "menuName", width: 150, align: "center" },
@@ -174,11 +199,64 @@ pageEncoding="UTF-8"%>
 		            //alert(index+'/'+idxcol+'/'+sortorder);
 	          	},
 	        });
+
 		};
 		
+		
+		
+		// 그리드1 입력, 삭제
+		$("#add-row__btn").on("click", function () {
+        	var newRowData = {};
+        	var grid = $("#list1");
+    	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+    	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+    	    newRowData.flag = 'I';
+        });
+        $("#delete-row__btn").on("click", function () {
+        	var grid = $("#list1");
+    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
+    	    } else { alert('Please select a row to delete.'); }
+        });
+		
+     // 그리드2 입력, 삭제
+		$("#add-row__btn2").on("click", function () {
+        	var newRowData = {};
+        	var grid = $("#list2");
+    	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+    	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+    	    newRowData.flag = 'I';
+        });
+        $("#delete-row__btn2").on("click", function () {
+        	var grid = $("#list2");
+    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
+    	    } else { alert('Please select a row to delete.'); }
+        });
         
         
         
+        // 그리드1 저장
+      	$("#save__btn").click(function(){
+			// list1 데이터 전송
+			var list1Data = $("#list1").getRowData();
+			
+			$.ajax({
+			    type : 'post',           // 타입 (get, post, put 등등)
+			    url : '/saveBtn.do',           // 요청할 서버url
+			    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+			    dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+			    data : JSON.stringify(list1Data),
+			    success : function(result) { // 결과 성공 콜백함수
+			        console.log(result);
+			    },
+			    error : function(error) { // 결과 에러 콜백함수
+			        console.log(error)
+			    }
+			});
+		});
+        
+        // 그리드2 저장
         
         
     });

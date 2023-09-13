@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,8 @@ public class RISMENUE00Controller {
 		return ".main/com/RISMENUE00";
 	}
 	
+	
+	// 그리드1 불러오기
 	@RequestMapping(value = "/RISMENUE00.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISMENUE00(@RequestParam String type, HttpSession session, HttpServletRequest request,
@@ -48,6 +51,8 @@ public class RISMENUE00Controller {
 		return json;
 	}
 	
+	
+	// 그리드2 불러오기
 	@RequestMapping(value = "/RISMENUE002.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISMENUE002(@RequestParam String type, HttpSession session, HttpServletRequest request,
@@ -65,6 +70,48 @@ public class RISMENUE00Controller {
 
 		return json;
 	}
+	
+	
+	// 그리드1 저장
+	@RequestMapping(value = "/saveBtn.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject saveData(@RequestBody List<RisGrupDTO> dtos, HttpSession session, 
+			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	    JSONObject json = new JSONObject();
+
+	    for (RisGrupDTO dto : dtos) {
+	        String flag = dto.getFlag();	        
+	        int result = 0;	        
+	        switch (flag) {
+	            case "I":
+	                result = comService.addList1Data(dto);
+	                break;
+                default:
+                	continue;
+	        }
+	        if (result < 1) {
+	            json.put("result", "error");
+	            return json;
+	        }
+	    }
+	    json.put("result", "success");
+	    return json;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
 
