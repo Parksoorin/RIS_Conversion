@@ -39,9 +39,9 @@ pageEncoding="UTF-8"%>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
              	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-        		<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-		    	<button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
-    			<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
+		    	<button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
+    			<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -194,7 +194,21 @@ pageEncoding="UTF-8"%>
     	        });
       		};
       	
-      	
+      		
+      		// 그리드2 입력, 삭제
+      		$("#add-row__btn").on("click", function () {
+            	var newRowData = {};
+            	var grid = $("#list2");
+        	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+        	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+        	    newRowData.flag = 'I';
+            });
+            $("#delete-row__btn").on("click", function () {
+            	var grid = $("#list2");
+        	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+        	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
+        	    } else { alert('Please select a row to delete.'); }
+            });
       	});
     </script>
   </body>
