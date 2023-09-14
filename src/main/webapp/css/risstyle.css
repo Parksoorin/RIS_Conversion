@@ -112,6 +112,15 @@
 	min-width: 1200px;
 }
 
+.filter__options {
+    margin-right: 10px;
+    padding: 2px;
+    width: 200px;
+    height: 30px;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
 .header__flex {
 	padding: 5px 20px;
 	display: flex;
@@ -339,3 +348,4 @@ ul {
 .ui-jqgrid-sortable {
   position: relative;
 }
+

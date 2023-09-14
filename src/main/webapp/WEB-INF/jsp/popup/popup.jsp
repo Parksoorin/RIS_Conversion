@@ -11,35 +11,21 @@
       <!-- 검색 -->
       <section class="search__container">
         <p class="filter__keyword">검색어 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
+        <input type="text" class="filter__options" placeholder="Enter text to search..."></input>
         <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
-      <!-- 그리드 타이틀 -->
-      <div class="grid__title">
-        <p>그리드 타이틀</p>
-
-        <!-- 버튼 컨테이너 -->
-        <div class="btn__container">
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-        	<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-		    <button class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
-    		<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
-		    <button class="all__btn fontawesome__btn text__btn">글자만</button>
-		    <button class="all__btn fontawesome__btn rotate__icon"></button>
-		    <button class="all__btn fontawesome__btn list__icon"></button>
-		    <button onclick="openPopup()" class="all__btn fontawesome__btn text__btn">팝업열기</button>
-        </div>
-      </div>
       <!-- 그리드 -->
-      <div class="grid__container">
+      <div class="popup-grid__container">
         <section class="grid__box">
           <!-- 그리드 -->
           <table id="list1" class="grid1"></table>
         </section>
+      </div>
+      
+      <div class="popup-btn__container">
+		    <button class="all__btn fontawesome__btn text__btn">선택</button>
+			<button onclick="closePopup()" class="all__btn fontawesome__btn text__btn">닫기</button>
       </div>
     </main>
 
@@ -219,7 +205,7 @@
           ],
           guiStyle: "bootstrap",
           autowidth: true,
-          height: "94%",
+          height: "91%",
           rownumbers: true,
           multiselect: true,
           sortname: "id",
@@ -254,28 +240,11 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
-        
       });
-      
-   	// 팝업 열기
-    function openPopup() {
-        // 팝업 창에 표시할 URL
-        var url = "/popup.do";
-
-        // 팝업 창의 크기와 위치 설정
-        var width = 800;
-        var height = 500;
-        var left = (window.innerWidth - width) / 2;
-        var top = (window.innerHeight - height) / 2;
-
-        // 팝업 창을 열기
-        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
-
-        // 팝업 창이 차단되었을 때 처리
-        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
-        }
-    }
+      function closePopup() {
+          // 현재 창을 닫습니다.
+          window.close();
+      }
     </script>
   </body>
 </html>
