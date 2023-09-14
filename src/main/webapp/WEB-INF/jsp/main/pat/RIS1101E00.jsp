@@ -56,7 +56,7 @@
 						</colgroup>
 						<tr>
 							<th class="thNeed">환자ID</th>
-							<td><input type="text" class="tdInputClass"
+							<td><input type="text" id="ptntIdInput" class="tdInputClass"
 								placeholder="test" maxlength="20"
 								style="width: 85%; height: 34%;" readonly="readonly"
 								disabled="disabled" /></td>
@@ -135,14 +135,27 @@
 
 	<script>
 		document.getElementById("inputNumId").value = "01012345678";
+		
+		function calculateAge(brth) {
+		    // 현재 날짜를 생성
+		    var currentDate = new Date();
 
-		console.log("123")
+		    // 연, 월, 일 차이 계산
+		    var ageInMillis = currentDate - new Date(brth);
+
+		    // 밀리초를 연으로 변환하고 나이 계산
+		    var ageInYears = ageInMillis / (365 * 24 * 60 * 60 * 1000);
+
+		    // 소수점 이하 자리를 버리고 정수로 변환
+		    var age = Math.floor(ageInYears);
+			
+		    age += 1;
+		    
+		    return age;
+		}
 		
 		$(document).ready(function() {
-			console.log("456")
-			
 			$("#list1").jqGrid({
-				
 				url: "/pat/RIS1101E00.do",
 				reordercolNames:true,
 				postData : { type: 'A' },
@@ -153,10 +166,15 @@
 					{ name : "ptntId", index : "ptntId", width : 90, align : "center" }, 
 					{ name : "ptntKrNm",index : "ptntKrNm", width : 100, align : "center" }, 
 					{ name : "gndrDvsn", index : "gndrDvsn", width : 150, align : "center",}, 
-					{ name : "brth", index : "brth", width : 80, align : "center"	}, 
+					{ name : "brth", index : "brth", width : 80, align : "center", 
+						formatter: function (cellvalue, options, rowObject) {
+				            // 나이를 계산하여 표시
+				            var age = calculateAge(cellvalue);
+				            return age;
+				        }
+					}, 
 					{ name : "brth", index : "brth", width : 80, align : "center" }, 
 				],
-				
 				jsonReader: {
 	     		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
 	     		    root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
@@ -175,10 +193,41 @@
 				loadComplete : function(data) {
 					console.log(data);
 				}, // loadComplete END
+				
 				onSelectRow : function(rowid) {
-					console.log(rowid);
-					console.log("7")
+					
+					console.log("rowId :", rowid);
+					
+					// 선택한 rowId의 데이터 가져오기
+					var selectRowData = jQuery("#list1").getRowData(rowid);
+					console.log("selectRowData :", selectRowData)
+					
+					/*
+					var allData = jQuery("#list1").getRowData();
+					console.log("allData :" ,allData)
+					*/
+					
+					jQuery.ajax({
+						type: 'POST',
+						url : "/pat/RIS1101E00Detail.do",
+						data : JSON.stringify(selectRowData),
+						contentType: "application/json; charset=utf-8",
+						dataType: 'json',
+						
+						success : function (result) {
+							const { ptntId, ptntKrNm, ptntEnglNmF, ptntEnglNmM, ptntEnglNmL, brth, gndrDvsn, mobl, ntilCd, ptntNoteText } = result.rows
+							
+							document.getElementById("ptntIdInput").value = ptntId;
+							
+							
+							console.log(result);
+						},
+						error : function (error) {
+							console.log(error);
+						}
+					});
 				},
+				
 				onSortCol : function(index,
 						idxcol, sortorder) {
 					// 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -190,7 +239,6 @@
 						$icons.find(">span.ui-icon-asc")[0].style.display = "";
 						$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
 						$icons.find(">span.ui-icon-desc").hide();
-						console.log("8")
 					} else {
 						//$icons.find('>span.ui-icon-desc').show();
 						$icons.find(">span.ui-icon-desc")[0].style.display = "";
@@ -199,10 +247,12 @@
 					// (화살표 css 변경 후 Frozen을 다시 설정)
 					$("#list1").jqGrid("setFrozenColumns");
 					//alert(index+'/'+idxcol+'/'+sortorder);
-					console.log("9")
 				},
 			});
 		});
+		
+		
+		
 	</script>
 </body>
 </html>

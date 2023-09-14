@@ -3,7 +3,20 @@
 <mapper namespace="egovframework.pat.mapper.RIS1101E00Mapper">
 	
 	<select id="RIS1101List" resultType="egovframework.pat.model.RIS1101DTO">
-		SELECT PTNT_ID, PTNT_KR_NM, GNDR_DVSN, BRTH  FROM ris1101;
+		SELECT PTNT_ID, PTNT_KR_NM, GNDR_DVSN, BRTH  
+			FROM 
+			ris1101;
+	</select>
+
+	<select id="ris1101DtoDetail" parameterType="java.util.Map" resultType="egovframework.pat.model.RIS1101DTO">
+		SELECT PTNT_ID, PTNT_KR_NM, PTNT_ENGL_NM_F, PTNT_ENGL_NM_M, PTNT_ENGL_NM_L, BRTH, GNDR_DVSN, MOBL, NTIL_CD, PTNT_NOTE_TEXT 
+			FROM 
+				ris1101
+			WHERE 
+				PTNT_ID = #{ptntId} and  
+				PTNT_KR_NM = #{ptntKrNm} and 
+				GNDR_DVSN = #{gndrDvsn} and 
+				BRTH = #{brth};
 	</select>
 
 </mapper>

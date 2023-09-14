@@ -1,6 +1,7 @@
 package egovframework.pat.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,8 +19,12 @@ public class RIS1101E00ServiceImpl implements RIS1101E00Service {
 	
 	@Override
 	public List<RIS1101DTO> RIS1101List() {
-		System.out.println("test");
 		return RIS1101E00Mapper.RIS1101List();
+	}
+	
+	@Override
+	public RIS1101DTO ris1101DtoDetail(Map<String, Object> selectRowData) {
+		return RIS1101E00Mapper.ris1101DtoDetail(selectRowData);
 	}
 	
 }
