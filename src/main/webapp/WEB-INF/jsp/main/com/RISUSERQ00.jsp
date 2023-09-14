@@ -23,7 +23,7 @@
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
         <button class="all__btn text__btn">비밀번호 초기화</button>
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
@@ -52,9 +52,55 @@
                 { name: "loginId", index: "loginId", width: 120, align: "center" },
                 { name: "loginNm", index: "loginNm", width: 120, align: "center" },
                 { name: "loginPwd", index: "loginPwd", width: 150, align: "center" },
-                { name: "userGrade", index: "userGrade", width: 100, align: "center" },
-                { name: "startDate", index: "startDate", width: 120, align: "center" },
-                { name: "endDate", index: "endDate", width: 120, align: "center" },
+                { 
+                	name: "userGrade", 
+                	index: "userGrade", 
+                	width: 100, 
+                	align: "center", 
+                	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:의사; Option2: 방사선사; Option3:슈퍼관리자; Option4:관리자" }
+                },
+                { 
+                	name: "startDate",
+                	index: "startDate", 
+                	width: 120, 
+                	align: "center", 
+                	editable: true,
+                	edittype: 'text', // 편집 모드에서 텍스트 필드로
+                	formatter: "date", // 날짜 형식으로 변환,
+                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
+                	editoptions: {
+                        dataInit: function (elem) {
+                            $(elem).datepicker({
+                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
+                                showOn: 'button',
+                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
+                                buttonImageOnly: true
+                            });
+                        }
+                    }
+                },
+                { 
+                	name: "endDate", 
+                	index: "endDate",
+                	width: 120,
+                	align: "center",
+                	editable: true,
+                	edittype: 'text', // 편집 모드에서 텍스트 필드로
+                	formatter: "date", // 날짜 형식으로 변환,
+                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
+                	editoptions: {
+                        dataInit: function (elem) {
+                            $(elem).datepicker({
+                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
+                                showOn: 'button',
+                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
+                                buttonImageOnly: true
+                            });
+                        }
+                    }
+                },
                 { name: "errorCnt", index: "errorCnt", width: 50, align: "center" }
             ],
             jsonReader: 
@@ -113,9 +159,51 @@
         $("#delete-row__btn").on("click", function () {
         	var grid = $("#list1");
     	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-    	    } else { alert('Please select a row to delete.'); }
+    	    if (selectedRowId) { 
+    	    	grid.jqGrid('delRowData', selectedRowId);
+    	    } else { 
+    	    	alert('Please select a row to delete.'); 
+    	    }
         });
+        
+        
+        // 그리드1 행 수정
+        $("#update-row__btn").on("click", function(){
+        	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+            if (selectedRowId) {    	  	  	
+                // 선택한 행이 있는 경우 편집 모드로 진입
+                $("#list1").jqGrid('editRow', selectedRowId, true);
+            } else {
+                alert("편집할 행을 먼저 선택하세요.");
+            }
+        })
+        
+        /* 
+        $("#save-row__btn").click(function () {
+		    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+		    if (selectedRowId) {
+		        // 선택한 행이 있는 경우 편집 모드 종료
+		        $("#list1").jqGrid('saveRow', selectedRowId, {
+		            url: "/서버에저장할URL",
+		            mtype: 'POST', // 전송 타입
+		            successfunc: function (response) {
+		                // 수정이 성공한 경우
+		                alert("수정이 성공하였습니다.");
+		                $("#list1").trigger("reloadGrid");
+		            },
+		            errorfunc: function (rowId, response) {
+		                // 수정이 실패한 경우
+		                alert("수정에 실패하였습니다.");
+		            }
+		        });
+		    } else {
+		        alert("저장할 행을 먼저 선택하세요.");
+		    }
+		});
+        */
+        
+        
+        
 	});
     
     

@@ -22,7 +22,7 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
@@ -51,8 +51,24 @@
 	            { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
 	            { name: "pgrmName", index: "pgrmName", width: 150, align: "center" },
 	            { name: "pgrmUrl", index: "pgrmUrl", width: 200, align: "center" },
-	            { name: "pgrmType", index: "pgrmType", width: 80, align: "center" },
-	            { name: "pgrmInfo", index: "pgrmInfo", width: 80, align: "center" },
+	            { 
+	            	name: "pgrmType", 
+	            	index: "pgrmType", 
+	            	width: 80, 
+	            	align: "center",
+	            	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:Option1; Option2: Option2; Option3:Option3" }
+	            },
+	            { 
+	            	name: "pgrmInfo",
+	            	index: "pgrmInfo", 
+	            	width: 80, 
+	            	align: "center", 
+	            	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:Option1; Option2: Option2; Option3:Option3" }
+	            },
 	            { name: "useYn", index: "useYn", width: 50, align: "center" },
 	            { name: "endYn", index: "endYn", width: 50, align: "center" }
           	],
@@ -117,6 +133,17 @@
     	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
     	    } else { alert('Please select a row to delete.'); }
         });
+        
+     	// 그리드1 행 수정
+        $("#update-row__btn").on("click", function(){
+        	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+            if (selectedRowId) {    	  	  	
+                // 선택한 행이 있는 경우 편집 모드로 진입
+                $("#list1").jqGrid('editRow', selectedRowId, true);
+            } else {
+                alert("편집할 행을 먼저 선택하세요.");
+            }
+        })
     });
     </script>
 </body>
