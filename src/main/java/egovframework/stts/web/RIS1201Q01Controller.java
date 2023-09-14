@@ -53,8 +53,8 @@ public class RIS1201Q01Controller {
 		param.put("lastYear", String.valueOf(Integer.parseInt(yearStr) - 1)); // 문자열로 변환하여 다시 put
 
 		// 촬영구분과 촬영실 필터 값을 추가 (값이 null일 경우를 고려)
-		param.put("imgn", map.get("imgn").toString());
-		param.put("room", map.get("room").toString());
+		param.put("imgn", "%".equals(map.get("imgn").toString()) ? "all" : map.get("imgn").toString());
+		param.put("room", "%".equals(map.get("room").toString()) ? "all" : map.get("room").toString());
 		
 		System.out.println(param);
 		

@@ -314,6 +314,13 @@ ul {
   color: #000;
 }
 
+.empty-state {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .ui-jqgrid .jqgrid-overlay {
   display: none;
   z-index: 100;

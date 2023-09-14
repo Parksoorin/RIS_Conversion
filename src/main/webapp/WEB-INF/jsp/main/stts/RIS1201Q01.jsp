@@ -77,8 +77,6 @@
 	    var year = $("#selectYear").val();
 	    var imgn = $("#selectImgn").val();
 	    var room = $("#selectRoom").val();
-	    
-    	console.log(year, imgn, room);
     	
     	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
         $("#list1").jqGrid({
@@ -96,21 +94,21 @@
         	  "1Last", "2Last", "3Last", "4Last", "5Last", "6Last", "7Last", "8Last", "9Last", "10Last", "11Last", "12Last","전년"
           ],
           colModel: [
-            { name: "roomNm", 				index: "roomNm", 				width: 100, 	align: "center" },
-            { name: "imgnNm", 				index: "imgnNm", 				width: 200, 	align: "center" },
-            { name: "january", 				index: "january", 				width: 50, 		align: "center" },
-            { name: "february", 			index: "february", 				width: 50, 		align: "center" },
-            { name: "march", 				index: "march", 				width: 50, 		align: "center" },
-            { name: "april", 				index: "april", 				width: 50, 		align: "center" },
-            { name: "may", 					index: "may", 					width: 50, 		align: "center" },
-            { name: "june", 				index: "june", 					width: 50, 		align: "center" },
-            { name: "july", 				index: "july", 					width: 50, 		align: "center" },
-            { name: "august", 				index: "august", 				width: 50, 		align: "center" },
-            { name: "september", 			index: "september", 			width: 50, 		align: "center" },
-            { name: "october", 				index: "october", 				width: 50, 		align: "center" },
-            { name: "november", 			index: "november", 				width: 50, 		align: "center" },
-            { name: "december", 			index: "december", 				width: 50, 		align: "center" },
-            { name: "total", 				index: "total", 				width: 50, 		align: "center" },
+            { name: "roomNm", 				index: "roomNm", 				width: 100, 	align: "center", sortable: false },
+            { name: "imgnNm", 				index: "imgnNm", 				width: 200, 	align: "center", sortable: false },
+            { name: "january", 				index: "january", 				width: 50, 		align: "center", sortable: false },
+            { name: "february", 			index: "february", 				width: 50, 		align: "center", sortable: false },
+            { name: "march", 				index: "march", 				width: 50, 		align: "center", sortable: false },
+            { name: "april", 				index: "april", 				width: 50, 		align: "center", sortable: false },
+            { name: "may", 					index: "may", 					width: 50, 		align: "center", sortable: false },
+            { name: "june", 				index: "june", 					width: 50, 		align: "center", sortable: false },
+            { name: "july", 				index: "july", 					width: 50, 		align: "center", sortable: false },
+            { name: "august", 				index: "august", 				width: 50, 		align: "center", sortable: false },
+            { name: "september", 			index: "september", 			width: 50, 		align: "center", sortable: false },
+            { name: "october", 				index: "october", 				width: 50, 		align: "center", sortable: false },
+            { name: "november", 			index: "november", 				width: 50, 		align: "center", sortable: false },
+            { name: "december", 			index: "december", 				width: 50, 		align: "center", sortable: false },
+            { name: "total", 				index: "total", 				width: 50, 		align: "center", sortable: false },
             { name: "januaryLastYear", 		index: "januaryLastYear", 		hidden: true },
             { name: "februaryLastYear", 	index: "februaryLastYear", 		hidden: true },
             { name: "marchLastYear", 		index: "marchLastYear", 		hidden: true },
@@ -123,7 +121,7 @@
             { name: "octoberLastYear", 		index: "octoberLastYear", 		hidden: true },
             { name: "novemberLastYear", 	index: "novemberLastYear", 		hidden: true },
             { name: "decemberLastYear", 	index: "decemberLastYear", 		hidden: true },
-            { name: "totalLastYear", 		index: "totalLastYear", 		width: 50, 		align: "center" }
+            { name: "totalLastYear", 		index: "totalLastYear", 		width: 50, 		align: "center", sortable: false }
           ],
           jsonReader: {
    		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
@@ -133,16 +131,21 @@
           autowidth: true,
           height: "94%",
           scroll: true,
-          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
+          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때   
   		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
   		  rowNum: 999999,
           rownumbers: true,
-          sortname: "roomNm",
-          sortorder: "asc",
+          //sortname: "roomNm",
+          // sortorder: "asc",
           loadonce: true,
-          viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
+          // viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
           loadComplete: function (data) {
             console.log(data);
+            var emptyRecord = '<div class="ui-state-default ui-state-active empty-state" id="load_list1">데이터가 존재하지 않습니다.</div>';
+            if (data.ris1201Data.length === 0) {
+            	console.log("empty");
+            	$(".ui-jqgrid-bdiv").append(emptyRecord);
+            }
           }, // loadComplete END
           rowattr: function(rowData, currentObj, rowId) {
               // "소 계"인 행의 배경색 설정
@@ -238,18 +241,28 @@
     		    type: 'bar', // 차트의 형태
     		    data: { // 차트에 들어갈 데이터
     	            //x 축
-    		        labels: labels,
+    		        labels: [''],
     		        datasets: [
     		        	{
-    		                label: 'total 데이터 비교',
+    		                label: labels[0],
     		                fill: false,
-    		                data: values,
+    		                data: [values[0]],
     		                backgroundColor: [
-    		                	'rgba(255, 99, 132, 0.2)',
+    		                	'rgba(255, 99, 132, 0.2)'
+    		                ],
+    		                borderColor: [
+    		                	'rgba(255, 99, 132, 1)'
+    		                ],
+    		                borderWidth: 1
+    		            },
+    		            {
+    		            	label: labels[1],
+    		                fill: false,
+    		                data: [values[1]],
+    		                backgroundColor: [
     		                	'rgba(54, 162, 235, 0.2)'
     		                ],
     		                borderColor: [
-    		                	'rgba(255, 99, 132, 1)',
     		                	'rgba(54, 162, 235, 1)'
     		                ],
     		                borderWidth: 1
@@ -291,14 +304,9 @@
           },
         });
 	  }
-      
-      
-      $(document).ready(function () {
-    	  drawGrid();
-      });
-      
-      $("#selectYear").change(function() {
-    	  if (chart1) {
+	  
+	  function resetPage() {
+		  if (chart1) {
           	chart1.destroy();
           }
           
@@ -306,7 +314,24 @@
           	chart2.destroy();
           }
           
-    	  drawGrid(); 
+    	  drawGrid();
+	  }
+      
+      
+      $(document).ready(function () {
+    	  drawGrid();
+      });
+      
+      $("#selectYear").change(function() {
+    	  resetPage(); 
+      });
+      
+      $("#selectImgn").change(function() {
+    	  resetPage(); 
+      });
+      
+      $("#selectRoom").change(function() {
+    	  resetPage(); 
       });
     </script>
 </body>

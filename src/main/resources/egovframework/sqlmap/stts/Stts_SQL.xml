@@ -35,22 +35,14 @@
 		       ON B.HSPT_ID = 'A001' AND B.LRGC_CD = "IMGN_ROOM_CD" AND A.IMGN_ROOM_CD = B.MDDL_CD
 		LEFT JOIN ris0102 C
 		       ON C.HSPT_ID = 'A001' AND C.LRGC_CD = "IMGN_DVSN_CD" AND A.ORDR_BDYP_CD = C.MDDL_CD
-		    WHERE A.HSPT_ID = 'A001' AND EXTRACT(YEAR FROM A.PRSC_DATE) = #{year}
 		    <where>
-		      <choose>
-		    	  <when test="imgn == '%'">
-		          </when>
-		          <otherwise>
-		              AND A.ORDR_BDYP_CD = #{imgn}
-		          </otherwise>
-		      </choose>
-		      <choose>
-		    	  <when test="room == '%'">
-		          </when>
-		          <otherwise>
-		          	  AND A.IMGN_ROOM_CD = #{room}
-		          </otherwise>
-		      </choose>
+		          A.HSPT_ID = 'A001' AND (EXTRACT(YEAR FROM A.PRSC_DATE) = #{year} OR EXTRACT(YEAR FROM A.PRSC_DATE) = #{lastYear})
+	    	    <if test="imgn != 'all'">
+	              AND A.ORDR_BDYP_CD = #{imgn}
+	            </if>
+		    	<if test="room != 'all'">
+		          AND A.IMGN_ROOM_CD = #{room}
+		        </if>
             </where>
 	     GROUP BY B.MDDL_KR_NM, C.MDDL_KR_NM WITH ROLLUP;
 	</select>
