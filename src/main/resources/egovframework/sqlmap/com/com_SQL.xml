@@ -28,8 +28,10 @@
 	
 	<!-- 메뉴 정보 관리 그리드2 -->
 	<select id="RisGrmuList" parameterType="String" resultType="egovframework.com.model.RisGrmuDTO">
-		SELECT MENU_ID, PGRM_ID, MENU_NAME, MENU_NAME_SUB, UPPER_MENU_ID, MENU_LEVEL, OTPT_SQNC, USE_YN
-		FROM risgrmu
+		SELECT A.MENU_ID, A.PGRM_ID, B.PGRM_NAME, A.MENU_NAME, A.MENU_NAME_SUB, A.UPPER_MENU_ID, A.MENU_LEVEL, A.OTPT_SQNC, A.USE_YN
+		FROM risgrmu A
+		LEFT JOIN rispgrm B
+		ON A.PGRM_ID = B.PGRM_ID
 		WHERE MENU_GROUP_ID = #{type}
 	</select>
 	

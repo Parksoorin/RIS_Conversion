@@ -148,7 +148,7 @@ pageEncoding="UTF-8"%>
 	            	{ name: "flag", index: "flag", hidden: true},
 		            { name: "menuId", index: "menuId", width: 50, align: "center" },
 		            { name: "pgrmId", index: "pgrmId", width: 90, align: "center" },
-		            { name: "menuName", index: "menuName", width: 150, align: "center" },
+		            { name: "pgrmName", index: "pgrmName", width: 150, align: "center" },
 		            { name: "menuName", index: "menuName", width: 120, align: "center" },
 		            { name: "menuNameSub", index: "menuNameSub", width: 120, align: "center" },
 		            { name: "upperMenuId", index: "upperMenuId", width: 80, align: "center" },

@@ -51,7 +51,18 @@
             	{ name: 'flag', index: 'flag', hidden: true },
                 { name: "loginId", index: "loginId", width: 120, align: "center" },
                 { name: "loginNm", index: "loginNm", width: 120, align: "center" },
-                { name: "loginPwd", index: "loginPwd", width: 150, align: "center" },
+                { 
+                	name: "loginPwd",
+                	index: "loginPwd", 
+                	width: 150, 
+                	align: "center", 
+                	formatter: function (cellValue, options, rowObject) {
+                        // cellValue(셀 값)를 숨기고 별표로 표시
+                        return "********";
+                    },
+                    // 편집 가능한 필드로 설정하지 않음
+                    editable: false
+                },
                 { 
                 	name: "userGrade", 
                 	index: "userGrade", 
