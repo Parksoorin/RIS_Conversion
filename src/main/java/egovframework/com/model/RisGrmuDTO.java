@@ -54,4 +54,5 @@ public class RisGrmuDTO {
 	// 메뉴명 SUB
 	@Max(50)
 	private String menuNameSub;
+	private String pgrmName;
 }
