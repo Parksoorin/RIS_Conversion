@@ -39,18 +39,12 @@ public class RIS1101E00Controller {
 		JSONObject json = new JSONObject(); 
 		System.out.println("123");
 		
-		try {
-			List<RIS1101DTO> ris1101Data = ris1101E00Service.RIS1101List();
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 		
+		List<RIS1101DTO> ris1101Data = ris1101E00Service.RIS1101List();
+
+		System.out.println(ris1101Data);
 		
-		System.out.println("456");
-		//System.out.println(ris1101Data);
-		
-		//json.put("rows", ris1101Data);
-		System.out.println("789");
+		json.put("rows", ris1101Data);
 		
 		return json;
 	}

@@ -3,7 +3,7 @@
 <mapper namespace="egovframework.pat.mapper.RIS1101E00Mapper">
 	
 	<select id="RIS1101List" resultType="egovframework.pat.model.RIS1101DTO">
-		SELECT PTNT_ID, PTNT_KR_NM, GNDR_DVSN, BRTH  FROM ris1101
+		SELECT PTNT_ID, PTNT_KR_NM, GNDR_DVSN, BRTH  FROM ris1101;
 	</select>
 
 </mapper>
