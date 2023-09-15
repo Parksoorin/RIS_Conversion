@@ -14,7 +14,7 @@
 		<!-- 검색 -->
 		<section class="search__container">
 			<p class="filter__keyword">환자명 :</p>
-			<input class="ptntInputClass" />
+			<input id="inputKeyword" class="ptntInputClass" />
 			<button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
 		</section>
 
@@ -66,41 +66,41 @@
 						</tr>
 						<tr>
 							<th class="thNeed">환자명</th>
-							<td><input type="text" class="tdInputClass"
-								placeholder="test" maxlength="100"
+							<td><input type="text" id="ptntKrNmInput"
+								class="tdInputClass" placeholder="test" maxlength="100"
 								style="width: 85%; height: 50%;" readonly="r eadonly"
 								disabled="disabled" /></td>
 							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>영문 명</th>
-							<td><input type="text" value="HONG" maxlength="20"
-								style="width: 85%;" readonly="readonly" disabled="disabled" />
-							</td>
-							<td><input type="text" value="GIL" maxlength="20"
-								style="width: 85%;" readonly="readonly" disabled="disabled" />
-							</td>
-							<td><input type="text" value="DONG" maxlength="20"
-								style="width: 85%;" readonly="readonly" disabled="disabled" />
-							</td>
+							<td><input type="text" id="ptntEnglNmFInput" value="HONG"
+								maxlength="20" style="width: 85%;" readonly="readonly"
+								disabled="disabled" /></td>
+							<td><input type="text" id="ptntEnglNmMInput" value="GIL"
+								maxlength="20" style="width: 85%;" readonly="readonly"
+								disabled="disabled" /></td>
+							<td><input type="text" id="ptntEnglNmLInput" value="DONG"
+								maxlength="20" style="width: 85%;" readonly="readonly"
+								disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th class="thNeed">생년월일</th>
-							<td colspan="3"><input type="date" class="dateClass"
-								value="2023-09-07" style="width: 28%; height: 50%;"
-								readonly="readonly" disabled="disabled" /></td>
+							<td colspan="3"><input type="date" id="brthInput"
+								class="dateClass" value="2023-09-07"
+								style="width: 28%; height: 50%;" readonly="readonly"
+								disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th class="thNeed">성별</th>
-							<td colspan="3"><label><input type="radio"
-									name="MF_btn" value="M" onclick="return false">남</label> <label><input
-									type="radio" name="MF_btn" value="F" onclick="return false">여</label>
-
+							<td colspan="3">
+								<label><input type="radio" id="gndrDvsnA" name="MF_btn" value="M" onclick="return false">남</label>
+								<label><input type="radio" id="gndrDvsnB" name="MF_btn" value="F" onclick="return false">여</label>
 							</td>
 						</tr>
 						<tr>
 							<th>전화번호</th>
-							<td colspan="3"><input id="inputNumId" class="tdInputClass"
+							<td colspan="3"><input id="moblInput" class="tdInputClass"
 								type="text" placeholder="'-'를 제외하고 입력해주세요."
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 								maxlength="11" style="width: 28%; height: 50%;"
@@ -108,7 +108,7 @@
 						</tr>
 						<tr>
 							<th class="thNeed">국가</th>
-							<td colspan="3"><select style="width: 28%;"
+							<td colspan="3"><select style="width: 28%;" id="ntilCdInput"
 								disabled="disabled">
 									<option value="KOR">대한한국</option>
 									<option value="USA">미국</option>
@@ -123,7 +123,7 @@
 						</tr>
 						<tr>
 							<th>참고내용</th>
-							<td colspan="3"><textarea rows="4"
+							<td colspan="3"><textarea rows="4" id="ptntNoteTextInput"
 									style="width: 95%; resize: none;" maxlength="999"
 									readonly="readonly" disabled="disabled"></textarea></td>
 						</tr>
@@ -134,7 +134,7 @@
 	</main>
 
 	<script>
-		document.getElementById("inputNumId").value = "01012345678";
+		document.getElementById("moblInput").value = "01012345678";
 		
 		function calculateAge(brth) {
 		    // 현재 날짜를 생성
@@ -218,6 +218,24 @@
 							const { ptntId, ptntKrNm, ptntEnglNmF, ptntEnglNmM, ptntEnglNmL, brth, gndrDvsn, mobl, ntilCd, ptntNoteText } = result.rows
 							
 							document.getElementById("ptntIdInput").value = ptntId;
+							document.getElementById("ptntKrNmInput").value = ptntKrNm;
+							document.getElementById("ptntEnglNmFInput").value = ptntEnglNmF;
+							document.getElementById("ptntEnglNmMInput").value = ptntEnglNmM;
+							document.getElementById("ptntEnglNmLInput").value = ptntEnglNmL;
+							document.getElementById("brthInput").value = brth;
+							
+							if(gndrDvsn==='M'){
+								document.getElementById("gndrDvsnA").checked  = true;
+								document.getElementById("gndrDvsnB").checked  = false;		
+							} else if(gndrDvsn==='F'){
+								document.getElementById("gndrDvsnB").checked  = true;
+								document.getElementById("gndrDvsnA").checked  = false;
+							}
+							
+							document.getElementById("moblInput").value = mobl;
+							document.getElementById("ntilCdInput").value = ntilCd;
+							document.getElementById("ptntNoteTextInput").value = ptntNoteText;
+							
 							
 							
 							console.log(result);
@@ -249,9 +267,56 @@
 					//alert(index+'/'+idxcol+'/'+sortorder);
 				},
 			});
+		});     
+		
+		
+		// 검색 기능
+		const searchGrid = function(value, grid) {
+			// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
+			// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
+			$("#" + grid).jqGrid("setGridParam", {
+				datatype: "json", 
+				page: 1
+			}).trigger("reloadGrid");
+			// 파라미터를 설정하고, 새로고침하여 페이지를 1로 설정하고, 데이터 타입을 JSON으로 변경한다.
+			
+			$("#" + grid).jqGrid("setGridParam", {
+				// beforeProcessing 은 데이터를 처리하기 전에 호출되며, 데이터 그리드를 필터링한다.
+				beforeProcessing: function(data) {
+					if (value === "") {
+						return;
+					}
+					
+					var filteredData = [];
+					
+					for (var i = 0; i < data.rows.length; i++) {
+						var rowData = data.rows[i];
+						var matched = false;
+						
+						for (var key in rowData) {
+							var cellValue = rowData[key];
+							
+							if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(value)) {
+								matched = true;
+								break;
+							}
+						}
+						
+						if (matched) {
+							filteredData.push(rowData);
+						}
+					}
+					data.rows = filteredData;
+				}
+			});	
+		};
+
+		// list1 검색
+		$("#inputKeyword").on("input", function() {
+			var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
+			
+			searchGrid(inputValue, "list1");
 		});
-		
-		
 		
 	</script>
 </body>
