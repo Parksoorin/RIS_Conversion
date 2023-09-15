@@ -33,9 +33,15 @@ public class RISUSERQ00Controller {
 	
 	
 	@RequestMapping(value = "/RISUSERQ00.do")
-	public String menu(Model model) throws Exception {
+	public String user(Model model) throws Exception {
 		System.out.print("=====123123123==");
 		return ".main/com/RISUSERQ00";
+	}
+	
+	@RequestMapping(value = "/pwPopup.do")
+	public String pwpopup(Model model) throws Exception {
+		System.out.print("=====123123123==");
+		return ".popup/pwPopup";
 	}
 	
 	@RequestMapping(value = "/RISUSERQ00.do", method = RequestMethod.POST)

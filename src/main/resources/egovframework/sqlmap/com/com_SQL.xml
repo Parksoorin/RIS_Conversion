@@ -3,8 +3,12 @@
 <mapper namespace="egovframework.com.mapper.ComMapper">
 	<!-- 사용자관리 페이지 그리드 -->
 	<select id="RisUserList" resultType="egovframework.com.model.RisUserDTO">
-		SELECT LOGIN_ID, LOGIN_NM, LOGIN_PWD, USER_GRADE, START_DATE, END_DATE, ERROR_CNT
-		FROM risuser
+		SELECT A.LOGIN_ID, A.LOGIN_NM, A.LOGIN_PWD, B.MDDL_KR_NM, A.START_DATE, A.END_DATE, A.ERROR_CNT
+		FROM risuser A
+		LEFT JOIN ris0102 B
+		ON A.HSPT_ID = B.HSPT_ID 
+		AND A.USER_GRADE = B.MDDL_CD
+		WHERE B.LRGC_CD = "GRADE"
 	</select>
 	
 	<!-- 프로그램 정보 관리 그리드 -->

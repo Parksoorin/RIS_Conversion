@@ -50,4 +50,5 @@ public class RisUserDTO {
 	private String langGubun;
 	@Max(11)
 	private int pacsFk;
+	private String mddlKrNm;
 }
