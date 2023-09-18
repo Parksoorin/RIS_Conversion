@@ -258,7 +258,9 @@
 	       
 	        
 	        rowIdc = rowId+1;
-          	
+	        
+	        $("#list1").jqGrid('setSelection', rowIdc, true);
+	    	$("#"+rowIdc+"_mddlKrNm").focus();
           	getSelectRowData('입력');
 	      	
            
@@ -275,11 +277,14 @@
 
         	if (!getSelectRowData('수정')) return;
 
-	        $("#list1").jqGrid('setCell', rowIdc, 'strtDate', '', {'disabled': true});
-
+	       
 	        $("#list1").jqGrid('editRow',rowIdc,{keys : true });	
-	        console.log('새로운 코드 추가123213');
-	        
+	        $('#' + rowIdc + '_' + 'strtDate').attr('disabled', true);
+	    	$('#' + rowIdc + '_' + 'strtTime').attr('disabled', true);
+	    	$('#' + rowIdc+ '_' + 'endTime').attr('disabled', true);
+	    	$('#' + rowIdc + '_mddlKrNm').attr('disabled', true);
+	    	$("#list1").jqGrid('setSelection', rowIdc, true);
+	    	$("#"+rowIdc+"_appnImpsText").focus();
 	    })
 
         $('#delete-btn').click(function(){
