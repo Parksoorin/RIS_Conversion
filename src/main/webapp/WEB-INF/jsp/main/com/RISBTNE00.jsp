@@ -22,7 +22,7 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
@@ -51,7 +51,15 @@
             { name: "userGrade", index: "userGrade", width: 100, align: "center" },
             { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
             { name: "pgrmBtn", index: "pgrmBtn", width: 100, align: "center" },
-            { name: "useYn", index: "useYn", width: 50, align: "center" },
+            { 
+                name: "useYn", 
+                index: "useYn", 
+                width: 50, 
+                align: "center",
+                editable: true,
+                edittype: 'checkbox', // 체크박스로 설정
+                editoptions: { value: 'Y:N' } // 체크 시 'Y', 언체크 시 'N' 값으로 저장
+            },
           ],
           jsonReader: 
 		  	{
@@ -150,6 +158,17 @@
   		});	
   	};
 
+ 	// 그리드1 행 수정
+    $("#update-row__btn").on("click", function(){
+    	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+        if (selectedRowId) {    	  	  	
+            // 선택한 행이 있는 경우 편집 모드로 진입
+            $("#list1").jqGrid('editRow', selectedRowId, true);
+        } else {
+            alert("편집할 행을 먼저 선택하세요.");
+        }
+    })
+    
   	// list1 검색
   	$("#search").on("input", function() {
   		var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
