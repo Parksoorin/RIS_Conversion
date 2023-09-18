@@ -4,6 +4,12 @@
 	align-items: center;
 }
 
+.download__icon::before {
+    content: "\f6dd";
+    color: #409721;
+    font-size: 18px;
+}
+
 .filter__options {
 	margin-right: 0;
 	padding: 2px;
