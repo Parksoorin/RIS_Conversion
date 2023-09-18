@@ -14,6 +14,12 @@
     background-color: #fafafa;
 
 }
+.search__box {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 90px;
+}
 .pwpopup__container {
 	padding: 10px;
   	width: 100%;
@@ -30,20 +36,30 @@
 	justify-content: center;
 	margin-bottom: 10px;
 }
+
+.filter__options {
+    margin-right: 10px;
+    padding: 2px;
+    width: 200px;
+    height: 40px;
+    font-size: 12px;
+    border: 2px solid #DBDBDB;
+    border-radius: 3px;
+}
 </style>
   <body>
     <main class="main__container">
       <!-- 그리드 -->
       <div class="pwpopup__container">
-        <section class="grid__box">
-          <!-- 그리드 -->
-          <table id="list1" class="grid1"></table>
+        <section class="search__box">
+          	<p class="filter__keyword">사용자 ID :</p>
+        	<input type="text" class="filter__options"></input>
         </section>
       </div>
       
       <div class="pwpopup-btn__container">
-		    <button class="all__btn fontawesome__btn text__btn">선택</button>
-			<button onclick="closePopup()" class="all__btn fontawesome__btn text__btn">닫기</button>
+		    <button class="all__btn fontawesome__btn text__btn">초기화</button>
+			<button onclick="closePopup()" class="all__btn fontawesome__btn text__btn">취소</button>
       </div>
     </main>
 
