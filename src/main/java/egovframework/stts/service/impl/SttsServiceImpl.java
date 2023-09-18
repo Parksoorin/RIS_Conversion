@@ -23,12 +23,17 @@ public class SttsServiceImpl implements SttsService {
 	}
 	
 	@Override
-	public List<Ris0102DTO> getRisImgnList() {
-		return sttsMapper.getRisImgnList();
+	public List<Ris0102DTO> getRisDvsnList() {
+		return sttsMapper.getRisDvsnList();
 	}
 	
 	@Override
 	public List<Ris0102DTO> getRisRoomList() {
 		return sttsMapper.getRisRoomList();
+	}
+	
+	@Override
+	public List<Ris0102DTO> getRisEqpmList() {
+		return sttsMapper.getRisEqpmList();
 	}
 }
