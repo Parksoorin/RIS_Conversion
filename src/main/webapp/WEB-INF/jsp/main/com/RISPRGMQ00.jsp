@@ -22,7 +22,7 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
@@ -49,12 +49,44 @@
        		colModel: [
 	          	{ name: "systemId", index: "systemId", width: 100, align: "center" },
 	            { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
-	            { name: "pgrmName", index: "pgrmName", width: 150, align: "center" },
-	            { name: "pgrmUrl", index: "pgrmUrl", width: 200, align: "center" },
-	            { name: "pgrmType", index: "pgrmType", width: 80, align: "center" },
-	            { name: "pgrmInfo", index: "pgrmInfo", width: 80, align: "center" },
-	            { name: "useYn", index: "useYn", width: 50, align: "center" },
-	            { name: "endYn", index: "endYn", width: 50, align: "center" }
+	            { name: "pgrmName", index: "pgrmName", width: 150, align: "center", editable: true },
+	            { name: "pgrmUrl", index: "pgrmUrl", width: 200, align: "center", editable: true },
+	            { 
+	            	name: "pgrmType", 
+	            	index: "pgrmType", 
+	            	width: 80, 
+	            	align: "center",
+	            	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회; Option4:출력; Option5:배치" }
+	            },
+	            { 
+	            	name: "pgrmInfo",
+	            	index: "pgrmInfo", 
+	            	width: 80, 
+	            	align: "center", 
+	            	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:메인화면; Option2:팝업화면; Option3:메뉴헤더" }
+	            },
+	            { 
+	                name: "useYn", 
+	                index: "useYn", 
+	                width: 50, 
+	                align: "center",
+	                editable: true,
+	                edittype: 'checkbox', // 체크박스로 설정
+	                editoptions: { value: 'Y:N' } // 체크 시 'Y', 언체크 시 'N' 값으로 저장
+	            },
+	            { 
+	            	name: "endYn",
+	            	index: "endYn", 
+	            	width: 50, 
+	            	align: "center",
+	                editable: true,
+	                edittype: 'checkbox', // 체크박스로 설정
+	                editoptions: { value: 'Y:N' } // 체크 시 'Y', 언체크 시 'N' 값으로 저장
+	            }
           	],
           	jsonReader: 
 		  	{
@@ -117,7 +149,62 @@
     	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
     	    } else { alert('Please select a row to delete.'); }
         });
+        
+     	// 그리드1 행 수정
+        $("#update-row__btn").on("click", function(){
+        	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+            if (selectedRowId) {    	  	  	
+                // 선택한 행이 있는 경우 편집 모드로 진입
+                $("#list1").jqGrid('editRow', selectedRowId, true);
+            } else {
+                alert("편집할 행을 먼저 선택하세요.");
+            }
+        })
     });
+    
+    
+ 	// 검색 기능
+	const searchGrid = function(value, grid) {
+		// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
+		// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
+		$("#" + grid).jqGrid("setGridParam", {
+			datatype: "json", 
+			page: 1
+		}).trigger("reloadGrid");
+		// 파라미터를 설정하고, 새로고침하여 페이지를 1로 설정하고, 데이터 타입을 JSON으로 변경한다.
+		
+		$("#" + grid).jqGrid("setGridParam", {
+			// beforeProcessing 은 데이터를 처리하기 전에 호출되며, 데이터 그리드를 필터링한다.
+			beforeProcessing: function(data) {
+				if (value === "") {
+					return;
+				}
+				var filteredData = [];
+				for (var i = 0; i < data.rows.length; i++) {
+					var rowData = data.rows[i];
+					var matched = false;
+					for (var key in rowData) {
+						var cellValue = rowData[key];
+						if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(value)) {
+							matched = true;
+							break;
+						}
+					}
+					if (matched) {
+						filteredData.push(rowData);
+					}
+				}
+				data.rows = filteredData;
+			}
+		});	
+	};
+
+	// list1 검색
+	$("#search").on("input", function() {
+		var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
+		
+		searchGrid(inputValue, "list1");
+	});
     </script>
 </body>
 </html>

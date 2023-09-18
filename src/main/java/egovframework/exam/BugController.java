@@ -49,4 +49,9 @@ public class BugController {
 	public String threeGrid() {
 		return ".main/threeGrid";
 	}
+	
+	@GetMapping("/RISUSERE01.do")
+	public String popup() {
+		return ".popup/RISUSERE01";
+	}
 }

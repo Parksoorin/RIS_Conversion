@@ -22,8 +22,8 @@
 
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        <button class="all__btn text__btn">비밀번호 초기화</button>
-        	<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+        <button onclick="openPopup()" class="all__btn text__btn">비밀번호 초기화</button>
+        	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn">수정</button>
         	<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn">입력</button>
 		    <button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn">삭제</button>
     		<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn">저장</button>
@@ -51,10 +51,67 @@
             	{ name: 'flag', index: 'flag', hidden: true },
                 { name: "loginId", index: "loginId", width: 120, align: "center" },
                 { name: "loginNm", index: "loginNm", width: 120, align: "center" },
-                { name: "loginPwd", index: "loginPwd", width: 150, align: "center" },
-                { name: "userGrade", index: "userGrade", width: 100, align: "center" },
-                { name: "startDate", index: "startDate", width: 120, align: "center" },
-                { name: "endDate", index: "endDate", width: 120, align: "center" },
+                { 
+                	name: "loginPwd",
+                	index: "loginPwd", 
+                	width: 150, 
+                	align: "center", 
+                	formatter: function (cellValue, options, rowObject) {
+                        // cellValue(셀 값)를 숨기고 별표로 표시
+                        return "********";
+                    },
+                    // 편집 가능한 필드로 설정하지 않음
+                    editable: false
+                },
+                { 
+                	name: "mddlKrNm", 
+                	index: "mddlKrNm", 
+                	width: 100, 
+                	align: "center", 
+                	editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:의사; Option2: 방사선사; Option3:슈퍼관리자; Option4:관리자" }
+                },
+                { 
+                	name: "startDate",
+                	index: "startDate", 
+                	width: 120, 
+                	align: "center", 
+                	editable: true,
+                	edittype: 'text', // 편집 모드에서 텍스트 필드로
+                	formatter: "date", // 날짜 형식으로 변환,
+                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
+                	editoptions: {
+                        dataInit: function (elem) {
+                            $(elem).datepicker({
+                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
+                                showOn: 'button',
+                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
+                                buttonImageOnly: true
+                            });
+                        }
+                    }
+                },
+                { 
+                	name: "endDate", 
+                	index: "endDate",
+                	width: 120,
+                	align: "center",
+                	editable: true,
+                	edittype: 'text', // 편집 모드에서 텍스트 필드로
+                	formatter: "date", // 날짜 형식으로 변환,
+                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
+                	editoptions: {
+                        dataInit: function (elem) {
+                            $(elem).datepicker({
+                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
+                                showOn: 'button',
+                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
+                                buttonImageOnly: true
+                            });
+                        }
+                    }
+                },
                 { name: "errorCnt", index: "errorCnt", width: 50, align: "center" }
             ],
             jsonReader: 
@@ -113,14 +170,115 @@
         $("#delete-row__btn").on("click", function () {
         	var grid = $("#list1");
     	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-    	    } else { alert('Please select a row to delete.'); }
+    	    if (selectedRowId) { 
+    	    	grid.jqGrid('delRowData', selectedRowId);
+    	    } else { 
+    	    	alert('Please select a row to delete.'); 
+    	    }
         });
+        
+        
+        // 그리드1 행 수정
+        $("#update-row__btn").on("click", function(){
+        	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+            if (selectedRowId) {    	  	  	
+                // 선택한 행이 있는 경우 편집 모드로 진입
+                $("#list1").jqGrid('editRow', selectedRowId, true);
+            } else {
+                alert("편집할 행을 먼저 선택하세요.");
+            }
+        })
+        
+        /* 
+        $("#save-row__btn").click(function () {
+		    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+		    if (selectedRowId) {
+		        // 선택한 행이 있는 경우 편집 모드 종료
+		        $("#list1").jqGrid('saveRow', selectedRowId, {
+		            url: "/서버에저장할URL",
+		            mtype: 'POST', // 전송 타입
+		            successfunc: function (response) {
+		                // 수정이 성공한 경우
+		                alert("수정이 성공하였습니다.");
+		                $("#list1").trigger("reloadGrid");
+		            },
+		            errorfunc: function (rowId, response) {
+		                // 수정이 실패한 경우
+		                alert("수정에 실패하였습니다.");
+		            }
+		        });
+		    } else {
+		        alert("저장할 행을 먼저 선택하세요.");
+		    }
+		});
+        */
+        
+        
+        
 	});
     
-    
+ 	// 팝업 열기
+    function openPopup() {
+        // 팝업 창에 표시할 URL
+        var url = "/RISUSERE01.do";
 
-    
+        // 팝업 창의 크기와 위치 설정
+        var width = 600;
+        var height = 300;
+        var left = (window.innerWidth - width) / 2;
+        var top = (window.innerHeight - height) / 2;
+
+        // 팝업 창을 열기
+        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+        // 팝업 창이 차단되었을 때 처리
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+        }
+    }
+
+ 	// 검색 기능
+	const searchGrid = function(value, grid) {
+		// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
+		// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
+		$("#" + grid).jqGrid("setGridParam", {
+			datatype: "json", 
+			page: 1
+		}).trigger("reloadGrid");
+		// 파라미터를 설정하고, 새로고침하여 페이지를 1로 설정하고, 데이터 타입을 JSON으로 변경한다.
+		
+		$("#" + grid).jqGrid("setGridParam", {
+			// beforeProcessing 은 데이터를 처리하기 전에 호출되며, 데이터 그리드를 필터링한다.
+			beforeProcessing: function(data) {
+				if (value === "") {
+					return;
+				}
+				var filteredData = [];
+				for (var i = 0; i < data.rows.length; i++) {
+					var rowData = data.rows[i];
+					var matched = false;
+					for (var key in rowData) {
+						var cellValue = rowData[key];
+						if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(value)) {
+							matched = true;
+							break;
+						}
+					}
+					if (matched) {
+						filteredData.push(rowData);
+					}
+				}
+				data.rows = filteredData;
+			}
+		});	
+	};
+
+	// list1 검색
+	$("#search").on("input", function() {
+		var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
+		
+		searchGrid(inputValue, "list1");
+	});
     
     
     </script>

@@ -10,13 +10,13 @@
   <body>
   	<script type="text/javascript" src='/js/jquery/common.js'></script>
  
-    <!-- Main 화면 영역  Start -->
+    <!-- Main 화면 ------------------------------------------------------------------------------------------------------------------------------------->
 	
-	<!-- 검색영역 설정 Start --> 
+	<!-- 검색영역 설정 ------------------------------------------------------------------------------> 
 	<div class="inquiry__page-flex mt5">
       <section class="inquiry__search-section">
-        <!-- 검색조건 영역 Start -->
-       <div class="inquiry__search-flex" style="justify-content:space-between;"> <!-- 1 Row -->
+  
+       <div class="inquiry__search-flex" style="justify-content:space-between;">
 			<div class="box__flex">
 				<button class="all__btn img__btn img__btn refresh__btn">새로고침</button> 
 				
@@ -31,11 +31,10 @@
 				</a>
         	</div>
         </div>
-        <!-- 검색조건 영역 End -->
     	</section>  
-		<!-- 검색영역 설정 End -->
+		<!-- ----------------------------------------------------------------------------------->
 		
-		<!-- Data 영역설정 Start -->		   	
+		<!-- Data 영역 ------------------------------------------------------------------------------------------------------>		   	
     	<section class="inquiry__result-section mt5">
 		    
 		    <form commandName="VO" id="lrgc_insertForm"	name="lrgc_insertForm" method="post" style="width:100%;">
@@ -60,13 +59,10 @@
 								<th colspan="2" scope="row">*대분류코드</th>
 								<!-- <th colspan="2" scope="row">*Division code</th> -->
 								<td colspan="3">
-									<input type="text" name="lrgc_cd" id="lrgc_cd" value="" class="txt wx150" maxlength="20"/>
-									
-										<!-- <input type="button" value="중복체크" class="emphasis__btn" onclick="overlapCheck()" /> -->
-<!-- 										<button type="button" class="emphasis__btn ml-2" onclick="overlapCheck('L')" style="display: inline-block;">중복확인</button> -->
-										<button type="button" class="emphasis__btn ml-2" onclick="duplicateCheck()" style="display: inline-block;">중복확인</button>
-									
+									<input type="text" name="lrgc_cd" id="lrgc_cd" value="" class="txt wx150" maxlength="20"/>									
+										<button type="button" class="emphasis__btn ml-2" onclick="duplicateCheck()" style="display: inline-block; width: 4em; height: 2em;"">중복확인</button>									
 								</td >
+								
 								<th  colspan="2">*대분류 한글 명</th>
 								<!-- <th  colspan="2">*Divison Korean names</th> -->
 								<td  colspan="3">
@@ -74,35 +70,22 @@
 										 class="txt wx150" maxlength="100"/>
 								</td>
 							</tr>
-						
-						
-						
-						
-						
-						
-						<tr>
-							
+																																				
+							<tr>							
  								<th  colspan="2">대분류 영어 명</th>
 							<!--<th  colspan="2">Division, English names</th> -->
 								<td  colspan="3">
 									<input type="text" name="lrgc_engl_nm" id="lrgc_engl_nm" value="" class="txt wx150" maxlength="100"/>
 								</td>
+								
 								<th  colspan="2">대분류 약어 명</th>
 								<!-- <th  colspan="2">Abbreviations for Division</th> -->
 								<td  colspan="3">
 									<input type="text" name="lrgc_abbr_nm" id="lrgc_abbr_nm" value="" class="txt wx150" maxlength="100"/>
 								</td>
+							</tr>
 							
-							
-							
-							
-							
-							
-							
-						</tr>
-						
-						<tr>
-							
+							<tr>						
  								<th  colspan="2">*자릿수</th>
 								<!-- <th colspan="2">*The number of digits</th> -->
 								<td  colspan="3">
@@ -137,63 +120,70 @@
 								 class="txt wx150" maxlength="10"/>
 							</td>
 						</tr>
-						
-						
-						
+												
 						<tr>
  							<th colspan="2" style="vertical-align: middle;">문자값1</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Text value1</th> -->
 							<td colspan="3">
 								<textarea rows="3" style="width:80%" name="chrc1" id="chrc1" maxlength="999" ></textarea>
 							</td>
+							
 							<th colspan="2" style="vertical-align: middle;">숫자값1</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Numeric value1</th> -->
 							<td colspan="3" style="vertical-align: middle;">
 								<input type="text" name="nmbr1" id="nmbr1" value="" onkeydown="javascript:fnOnlyNumber();" class="txt wx150" maxlength="20"/>
 							</td>
 						</tr>
+						
 						<tr>
 <							<th colspan="2" style="vertical-align: middle;">문자값2</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Text value2</th> -->
 							<td colspan="3">
 								<textarea rows="3" style="width:80%" name="chrc2" id="chrc2" maxlength="999" ></textarea>
 							</td>
+							
  							<th colspan="2" style="vertical-align: middle;">숫자값2</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Numeric value2</th> -->
 							<td colspan="3" style="vertical-align: middle;">
 								<input type="text" name="nmbr2" id="nmbr2" value="" onkeydown="javascript:fnOnlyNumber();" class="txt wx150" maxlength="20"/>
 							</td>
 						</tr>
+						
 						<tr>
  							<th colspan="2" style="vertical-align: middle;">문자값3</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Text value3</th> -->
 							<td colspan="3">
 								<textarea rows="3" style="width:80%" name="chrc3" id="chrc3" maxlength="999" ></textarea>
 							</td>
+							
  							<th colspan="2" style="vertical-align: middle;">숫자값3</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Numeric value3</th> -->
 							<td colspan="3" style="vertical-align: middle;">
 								<input type="text" name="nmbr3" id="nmbr3" value="" onkeydown="javascript:fnOnlyNumber();" class="txt wx150" maxlength="20"/>
 							</td>
 						</tr>
+						
 						<tr>
  							<th colspan="2" style="vertical-align: middle;">문자값4</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Text value4</th> -->
 							<td colspan="3">
 								<textarea rows="3" style="width:80%" name="chrc4" id="chrc4" maxlength="999" ></textarea>
 							</td>
+							
  							<th colspan="2" style="vertical-align: middle;">숫자값4</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Numeric value4</th> -->
 							<td colspan="3" style="vertical-align: middle;">
 								<input type="text" name="nmbr4" id="nmbr4" value="" onkeydown="javascript:fnOnlyNumber();" class="txt wx150" maxlength="20"/>
 							</td>
 						</tr>
+						
 						<tr>
  							<th colspan="2" style="vertical-align: middle;">문자값5</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Text value5</th> -->
 							<td colspan="3">
 								<textarea rows="3" style="width:80%" name="chrc5" id="chrc5" maxlength="999" ></textarea>
 							</td>
+							
  							<th colspan="2" style="vertical-align: middle;">숫자값5</th>
 							<!-- <th colspan="2" style="vertical-align: middle;">Numeric value5</th> -->
 							<td colspan="3" style="vertical-align: middle;">
@@ -204,21 +194,10 @@
 				</table>
 			</form>
 		    
-		</section>
-        <!-- Data 영역설정 End --> 
-        
-	    <!-- 버튼 영역 Start(하단) --> 
-		<!-- <section class="inquiry__btn-section mt5">
-	        <div class="inquiry__btn-left">
-	          <a href=""><button class="process__btn"><img src="/images/icons/white/download.png" alt="" width="18px" /><span>엑셀다운</span></button></a>
-	        </div>
-	        <div class="inquiry__btn-right">
-	          <a href=""><button class="process__btn"><img src="/images/icons/white/inquiry.png" alt="" width="18px" /><span>&nbsp;조 회&nbsp;</span></button></a>
-	          <a href=""><button class="process__btn"><img src="/images/icons/white/close.png" alt="" width="18px" /><span>&nbsp;닫 기&nbsp;</span></button></a>
-	        </div>
-	    </section>  -->
-	    <!-- 버튼 영역 End -->
+		</section>             	  
 	</div>
+	<!-- --------------------------------------------------------------------------------------------------------------------->  
+	
     <script type="text/javascript">
     	var isDupCheck = false; 
     	var checkId = ""; 

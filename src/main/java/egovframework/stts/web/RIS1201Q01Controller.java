@@ -26,12 +26,14 @@ public class RIS1201Q01Controller {
 	@Resource(name="SttsService")
 	SttsService sttsService;
 	
-	@RequestMapping(value = "/stts/risImgnStts.do")
-	public String risImgnSttsPage(Model model) throws Exception {
-		List<Ris0102DTO> risImgnList = sttsService.getRisImgnList();
+	@RequestMapping(value = "/stts/RisImgnStts.do")
+	public String risDvsnSttsPage(Model model) throws Exception {
+		// 촬영 구분 리스트
+		List<Ris0102DTO> risDvsnList = sttsService.getRisDvsnList();
+		// 촬영실 리스트
 		List<Ris0102DTO> risRoomList = sttsService.getRisRoomList();
 		
-		model.addAttribute("risImgnList", risImgnList);
+		model.addAttribute("risDvsnList", risDvsnList);
 		model.addAttribute("risRoomList", risRoomList);
 		
 		return ".main/stts/RIS1201Q01";
@@ -52,15 +54,11 @@ public class RIS1201Q01Controller {
 		param.put("year", yearStr);
 		param.put("lastYear", String.valueOf(Integer.parseInt(yearStr) - 1)); // 문자열로 변환하여 다시 put
 
-		// 촬영구분과 촬영실 필터 값을 추가 (값이 null일 경우를 고려)
-		param.put("imgn", map.get("imgn").toString());
-		param.put("room", map.get("room").toString());
-		
-		System.out.println(param);
+		// 촬영구분과 촬영실 필터 값을 추가
+		param.put("dvsn", "%".equals(map.get("dvsn").toString()) ? "all" : map.get("dvsn").toString());
+		param.put("room", "%".equals(map.get("room").toString()) ? "all" : map.get("room").toString());
 		
 		List<Ris1201DTO> ris1201Data = sttsService.getRis1201List(param);
-		
-		System.out.println(ris1201Data);
 
 		json.put("ris1201Data", ris1201Data);
 		

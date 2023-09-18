@@ -4,6 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <title>공통코드관리</title>
+<link rel="stylesheet" type="text/css" href="/css/code/RIS0101E00.css"/>
 </head>
   <body>
     <main class="main__container">
@@ -24,14 +25,12 @@
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>
-            	대분류 코드&nbsp;
-            	<button id="lrgcDetail">상세</button>
-            </p>
-
+            <p>대분류 코드</p>
+            	<button class="all__btn img__btn img__btn detail__btn" id="lrgcDetail">상세</button> 
+            
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="lrgcReg">입력</button>
+              <button class="all__btn img__btn insert__btn" id="lrgcReg">입력</button>
             </div>
           </div>
           <!-- 그리드 -->
@@ -96,8 +95,10 @@
     </main>
 
     <script>
+    
+	  //Grid1 (대분류 코드)_________________________________________________________________________________________________________________________	  
       $(document).ready(function () {
-    	var jsonData = ${data};
+    	var jsonData = ${data}; //서버에서 가져온 데이터 jsonDate 변수에 저장 & 받아온 데이터 변수로 사용
     	  
         var mydata = [
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "1",applDate: "2023-09-05",exprDate: "9999-12-12",},
@@ -131,6 +132,7 @@
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "29",applDate: "2023-09-05",exprDate: "9999-12-12",},
         	{lrgcCd: "대분류코드CD",lrgcKrNm: "대분류 한글명",smllAcph: "자릿수 중",mddlCd: "중분류코드CD",mddlKrNm: "중분류 한글명",mddlAcph: "자릿수 대",smllCd: "소분류코드CD",smllKrNm: "소분류 한글명",otptSqnc: "30",applDate: "2023-09-05",exprDate: "9999-12-12",}
         ];
+    	
         
         $("#list1").jqGrid({
           datatype: "local",
@@ -150,14 +152,16 @@
           autowidth: true,
           height: "94%",
           rownumbers: true,
-//           multiselect: true,
+          //multiselect: true,
           sortname: "id",
           sortorder: "asc",
           rownumbers: true,
-          gridview: true, // 선표시 true/false
+          gridview: true, // 그리드를 빠르게 렌더링하기 위한 설정
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
           }, // loadComplete END
+          
+          /* 그리드에서 행 선택시 실행되는 콜백함수 정의  */
           onSelectRow: function (rowid) {
             var params = {};
             var rowObject = $("#list1").jqGrid('getRowData',rowid);
@@ -165,23 +169,24 @@
             jQuery('#list3').jqGrid('clearGridData'); // 그리드3 데이터 삭제
             params.hsptId = rowObject.hsptId;
             params.lrgcCd = rowObject.lrgcCd;
-
-            
-            
-            
-            
+          
+         //_____________________________________________________________________________________________________________________________________
+         
+         
+         //Grid2 (중분류 코드)_________________________________________________________________________________________________________________________		 
             $("#list2").setGridParam({
 				datatype : "json",
 				postData : params ,
-				url : "/risCodeList2.do", // 중분류 리스트 조회
-				mtype    : 'POST', // 전송 타입 */
+				url : "/risCodeList2.do", // 지정된 URL로 서버에 데이터를 요청
+				mtype    : 'POST',
 				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
 				function(postData){
 				} 
 			}).trigger("reloadGrid");
           },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+          
+          // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+          onSortCol: function (index, idxcol, sortorder) {          
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
             $("#list1").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
@@ -202,7 +207,8 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
-
+       
+      	
         $("#list2").jqGrid({
             datatype: "local",
             url : "/risCodeList2.do", // 중분류 리스트 조회
@@ -227,7 +233,7 @@
             autowidth: true,
             height: "85%",
             rownumbers: true,
-//             multiselect: true,
+            //multiselect: true,
             sortname: "id",
             sortorder: "asc",
             rownumbers: true,
@@ -242,19 +248,25 @@
                 params.hsptId = rowObject.hsptId;
                 params.lrgcCd = rowObject.lrgcCd;
                 params.mddlCd = rowObject.mddlCd;
-
+                
+          //_____________________________________________________________________________________________________________________________________
+                
+                
+                
+		 //Grid3 (소분류 코드)_________________________________________________________________________________________________________________________	
                 $("#list3").setGridParam({
     				datatype : "json",
     				postData : params ,
-    				url : "/risCodeList3.do", // 중분류 리스트 조회
-    				mtype    : 'POST', // 전송 타입 */
-    				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
+    				url : "/risCodeList3.do", // 해당 URL 로 서버에 데이터를 요청
+    				mtype    : 'POST',
+    				loadComplete:  //그리드3 데이터 로딩 완료후 실행되는 함수(빈 상태)
     				function(postData){
     				} 
     			}).trigger("reloadGrid");
             },
-            onSortCol: function (index, idxcol, sortorder) {
-              // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            
+       	    //그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+            onSortCol: function (index, idxcol, sortorder) {             
               // (화살표 css 변경하기 전 Frozen을 풀어주고)
               $("#list1").jqGrid("destroyFrozenColumns");
               var $icons = $(this.grid.headers[idxcol].el).find(
@@ -275,9 +287,10 @@
               //alert(index+'/'+idxcol+'/'+sortorder);
             },
           });
+        
         $("#list3").jqGrid({
         	datatype: "local",
-			url : "/risCodeList3.do", // 중분류 리스트 조회
+			url : "/risCodeList3.do", // 소분류 리스트 조회
 			reordercolNames: true, //컬럼명을 드래그하여 재정렬할 수 있는 기능을 활성화
 			postData: { 
 				type     : "DCList2", //그리드 데이터를 요청할때 함께 보낼 파라미터 설정
@@ -296,7 +309,7 @@
             autowidth: true,
             height: "85%",
             rownumbers: true,
-//             multiselect: true,
+            //multiselect: true,
             sortname: "id",
             sortorder: "asc",
             rownumbers: true,
@@ -328,19 +341,24 @@
               //alert(index+'/'+idxcol+'/'+sortorder);
             },
           });
-      });
+      });	  
+   	 //_____________________________________________________________________________________________________________________________________
       
-      // 대분류 상세 버튼 클릭 시
+   	 
+   	 /* 공통코드관리 페이지 전환(버튼)  */
+      // 대분류-상세 버튼(페이지 전환)______________________________________________________________________________
       $('#lrgcDetail').click(function(){
     	  location.href = "/RIS0101E01.do";
       });
 
-   	  // 대분류 입력 버튼 클릭 시
+   	  // 대분류-입력 버튼
       $('#lrgcReg').click(function(){
     	  location.href = "/RIS0101E02.do";
       });
+   	  //____________________________________________________________________________________________________
    	  
    	  
+   	  //검색버튼(대분류 데이터 검색)______________________________________________________________________________________________________________
       function jsSearch(){
     	  jQuery('#list1').jqGrid('clearGridData'); // 그리드1 데이터 삭제
     	  jQuery('#list2').jqGrid('clearGridData'); // 그리드2 데이터 삭제
@@ -348,13 +366,14 @@
     	  $("#list1").setGridParam({
 				datatype : "json",
 				postData : {"searchWord" : $("[name='searchWord']").val()} ,
-				url : "/risCodeList1Search.do", // 중분류 리스트 조회
+				url : "/risCodeList1Search.do", // 대분류 리스트 검색 데이터 요청
 				mtype    : 'POST', // 전송 타입 */
 				loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)
 				function(postData){
 				} 
 			}).trigger("reloadGrid");
       }
+      //___________________________________________________________________________________________________________________________________
     </script>
   </body>
 </html>

@@ -68,9 +68,9 @@
             <li class="main__menu-items">
                 각종 통계현황
                 <div class="sub__menu-item">
-                    <a href="/stts/risImgnStts.do">촬영실별 통계</a>
-                    <a href="#">장비별 통계</a>
-                    <a href="#">판독의별 통계</a>
+                    <a href="/stts/RisImgnStts.do">촬영실별 통계</a>
+                    <a href="/stts/RisEqpmStts.do">장비별 통계</a>
+                    <a href="/stts/RisViewDocStts.do">판독의별 통계</a>
                 </div>
             </li>
         </ul>
