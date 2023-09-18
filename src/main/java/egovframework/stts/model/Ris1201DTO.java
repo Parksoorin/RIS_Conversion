@@ -2,6 +2,8 @@ package egovframework.stts.model;
 
 public class Ris1201DTO {
 	private String roomNm;
+	private String eqpmNm;
+	private String viewDocNm;
 	private String dvsnNm;
 	private String january;
 	private String february;
@@ -35,6 +37,18 @@ public class Ris1201DTO {
 	}
 	public void setRoomNm(String roomNm) {
 		this.roomNm = roomNm;
+	}
+	public String getEqpmNm() {
+		return eqpmNm;
+	}
+	public void setEqpmNm(String eqpmNm) {
+		this.eqpmNm = eqpmNm;
+	}
+	public String getViewDocNm() {
+		return viewDocNm;
+	}
+	public void setViewDocNm(String viewDocNm) {
+		this.viewDocNm = viewDocNm;
 	}
 	public String getDvsnNm() {
 		return dvsnNm;

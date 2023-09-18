@@ -3,20 +3,29 @@
 <mapper namespace="egovframework.appn.mapper.RIS0213E00Mapper">
 	<!-- 작성자 : 송유근  -->
 	<!-- 예외 기준 관리 -->
-	<select id="ris0213Select" resultType="egovframework.appn.model.Ris0213DTO">
+	<select id="ris0213Select" parameterType="egovframework.appn.model.Ris0213RequestDTO" resultType="egovframework.appn.model.Ris0213DTO">
 		SELECT
-				 HSPT_ID
-				,IMGN_ROOM_CD
-				,STRT_DATE
-				,STRT_TIME
-				,END_TIME
-				,APPN_IMPS_TEXT
-				,RGST_ID
-				,RGST_DTTM
-				,MDFC_ID
-				,MDFC_DTTM
+					 A.HSPT_ID
+					,A.IMGN_ROOM_CD
+					,A.STRT_DATE
+					,A.STRT_TIME
+					,A.END_TIME
+					,A.APPN_IMPS_TEXT
+					,A.RGST_ID
+					,A.RGST_DTTM
+					,A.MDFC_ID
+					,A.MDFC_DTTM
+					,B.MDDL_KR_NM
 		  FROM
-		  		 RIS0213
+			  		 RIS0213 A
+		  INNER JOIN RIS0102 B
+		  ON 		 A.IMGN_ROOM_CD = B.MDDL_CD
+		  AND 	     B.LRGC_CD = 'IMGN_ROOM_CD'
+		  AND        B.HSPT_ID = 'A001'
+		  WHERE 
+		  			STRT_DATE BETWEEN #{strtDate} AND #{endDate}
+		  		AND IMGN_ROOM_CD like CONCAT('%',#{imgnRoomCd}, '%')	
+	
 	</select>
 	
 	<update id="ris0213Update" parameterType="egovframework.appn.model.Ris0213DTO">	
@@ -26,8 +35,9 @@
 		SET
 	   	  	   APPN_IMPS_TEXT = #{item.appnImpsText}
 		WHERE    	
+				1=1
 		 		<if test="item.hsptId != null">
-				    HSPT_ID = #{item.hsptId}
+				    AND HSPT_ID = #{item.hsptId}
 		 		</if>
 		 		<if test="item.imgnRoomCd != null">
 		 			AND IMGN_ROOM_CD = #{item.imgnRoomCd}

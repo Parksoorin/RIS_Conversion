@@ -38,4 +38,6 @@ public class Ris0213DTO {
 	@Max(20)
 	private String mdfcId;
 	private String mdfcDttm;
+	
+	private String mddlKrNm;
 }

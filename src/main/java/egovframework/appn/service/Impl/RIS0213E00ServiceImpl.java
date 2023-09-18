@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import egovframework.appn.mapper.RIS0213E00Mapper;
 import egovframework.appn.model.Ris0213DTO;
+import egovframework.appn.model.Ris0213RequestDTO;
 import egovframework.appn.service.RIS0213E00Service;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,8 +24,8 @@ public class RIS0213E00ServiceImpl implements RIS0213E00Service{
 	// 예약 예외 기준 관리
 
 	@Override
-	public List<Ris0213DTO> ris0213Select() {
-		return mapper.ris0213Select();
+	public List<Ris0213DTO> ris0213Select(Ris0213RequestDTO dto) {
+		return mapper.ris0213Select(dto);
 	}
 
 	

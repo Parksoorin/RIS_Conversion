@@ -39,7 +39,7 @@ public class RIS1201Q01Controller {
 		return ".main/stts/RIS1201Q01";
 	}
 	
-	@RequestMapping(value = "/stts/getRis1201Q01List.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/stts/getDvsnSttsList.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject getRis1201Q01(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
@@ -58,7 +58,7 @@ public class RIS1201Q01Controller {
 		param.put("dvsn", "%".equals(map.get("dvsn").toString()) ? "all" : map.get("dvsn").toString());
 		param.put("room", "%".equals(map.get("room").toString()) ? "all" : map.get("room").toString());
 		
-		List<Ris1201DTO> ris1201Data = sttsService.getRis1201List(param);
+		List<Ris1201DTO> ris1201Data = sttsService.getDvsnSttsList(param);
 
 		json.put("ris1201Data", ris1201Data);
 		

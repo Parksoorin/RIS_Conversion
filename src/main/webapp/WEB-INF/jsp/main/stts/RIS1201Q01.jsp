@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="/css/stts/RIS1201Q01.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
 	<main class="main__container">
@@ -45,7 +47,7 @@
            	</c:forEach>
           </select>
         </div>
-        <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
+        <button id="downloadExcel" class="all__btn fontawesome__btn download__icon"></button>
       </section>
 		
 	  <section class="grid__section">
@@ -80,7 +82,7 @@
     	
     	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
         $("#list1").jqGrid({
-          url: "/stts/getRis1201Q01List.do",
+          url: "/stts/getDvsnSttsList.do",
        	  reordercolNames:true,
           postData : { 
 	      	  year: year,
@@ -149,7 +151,7 @@
           }, // loadComplete END
           rowattr: function(rowData, currentObj, rowId) {
               // "소 계"인 행의 배경색 설정
-              if (rowData.imgnNm === "소 계") {
+              if (rowData.dvsnNm === "소 계") {
                   return {'style': 'background-color: #ccc;'};
               } else if (rowData.roomNm === "총 합") {
             	  return {'style': 'background-color: #999;'};
@@ -333,6 +335,62 @@
       $("#selectRoom").change(function() {
     	  resetPage(); 
       });
+
+      $("#downloadExcel").click(function () {
+   	    // jqGrid에서 데이터를 가져오는 코드를 작성합니다.
+   	    var gridData = $("#list1").jqGrid("getGridParam", "data");
+
+   	    // 헤더를 정의합니다.
+   	    var header = ["촬영실별 통계"]; // 제목 행
+   	    var columnHeader = ["촬영실", "촬영구분", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", "합계", "전년"];
+
+   	    // 데이터를 CSV 형식으로 생성합니다.
+   	    var csvData = header.join(",") + "\n" + columnHeader.join(",") + "\n"; // 제목 행과 컬럼 제목 행 추가
+
+   	    $.each(gridData, function (index, row) {
+   	        var roomNm = row.roomNm;
+   	        var dvsnNm = row.dvsnNm;
+   	        var january = row.january;
+   	        var february = row.february;
+   	        var march = row.march;
+   	        var april = row.april;
+   	        var may = row.may;
+   	        var june = row.june;
+   	        var july = row.july;
+   	        var august = row.august;
+   	        var september = row.september;
+   	        var october = row.october;
+   	        var november = row.november;
+   	        var december = row.december;
+   	        var total = row.total;
+   	        var totalLastYear = row.totalLastYear;
+
+   	        csvData += [roomNm, dvsnNm, january, february, march, april, may, june, july, august, september, october, november, december, total, totalLastYear].join(",") + "\n";
+   	    });
+
+   	    // CSV 데이터를 XLSX 형식으로 변환
+   	    var workbook = XLSX.utils.book_new();
+   	    var ws_name = "DataSheet";
+   	    var ws_data = XLSX.utils.aoa_to_sheet(csvData.split('\n').map(row => row.split(',')));
+
+   	    // 제목 행 병합
+   	    ws_data["!merges"] = [
+   	        { s: { r: 0, c: 0 }, e: { r: 0, c: columnHeader.length - 1 } }
+   	    ];
+   	    
+   		// 헤더(타이틀) 스타일 지정
+   	    ws_data["A1"].s = {
+		    font: { sz: 18, bold: true }, // 글꼴 크기와 굵게 설정
+		    fill: { fgColor: { rgb: "FFFF00" } } // 배경색 지정 (노란색)
+		};
+   		
+   		console.log(ws_data);
+
+   	    XLSX.utils.book_append_sheet(workbook, ws_data, ws_name);
+
+   	    // XLSX 파일 다운로드
+   	    XLSX.writeFile(workbook, "촬영실별통계.xlsx");
+   	  });
     </script>
 </body>
 </html>
