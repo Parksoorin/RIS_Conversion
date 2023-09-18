@@ -326,7 +326,7 @@
     	  resetPage(); 
       });
       
-      $("#selectDvsn").change(function() {
+      $("#selectImgn").change(function() {
     	  resetPage(); 
       });
       

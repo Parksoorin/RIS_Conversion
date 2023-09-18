@@ -11,6 +11,7 @@ import egovframework.stts.model.Ris1201DTO;
 @Mapper("SttsMapper")
 public interface SttsMapper {
 	List<Ris1201DTO> getRis1201List(Map<String, String> param);
-	List<Ris0102DTO> getRisImgnList();
+	List<Ris0102DTO> getRisDvsnList();
 	List<Ris0102DTO> getRisRoomList();
+	List<Ris0102DTO> getRisEqpmList();
 }

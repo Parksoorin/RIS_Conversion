@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>촬영실별 통계</title>
+<title>장비별 통계</title>
 <link rel="stylesheet" href="/css/stts/RIS1201Q01.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
@@ -38,9 +38,9 @@
         </div>
         
       	<div class="search__options">
-          <p class="filter__keyword">촬영실</p>
-          <select id="selectRoom" class="filter__options">
-            <c:forEach items="${risRoomList}" var="data">
+          <p class="filter__keyword">장비 명</p>
+          <select id="selectEqpm" class="filter__options">
+            <c:forEach items="${risEqpmList}" var="data">
            	  <option value="${data.mddlCd}">${data.mddlKrNm}</option>
            	</c:forEach>
           </select>
@@ -69,14 +69,14 @@
     </main>
     
     <script>
-	  var months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+	  /* var months = ["january","february","march","april","may","june","july","august","september","october","november","december"];
 	  var chart1 = null;
 	  var chart2 = null;
 	  
 	  function drawGrid() {
 	    var year = $("#selectYear").val();
 	    var dvsn = $("#selectDvsn").val();
-	    var room = $("#selectRoom").val();
+	    var eqpm = $("#selectEqpm").val();
     	
     	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
         $("#list1").jqGrid({
@@ -85,7 +85,7 @@
           postData : { 
 	      	  year: year,
 	      	  dvsn: dvsn,
-	      	  room: room
+	      	  room: eqpm
 		  }, // 보낼 파라미터
 	      mtype:'POST',	// 전송 타입
           datatype: "json",
@@ -326,13 +326,13 @@
     	  resetPage(); 
       });
       
-      $("#selectDvsn").change(function() {
+      $("#selectImgn").change(function() {
     	  resetPage(); 
       });
       
       $("#selectRoom").change(function() {
     	  resetPage(); 
-      });
+      }); */
     </script>
 </body>
 </html>

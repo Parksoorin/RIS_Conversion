@@ -3,7 +3,7 @@
 <mapper namespace="egovframework.stts.mapper.SttsMapper">
 	<select id="getRis1201List" parameterType="java.util.HashMap" resultType="egovframework.stts.model.Ris1201DTO">
 		   SELECT IFNULL(B.MDDL_KR_NM, "총 합") AS ROOM_NM,
-		          CASE WHEN IFNULL(B.MDDL_KR_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS IMGN_NM,
+		          CASE WHEN IFNULL(B.MDDL_KR_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS DVSN_NM,
 		          SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 1 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS JANUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 2 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS FEBRUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 3 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS MARCH,
@@ -37,8 +37,8 @@
 		       ON C.HSPT_ID = 'A001' AND C.LRGC_CD = "IMGN_DVSN_CD" AND A.ORDR_BDYP_CD = C.MDDL_CD
 		    <where>
 		          A.HSPT_ID = 'A001' AND (EXTRACT(YEAR FROM A.PRSC_DATE) = #{year} OR EXTRACT(YEAR FROM A.PRSC_DATE) = #{lastYear})
-	    	    <if test="imgn != 'all'">
-	              AND A.ORDR_BDYP_CD = #{imgn}
+	    	    <if test="dvsn != 'all'">
+	              AND A.ORDR_BDYP_CD = #{dvsn}
 	            </if>
 		    	<if test="room != 'all'">
 		          AND A.IMGN_ROOM_CD = #{room}
@@ -47,7 +47,7 @@
 	     GROUP BY B.MDDL_KR_NM, C.MDDL_KR_NM WITH ROLLUP;
 	</select>
 	
-	<select id="getRisImgnList" resultType="egovframework.stts.model.Ris0102DTO">
+	<select id="getRisDvsnList" resultType="egovframework.stts.model.Ris0102DTO">
 		SELECT MDDL_CD, MDDL_KR_NM
 		  FROM ris0102
 		 WHERE HSPT_ID = "A001" AND LRGC_CD = "IMGN_DVSN_CD";
@@ -57,5 +57,11 @@
 		SELECT MDDL_CD, MDDL_KR_NM
 		  FROM ris0102
 		 WHERE HSPT_ID = "A001" AND LRGC_CD = "IMGN_ROOM_CD";
+	</select>
+	
+	<select id="getRisEqpmList" resultType="egovframework.stts.model.Ris0102DTO">
+		SELECT MDDL_CD, MDDL_KR_NM
+		  FROM ris0102
+		 WHERE HSPT_ID = "A001" AND LRGC_CD = "IMGN_EQPM_CD";
 	</select>
 </mapper>

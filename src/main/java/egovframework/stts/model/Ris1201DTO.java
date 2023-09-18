@@ -2,7 +2,7 @@ package egovframework.stts.model;
 
 public class Ris1201DTO {
 	private String roomNm;
-	private String imgnNm;
+	private String dvsnNm;
 	private String january;
 	private String february;
 	private String march;
@@ -36,11 +36,11 @@ public class Ris1201DTO {
 	public void setRoomNm(String roomNm) {
 		this.roomNm = roomNm;
 	}
-	public String getImgnNm() {
-		return imgnNm;
+	public String getDvsnNm() {
+		return dvsnNm;
 	}
-	public void setImgnNm(String imgnNm) {
-		this.imgnNm = imgnNm;
+	public void setDvsnNm(String dvsnNm) {
+		this.dvsnNm = dvsnNm;
 	}
 	public String getJanuary() {
 		return january;
