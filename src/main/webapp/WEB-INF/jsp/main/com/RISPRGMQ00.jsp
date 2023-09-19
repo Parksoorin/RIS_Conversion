@@ -47,8 +47,16 @@
             datatype: "json",
        		colNames: ["시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방싱", "사용", "완료"],
        		colModel: [
-	          	{ name: "systemId", index: "systemId", width: 100, align: "center" },
-	            { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
+	          	{ 
+	          		name: "systemId",
+	          		index: "systemId", 
+	          		width: 100, 
+	          		align: "center", 
+	          		editable: true,
+                	edittype: 'select',
+                	editoptions: { value: "Option1:선택; Option2:진단검사; Option3:영상의학" }
+	          	},
+	            { name: "pgrmId", index: "pgrmId", width: 100, align: "center", editable: true },
 	            { name: "pgrmName", index: "pgrmName", width: 150, align: "center", editable: true },
 	            { name: "pgrmUrl", index: "pgrmUrl", width: 200, align: "center", editable: true },
 	            { 
@@ -135,15 +143,38 @@
     
     
  	// 그리드1 행 수정
-    $("#update-row__btn").on("click", function(){
-    	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
-        if (selectedRowId) {    	  	  	
-            // 선택한 행이 있는 경우 편집 모드로 진입
-            $("#list1").jqGrid('editRow', selectedRowId, true);
-        } else {
-            alert("편집할 행을 먼저 선택하세요.");
-        }
-    })
+    $("#update-row__btn").on("click", function () {
+	    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+	    if (selectedRowId) {
+	        // 선택한 행이 있는 경우 편집 모드로 진입
+	        var grid = $("#list1");
+	        
+	        // 모든 컬럼을 가져옵니다.
+	        var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	        
+	     	// 모든 컬럼을 편집 모드에서 제외
+	        allColumns.forEach(function (column) {
+	            grid.jqGrid('setColProp', column.name, { editable: false });
+	        });
+	        
+	        // systemId와 pgrmId 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
+	        allColumns.forEach(function (column) {
+	            var columnName = column.name;
+	            if (columnName !== 'systemId' && columnName !== 'pgrmId') {
+	                grid.jqGrid('setColProp', columnName, { editable: true });
+	            }
+	        });
+	        
+	        // 선택한 행을 편집 모드로 진입합니다.
+	        grid.jqGrid('editRow', selectedRowId, {
+	            keys: true, // 엔터 키를 누를 때 저장되도록 설정
+	            focusField: 1 // 수정을 시작할 필드의 인덱스를 설정
+	        });
+	    } else {
+	        alert("편집할 행을 먼저 선택하세요.");
+	    }
+	});
+
     
  	// 그리드1 입력, 삭제
     $("#add-row__btn").on("click", function () {
@@ -153,13 +184,17 @@
 	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
 	    newRowData.flag = 'I';
 	    
-	    console.log("list1 데이터 : ", newRowData);
-    });
-    $("#delete-row__btn").on("click", function () {
-    	var grid = $("#list1");
-	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-	    } else { alert('Please select a row to delete.'); }
+	    // 모든 열을 편집 가능하게 설정합니다.
+	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	    for (var i = 0; i < allColumns.length; i++) {
+	        grid.jqGrid('setColProp', allColumns[i].name, { editable: true });
+	    }
+
+	    // 선택한 행을 편집 모드로 진입합니다.
+	    grid.jqGrid("editRow", newRowId, {
+	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+	    });
     });  
     
  	// 검색 기능

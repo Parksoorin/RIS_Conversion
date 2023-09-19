@@ -161,12 +161,29 @@
         
      	// 그리드1 입력, 삭제
         $("#add-row__btn").on("click", function () {
-        	var newRowData = {};
-        	var grid = $("#list1");
-    	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-    	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-    	    newRowData.flag = 'I';
-        });
+		    var newRowData = {};
+		    var grid = $("#list1");
+		    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+		    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+		    newRowData.flag = 'I';
+		
+		    // 모든 컬럼을 가져옵니다.
+		    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+		    
+		    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
+		    allColumns.forEach(function (column) {
+		        if (column.name !== 'errorCnt') {
+		            grid.jqGrid('setColProp', column.name, { editable: true });
+		        }
+		    });
+		
+		    // 선택한 행을 편집 모드로 진입합니다.
+		    grid.jqGrid("editRow", newRowId, {
+		        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+		        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+		    });
+		});
+
         $("#delete-row__btn").on("click", function () {
         	var grid = $("#list1");
     	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
@@ -180,14 +197,34 @@
         
         // 그리드1 행 수정
         $("#update-row__btn").on("click", function(){
-        	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
-            if (selectedRowId) {    	  	  	
-                // 선택한 행이 있는 경우 편집 모드로 진입
-                $("#list1").jqGrid('editRow', selectedRowId, true);
-            } else {
-                alert("편집할 행을 먼저 선택하세요.");
-            }
-        })
+    	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+        if (selectedRowId) {    	  	  	
+        	// 선택한 행이 있는 경우 편집 모드로 진입
+            var grid = $("#list1");
+            
+            // 모든 컬럼을 가져옵니다.
+            var allColumns = grid.jqGrid('getGridParam', 'colModel');
+            
+            // 모든 컬럼을 편집 모드에서 제외
+            allColumns.forEach(function (column) {
+                grid.jqGrid('setColProp', column.name, { editable: false });
+            });
+            
+            // 선택한 컬럼만 편집 모드로 진입
+            var selectedColumns = ['mddlKrNm', 'startDate', 'endDate']; // 편집 가능한 컬럼 이름들로 대체
+            selectedColumns.forEach(function (columnName) {
+                grid.jqGrid('setColProp', columnName, { editable: true });
+            });
+            
+            // 선택한 행을 편집 모드로 진입
+            grid.jqGrid('editRow', selectedRowId, {
+                keys: true, // 엔터 키를 누를 때 저장되도록 설정
+                focusField: 1 // 수정을 시작할 필드의 인덱스를 설정
+            });
+        } else {
+            alert("편집할 행을 먼저 선택하세요.");
+        }
+    })
         
         /* 
         $("#save-row__btn").click(function () {
