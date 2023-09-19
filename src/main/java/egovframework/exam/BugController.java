@@ -54,4 +54,13 @@ public class BugController {
 	public String popup() {
 		return ".popup/popup";
 	}
+	
+	@GetMapping("/login.do")
+	public String login() {
+		return ".login/login";
+	}
+	@GetMapping("/RISUSERE00.do")
+	public String risuserE00() {
+		return ".popup/RISUSERE00";
+	}
 }

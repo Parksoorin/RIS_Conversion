@@ -142,7 +142,7 @@
 		    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
 		    grid.jqGrid("addRowData", newRowId, newRowData, "first");
 		    newRowData.flag = 'I';
-		
+		    console.log("list1 데이터 : ", newRowData);
 		    // 모든 컬럼을 가져옵니다.
 		    var allColumns = grid.jqGrid('getGridParam', 'colModel');
 		    
@@ -177,7 +177,9 @@
         if (selectedRowId) {    	  	  	
         	// 선택한 행이 있는 경우 편집 모드로 진입
             var grid = $("#list1");
-            
+            var rowData = grid.jqGrid('getRowData', selectedRowId);
+		    rowData.flag = 'U';
+		    console.log("list1 데이터 : ", rowData);
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
             
