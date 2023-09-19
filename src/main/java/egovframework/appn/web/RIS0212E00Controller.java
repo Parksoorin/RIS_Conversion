@@ -44,11 +44,18 @@ public class RIS0212E00Controller {
 	 * POST		/appn/RIS0212E00/ris0212.do	ris0212List 모든 변경사항 저장
 	 */
 	
-	@GetMapping("/RIS0212E00/ris0212.do")
+	@PostMapping("/RIS0212E00/ris0212Search.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0212ListRestGetMapping(@RequestParam Map<String, Object> map) {
 		System.out.println("/appn/RIS0212E00/ris0212.do Get Mapping!!!");
 
+		for(String key : map.keySet()) {
+			//log.debug("{} key : {} ----------", key, map.get(key));
+			System.out.println(key);
+			System.out.println(map.get(key));
+		}
+		
+		
 		Ris0212RequestDTO dto = Ris0212RequestDTO.builder()
 				.strtDate(String.valueOf(map.get("strtDate")))
 				.endDate(String.valueOf(map.get("endDate")))				

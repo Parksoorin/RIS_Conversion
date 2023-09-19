@@ -16,7 +16,7 @@
 				RIS0212
 		WHERE
 				1		=		1
-				AND  STRT_DATE BETWEEN #{strtDate} AND #{endDate}
+				AND  HLDY_DATE BETWEEN #{strtDate} AND #{endDate}
 	
 				
 	</select>
