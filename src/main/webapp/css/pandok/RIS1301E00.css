@@ -1,0 +1,39 @@
+.main__container-twoGrid {
+	flex-direction: column;
+}
+
+.twoGrid__container {
+	width: 100%;
+	height: 50%;
+}
+
+.main__title {
+	justify-content: flex-start;
+	gap: 20px;
+}
+
+.flex__row {
+	display: flex;
+	gap: 5px;
+}
+
+.grid__title {
+	height: 40px;
+}
+
+.twoGrid__box {
+	padding: 0px;
+	height: calc(100% - 45px);
+}
+
+.left__container {
+	width: 35%;
+}
+
+.middle__container {
+	width: 35%;
+}
+
+.right__container {
+	width: 30%;
+}

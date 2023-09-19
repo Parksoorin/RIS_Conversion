@@ -105,22 +105,24 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+    });
         
-     	// 그리드1 입력, 삭제
-        $("#add-row__btn").on("click", function () {
-        	var newRowData = {};
-        	var grid = $("#list1");
-    	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-    	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-    	    newRowData.flag = 'I';
-        });
-        $("#delete-row__btn").on("click", function () {
-        	var grid = $("#list1");
-    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-    	    } else { alert('Please select a row to delete.'); }
-        });
-      });
+        
+ 	// 그리드1 입력, 삭제
+    $("#add-row__btn").on("click", function () {
+    	var newRowData = {};
+    	var grid = $("#list1");
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    newRowData.flag = 'I';
+    });
+    $("#delete-row__btn").on("click", function () {
+    	var grid = $("#list1");
+	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
+	    } else { alert('Please select a row to delete.'); }
+    });
+      
       
    	// 검색 기능
   	const searchGrid = function(value, grid) {

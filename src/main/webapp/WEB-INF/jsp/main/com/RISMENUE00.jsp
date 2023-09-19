@@ -329,28 +329,7 @@ pageEncoding="UTF-8"%>
 	    } else { alert('Please select a row to delete.'); }
     });
     
-    
-    
-    // 그리드1 저장
-  	$("#save__btn").click(function(){
-		// list1 데이터 전송
-		var list1Data = $("#list1").getRowData();
-		
-		$.ajax({
-		    type : 'post',           // 타입 (get, post, put 등등)
-		    url : '/saveBtn.do',           // 요청할 서버url
-		    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
-		    dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
-		    data : JSON.stringify(list1Data),
-		    success : function(result) { // 결과 성공 콜백함수
-		        console.log(result);
-		    },
-		    error : function(error) { // 결과 에러 콜백함수
-		        console.log(error)
-		    }
-		});
-	});
-    
+
  	// 검색 기능
 	const searchGrid = function(value, grid) {
 		// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
@@ -386,13 +365,33 @@ pageEncoding="UTF-8"%>
 			}
 		});	
 	};
-
 	// list1 검색
 	$("#search").on("input", function() {
 		var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
 		
 		searchGrid(inputValue, "list1");
 	});
+	
+    /* // 그리드1 저장
+  	$("#save__btn").click(function(){
+		// list1 데이터 전송
+		var list1Data = $("#list1").getRowData();
+		
+		$.ajax({
+		    type : 'post',           // 타입 (get, post, put 등등)
+		    url : '/saveBtn.do',           // 요청할 서버url
+		    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+		    dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+		    data : JSON.stringify(list1Data),
+		    success : function(result) { // 결과 성공 콜백함수
+		        console.log(result);
+		    },
+		    error : function(error) { // 결과 에러 콜백함수
+		        console.log(error)
+		    }
+		});
+	}); */
+    
     </script>
   </body>
 </html>
