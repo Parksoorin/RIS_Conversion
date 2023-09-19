@@ -62,8 +62,6 @@ public class RIS0601E00Controller {
 		JSONObject json = new JSONObject();
 		
 		List<Ris0601DTO> ris0601Data = pandokService.getRis0601List();
-		
-		// System.out.println(ris0601Data);
 
 		json.put("ris0601Data", ris0601Data);
 		

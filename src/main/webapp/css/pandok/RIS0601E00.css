@@ -68,6 +68,7 @@
 .update__icon::before {
 	content: "\f304";
 	color: #999;
+	font-size: 12px;
 }
 
 .delete__icon::before {

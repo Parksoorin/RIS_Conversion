@@ -9,14 +9,19 @@ public class Ris1301DTO {
 	private String ordrCd;			// 촬영코드(촬영명)
 	private String vistDvsn;		// 내원구분
 	private String trtmDprtCd;		// 진료과
-	private String ordrDocId;		// 처방의사
+	private String ordrDocId;		// 처방의사코드
+	private String ordrDocNm;		// 처방의사
 	private String viewYn;			// 판독완료(판독일자가 있으면 Y)
-	private String viewDay;			// 판독일자(판독일시에서 일자만)
+	private String viewDate;		// 판독일자(판독일시에서 일자만)
 	private String viewTime;		// 판독시간(판독일시에서 시간만)
-	private String viewDocId;		// 판독의사
+	private String viewDocId;		// 판독의사ID
+	private String loginNm;			// 판독의사 이름
 	private String voicViewYn;		// 음성판독여부
 	private String rdlgId;			// 방사선사
-	private String ordrPrgrDvsn;	// 처방진행구분
+	private String ordrPrgrDvsn;	// 처방진행구분 숫자
+	private String ordrPrgrKr;		// 처방진행구분
+	private String viewText;		// 판독내용
+	private String viewNoteText;	// 판독이력
 	
 	public String getOrdrFk() {
 		return ordrFk;
@@ -72,17 +77,23 @@ public class Ris1301DTO {
 	public void setOrdrDocId(String ordrDocId) {
 		this.ordrDocId = ordrDocId;
 	}
+	public String getOrdrDocNm() {
+		return ordrDocNm;
+	}
+	public void setOrdrDocNm(String ordrDocNm) {
+		this.ordrDocNm = ordrDocNm;
+	}
 	public String getViewYn() {
 		return viewYn;
 	}
 	public void setViewYn(String viewYn) {
 		this.viewYn = viewYn;
 	}
-	public String getViewDay() {
-		return viewDay;
+	public String getViewDate() {
+		return viewDate;
 	}
-	public void setViewDay(String viewDay) {
-		this.viewDay = viewDay;
+	public void setViewDate(String viewDate) {
+		this.viewDate = viewDate;
 	}
 	public String getViewTime() {
 		return viewTime;
@@ -95,6 +106,12 @@ public class Ris1301DTO {
 	}
 	public void setViewDocId(String viewDocId) {
 		this.viewDocId = viewDocId;
+	}
+	public String getLoginNm() {
+		return loginNm;
+	}
+	public void setLoginNm(String loginNm) {
+		this.loginNm = loginNm;
 	}
 	public String getVoicViewYn() {
 		return voicViewYn;
@@ -113,5 +130,23 @@ public class Ris1301DTO {
 	}
 	public void setOrdrPrgrDvsn(String ordrPrgrDvsn) {
 		this.ordrPrgrDvsn = ordrPrgrDvsn;
+	}
+	public String getViewText() {
+		return viewText;
+	}
+	public void setViewText(String viewText) {
+		this.viewText = viewText;
+	}
+	public String getViewNoteText() {
+		return viewNoteText;
+	}
+	public void setViewNoteText(String viewNoteText) {
+		this.viewNoteText = viewNoteText;
+	}
+	public String getOrdrPrgrKr() {
+		return ordrPrgrKr;
+	}
+	public void setOrdrPrgrKr(String ordrPrgrKr) {
+		this.ordrPrgrKr = ordrPrgrKr;
 	}
 }
