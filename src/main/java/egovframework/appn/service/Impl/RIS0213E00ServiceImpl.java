@@ -36,19 +36,20 @@ public class RIS0213E00ServiceImpl implements RIS0213E00Service{
 		List<Ris0213DTO> insertList = new ArrayList<>();
 		List<Ris0213DTO> updateList = new ArrayList<>();
 		List<Ris0213DTO> deleteList = new ArrayList<>();
-		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
-		log.info("Ris0213 Process --- 1 {}", result);
 		for(Ris0213DTO dto : list) {
 			String flag = dto.getFlag();	
 			switch(flag) {
 			case "입력":
 				insertList.add(dto);
+				result++;
 				break;
 			case "수정":
 				updateList.add(dto);
+				result++;
 				break;
 			case "삭제":
 				deleteList.add(dto);
+				result++;
 				break;
 			default:
 				new IllegalArgumentException("ris0213Process 잘못된 요청입니다.(RisAppnService)");
@@ -56,17 +57,15 @@ public class RIS0213E00ServiceImpl implements RIS0213E00Service{
 		};
 		
 		if(insertList.size()>0) {
-			result += mapper.ris0213Insert(insertList);
+			mapper.ris0213Insert(insertList);
 		}
 		
 		if(updateList.size()>0) {
-			result += mapper.ris0213Update(updateList);
-		
-			
+			mapper.ris0213Update(updateList);
 		}
 		
 		if(deleteList.size()>0) {
-			result += mapper.ris0213Delete(deleteList);
+			mapper.ris0213Delete(deleteList);
 		}
 		System.out.println("ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ");
 		log.info("Ris0213 Process --- 2 {}", result);

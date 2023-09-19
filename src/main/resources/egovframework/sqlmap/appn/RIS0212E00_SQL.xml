@@ -3,7 +3,7 @@
 <mapper namespace="egovframework.appn.mapper.RIS0212E00Mapper">
 	<!-- 작성자 : 송유근  -->	
 	<!-- 휴일 기준 관리 -->
-	<select id="ris0212Select" resultType="egovframework.appn.model.Ris0212DTO">
+	<select id="ris0212Select" parameterType="egovframework.appn.model.Ris0212RequestDTO" resultType="egovframework.appn.model.Ris0212DTO">
 		SELECT
 				 HSPT_ID
 				,HLDY_DATE
@@ -14,18 +14,37 @@
 				,MDFC_DTTM
 		FROM
 				RIS0212
+		WHERE
+				1		=		1
+				AND  STRT_DATE BETWEEN #{strtDate} AND #{endDate}
+	
+				
 	</select>
 	
 	<update id="ris0212Update" parameterType="egovframework.appn.model.Ris0212DTO">
-	
+		<foreach collection="list" item='item' separator=';' >
+					UPDATE 					 RIS0212
+					SET						 HLDY_TEXT  =		#{item.hldyText}
+					WHERE					 1			=		1
+			 		<if test="item.hsptId != null">
+					  AND 					 HSPT_ID 	=		#{item.hsptId}
+			 		</if>
+			 		<if test="item.hldyDate != null">
+		 			  AND 					 HLDY_DATE 	=		#{item.hldyDate}
+			 		</if>
+		
+		</foreach>
 	</update>
 	
 	<insert id="ris0212Insert" parameterType="egovframework.appn.model.Ris0212DTO">
-	
+		INSERT INTO ris0212 (HSPT_ID, HLDY_DATE, HLDY_TEXT) VALUES('A001', '2022-06-06', '123123')
 	</insert>
 		
 	<delete id="ris0212Delete" parameterType="egovframework.appn.model.Ris0212DTO">
-	
+			DELETE FROM ris0212 WHERE 1=1 AND 
+						HSPT_ID = 'A001' 
+						AND HLDY_DATE = '2022-06-06'
+						
 	</delete>	
 
 

@@ -90,6 +90,7 @@ public class RIS0213E00Controller {
 		for(Ris0213DTO mo : list) {
 			mo.setHsptId("A001");
 			System.out.println(mo.toString());
+		
 		}
 		
 		int result = service.ris0213Process(list);

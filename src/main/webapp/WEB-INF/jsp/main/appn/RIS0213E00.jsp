@@ -252,16 +252,24 @@
 
         $('#input-btn').click(function(){
           	console.log('입력 버튼 눌림');
-          	rowId = $("#list1").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
-	      	$("#list1").jqGrid("addRowData", rowId+1, data, 'last');
-	        $("#list1").jqGrid('editRow',rowId+1,{keys : true });	
-	       
-	        
-	        rowIdc = rowId+1;
-	        
-	        $("#list1").jqGrid('setSelection', rowIdc, true);
-	    	$("#"+rowIdc+"_mddlKrNm").focus();
-          	getSelectRowData('입력');
+          	
+          	var rowId = $("#list1").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
+          	var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
+          	
+          	if (!selectedRowId) {
+          		$("#list1").jqGrid("addRowData", rowId+1, data, 'last');
+    	    
+          	} else {
+          		$("#list1").jqGrid("addRowData", rowId +1, data, 'after', selectedRowId);
+          		
+          	}
+          	$("#list1").jqGrid('editRow',rowId+1,{keys : true });	
+       		$("#list1").jqGrid('resetSelection');
+       	    $("#list1").jqGrid('setSelection', rowId+1, true);
+       		rowIdc = rowId+1;
+       		$("#"+rowIdc+"_mddlKrNm").focus();
+          	
+	    	getSelectRowData('입력');
 	      	
            
 		       
@@ -285,6 +293,7 @@
 	    	$('#' + rowIdc + '_mddlKrNm').attr('disabled', true);
 	    	$("#list1").jqGrid('setSelection', rowIdc, true);
 	    	$("#"+rowIdc+"_appnImpsText").focus();
+
 	    })
 
         $('#delete-btn').click(function(){
@@ -309,7 +318,6 @@
 
         $('#save-btn').click(function(){
           console.log('저장 버튼 눌림');
-          
           var totalRows = $("#list1").jqGrid('getGridParam', 'records');
           console.log(totalRows + "번째");
           
@@ -330,7 +338,7 @@
 		  		  		  return;
 		  		  	  }	  
 	        	  }
-	        	  
+	        	
 	        	  
 	        	  
 	        	  data.imgnRoomCd = Object.keys(selectOption).find(key => selectOption[key] === data.mddlKrNm);
@@ -349,8 +357,10 @@
         	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
     			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
         	    success: function(response) {
-        	        console.log('data Update successfully!');
-        	        reloadGrid();
+        	    	alert(response + '건이 처리되었습니다.');
+        	    	
+        	    	
+        	    	reloadGrid();
         	    },
         	    error: function(error) {
         	        console.error('Error ', error);
