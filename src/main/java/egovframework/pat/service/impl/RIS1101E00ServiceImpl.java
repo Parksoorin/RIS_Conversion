@@ -27,4 +27,24 @@ public class RIS1101E00ServiceImpl implements RIS1101E00Service {
 		return RIS1101E00Mapper.ris1101DtoDetail(selectRowData);
 	}
 	
+	@Override
+	public int updateData(RIS1101DTO dto) {
+		return RIS1101E00Mapper.updateData(dto);
+	}
+	
+	@Override
+	public int insertData(RIS1101DTO dto) {
+		return RIS1101E00Mapper.insertData(dto);
+	}
+	
+	@Override
+	public int findOne(Map<String, Object> ptntId) {
+		
+		int result = RIS1101E00Mapper.findOne(ptntId);
+		// result 값이 1인 경우 중복된 ID가 있다는 의미.
+		if(result == 1) return 1;
+		// result 값이 1인 경우 중복된 ID가 없다는 것을 의미.
+		return 0;
+	}
+	
 }
