@@ -1,10 +1,5 @@
-@import
-	url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap")
-	;
-
-@import
-	url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap')
-	;
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+@import	url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
 
 * {
 	margin: 0;
@@ -53,7 +48,7 @@
 
 .fontawesome__btn::before {
     width: 14px;
-    height: 14px;
+    height: 12px;
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 14px;
@@ -79,7 +74,8 @@
 
 .update__icon::before {
     content: "\f304";
-    color: #218ECB;
+    color: #999;
+    font-size: 12px;
 }
 
 .insert__icon::before {
@@ -119,6 +115,7 @@
     height: 30px;
     font-size: 12px;
     border-radius: 3px;
+    border: 1px solid #CCC;
 }
 
 .header__flex {
@@ -253,12 +250,13 @@ ul {
 
 .ui-jqgrid .ui-jqgrid-bdiv {
   position: relative;
+  width: 100% !important;
+  height: 99%;
   margin: 0;
   padding: 0;
-  overflow-y: auto;
   text-align: left;
-  height: 99%;
-  width: 100% !important;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .ui-jqgrid tr.ui-row-ltr td {
@@ -267,11 +265,11 @@ ul {
 }
 
 .ui-jqgrid tr.jqgrow td {
-  overflow: hidden;
   height: 30px;
   padding: 6px 3px;
-  border-bottom: 1px solid #dbdbdb;
   font-size: 12px;
+  border-bottom: 1px solid #dbdbdb;
+  overflow: hidden;
 }
 
 .inquiry__page-flex input[type="text"],
