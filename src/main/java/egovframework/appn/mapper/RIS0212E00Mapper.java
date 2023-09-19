@@ -9,7 +9,7 @@ import egovframework.appn.model.*;
 public interface RIS0212E00Mapper {
 	
 	// 예약 휴일 목록
-	public List<Ris0212DTO> ris0212Select();
+	public List<Ris0212DTO> ris0212Select(Ris0212RequestDTO dto);
 	public int ris0212Update(List<Ris0212DTO> list);
 	public int ris0212Insert(List<Ris0212DTO> list);
 	public int ris0212Delete(List<Ris0212DTO> list);

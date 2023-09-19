@@ -1,6 +1,7 @@
 package egovframework.appn.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.appn.model.Ris0212DTO;
+import egovframework.appn.model.Ris0212RequestDTO;
 import egovframework.appn.service.RIS0212E00Service;
 
 @Controller
@@ -43,9 +46,15 @@ public class RIS0212E00Controller {
 	
 	@GetMapping("/RIS0212E00/ris0212.do")
 	@ResponseBody
-	public ResponseEntity<?> ris0212ListRestGetMapping() {
+	public ResponseEntity<?> ris0212ListRestGetMapping(@RequestParam Map<String, Object> map) {
 		System.out.println("/appn/RIS0212E00/ris0212.do Get Mapping!!!");
-		List<Ris0212DTO> rows = service.ris0212Select();
+
+		Ris0212RequestDTO dto = Ris0212RequestDTO.builder()
+				.strtDate(String.valueOf(map.get("strtDate")))
+				.endDate(String.valueOf(map.get("endDate")))				
+				.build();
+		
+		List<Ris0212DTO> rows = service.ris0212Select(dto);
 		
 		return ResponseEntity.ok().body(rows);
 	}
@@ -54,7 +63,13 @@ public class RIS0212E00Controller {
 	@ResponseBody
 	public ResponseEntity<?> ris0212ListPostMapping(@Valid @RequestBody List<Ris0212DTO> list){
 		System.out.println("/appn/RIS0212E00/ris0212.do Post Mapping!!!");
-		return ResponseEntity.ok('2');
+		for(Ris0212DTO mo : list) {
+			mo.setHsptId("A001");
+			System.out.println(mo.toString());
+		
+		}
+		int result = service.ris0212Process(list);
+		return ResponseEntity.ok().body(result);
 	}
 	
 	

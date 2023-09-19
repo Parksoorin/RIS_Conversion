@@ -37,14 +37,29 @@
 	</update>
 	
 	<insert id="ris0212Insert" parameterType="egovframework.appn.model.Ris0212DTO">
-		INSERT INTO ris0212 (HSPT_ID, HLDY_DATE, HLDY_TEXT) VALUES('A001', '2022-06-06', '123123')
+		INSERT INTO RIS0212 (
+								HSPT_ID
+								,HLDY_DATE
+								,HLDY_TEXT
+							) 
+					<foreach collection="list" item='item' separator=',' >
+					 VALUES (
+					 			#{item.hsptId}
+					 			,#{item.hldyDate}
+					 			,#{item.hldyText}
+					 		 )
+			 		 </foreach>
 	</insert>
 		
 	<delete id="ris0212Delete" parameterType="egovframework.appn.model.Ris0212DTO">
-			DELETE FROM ris0212 WHERE 1=1 AND 
-						HSPT_ID = 'A001' 
-						AND HLDY_DATE = '2022-06-06'
-						
+			DELETE 
+			  FROM 	RIS0212 
+			 WHERE 
+			 	  <foreach collection="list" item="item" open="(" close=")" separator="OR">
+			 	 	1			 =		1  
+			   AND  HSPT_ID      = 		#{item.hsptId} 
+			   AND  HLDY_DATE	 = 		#{item.hldyDate}
+				  </foreach>
 	</delete>	
 
 
