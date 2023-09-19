@@ -78,19 +78,7 @@
                 	width: 120, 
                 	align: "center", 
                 	editable: true,
-                	edittype: 'text', // 편집 모드에서 텍스트 필드로
-                	formatter: "date", // 날짜 형식으로 변환,
-                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
-                	editoptions: {
-                        dataInit: function (elem) {
-                            $(elem).datepicker({
-                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
-                                showOn: 'button',
-                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
-                                buttonImageOnly: true
-                            });
-                        }
-                    }
+                	editoptions: {type: "date"}
                 },
                 { 
                 	name: "endDate", 
@@ -98,19 +86,7 @@
                 	width: 120,
                 	align: "center",
                 	editable: true,
-                	edittype: 'text', // 편집 모드에서 텍스트 필드로
-                	formatter: "date", // 날짜 형식으로 변환,
-                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
-                	editoptions: {
-                        dataInit: function (elem) {
-                            $(elem).datepicker({
-                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
-                                showOn: 'button',
-                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
-                                buttonImageOnly: true
-                            });
-                        }
-                    }
+                	editoptions: {type: "date"}
                 },
                 { name: "errorCnt", index: "errorCnt", width: 50, align: "center" }
             ],
@@ -257,7 +233,7 @@
  	// 팝업 열기
     function openPopup() {
         // 팝업 창에 표시할 URL
-        var url = "/RISUSERE01.do";
+        var url = "/pwPopup.do";
 
         // 팝업 창의 크기와 위치 설정
         var width = 600;

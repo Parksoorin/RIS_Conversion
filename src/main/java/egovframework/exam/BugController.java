@@ -50,8 +50,8 @@ public class BugController {
 		return ".main/threeGrid";
 	}
 	
-	@GetMapping("/RISUSERE01.do")
+	@GetMapping("/popup.do")
 	public String popup() {
-		return ".popup/RISUSERE01";
+		return ".popup/popup";
 	}
 }
