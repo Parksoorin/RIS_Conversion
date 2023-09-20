@@ -9,6 +9,12 @@ pageEncoding="UTF-8"%>
     
     <title>예약 기준 관리</title>
     <style>
+    
+	  .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	    	text-align: center;
+	  }
+	
+	  
       .select {
           display: flex;
           padding: 15px 10px;
@@ -61,22 +67,62 @@ pageEncoding="UTF-8"%>
         font-weight: 700;
         font-size: 1.2em;
       }
-    
+      
+      .input-box{
+      	width : 50px !important;
+      }
+    	
+       .mr-5{
+       	margin-right: 5px;
+       }
+       .mr-10{
+       	margin-right: 10px;
+       }
+       .mr-15{
+       	margin-right: 15px;
+       }
+       .mr-20{
+       	margin-right: 20px;
+       }
+       .mr-25{
+       	margin-right: 25px;
+       }
+       .mr-30{
+       	margin-right: 30px;
+       }
+       .mr-35{
+       	margin-right: 35px;
+       }
+       
+       .mr-40{
+       	margin-right: 40px;
+       }
       
     </style>
   </head>
   <body>
     <main class="main__container">
+    	<div>
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">검색어 :</p>
-        <select class="filter__options">
-          <option value="">option 1</option>
-          <option value="">option 2</option>
-        </select>
-        <button class="search__btn">검색</button>
-      </section>
+        <p class="filter__keyword">촬영실 </p>
+        <select id="imgnRoom" class="filter__options">
+          <c:forEach var="item" items="${imagingList}">
+            <option value="${item.mddlCd}">${item.mddlKrNm}</option>
+          </c:forEach>
 
+          <!-- <option value="">전체</option>
+          <option value="">option 1</option>
+          <option value="">option 2</option> -->
+        </select>
+        <p class="filter__keyword">예약일자 </p>
+        <input id="date1" type="date">
+        <p class="filter__keyword ma_left_1"> ~</p>
+        <input id="date2" type="date">
+        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1">검색</button>
+        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1">예약기준 적용</button>
+        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1">예약기준 삭제</button>
+		</div>
       <div class="grid__container main__container-twoGrid">
         <div class="twoGrid__container">
           <div class="form__container padding-5">
@@ -91,27 +137,27 @@ pageEncoding="UTF-8"%>
                   <button class="all__btn img__btn update__btn top-25 margin-10">기준 생성 </button>
                 </div>
               </div>
-              <div class="height-fix-50 flex space-between">
-                  <label for="start-time">시작시간</label>
-                  <input type="text" id="start-time" class="input-box input-box-custom ">
-                  <label for="end-time">종료시간</label>
-                  <input type="text" id="end-time" class="input-box input-box-custom  ">
-                  <label for="interval">간격</label>
-                  <input type="text" id="interval" class="input-box input-box-custom  ">
-                  <p>분</p>
-                  <p>휴게시간 </p>
-                  <input type="text" id="rest-start-time" class="input-box input-box-custom  ">
-                  <p> ~ </p>
+              <div class="height-fix-50 flex ">
+                  <label for="start-time" class="mr-5">시작시간</label>
+                  <input type="text" id="start-time" class="input-box input-box-custom mr-5">
+                  <label for="end-time" class="mr-5">종료시간</label>
+                  <input type="text" id="end-time" class="input-box input-box-custom mr-5 ">
+                  <label for="interval" class="mr-10">간격</label>
+                  <input type="text" id="interval" class="input-box input-box-custom mr-5 ">
+                  <p class="mr-10">분</p>
+                  <p class="mr-5">휴게시간 </p>
+                  <input type="text" id="rest-start-time" class="input-box input-box-custom mr-15 ">
+                  <p class="mr-15"> ~ </p>
                   <input type="text" id="rest-end-time" class="input-box input-box-custom ">
               </div>
-              <div class="height-fix-50 flex space-between">
-                <label for="out-patient">외래</label>
-                <input type="text" id="out-patient" class="input-box  input-box-custom ">
-                <label for="in-patient">입원</label>
-                <input type="text" id="in-patient" class="input-box  input-box-custom ">
-                <label for="health-examination">건진</label>
-                <input type="text" id="health-examination" class="input-box  input-box-custom ">
-                <input type="checkbox" id="week-batch" class="height-md input-box-custom">
+              <div class="height-fix-50 flex ">
+                <label for="out-patient" class="mr-35">외래</label>
+                <input type="text" id="out-patient" class="input-box  input-box-custom mr-5 ">
+                <label for="in-patient" class="mr-35">입원</label>
+                <input type="text" id="in-patient" class="input-box  input-box-custom mr-5 ">
+                <label for="health-examination" class="mr-10">건진</label>
+                <input type="text" id="health-examination" class="input-box  input-box-custom mr-35">
+                <input type="checkbox" id="week-batch" class="height-md input-box-custom mr-5">
                 <label for="week-batch">월 ~ 금 일괄적용</label>
               </div>
             </div>
@@ -475,19 +521,21 @@ pageEncoding="UTF-8"%>
         $("#list1").jqGrid({
           datatype: "local",
           data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
+        	{ name: "flag", index: "flag", width: 40, align: "center" },
+            { name: "strtTime", index: "strtTime", width: 90, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
+            { name: "endTime", index: "endTime", width: 90, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
             {
-              name: "id",
-              index: "id",
-              width: 150,
+              name: "appnOutpPssbCnt",
+              index: "appnOutpPssbCnt",
+              width: 60,
               align: "center",
             },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 60, align: "center" },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 60, align: "center" },
+            { name: "hsptId", index: "hsptId", width: 80, align: "center", hidden: true  },
+            { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },  
           ],
           
           guiStyle: "bootstrap",
