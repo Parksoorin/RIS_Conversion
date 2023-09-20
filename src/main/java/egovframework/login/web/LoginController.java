@@ -17,12 +17,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.com.model.RisUserDTO;
 import egovframework.exam.mapper.TestsMapper;
+import egovframework.login.service.LoginService;
+import egovframework.util.Sha256;
+
 
 
 
 @Controller
 public class LoginController {
+	
+
+	@Resource(name = "LoginService") // 서비스 선언
+	LoginService loginService;
+	
+	
+	//@RequestParam String hspt_id 
 	@GetMapping("/login.do")
 	public String login() {
 		return ".login/login";
@@ -32,22 +43,27 @@ public class LoginController {
 		return ".popup/RISUSERE00";
 	}
 	
-	/*
-	 * @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-	 * 
-	 * @ResponseBody public JSONObject login(@RequestParam Map<String, Object> map,
-	 * HttpSession session, HttpServletRequest request, HttpServletResponse
-	 * response, Model model) throws Exception {
-	 * 
-	 * JSONObject json = new JSONObject(); UserCDTO dto = new UserCDTO(); String pw
-	 * = Sha256.encrypt(map.get("password").toString());
-	 * dto.setId(map.get("id").toString()); dto.setPassword(pw);
-	 * 
-	 * UserCDTO result = cService.loginID(dto); // boolean도 사용 가능. true or false
-	 * 
-	 * if (result == null) { json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만
-	 * 해줌. } else { json.put("result", "success"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌. }
-	 * 
-	 * return json; }
-	 */
+	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject loginId(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		RisUserDTO dto = new RisUserDTO();
+		//String pw = Sha256.encrypt(map.get("password").toString());
+		String pw = map.get("password").toString();
+		
+		dto.setLoginId(map.get("id").toString());
+		dto.setLoginPwd(pw);
+		System.out.println(dto.toString());
+		System.out.println("-----------------------");
+		RisUserDTO result = loginService.loginId(dto);
+		System.out.println("-----------------------");
+		if (result == null) {
+			json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌.
+		} else {
+			json.put("result", "success"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌.
+		}
+		
+		return json;
+	}
 }
