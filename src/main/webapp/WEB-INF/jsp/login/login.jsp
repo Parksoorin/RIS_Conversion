@@ -34,8 +34,8 @@
 </body>  
 <script>
 	$('#loginBtn').on("click", function(){
-		var id = $('#loginID').val();
-		var password = $('#loginPW').val();
+		var id = $('#loginId').val();
+		var password = $('#loginPw').val();
 		
 		$.ajax({
 			type : "post",
@@ -52,7 +52,7 @@
 				console.log(data);
 				if (data.result === "success"){
 					alert("로그인 성공");
-					location.href="#";
+					location.href="http://localhost:8080/oneGrid.do";
 				} 
 				else if (data.result === "none") {			
 					alert("없는 정보 입니다.");

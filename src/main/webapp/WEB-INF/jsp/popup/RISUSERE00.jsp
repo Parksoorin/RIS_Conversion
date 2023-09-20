@@ -14,8 +14,9 @@
     background-color: #fafafa;
 }
 
-.search__box{
+.text__box{
 	margin-top:20px;
+	margin-left: 80px;
 	width: 400px;
 }
 
@@ -23,6 +24,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	margin-bottom: 10px;
 }
 .pwpopup__container {
 	padding: 10px;
@@ -55,7 +57,7 @@
     <main class="main__container">
       <!-- 그리드 -->
       <div class="pwpopup__container">
-        <section class="search__box">
+        <section class="text__box">
         	<div class="p-text">
 	        	<p class="filter__keyword">사용자 ID :</p>
 	        	<input type="text" class="filter__options"></input>
