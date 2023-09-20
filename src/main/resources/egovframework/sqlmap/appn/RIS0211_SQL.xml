@@ -18,20 +18,20 @@
 		 FROM 		
 		 			  RIS0211 
 		 WHERE 
-		 			  EXMN_DATE 				= 			#{dto.exmnDate} 
-	 			 AND  IMGN_ROOM_CD 				= 			#{dto.imgnRoomCd} 
-	 			 AND  HSPT_ID					= 			#{dto.hsptId}
+		 			  EXMN_DATE 				= 			#{exmnDate} 
+	 			 AND  IMGN_ROOM_CD 				= 			#{imgnRoomCd} 
+	 			 AND  HSPT_ID					= 			#{hsptId}
 	</select>
 	
 	
 	
-	<select id="ris0211YearSelect" parameterType="egovframework.appn.model.RIS0211RequestDTO">
+	<select id="ris0211YearSelect" parameterType="egovframework.appn.model.RIS0211RequestDTO" resultType="string">
 		SELECT
-			  	DISTINCT DATE_FORMAT(A.EXMN_DATE,'%Y') AS EXMN_DATE 
+			  	DISTINCT DATE_FORMAT(EXMN_DATE,'%Y') AS EXMN_DATE 
      	  FROM 
-     	  	  	RIS0211 A 
+     	  	  	RIS0211  
   	     WHERE 
-  	     		A.HSPT_ID 		=		 #{dto.hsptId};
+  	     		HSPT_ID 		=		 #{hsptId}
 	</select>
 	
 	<update id="ris0211Update" parameterType="egovframework.appn.model.Ris0211DTO">

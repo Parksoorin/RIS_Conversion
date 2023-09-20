@@ -15,9 +15,9 @@
 					   , APPN_HLXM_PSSB_CNT
 		 FROM 			RIS0210
 		 WHERE 			1						=					1
- 				AND		WKDY 					=					#{dto.wkdy}
- 				AND 	IMGN_ROOM_CD 			= 					#{dto.imgnRoomCd} 
- 				AND 	HSPT_ID 				=					#{dto.hsptId}
+ 				AND		WKDY 					=					#{wkdy}
+ 				AND 	IMGN_ROOM_CD 			= 					#{imgnRoomCd} 
+ 				AND 	HSPT_ID 				=					#{hsptId}
 	</select>
 	
 	<update id="ris0210Update" parameterType="egovframework.appn.model.Ris0210DTO">

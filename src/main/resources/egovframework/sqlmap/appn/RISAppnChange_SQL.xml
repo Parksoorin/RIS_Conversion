@@ -13,16 +13,16 @@
 		FROM 		  
 					  RIS0212 
 		WHERE 		  
-					  HLDY_DATE		 BETWEEN 	#{dto.strtDate} AND #{dto.endDate} 
-			   AND 	  HSPT_ID 		 = 			#{dto.hsptId}
+					  HLDY_DATE		 BETWEEN 	#{strtDate} AND #{endDate} 
+			   AND 	  HSPT_ID 		 = 			#{hsptId}
 		UNION
 		SELECT 			'예외' 														  AS 	예외구분 
 					  , STRT_DATE 													  AS 	적용일자
 					  , CONCAT(APPN_IMPS_TEXT, ' (', STRT_TIME, ' ~ ', END_TIME, ')') AS	변동사유  
 	    FROM 		  RIS0213 
-	    WHERE 		  STRT_DATE 	 BETWEEN 	#{dto.strtDate} AND #{dto.endDate}
-	    		 AND  HSPT_ID		 = 			#{dto.hsptId} 
-	    		 AND  IMGN_ROOM_CD 	 = 			#{dto.imgnRoomCd}; 
+	    WHERE 		  STRT_DATE 	 BETWEEN 	#{strtDate} AND #{endDate}
+	    		 AND  HSPT_ID		 = 			#{hsptId} 
+	    		 AND  IMGN_ROOM_CD 	 = 			#{imgnRoomCd}; 
 	</select>
 
 </mapper>

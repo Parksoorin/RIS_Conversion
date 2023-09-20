@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -108,7 +109,10 @@ pageEncoding="UTF-8"%>
         <p class="filter__keyword">촬영실 </p>
         <select id="imgnRoom" class="filter__options">
           <c:forEach var="item" items="${imagingList}">
-            <option value="${item.mddlCd}">${item.mddlKrNm}</option>
+          	<c:if test="${item.mddlKrNm ne '전체'}">
+		    <option value="${item.mddlCd}">${item.mddlKrNm}</option>
+          	</c:if>
+            
           </c:forEach>
 
           <!-- <option value="">전체</option>
@@ -165,7 +169,7 @@ pageEncoding="UTF-8"%>
           <!-- 그리드 타이틀 -->
           <div class="grid__title__custom">
             <div class="select">
-              <input type="radio" id="monday" name="week"><label for="monday">월</label>
+              <input type="radio" id="monday" name="week" checked><label for="monday" >월</label>
               <input type="radio" id="tuesday" name="week"><label for="tuesday">화</label>
               <input type="radio" id="wednesday" name="week"><label for="wednesday">수</label>
               <input type="radio" id="thursday" name="week"><label for="thursday">목</label>
