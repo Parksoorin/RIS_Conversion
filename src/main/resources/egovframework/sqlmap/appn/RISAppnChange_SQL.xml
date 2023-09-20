@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.appn.mapper.RISAppnChangeMapper">
+	<!-- 작성자 : 송유근  -->
+	<!-- 예약 기준 관리 - 예약 변동 내역  -->
+	
+	<select id="risAppnChangeSelect" parameterType="egovframework.appn.model.RISAppnChangeRequestDTO" resultType="egovframework.appn.model.RISAppnChangeDTO">
+		
+		SELECT 
+						'휴일'			 AS 	예외구분 
+					  , HLDY_DATE 		 AS 	적용일자
+					  , HLDY_TEXT 		 AS		변동사유  
+		FROM 		  
+					  RIS0212 
+		WHERE 		  
+					  HLDY_DATE		 BETWEEN 	#{dto.strtDate} AND #{dto.endDate} 
+			   AND 	  HSPT_ID 		 = 			#{dto.hsptId}
+		UNION
+		SELECT 			'예외' 														  AS 	예외구분 
+					  , STRT_DATE 													  AS 	적용일자
+					  , CONCAT(APPN_IMPS_TEXT, ' (', STRT_TIME, ' ~ ', END_TIME, ')') AS	변동사유  
+	    FROM 		  RIS0213 
+	    WHERE 		  STRT_DATE 	 BETWEEN 	#{dto.strtDate} AND #{dto.endDate}
+	    		 AND  HSPT_ID		 = 			#{dto.hsptId} 
+	    		 AND  IMGN_ROOM_CD 	 = 			#{dto.imgnRoomCd}; 
+	</select>
+
+</mapper>

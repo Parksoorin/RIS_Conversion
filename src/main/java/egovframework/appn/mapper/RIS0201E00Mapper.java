@@ -9,7 +9,7 @@ import egovframework.appn.model.*;
 @Mapper("RIS0201E00Mapper")
 public interface RIS0201E00Mapper {
 	
-	public List<Ris0210DTO> ris0210Select();
+	public List<Ris0210DTO> ris0210Select(RIS0210RequestDTO dto);
 	public int ris0210Update(List<Ris0210DTO> list);
 	public int ris0210Insert(List<Ris0210DTO> list);
 	public int ris0210Delete(List<Ris0210DTO> list);

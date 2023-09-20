@@ -7,7 +7,7 @@ import egovframework.appn.model.*;
 //예약 관리
 @Mapper("RIS1211E00Mapper")
 public interface RIS1211E00Mapper {
-	public List<Ris1211DTO> ris1211Select();
+	public List<Ris1211DTO> ris1211Select(RIS0211RequestDTO dto);
 	public int ris1211Update(List<Ris1211DTO> list);
 	public int ris1211Insert(List<Ris1211DTO> list);
 	public int ris1211Delete(List<Ris1211DTO> list);

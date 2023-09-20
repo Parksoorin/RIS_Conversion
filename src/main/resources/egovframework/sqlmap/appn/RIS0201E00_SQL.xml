@@ -2,9 +2,74 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.appn.mapper.RIS0201E00Mapper">
 	<!-- 작성자 : 송유근  -->
-	<!-- 예약 기준 관리 -->
+	<!-- 예약 기준 관리 - RIS0210 -->
 	
+	<select id="ris0210Select" parameterType="egovframework.appn.model.RIS0210RequestDTO" resultType="egovframework.appn.model.Ris0210DTO">
+		SELECT 			 HSPT_ID
+					   , IMGN_ROOM_CD
+					   , WKDY
+					   , STRT_TIME
+					   , END_TIME
+					   , APPN_OUTP_PSSB_CNT
+					   , APPN_INPT_PSSB_CNT
+					   , APPN_HLXM_PSSB_CNT
+		 FROM 			RIS0210
+		 WHERE 			1						=					1
+ 				AND		WKDY 					=					#{dto.wkdy}
+ 				AND 	IMGN_ROOM_CD 			= 					#{dto.imgnRoomCd} 
+ 				AND 	HSPT_ID 				=					#{dto.hsptId}
+	</select>
 	
+	<update id="ris0210Update" parameterType="egovframework.appn.model.Ris0210DTO">
+		<foreach collection="list" item='item' separator=';' >
+		UPDATE 			RIS0210
+	  	   SET 			APPN_OUTP_PSSB_CNT 		=					 #{item.appnOutpPssbCnt} 
+	  	   			  , APPN_INPT_PSSB_CNT		= 					 #{item.appnInptPssbCnt}
+	  	   			  , APPN_HLXM_PSSB_CNT		= 					 #{item.appnHlxmPssbCnt}
+		 WHERE 			HSPT_ID 				= 					 #{item.hsptID}
+	  			AND 	IMGN_ROOM_CD 			= 					 #{item.imgnRoomCd}
+				AND 	WKDY 					= 					 #{item.wkdy}
+	 			AND 	STRT_TIME 				=					 #{item.strtTime}
+		</foreach>
+	</update>
 	
+	<insert id="ris0210Insert" parameterType="egovframework.appn.model.Ris0210DTO">
+		INSERT INTO 		RIS0210 
+						(
+							 HSPT_ID
+						   , IMGN_ROOM_CD
+						   , WKDY
+						   , STRT_TIME
+						   , END_TIME
+						   , APPN_OUTP_PSSB_CNT
+						   , APPN_INPT_PSSB_CNT
+						   , APPN_HLXM_PSSB_CNT
+						 )
+						 <foreach collection="list" item='item' separator=',' >
+		 VALUES			(
+		 					#{item.hsptId}
+		 				  , #{item.imgnRoomCd}
+		 				  , #{item.wkdy}
+		 				  , #{item.strtTime}
+		 				  , #{item.endTime}
+		 				  , #{item.appnOutpPssbCnt}
+		 				  , #{item.appnInptPssbCnt}
+		 				  , #{item.appnHlxmPssbCnt} 
+		 				 )
+		 				 </foreach>
+	</insert>
+
+	<delete id="ris0210Delete" parameterType="egovframework.appn.model.Ris0210DTO">
+		DELETE 
+		FROM 				RIS0210 
+		WHERE 		
+					<foreach collection="list" item="item" open="(" close=")" separator="OR">
+							1					=			1
+					AND		HSPT_ID 			= 			#{item.hsptId} 
+					AND 	IMGN_ROOM_CD 		= 			#{item.imgnRoomCd}
+					AND 	WKDY 				=		 	#{item.wkdy} 
+					AND 	STRT_TIME			= 			#{item.strtTime}
+					</foreach>
+	</delete>
 
 </mapper>
