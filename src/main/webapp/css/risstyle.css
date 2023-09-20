@@ -54,16 +54,16 @@
     font-size: 14px;
 }
 
-.fontawesome__btn:hover {
+.all__btn:hover {
     background-color: #CFE9FF;
 }
 
-.fontawesome__btn:active {
+.all__btn:active {
     color: #fff;
     background-color: #218ECB;
 }
 
-.fontawesome__btn:active::before {
+.all__btn:active::before {
     color: #fff;
 }
 
