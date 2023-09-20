@@ -62,7 +62,7 @@
                 판독관리
                 <div class="sub__menu-item">
                     <a href="/pandok/ris0601List.do">영상 판독문구 관리</a>
-                    <a href="#">영상 판독관리</a>
+                    <a href="/pandok/ris1301List.do">영상 판독관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
