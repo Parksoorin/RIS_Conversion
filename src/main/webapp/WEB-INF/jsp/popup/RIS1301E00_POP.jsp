@@ -31,217 +31,43 @@
 
     <script>
       $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id2",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id3",
-            product: "상품1",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id4",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id5",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id6",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id7",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id8",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id9",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id10",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id11",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id12",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id13",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id14",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id15",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id16",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id17",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id18",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test4",
-            id: "id19",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-        ];
-
-        $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            {
-              name: "id",
-              index: "id",
-              width: 150,
-              align: "center",
+    	  $("#list1").jqGrid({
+      		url: "/pandok/getRis1101List.do",
+            reordercolNames:true,
+            datatype: "json",
+            colNames: ["병원ID", "환자ID", "환자명", "성별", "나이", "생년월일"],
+            colModel: [
+              { name: "hsptId",			index: "hsptId",		hidden: true },
+              { name: "ptntId",			index: "ptntId",		width: 100,		align: "center" },
+              { name: "ptntKrNm",		index: "ptntKrNm",		width: 200,		align: "center" },
+              { name: "gndrDvsn",		index: "gndrDvsn",		width: 70,		align: "center" },
+              { name: "age",			index: "age",			width: 70,		align: "center" },
+              { name: "brth",			index: "brth",			width: 100,		align: "center" },
+            ],
+            jsonReader: {
+     		  repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+     		  root:'ris1101Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+     		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
+     	    },
+            autowidth: true,
+            height: "90%",
+            rownumbers: true,
+            gridview: true, // 선표시 true/false
+            loadComplete: function (data) {
+              console.log(data);
+            }, // loadComplete END
+            onSelectRow: function (rowid) {
+              var rowData = $("#list1").getRowData(rowid);
+              
+              console.log(rowData);
+              
+              selectData(rowData);
             },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "91%",
-          rownumbers: true,
-          multiselect: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
+          });
       });
-      function closePopup() {
+      
+      function selectData(data) {
+          window.opener.postMessage(data, '*');
           // 현재 창을 닫습니다.
           window.close();
       }

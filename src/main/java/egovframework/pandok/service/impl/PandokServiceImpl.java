@@ -10,6 +10,7 @@ import egovframework.pandok.mapper.PandokMapper;
 import egovframework.pandok.service.PandokService;
 import egovframework.pandok.model.Ris0102DTO;
 import egovframework.pandok.model.Ris0601DTO;
+import egovframework.pandok.model.Ris1101DTO;
 import egovframework.pandok.model.Ris1301DTO;
 import egovframework.pandok.model.RisUserDTO;
 
@@ -36,5 +37,10 @@ public class PandokServiceImpl implements PandokService {
 	@Override
 	public List<Ris1301DTO> getRis1301List() {
 		return pandokMapper.getRis1301List();
+	}
+
+	@Override
+	public List<Ris1101DTO> getRis1101List() {
+		return pandokMapper.getRis1101List();
 	}
 }

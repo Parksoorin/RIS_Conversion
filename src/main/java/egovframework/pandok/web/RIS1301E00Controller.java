@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.pandok.model.Ris0102DTO;
+import egovframework.pandok.model.Ris1101DTO;
 import egovframework.pandok.model.Ris1301DTO;
 import egovframework.pandok.service.PandokService;
 
@@ -51,5 +52,18 @@ public class RIS1301E00Controller {
 	public String risPatientPopup(Model model) throws Exception {
 		
 		return ".popup/RIS1301E00_POP";
+	}
+	
+	@RequestMapping(value = "/pandok/getRis1101List.do")
+	@ResponseBody
+	public JSONObject getRis1101List(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		List<Ris1101DTO> ris1101Data = pandokService.getRis1101List();
+		
+		json.put("ris1101Data", ris1101Data);
+		
+		return json;
 	}
 }

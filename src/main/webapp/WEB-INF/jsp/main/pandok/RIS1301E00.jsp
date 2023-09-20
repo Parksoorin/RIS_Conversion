@@ -13,7 +13,7 @@ pageEncoding="UTF-8"%>
       <!-- 검색 -->
       <section class="search__container">
         <div class="search__box">
-	      <p class="filter__keyword">구분</p>
+	      <p class="filter__keyword">판독구분</p>
 	      <input class="pandok__radio" type="radio" id="allView" name="viewYn" value="allView" />
 	      <label class="pandok__label" for="allView">전체</label>
 	      <input class="pandok__radio" type="radio" id="notView" name="viewYn" value="notView" />
@@ -52,15 +52,15 @@ pageEncoding="UTF-8"%>
 	        <div class="search__container-sub">	        
 	          <div class="search__box">
 	            <label class="filter__keyword">환자명</label>
-	            <input type="text" class="filter__options pat__name" />
+	            <input id="ptntName" type="text" class="filter__options pat__name" disabled />
 	          
                 <button onclick="openPopup()" class="all__btn fontawesome__btn list__icon pat__list-icon"></button>
               </div>
               
 	          <div class="search__box">
 	            <p class="filter__keyword">환자정보</p>
-	            <input type="text" class="filter__options pat__age" />
-	            <input type="text" class="filter__options pat__sex" />
+	            <input id="ptntAge" type="text" class="filter__options pat__age" disabled />
+	            <input id="ptntSex" type="text" class="filter__options pat__sex" disabled />
 		      </div>
             </div>
             
@@ -114,15 +114,16 @@ pageEncoding="UTF-8"%>
           	  
 	            <!-- 버튼 컨테이너 -->
 	            <div class="btn__container">
-	              <button class="all__btn img__btn fontawesome__btn sub__btn save__icon">임시저장</button>
-	        	  <button class="all__btn img__btn fontawesome__btn sub__btn done__icon">판독완료</button>
 			      <button class="all__btn img__btn fontawesome__btn sub__btn update__icon">수정</button>
+	              <button class="all__btn img__btn fontawesome__btn sub__btn save__icon">임시저장</button>
 			      <button class="all__btn img__btn fontawesome__btn sub__btn clear__icon">비우기</button>
+	        	  <button class="all__btn img__btn fontawesome__btn sub__btn done__icon">판독완료</button>
 	    		  <button class="all__btn img__btn fontawesome__btn sub__btn delete__icon">판독취소</button>
 	            </div>
 	          </div>
 	          <!-- 그리드 박스 -->
 	          <div class="twoGrid__box">
+	          	<textarea id="viewTextArea" class="textarea__box" disabled></textarea>
 	          </div>
           </div>
           
@@ -132,6 +133,7 @@ pageEncoding="UTF-8"%>
 	          </div>
 	          <!-- 그리드 박스 -->
 	          <div class="twoGrid__box">
+	            <textarea id="viewNoteTextArea" class="textarea__box" disabled></textarea>
 	          </div>
           </div>
         </div>
@@ -150,7 +152,7 @@ pageEncoding="UTF-8"%>
 		  mtype:'POST',	// 전송 타입
 	      datatype: "json",
 	      colNames: [
-	    	  "처방FK", "환자ID", "환자명", "처방일", "촬영일자", "촬영명", "내원구분", "진료과", "처방의사", "판독완료", "판독일자", "판독시간", "판독의사", "음성판독여부", "방사선사", "처방상태", "판독내용", "판독이력"
+	    	  "처방FK", "환자ID", "환자명", "처방일", "촬영일자", "촬영코드", "촬영명", "내원구분코드", "내원구분", "진료과코드", "진료과", "처방의사ID", "처방의사", "판독완료", "판독일자", "판독시간", "판독의사ID", "판독의사", "음성판독여부", "방사선사ID", "방사선사", "처방진행구분코드", "처방상태", "판독내용", "판독이력"
 	      ],
 	      colModel: [
 	    	{ name: "ordrFk", 				index: "ordrFk", 			hidden: true },
@@ -158,17 +160,24 @@ pageEncoding="UTF-8"%>
 	        { name: "ptntNm", 				index: "ptntNm", 			width: 60, 		align: "center", sortable: false },
 	        { name: "ordrDate", 			index: "ordrDate", 			width: 80, 		align: "center", sortable: false },
 	        { name: "prscDate", 			index: "prscDate", 			width: 80, 		align: "center", sortable: false },
-	        { name: "ordrCd", 				index: "ordrCd", 			width: 200, 	align: "center", sortable: false },
-	        { name: "vistDvsn", 			index: "vistDvsn", 			width: 60, 		align: "center", sortable: false },
-	        { name: "trtmDprtCd", 			index: "trtmDprtCd", 		width: 60, 		align: "center", sortable: false },
-	        { name: "ordrDocId", 			index: "ordrDocId", 		width: 60, 		align: "center", sortable: false },
+	        { name: "ordrCd", 				index: "ordrCd", 			hidden: true },
+	        { name: "imgnKrNm", 			index: "imgnKrNm", 			width: 200, 	align: "center", sortable: false },
+	        { name: "vistDvsn", 			index: "vistDvsn", 			hidden: true },
+	        { name: "vistDvsnNm", 			index: "vistDvsnNm", 		width: 60, 		align: "center", sortable: false },
+	        { name: "trtmDprtCd", 			index: "trtmDprtCd", 		hidden: true },
+	        { name: "trtmDprtNm", 			index: "trtmDprtNm", 		width: 60, 		align: "center", sortable: false },
+	        { name: "ordrDocId", 			index: "ordrDocId", 		hidden: true },
+	        { name: "ordrDocNm", 			index: "ordrDocNm", 		width: 60, 		align: "center", sortable: false },
 	        { name: "viewYn", 				index: "viewYn", 			width: 50, 		align: "center", sortable: false },
 	        { name: "viewDate", 			index: "viewDate", 			width: 80, 		align: "center", sortable: false },
 	        { name: "viewTime", 			index: "viewTime", 			width: 60, 		align: "center", sortable: false },
-	        { name: "viewDocId", 			index: "viewDocId", 		width: 60, 		align: "center", sortable: false },
+	        { name: "viewDocId", 			index: "viewDocId", 		hidden: true },
+	        { name: "loginNm", 				index: "loginNm", 			width: 60, 		align: "center", sortable: false },
 	        { name: "voicViewYn", 			index: "voicViewYn", 		width: 70, 		align: "center", sortable: false },
-	        { name: "rdlgId", 				index: "rdlgId", 			width: 60, 		align: "center", sortable: false },
-	        { name: "ordrPrgrDvsn", 		index: "ordrPrgrDvsn", 		width: 60, 		align: "center", sortable: false },
+	        { name: "rdlgId", 				index: "rdlgId", 			hidden: true },
+	        { name: "rdlgNm", 				index: "rdlgNm", 			width: 60, 		align: "center", sortable: false },
+	        { name: "ordrPrgrDvsn", 		index: "ordrPrgrDvsn", 		hidden: true },
+	        { name: "ordrPrgrKr", 			index: "ordrPrgrKr", 		width: 80, 		align: "center", sortable: false },
 	        { name: "viewText", 			index: "viewText", 			hidden: true },
 	        { name: "viewNoteText", 		index: "viewNoteText", 		hidden: true }
 	      ],
@@ -196,27 +205,38 @@ pageEncoding="UTF-8"%>
 	      }, // loadComplete END
 	      onSelectRow: function (rowid) {
 	          var rowData = $("#list1").getRowData(rowid);
+	          
+	          console.log(rowData);
+	          
+	          if (rowData.viewYn !== "Y") {
+	        	  $("#viewTextArea").attr("disabled", false);
+	          } else {
+	        	  $("#viewTextArea").attr("disabled", true);
+	          }
+	          
+	          $("#viewTextArea").val(rowData.viewText);
+	          $("#viewNoteTextArea").val(rowData.viewNoteText);
 	      }
 	    });
       };
       
       function drawGrid2() {
     	$("#list2").jqGrid({
-    		url: "/pandok/getRis0601List.do",
-            reordercolNames:true,
-            datatype: "json",
-            colNames: ["의사ID", "정형문 코드", "촬영구분", "판독약어명", "판독내용"],
-            colModel: [
-              { name: "docId",      index: "docId",      hidden: true },
-              { name: "tmplCd",     index: "tmplCd",     hidden: true },
-              { name: "mddlKrNm",   index: "mddlKrNm",   width: 100,   align: "left" },
-              { name: "viewAbbrNm", index: "viewAbbrNm", width: 100,   align: "left" },
-              { name: "viewText",   index: "viewText",   width: 200,   align: "left" },
-            ],
-            jsonReader: {
-   		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-   		    root:'ris0601Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
-   		    records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
+    	  url: "/pandok/getRis0601List.do",
+          reordercolNames:true,
+          datatype: "json",
+          colNames: ["의사ID", "정형문 코드", "촬영구분", "판독약어명", "판독내용"],
+          colModel: [
+            { name: "docId",      index: "docId",      hidden: true },
+            { name: "tmplCd",     index: "tmplCd",     hidden: true },
+            { name: "mddlKrNm",   index: "mddlKrNm",   width: 100,   align: "left" },
+            { name: "viewAbbrNm", index: "viewAbbrNm", width: 100,   align: "left" },
+            { name: "viewText",   index: "viewText",   width: 200,   align: "left" },
+          ],
+          jsonReader: {
+   		  repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+   		  root:'ris0601Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+   		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
    	      },
           autowidth: true,
           height: "85%",
@@ -238,6 +258,22 @@ pageEncoding="UTF-8"%>
 	  $(document).ready(function () {
 		  drawGrid1();
 		  drawGrid2();
+		  
+		  window.addEventListener('message', function(event) {
+              if (event.origin !== window.location.origin) return;
+              var selectedData = event.data;
+              
+              console.log(selectedData);
+              
+              $("#ptntName").val(selectedData.ptntKrNm);
+              $("#ptntAge").val(selectedData.age + "세");
+              
+              if (selectedData.gndrDvsn === "M") {
+	              $("#ptntSex").val("남");              
+              } else {
+            	  $("#ptntSex").val("여");
+              }
+          });
 	  });
 	  
 	  // 팝업 열기

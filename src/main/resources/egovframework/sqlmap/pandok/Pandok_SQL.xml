@@ -28,11 +28,11 @@
 			   B.ORDR_DATE, 
 			   B.PRSC_DATE, 
 			   B.ORDR_CD, 
-			   C.IMGN_KR_NM,
+			   C.IMGN_KR_NM AS IMGN_KR_NM,
 			   A.VIST_DVSN,
-			   D.MDDL_KR_NM,
+			   D.MDDL_KR_NM AS VIST_DVSN_NM,
 			   B.TRTM_DPRT_CD,
-			   E.MDDL_KR_NM,
+			   E.MDDL_KR_NM AS TRTM_DPRT_NM,
 			   B.ORDR_DOC_ID,
 			   F.MDDL_KR_NM AS ORDR_DOC_NM,
 			   CASE
@@ -50,7 +50,8 @@
 		       		ELSE NULL
 		       END AS VIEW_TIME,
 			   A.VIEW_DOC_ID,
-			   G.LOGIN_NM,
+			   A.RDLG_ID,
+			   G.LOGIN_NM AS RDLG_NM,
 			   VOIC_VIEW_YN,
 			   RDLG_ID,
 			   B.ORDR_PRGR_DVSN,
@@ -81,5 +82,11 @@
   	 LEFT JOIN risuser G
 		    ON A.VIEW_DOC_ID = G.LOGIN_ID AND G.HSPT_ID = "A001"
 		 WHERE A.HSPT_ID = "A001"
+	</select>
+	
+	<select id="getRis1101List" resultType="egovframework.pandok.model.Ris1101DTO">
+		SELECT HSPT_ID, PTNT_ID, PTNT_KR_NM, BRTH, GNDR_DVSN, TIMESTAMPDIFF(YEAR, BRTH, CURDATE()) + 1 AS AGE
+		  FROM ris1101
+		 WHERE HSPT_ID = "A001"
 	</select>
 </mapper>

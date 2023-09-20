@@ -7,9 +7,12 @@ public class Ris1301DTO {
 	private String ordrDate;		// 처방일
 	private String prscDate;		// 촬영일자
 	private String ordrCd;			// 촬영코드(촬영명)
-	private String vistDvsn;		// 내원구분
-	private String trtmDprtCd;		// 진료과
-	private String ordrDocId;		// 처방의사코드
+	private String imgnKrNm;		// 촬영명
+	private String vistDvsn;		// 내원구분코드
+	private String vistDvsnNm;		// 내원구분
+	private String trtmDprtCd;		// 진료과코드
+	private String trtmDprtNm;		// 진료과명
+	private String ordrDocId;		// 처방의사ID
 	private String ordrDocNm;		// 처방의사
 	private String viewYn;			// 판독완료(판독일자가 있으면 Y)
 	private String viewDate;		// 판독일자(판독일시에서 일자만)
@@ -17,7 +20,8 @@ public class Ris1301DTO {
 	private String viewDocId;		// 판독의사ID
 	private String loginNm;			// 판독의사 이름
 	private String voicViewYn;		// 음성판독여부
-	private String rdlgId;			// 방사선사
+	private String rdlgId;			// 방사선사ID
+	private String rdlgNm;			// 방사선사 이름
 	private String ordrPrgrDvsn;	// 처방진행구분 숫자
 	private String ordrPrgrKr;		// 처방진행구분
 	private String viewText;		// 판독내용
@@ -59,17 +63,35 @@ public class Ris1301DTO {
 	public void setOrdrCd(String ordrCd) {
 		this.ordrCd = ordrCd;
 	}
+	public String getImgnKrNm() {
+		return imgnKrNm;
+	}
+	public void setImgnKrNm(String imgnKrNm) {
+		this.imgnKrNm = imgnKrNm;
+	}
 	public String getVistDvsn() {
 		return vistDvsn;
 	}
 	public void setVistDvsn(String vistDvsn) {
 		this.vistDvsn = vistDvsn;
 	}
+	public String getVistDvsnNm() {
+		return vistDvsnNm;
+	}
+	public void setVistDvsnNm(String vistDvsnNm) {
+		this.vistDvsnNm = vistDvsnNm;
+	}
 	public String getTrtmDprtCd() {
 		return trtmDprtCd;
 	}
 	public void setTrtmDprtCd(String trtmDprtCd) {
 		this.trtmDprtCd = trtmDprtCd;
+	}
+	public String getTrtmDprtNm() {
+		return trtmDprtNm;
+	}
+	public void setTrtmDprtNm(String trtmDprtNm) {
+		this.trtmDprtNm = trtmDprtNm;
 	}
 	public String getOrdrDocId() {
 		return ordrDocId;
@@ -125,11 +147,23 @@ public class Ris1301DTO {
 	public void setRdlgId(String rdlgId) {
 		this.rdlgId = rdlgId;
 	}
+	public String getRdlgNm() {
+		return rdlgNm;
+	}
+	public void setRdlgNm(String rdlgNm) {
+		this.rdlgNm = rdlgNm;
+	}
 	public String getOrdrPrgrDvsn() {
 		return ordrPrgrDvsn;
 	}
 	public void setOrdrPrgrDvsn(String ordrPrgrDvsn) {
 		this.ordrPrgrDvsn = ordrPrgrDvsn;
+	}
+	public String getOrdrPrgrKr() {
+		return ordrPrgrKr;
+	}
+	public void setOrdrPrgrKr(String ordrPrgrKr) {
+		this.ordrPrgrKr = ordrPrgrKr;
 	}
 	public String getViewText() {
 		return viewText;
@@ -142,11 +176,5 @@ public class Ris1301DTO {
 	}
 	public void setViewNoteText(String viewNoteText) {
 		this.viewNoteText = viewNoteText;
-	}
-	public String getOrdrPrgrKr() {
-		return ordrPrgrKr;
-	}
-	public void setOrdrPrgrKr(String ordrPrgrKr) {
-		this.ordrPrgrKr = ordrPrgrKr;
 	}
 }
