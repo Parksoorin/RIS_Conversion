@@ -138,29 +138,29 @@ pageEncoding="UTF-8"%>
                   <input type="radio" id="new-create" class="margin-10" name="create-gubun" checked>
                   <label for="addition-create" class="margin-10">추가 생성 </label>
                   <input class="margin-10"  type="radio" id="addition-create" name="create-gubun">
-                  <button class="all__btn img__btn update__btn top-25 margin-10">기준 생성 </button>
+                  <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10">기준 생성 </button>
                 </div>
               </div>
               <div class="height-fix-50 flex ">
                   <label for="start-time" class="mr-5">시작시간</label>
-                  <input type="text" id="start-time" class="input-box input-box-custom mr-5">
+                  <input type="text" id="start-time" class="input-box input-box-custom mr-5"  maxlength="5">
                   <label for="end-time" class="mr-5">종료시간</label>
-                  <input type="text" id="end-time" class="input-box input-box-custom mr-5 ">
+                  <input type="text" id="end-time" class="input-box input-box-custom mr-5 "  maxlength="5">
                   <label for="interval" class="mr-10">간격</label>
-                  <input type="text" id="interval" class="input-box input-box-custom mr-5 ">
+                  <input type="text" id="interval" class="input-box input-box-custom mr-5 "  maxlength="2">
                   <p class="mr-10">분</p>
                   <p class="mr-5">휴게시간 </p>
-                  <input type="text" id="rest-start-time" class="input-box input-box-custom mr-15 ">
+                  <input type="text" id="rest-start-time" class="input-box input-box-custom mr-15 "  maxlength="5">
                   <p class="mr-15"> ~ </p>
-                  <input type="text" id="rest-end-time" class="input-box input-box-custom ">
+                  <input type="text" id="rest-end-time" class="input-box input-box-custom "  maxlength="5">
               </div>
               <div class="height-fix-50 flex ">
                 <label for="out-patient" class="mr-35">외래</label>
-                <input type="text" id="out-patient" class="input-box  input-box-custom mr-5 ">
+                <input type="text" id="out-patient" class="input-box  input-box-custom mr-5 "  maxlength="5">
                 <label for="in-patient" class="mr-35">입원</label>
-                <input type="text" id="in-patient" class="input-box  input-box-custom mr-5 ">
+                <input type="text" id="in-patient" class="input-box  input-box-custom mr-5 "  maxlength="5">
                 <label for="health-examination" class="mr-10">건진</label>
-                <input type="text" id="health-examination" class="input-box  input-box-custom mr-35">
+                <input type="text" id="health-examination" class="input-box  input-box-custom mr-35"  maxlength="5">
                 <input type="checkbox" id="week-batch" class="height-md input-box-custom mr-5">
                 <label for="week-batch">월 ~ 금 일괄적용</label>
               </div>
@@ -258,161 +258,325 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
+    	
+    let rowIdc = -1;
+    let selectOption;
+    let imgnRoomCode = 'CT1';
+    let checkedWeek = 'monday';
+    const init = () => {
+        dateInit();
+        formValidate();
+        
+      }
+    
+    const formValidate = () => {
+    	formatTimeInput('#start-time');
+        formatTimeInput('#end-time');
+        formatTimeInput('#rest-start-time');
+        formatTimeInput('#rest-end-time');
+        allowOnlyNumbers('#interval');
+        allowOnlyNumbers('#out-patient');
+        allowOnlyNumbers('#in-patient');
+        allowOnlyNumbers('#health-examination');
+    }
+    
+    
+    $('#imgnRoom').change(function() {
+    	imgnRoomCode  = $(this).val();
+		list1Data();
+      
+     });
+    
+    $('input[name="week"]').change(function() {
+        checkedWeek = $('input[name="week"]:checked').attr('id');
+        list1Data();
+    });
+    
+    
+   const list1Data = () => {
+	    var postData  = {	
+				'wkdy' : checkedWeek,
+       			'imgnRoomCd' : $('#imgnRoom').val()
+       	};
+		reloadGrid('#list1', postData);
+   
+   }
+    
+      // 날짜 처리 시작 -------------
+      function getFirstAndLastDayOfMonth() {
+        const today = new Date();
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
+        return {
+          firstDay: formatDate(firstDayOfMonth),
+          lastDay: formatDate(lastDayOfMonth)
+        };
+      }
+
+      function formatDate(date) {
+        console.log(date);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return year + '-' +month + '-' + day;
+      }
+      
+      
+      const dateValidateCheck = () => {
+      	var strtDate = $('#date1').val();
+          var endDate = $('#date2').val();
+			
+          var date1 = new Date(strtDate);
+          var date2 = new Date(endDate);
+          console.log(date1);
+          console.log(date2);
+          
+      	if(date1 > date2){
+      		alert('조회 종료일은 조회 시작일 보다 높을 수 없습니다. 다시 선택해주세요. ');
+      		return false;
+      	}
+      	return true;
+      }
+      
+      const timeCheck = (time) => {
+    	  	var parts = time.split(':');
+    	    var hours = parseInt(parts[0], 10);
+    	    var minutes = parseInt(parts[1], 10);
+
+    	    // 시간이 00:00에서 23:59 사이에 있는지 확인합니다
+    	    if (hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
+    	        return false;
+    	    }
+    	    return true;
+      }
+      
+      const timeValidateCheck = (startTime, endTime) => {
+      
+    	  var regex = /^([01]\d|2[0-3]):([0-5]\d)$/; 
+    	    if (!(regex.test(startTime)&&(regex.test(endTime)) && timeCheck(startTime) && timeCheck(endTime))) {
+    	        return false;
+    	    }
+
+    	  if(startTime.length<5 || endTime.length<5){
+    		  return false;
+    	  }
+            
+            let timeArray1 = startTime.split(":");
+            let timeArray2 = endTime.split(":");
+            let newTime1 = new Date();
+            let newTime2 = new Date();
+            newTime1.setHours(Number(timeArray1[0]));
+            newTime1.setMinutes(Number(timeArray1[1]));
+            newTime2.setHours(Number(timeArray2[0]));
+            newTime2.setMinutes(Number(timeArray2[1]));
+              
+            console.log(newTime1);
+            console.log(newTime2);
+            
+        	if(newTime1 > newTime2){
+        		return false;
+        	}
+        	return true;
+        }
+      
+      
+      function formatTimeInput(elem) {
+          $(elem).on('input', function () {
+              var inputValue = $(this).val();
+
+                  var formattedValue = inputValue.slice(0, 2);
+
+                  if (inputValue.length >= 2) {
+                      formattedValue += ':' + inputValue.slice(3, 5);
+
+                      if (inputValue.length > 5) {
+                          formattedValue += ':' + inputValue.slice(6, 8);
+                      }
+                  }
+                  $(this).val(formattedValue);
+          });
+      }
+      
+      function allowOnlyNumbers(elem) {
+    	    $(elem).on('input', function() {
+    	        $(this).val($(this).val().replace(/[^0-9]/g, ''));
+    	    });
+    	}
+
+      $("#date1").change(function(){
+          if(dateValidateCheck() ){
+   			reloadGrid();
+   	    }
+      });
+
+   	 $("#date2").change(function(){
+          if(dateValidateCheck() ){
+   			reloadGrid();
+   	    }
+       });
+      
+      const dateInit = () =>{
+
+        const { firstDay, lastDay } = getFirstAndLastDayOfMonth();
+        $('#date1').val(firstDay);
+        $('#date2').val(lastDay);
+      }
+      
+     
+      
+      // 날짜 처리 끝 -------------
+    
+      // 유틸 함수
+      
+      const isSelectedFunction = () => {
+      	if(rowIdc==-1){
+      		alert('행을 먼저 선택해주세요.');
+      		return false;
+      	}
+      	return true;
+      }
+      
+      const getSelectRowData = (status) => {
+      	if(!isSelectedFunction()) return;
+	      	let data = $("#list1").jqGrid("getRowData",rowIdc);
+	      	
+	      	if(data.flag == '입력' || data.flag == '수정' || data.flag == '삭제'){
+	      		alert(rowIdc + '행은 이미 ' + data.flag + '상태입니다.');
+	      		return false;
+	      	}
+	      	data.flag = status;
+	      	$('#list1').setRowData(rowIdc, data);
+      	return true;
+      }
+      
+
+    // list : 리스트 종류 #list1, #list2, #list3
+    // postData : 서버로 보낼 객체 {'' : ''} 값으로 지정
+      const reloadGrid = (list, postData) => {
+
+
+          $(list).jqGrid("clearGridData", true);
+          $(list).setGridParam({
+            datatype	: "json",
+            postData	: postData,
+            loadComplete	: function(data) {
+              console.log(data);
+            }
+          }).trigger("reloadGrid");
+      }
+      
+      // 입력 수정 여부 체크
+      const isInputUpdate = () => {
+      	var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+  
+          for (var i = 1; i <= totalRows; i++) {
+          	  let data = $("#list1").jqGrid("getRowData",i);
+	        	  if(data.flag === '입력' || data.flag ==='수정'){
+		  		  	  return true;	  
+	        	  }
+        	}
+          return false;
+      }
+    
+    
+    
       $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id2",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id3",
-            product: "상품1",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id4",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id5",
-            product: "상품1",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id6",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id7",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id8",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id9",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id10",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-02",
-            name: "test2",
-            id: "id11",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id12",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id13",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-05",
-            name: "test2",
-            id: "id14",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-06",
-            name: "test3",
-            id: "id15",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-10-04",
-            name: "test",
-            id: "id16",
-            product: "상품2",
-            amount: "10.00",
-            total: "210.00",
-          },
-          {
-            date: "2007-10-03",
-            name: "test2",
-            id: "id17",
-            product: "상품2",
-            amount: "20.00",
-            total: "320.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test3",
-            id: "id18",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-          {
-            date: "2007-09-01",
-            name: "test4",
-            id: "id19",
-            product: "상품2",
-            amount: "30.00",
-            total: "430.00",
-          },
-        ];
+    	  init();
+    	  
+    	  
+    	  
+    	  $('#rule-btn').click(function(){
+          	console.log('기준 생성 버튼 눌림');
+          	let gubun = $("input[name='create-gubun']:checked").attr('id');	// new-create, addition-create
+          	let startTime = $('#start-time').val();
+          	let endTime = $('#end-time').val();
+          	let interval = $('#interval').val();
+          	let restStartTime = $('#rest-start-time').val();
+          	let restEndTime = $('#rest-end-time').val();
+          	let outPatient = $('#out-patient').val();
+          	let inPatient = $('#in-patient').val();
+          	let healthExamination = $('#health-examination').val();
+          	let weekBatch = $('#week-batch').prop('checked');
+          	let dayOfWeek = checkedWeek;
+          	let imgnRoomCd = imgnRoomCode;
+          	
+          	console.log(gubun);
+          	console.log(startTime);
+          	console.log(endTime);
+          	console.log(interval);
+          	console.log(restStartTime);
+          	console.log(restEndTime);
+          	console.log(outPatient);
+          	console.log(inPatient);
+          	console.log(healthExamination);
+          	console.log(weekBatch);
+          	console.log(dayOfWeek);
+          	console.log(imgnRoomCd);
+          	
+          	
+          	if(!(gubun && startTime && endTime && interval && restStartTime && restEndTime && outPatient && inPatient && healthExamination)){
+          		alert('미입력 사항이 있습니다.');
+          		return;
+          	}
+          	
+          	if(interval>=60){
+          		alert('유효하지 않은 간격입니다.');
+          		return;
+          	}
+          	
+          	if(!(timeValidateCheck(startTime, endTime)&& timeValidateCheck(restStartTime, restEndTime))){
+          		alert('시간 입력이 잘못되었습니다');
+          		return;
+          	}
+          	
+          	const postData = {
+          			"gubun" : gubun,
+          			"startTime" : startTime,
+          			"endTime" : endTime,
+		          	"interval" : interval,
+		          	"restStartTime" : restStartTime,
+		          	"restEndTime" : restEndTime,
+		          	"outPatient" : outPatient,
+		          	"inPatient" : inPatient,
+		          	"healthExamination" : healthExamination,
+		          	"weekBatch" : weekBatch,
+		          	"dayOfWeek" : dayOfWeek,
+		          	"imgnRoomCd" : imgnRoomCd,
+          	}
+          	
+          	// /appn/RIS0201E00/form/ris0210.do	
+          	var jsonData = JSON.stringify(postData);
+			console.log(postData);
+          	$.ajax({
+          	    url: '/appn/RIS0201E00/form/ris0210.do',
+          	    type: 'POST',
+          	    contentType: 'application/json',
+          	    data: jsonData,
+          	    success: function(response) {
+          	        console.log('성공적으로 서버에 요청을 보냈습니다.');
+          	        console.log('응답 데이터:', response);
+          	    },
+          	    error: function(xhr, status, error) {
+          	        console.error('서버 요청 중 에러가 발생했습니다.');
+          	        console.error('에러 상태:', status);
+          	        console.error('에러 내용:', error);
+          	    }
+          	});
+          })
+          
+          
+    	  var mydata = [
+       	   {
+                  date: "2007-10-01",
+                  name: "test",
+                  id: "id",
+                  product: "상품1",
+                  amount: "10.00",
+                  total: "210.00",
+                },
+                
+       ];
 
         $(function(){
       // calendar element 취득
@@ -523,8 +687,21 @@ pageEncoding="UTF-8"%>
     });
 
         $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
+          url: "/appn/RIS0201E00/ris0210Search.do",
+          reordercolNames : true,
+          
+          mtype: "POST",
+          postData : {
+        	 wkdy : checkedWeek,
+             imgnRoomCd : $('#imgnRoom').val()
+            
+            },
+          datatype: "json",
+          jsonReader: {
+              repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+              root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+              records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
+            },     
           colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden"],
           colModel: [
         	{ name: "flag", index: "flag", width: 40, align: "center" },
@@ -547,6 +724,7 @@ pageEncoding="UTF-8"%>
           height: "94%",
           rownumbers: true,
           multiselect: true,
+          loadonce: true,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
