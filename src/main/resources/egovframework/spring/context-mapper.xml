@@ -19,6 +19,8 @@
 				<value>classpath:/egovframework/sqlmap/stts/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/pat/*.xml</value>
 				<value>classpath:/egovframework/sqlmap/login/*.xml</value>
+				<value>classpath:/egovframework/sqlmap/jubsu/*.xml</value>
+
 			</list>
 		</property>
 	</bean>
