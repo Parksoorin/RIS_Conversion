@@ -10,6 +10,10 @@
 	box-sizing: border-box;
 }
 
+input, select {
+	border: 1px solid #ccc;
+}
+
 /* 버튼 */
 .all__btn {
     display: flex;
