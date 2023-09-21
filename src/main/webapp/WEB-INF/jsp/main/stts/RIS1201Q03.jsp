@@ -327,11 +327,11 @@
     	  resetPage(); 
       });
       
-      $("#selectImgn").change(function() {
+      $("#selectDvsn").change(function() {
     	  resetPage(); 
       });
       
-      $("#selectRoom").change(function() {
+      $("#selectViewDoc").change(function() {
     	  resetPage(); 
       });
       
