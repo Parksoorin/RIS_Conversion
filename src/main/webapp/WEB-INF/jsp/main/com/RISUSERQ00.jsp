@@ -46,9 +46,10 @@
             postData : { type: 'A' }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-            colNames: ["flag", "사용자ID", "사용자명", "비밀번호", "권한", "시작일", "종료일", "오류횟수"],
+            colNames: ["flag", "hsptId", "사용자ID", "사용자명", "비밀번호", "권한", "시작일", "종료일", "오류횟수"],
             colModel: [
             	{ name: 'flag', index: 'flag', hidden: true },
+            	{ name: 'hsptId', index: 'hsptId', hidden: true },
                 { name: "loginId", index: "loginId", width: 120, align: "center" },
                 { name: "loginNm", index: "loginNm", width: 120, align: "center" },
                 { 
@@ -100,7 +101,7 @@
 	        autowidth: true,
 	        height: "94%",
 	        rownumbers: true,
-	        sortname: "id",
+	        sortname: "startDate",
 	        sortorder: "asc",
 	        rownumbers: true,
 	        gridview: true, // 선표시 true/false
@@ -132,53 +133,57 @@
 		        $("#list1").jqGrid("setFrozenColumns");
 		        //alert(index+'/'+idxcol+'/'+sortorder);
 	        },
-	   	});
-        
-        
-     	// 그리드1 입력, 삭제
-        $("#add-row__btn").on("click", function () {
-		    var newRowData = {};
-		    var grid = $("#list1");
-		    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-		    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-		    newRowData.flag = 'I';
-		    console.log("list1 데이터 : ", newRowData);
-		    // 모든 컬럼을 가져옵니다.
-		    var allColumns = grid.jqGrid('getGridParam', 'colModel');
-		    
-		    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
-		    allColumns.forEach(function (column) {
-		        if (column.name !== 'errorCnt') {
-		            grid.jqGrid('setColProp', column.name, { editable: true });
-		        }
-		    });
-		
-		    // 선택한 행을 편집 모드로 진입합니다.
-		    grid.jqGrid("editRow", newRowId, {
-		        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
-		        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
-		    });
-		});
+	   	});        
+	});
+    
+    
+    
+ 	// 그리드1 입력, 삭제
+    $("#add-row__btn").on("click", function () {
+	    var newRowData = {};
+	    var grid = $("#list1");
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    newRowData.flag = 'I';
+	    grid.jqGrid('setRowData', selectedRowId, rowData);
+	    console.log("list1 데이터 : ", newRowData);
+	    // 모든 컬럼을 가져옵니다.
+	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	    
+	    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
+	    allColumns.forEach(function (column) {
+	        if (column.name !== 'errorCnt') {
+	            grid.jqGrid('setColProp', column.name, { editable: true });
+	        }
+	    });
+	
+	    // 선택한 행을 편집 모드로 진입합니다.
+	    grid.jqGrid("editRow", newRowId, {
+	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+	    });
+	});
 
-        $("#delete-row__btn").on("click", function () {
-        	var grid = $("#list1");
-    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { 
-    	    	grid.jqGrid('delRowData', selectedRowId);
-    	    } else { 
-    	    	alert('Please select a row to delete.'); 
-    	    }
-        });
-        
-        
-        // 그리드1 행 수정
-        $("#update-row__btn").on("click", function(){
+    $("#delete-row__btn").on("click", function () {
+    	var grid = $("#list1");
+	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+	    if (selectedRowId) { 
+	    	grid.jqGrid('delRowData', selectedRowId);
+	    } else { 
+	    	alert('Please select a row to delete.'); 
+	    }
+    });
+    
+    
+    // 그리드1 행 수정
+    $("#update-row__btn").on("click", function(){
     	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
         if (selectedRowId) {    	  	  	
         	// 선택한 행이 있는 경우 편집 모드로 진입
             var grid = $("#list1");
             var rowData = grid.jqGrid('getRowData', selectedRowId);
 		    rowData.flag = 'U';
+		    grid.jqGrid('setRowData', selectedRowId, rowData);
 		    console.log("list1 데이터 : ", rowData);
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
@@ -202,34 +207,49 @@
         } else {
             alert("편집할 행을 먼저 선택하세요.");
         }
-    })
-        
-        /* 
-        $("#save-row__btn").click(function () {
-		    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
-		    if (selectedRowId) {
-		        // 선택한 행이 있는 경우 편집 모드 종료
-		        $("#list1").jqGrid('saveRow', selectedRowId, {
-		            url: "/서버에저장할URL",
-		            mtype: 'POST', // 전송 타입
-		            successfunc: function (response) {
-		                // 수정이 성공한 경우
-		                alert("수정이 성공하였습니다.");
-		                $("#list1").trigger("reloadGrid");
-		            },
-		            errorfunc: function (rowId, response) {
-		                // 수정이 실패한 경우
-		                alert("수정에 실패하였습니다.");
-		            }
-		        });
-		    } else {
-		        alert("저장할 행을 먼저 선택하세요.");
-		    }
+	})
+    
+    
+    $("#save__btn").click(function () {
+    	console.log('저장 버튼 눌림');
+        var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+        console.log(totalRows + "번째");
+
+        // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
+        for (var i = 1; i <= totalRows; i++) {
+	        	  $("#list1").jqGrid('saveRow',i, false, 'clientArray');    
+	      		  	  
+	        	  let data = $("#list1").jqGrid("getRowData",i);
+	        	  console.log("----------");
+	        	  console.log(data);
+	        	  /* if(data.flag === '입력' || data.flag ==='수정'){
+		  		  	  if(data.strtDate==='' || data.mddlKrNm === ''|| data.strtTime === ''
+		  		  			  || data.endTime==='' || data.appnImpsText===''){
+		  		  		  $("#list1").jqGrid('editRow',i,{keys : true });	
+		  		  		  alert(i + '행 미입력 사항이 있습니다.');
+		  		  		  return;
+		  		  	  }	  
+	        	  } */    		  	  
+      	}
+    	
+    	
+    	
+    	var list1Data = $("#list1").getRowData();
+  	  	console.log(list1Data);          
+  	  	$.ajax({
+  		    type : 'post',           // 타입 (get, post, put 등등)
+  		    url : '/risuserSavaData.do',           // 요청할 서버url
+  		    contentType: 'application/json' , // 클라이언트에서 JSON 형식으로 보내기
+  		    dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
+  		    data : JSON.stringify(list1Data),// JSON.stringify({"lisc001Data": lisc001Data, "lisc002Data": lisc002Data, "lisc003Data": lisc003Data}),
+  		    success : function(result) { // 결과 성공 콜백함수
+  		        console.log(result);
+  		      	reloadGrid();
+  		    },
+  		    error : function(error) { // 결과 에러 콜백함수
+  		        console.log(error)
+  		    }
 		});
-        */
-        
-        
-        
 	});
     
  	// 팝업 열기

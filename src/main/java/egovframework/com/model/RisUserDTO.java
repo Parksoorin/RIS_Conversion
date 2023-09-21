@@ -51,4 +51,5 @@ public class RisUserDTO {
 	@Max(11)
 	private int pacsFk;
 	private String mddlKrNm;
+	private String flag;
 }
