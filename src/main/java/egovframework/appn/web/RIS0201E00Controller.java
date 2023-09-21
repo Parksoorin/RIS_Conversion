@@ -20,6 +20,7 @@ import egovframework.appn.model.ImagingDTO;
 import egovframework.appn.model.RIS0210RequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.Ris0210DTO;
+import egovframework.appn.model.Ris0210FormDTO;
 import egovframework.appn.model.Ris0211DTO;
 import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.model.Ris0212RequestDTO;
@@ -63,7 +64,7 @@ public class RIS0201E00Controller {
 	
 	@PostMapping("/RIS0201E00/ris0210Search.do")
 	@ResponseBody
-	public ResponseEntity<?> risappnRestGetMapping(@RequestBody Map<String, Object> map) {
+	public ResponseEntity<?> risappnRestGetMapping(@RequestParam Map<String, Object> map) {
 		System.out.println("/appn/RIS0201E00/ris0210.do	 POST Mapping!!!");
 //		System.out.println("aaaaaaaaaaaaa");
 //		for(String key : map.keySet()) {
@@ -99,6 +100,17 @@ public class RIS0201E00Controller {
 		return ResponseEntity.ok().body(result);
 	}
 	
+	
+	
+	@PostMapping("/RIS0201E00/form/ris0210.do")
+	@ResponseBody
+	public ResponseEntity<?> ris0210ListFormPostMapping(@Valid @RequestBody Ris0210FormDTO dto){
+		System.out.println("/appn/RIS0201E00/form/ris0210.do Post Mapping!!!");
+		System.out.println(dto.toString());
+		service.ris0210FormProcess(dto);
+		//int result = service.ris0210Process(list);
+		return ResponseEntity.ok().body("");
+	}
 	
 	@PostMapping("/RIS0201E00/ris0211.do")
 	@ResponseBody

@@ -5,6 +5,7 @@ import egovframework.appn.model.RIS0210RequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.RISAppnChangeDTO;
 import egovframework.appn.model.Ris0210DTO;
+import egovframework.appn.model.Ris0210FormDTO;
 import egovframework.appn.model.Ris0211DTO;
 
 
@@ -17,5 +18,7 @@ public interface RIS0201E00Service {
 	public int ris0211Process(List<Ris0211DTO> list);
 	public List<Ris0211DTO> ris0211Select(RIS0211RequestDTO dto);
 	public List<String> ris0211YearSelect(RIS0211RequestDTO dto);
+
+	public void ris0210FormProcess(Ris0210FormDTO dto);
 
 }

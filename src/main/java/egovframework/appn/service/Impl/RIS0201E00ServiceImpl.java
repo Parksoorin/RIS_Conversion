@@ -14,6 +14,7 @@ import egovframework.appn.model.RIS0210RequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.RISAppnChangeDTO;
 import egovframework.appn.model.Ris0210DTO;
+import egovframework.appn.model.Ris0210FormDTO;
 import egovframework.appn.model.Ris0211DTO;
 import egovframework.appn.model.Ris0212DTO;
 import egovframework.appn.service.RIS0201E00Service;
@@ -142,6 +143,21 @@ public class RIS0201E00ServiceImpl implements RIS0201E00Service{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void ris0210FormProcess(Ris0210FormDTO dto) {
+		List<String> weekList = new ArrayList<>();
+		
+		if(dto.isWeekBatch()) {
+			weekList = List.of("Monday", "Tuesday","Wednesday", "Thursday", "Friday");
+		} else {
+			weekList = List.of(dto.getDayOfWeek());
+		}
+		
+		System.out.println(weekList.toString());
+		
+		
 	}
 
 	
