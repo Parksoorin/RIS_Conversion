@@ -24,14 +24,14 @@ pageEncoding="UTF-8"%>
       
         <div class="search__box">
           <p class="filter__keyword">촬영일자</p>
-          <input type="date" class="filter__options filter__date" />
+          <input id="startDate" type="date" class="filter__options filter__date" />
           <p class="date__connection">~</p>
-          <input type="date" class="filter__options filter__date" />
+          <input id="endDate" type="date" class="filter__options filter__date" />
         </div>
         
         <div class="search__box">
           <label class="filter__keyword">촬영구분</label>
-          <select id="ris1301" class="filter__options">
+          <select id="ris1301Dvsn" class="filter__options">
             <c:forEach items="${ris0102Data}" var="data">
       	      <option value="${data.mddlCd}">${data.mddlKrNm}</option>
       	    </c:forEach>
@@ -92,7 +92,7 @@ pageEncoding="UTF-8"%>
 	            <!-- 버튼 컨테이너 -->
 	            <div class="search__box search__box-sub">
 	              <label class="filter__keyword">촬영구분</label>
-	              <select class="filter__options">
+	              <select id="ris0601Dvsn" class="filter__options">
 	                <c:forEach items="${ris0102Data}" var="data">
 		           	  <option value="${data.mddlCd}">${data.mddlKrNm}</option>
 		           	</c:forEach>
@@ -142,12 +142,24 @@ pageEncoding="UTF-8"%>
 
     <script>
 	  function drawGrid1() {
+		var viewYn = $("input[name='viewYn']:checked").val();
+		var startDate = $("#startDate").val();
+		var endDate = $("#endDate").val();
+		var ris1301Dvsn = $("#ris1301Dvsn").val();
+		var ptntName = $("#ptntName").val();
+		
+		console.log(viewYn, startDate, endDate, ris1301Dvsn, ptntName);
+		
 	  	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
 	    $("#list1").jqGrid({
 	      url: "/pandok/ris1301List.do",
 	      reordercolNames:true,
 	      postData : {
-	      	
+	    	viewYn: viewYn,
+	    	startDate: startDate,
+	    	endDate: endDate,
+	    	ris1301Dvsn: ris1301Dvsn,
+	    	ptntName: ptntName
 	      }, // 보낼 파라미터
 		  mtype:'POST',	// 전송 타입
 	      datatype: "json",
@@ -172,7 +184,7 @@ pageEncoding="UTF-8"%>
 	        { name: "viewDate", 			index: "viewDate", 			width: 80, 		align: "center", sortable: false },
 	        { name: "viewTime", 			index: "viewTime", 			width: 60, 		align: "center", sortable: false },
 	        { name: "viewDocId", 			index: "viewDocId", 		hidden: true },
-	        { name: "loginNm", 				index: "loginNm", 			width: 60, 		align: "center", sortable: false },
+	        { name: "viewDocNm", 			index: "viewDocNm", 			width: 60, 		align: "center", sortable: false },
 	        { name: "voicViewYn", 			index: "voicViewYn", 		width: 70, 		align: "center", sortable: false },
 	        { name: "rdlgId", 				index: "rdlgId", 			hidden: true },
 	        { name: "rdlgNm", 				index: "rdlgNm", 			width: 60, 		align: "center", sortable: false },
@@ -255,6 +267,26 @@ pageEncoding="UTF-8"%>
         });
       }
       
+	  // 팝업 열기
+	  function openPopup() {
+	      // 팝업 창에 표시할 URL
+	      var url = "/pandok/PatientPopup.do";
+	
+	      // 팝업 창의 크기와 위치 설정
+	      var width = 800;
+	      var height = 500;
+	      var left = (window.innerWidth - width) / 2;
+	      var top = (window.innerHeight - height) / 2;
+	
+	      // 팝업 창을 열기
+	      var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+	
+	      // 팝업 창이 차단되었을 때 처리
+	      if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+	          alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+	      }
+	  }
+	  
 	  $(document).ready(function () {
 		  drawGrid1();
 		  drawGrid2();
@@ -276,25 +308,9 @@ pageEncoding="UTF-8"%>
           });
 	  });
 	  
-	  // 팝업 열기
-	  function openPopup() {
-	      // 팝업 창에 표시할 URL
-	      var url = "/pandok/PatientPopup.do";
-	
-	      // 팝업 창의 크기와 위치 설정
-	      var width = 800;
-	      var height = 500;
-	      var left = (window.innerWidth - width) / 2;
-	      var top = (window.innerHeight - height) / 2;
-	
-	      // 팝업 창을 열기
-	      var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
-	
-	      // 팝업 창이 차단되었을 때 처리
-	      if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-	          alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
-	      }
-	  }
+	  $("input[name='viewYn']").change(function() {
+		  drawGrid1();
+	  })
     </script>
   </body>
 </html>

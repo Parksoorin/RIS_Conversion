@@ -41,6 +41,8 @@ public class RIS1301E00Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
+		System.out.println(map);
+		
 		List<Ris1301DTO> ris1301Data = pandokService.getRis1301List();
 		
 		json.put("ris1301Data", ris1301Data);

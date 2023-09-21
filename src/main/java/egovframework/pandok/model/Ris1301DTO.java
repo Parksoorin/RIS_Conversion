@@ -18,7 +18,7 @@ public class Ris1301DTO {
 	private String viewDate;		// 판독일자(판독일시에서 일자만)
 	private String viewTime;		// 판독시간(판독일시에서 시간만)
 	private String viewDocId;		// 판독의사ID
-	private String loginNm;			// 판독의사 이름
+	private String viewDocNm;		// 판독의사 이름
 	private String voicViewYn;		// 음성판독여부
 	private String rdlgId;			// 방사선사ID
 	private String rdlgNm;			// 방사선사 이름
@@ -129,11 +129,11 @@ public class Ris1301DTO {
 	public void setViewDocId(String viewDocId) {
 		this.viewDocId = viewDocId;
 	}
-	public String getLoginNm() {
-		return loginNm;
+	public String getViewDocNm() {
+		return viewDocNm;
 	}
-	public void setLoginNm(String loginNm) {
-		this.loginNm = loginNm;
+	public void setViewDocNm(String viewDocNm) {
+		this.viewDocNm = viewDocNm;
 	}
 	public String getVoicViewYn() {
 		return voicViewYn;

@@ -1,6 +1,7 @@
 package egovframework.pandok.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -20,8 +21,8 @@ public class PandokServiceImpl implements PandokService {
 	private PandokMapper pandokMapper;
 	
 	@Override
-	public List<Ris0601DTO> getRis0601List() {
-		return pandokMapper.getRis0601List();
+	public List<Ris0601DTO> getRis0601List(Map<String, String> param) {
+		return pandokMapper.getRis0601List(param);
 	}
 
 	@Override

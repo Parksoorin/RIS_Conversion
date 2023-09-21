@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.pandok.mapper.PandokMapper">
-	<select id="getRis0601List" resultType="egovframework.pandok.model.Ris0601DTO">
+	<select id="getRis0601List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris0601DTO">
 		SELECT DOC_ID, TMPL_CD, IMGN_DVSN_CD, B.MDDL_KR_NM, VIEW_ABBR_NM, VIEW_TEXT
           FROM ris0601 A
           JOIN ris0102 B
             ON B.LRGC_CD = "IMGN_DVSN_CD" AND A.IMGN_DVSN_CD = B.MDDL_CD
-         WHERE B.HSPT_ID = "A001";
+         <where>B.HSPT_ID = "A001"
+         	<if test="imgnDvsn != 'all'">
+         		AND A.IMGN_DVSN_CD = #{imgnDvsn}
+         	</if>
+         	<if test="docId != 'all'">
+         		AND DOC_ID = #{docId}
+         	</if>
+         </where>;
 	</select>
 	
 	<select id="getRis0102List" resultType="egovframework.pandok.model.Ris0102DTO">
@@ -40,19 +47,23 @@
 		       		ELSE 'N'
 		       END AS VIEW_YN,
 			   CASE
-		       		WHEN (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL) AND A.VOIC_VIEW_YN = 'Y' THEN DATE(A.VOIC_RGST_DTTM)
-		       		WHEN (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL) AND A.VOIC_VIEW_YN = 'N' THEN A.VIEW_DATE
+		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN DATE(A.VOIC_RGST_DTTM)
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN A.VIEW_DATE
 		       		ELSE NULL
 		       END AS VIEW_DATE,
 			   CASE
-		       		WHEN (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL) AND A.VOIC_VIEW_YN = 'Y' THEN TIME(A.VOIC_RGST_DTTM)
-		       		WHEN (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL) AND A.VOIC_VIEW_YN = 'N' THEN TIME(A.VIEW_DTTM)
+		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN TIME(A.VOIC_RGST_DTTM)
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN TIME(A.VIEW_DTTM)
 		       		ELSE NULL
 		       END AS VIEW_TIME,
 			   A.VIEW_DOC_ID,
+			   G.LOGIN_NM AS VIEW_DOC_NM,
 			   A.RDLG_ID,
 			   G.LOGIN_NM AS RDLG_NM,
-			   VOIC_VIEW_YN,
+			   CASE
+			   		WHEN A.VOIC_RGST_DTTM IS NOT NULL OR VOIC_VIEW_YN = 'Y' THEN 'Y'
+			   		ELSE 'N'
+			   END AS VOIC_VIEW_YN,
 			   RDLG_ID,
 			   B.ORDR_PRGR_DVSN,
 			   CASE

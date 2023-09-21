@@ -3,6 +3,7 @@ package egovframework.pandok.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -55,13 +58,20 @@ public class RIS0601E00Controller {
 		return ".main/pandok/RIS0601E00";
 	}
 	
-	@RequestMapping(value = "/pandok/getRis0601List.do")
+	@RequestMapping(value = "/pandok/getRis0601List.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject getRis0601List(HttpSession session, HttpServletRequest request,
+	public JSONObject getRis0601List(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
-		List<Ris0601DTO> ris0601Data = pandokService.getRis0601List();
+		Map<String, String> param = new HashMap<>();
+		
+		param.put("docId", map.get("docId").toString());
+		param.put("imgnDvsn", "%".equals(map.get("imgnDvsn").toString()) ? "all" : map.get("imgnDvsn").toString());
+		
+		System.out.println(param);
+		
+		List<Ris0601DTO> ris0601Data = pandokService.getRis0601List(param);
 
 		json.put("ris0601Data", ris0601Data);
 		
