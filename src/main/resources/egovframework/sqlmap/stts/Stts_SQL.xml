@@ -3,7 +3,8 @@
 <mapper namespace="egovframework.stts.mapper.SttsMapper">
 	<select id="getDvsnSttsList" parameterType="java.util.HashMap" resultType="egovframework.stts.model.Ris1201DTO">
 		   SELECT IFNULL(B.MDDL_KR_NM, "총 합") AS ROOM_NM,
-		          CASE WHEN IFNULL(B.MDDL_KR_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS DVSN_NM,
+		          <!-- CASE WHEN IFNULL(B.MDDL_KR_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS DVSN_NM, -->
+		          C.MDDL_KR_NM AS DVSN_NM,
 		          SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 1 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS JANUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 2 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS FEBRUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 3 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS MARCH,
@@ -44,12 +45,19 @@
 		          AND A.IMGN_ROOM_CD = #{room}
 		        </if>
             </where>
-	     GROUP BY B.MDDL_KR_NM, C.MDDL_KR_NM WITH ROLLUP;
+	     GROUP BY B.MDDL_KR_NM, C.MDDL_KR_NM;
 	</select>
 	
 	<select id="getEqpmSttsList" parameterType="java.util.HashMap" resultType="egovframework.stts.model.Ris1201DTO">
-		   SELECT IFNULL(C.MDDL_KR_NM, "총 합") AS DVSN_NM,
-		          CASE WHEN IFNULL(C.MDDL_KR_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(B.MDDL_KR_NM, "소 계") END AS EQPM_NM,
+		   SELECT CASE 
+				 	WHEN A.IMGN_ROOM_CD IS NULL THEN "총 합" 
+					ELSE C.MDDL_KR_NM 
+				  END AS DVSN_NM,
+				  CASE 
+				 	WHEN A.IMGN_ROOM_CD IS NULL AND D.MDDL_KR_NM IS NULL THEN "총 합계" 
+					WHEN D.MDDL_KR_NM IS NULL THEN "소 계" 
+					ELSE D.MDDL_KR_NM 
+				  END AS EQPM_NM, 
 		          SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 1 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS JANUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 2 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS FEBRUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) = 3 AND EXTRACT(YEAR FROM PRSC_DATE) = #{year} THEN 1 ELSE 0 END) AS MARCH,
@@ -78,24 +86,26 @@
 				  SUM(CASE WHEN EXTRACT(MONTH FROM PRSC_DATE) BETWEEN 1 AND 12 AND EXTRACT(YEAR FROM PRSC_DATE) = #{lastYear} THEN 1 ELSE 0 END) AS TOTAL_LAST_YEAR
 		     FROM ris1201 A
 		LEFT JOIN ris0102 B
-		       ON B.HSPT_ID = 'A001' AND B.LRGC_CD = "IMGN_EQPM_CD" AND A.IMGN_ROOM_CD = B.MDDL_CD
+		       ON B.HSPT_ID = 'A001' AND B.LRGC_CD = "IMGN_ROOM_CD" AND A.IMGN_ROOM_CD = B.MDDL_CD
 		LEFT JOIN ris0102 C
 		       ON C.HSPT_ID = 'A001' AND C.LRGC_CD = "IMGN_DVSN_CD" AND A.ORDR_BDYP_CD = C.MDDL_CD
+		LEFT JOIN ris0102 D
+			   ON D.HSPT_ID = 'A001' AND D.LRGC_CD = "IMGN_EQPM_CD" AND B.CHRC2 = D.MDDL_CD
 		    <where>
 		          A.HSPT_ID = 'A001' AND (EXTRACT(YEAR FROM A.PRSC_DATE) = #{year} OR EXTRACT(YEAR FROM A.PRSC_DATE) = #{lastYear})
 	    	    <if test="dvsn != 'all'">
 	              AND A.ORDR_BDYP_CD = #{dvsn}
 	            </if>
 		    	<if test="eqpm != 'all'">
-		          AND A.IMGN_ROOM_CD = #{eqpm}
+		          AND B.CHRC2 = #{eqpm}
 		        </if>
             </where>
-	     GROUP BY C.MDDL_KR_NM, B.MDDL_KR_NM WITH ROLLUP;
+	     GROUP BY EQPM_NM, A.IMGN_ROOM_CD;
 	</select>
 	
 	<select id="getViewDocSttsList" parameterType="java.util.HashMap" resultType="egovframework.stts.model.Ris1201DTO">
 		   SELECT IFNULL(B.LOGIN_NM, "총 합") AS VIEW_DOC_NM,
-		          CASE WHEN IFNULL(B.LOGIN_NM, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS DVSN_NM,
+		          CASE WHEN IFNULL(B.LOGIN_ID, "총 합") = "총 합" THEN "총 합계" ELSE IFNULL(C.MDDL_KR_NM, "소 계") END AS DVSN_NM,
 		          SUM(CASE WHEN EXTRACT(MONTH FROM VIEW_DATE) = 1 AND EXTRACT(YEAR FROM VIEW_DATE) = #{year} THEN 1 ELSE 0 END) AS JANUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM VIEW_DATE) = 2 AND EXTRACT(YEAR FROM VIEW_DATE) = #{year} THEN 1 ELSE 0 END) AS FEBRUARY,
 				  SUM(CASE WHEN EXTRACT(MONTH FROM VIEW_DATE) = 3 AND EXTRACT(YEAR FROM VIEW_DATE) = #{year} THEN 1 ELSE 0 END) AS MARCH,
@@ -138,7 +148,7 @@
 		          AND A.ORDR_BDYP_CD = #{dvsn}
 		        </if>
             </where>
-	     GROUP BY A.VIEW_DOC_ID, C.MDDL_KR_NM WITH ROLLUP;
+	     GROUP BY A.VIEW_DOC_ID, C.MDDL_KR_NM;
 	</select>
 	
 	<select id="getRisDvsnList" resultType="egovframework.stts.model.Ris0102DTO">

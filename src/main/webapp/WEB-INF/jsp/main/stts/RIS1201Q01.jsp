@@ -151,14 +151,14 @@
           }, // loadComplete END
           rowattr: function(rowData, currentObj, rowId) {
               // "소 계"인 행의 배경색 설정
-              if (rowData.dvsnNm === "소 계") {
+              /* if (rowData.dvsnNm === "소 계") {
                   return {'style': 'background-color: #ccc;'};
               } else if (rowData.roomNm === "총 합") {
             	  return {'style': 'background-color: #999;'};
               }
               
               // 스타일을 지정하지 않는 경우 빈 객체를 반환합니다.
-              return {};
+              return {}; */
           },
           onSelectRow: function (rowid) {
             var rowData = $("#list1").getRowData(rowid);
