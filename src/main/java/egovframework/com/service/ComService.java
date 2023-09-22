@@ -20,4 +20,6 @@ public interface ComService {
 	List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params);
 	int addList1Data(RisGrupDTO dto);
 	int updateData(RisUserDTO dto);
+	int addUserData(RisUserDTO dto);
+	RisUserDTO pwReset(List<RisUserDTO> dtos);
 }

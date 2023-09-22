@@ -66,10 +66,24 @@ public class ComServiceImpl implements ComService {
 	@Override
 	public int updateData(RisUserDTO dto) {
 		// TODO Auto-generated method stub
-		
 		// 권한 변경
 		String mddlCd = comMapper.selectMddlcd(dto.getMddlKrNm());
 		dto.setUserGrade(mddlCd);
 		return comMapper.updateData(dto);
 	}
+	@Override
+	public int addUserData(RisUserDTO dto) {
+		// TODO Auto-generated method stub
+		// 권한 변경
+		String mddlCd = comMapper.selectMddlcd(dto.getMddlKrNm());
+		dto.setUserGrade(mddlCd);
+		return comMapper.addUserData(dto);
+	}
+
+	 @Override
+	 public RisUserDTO pwReset(List<RisUserDTO> dtos) { 
+		 // TODO Auto-generated method stub 
+		 return comMapper.pwReset(dtos);
+	 }
+	 
 }

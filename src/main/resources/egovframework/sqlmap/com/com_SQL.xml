@@ -17,21 +17,77 @@
 		WHERE MENU_GROUP_ID = #{type}
 	</select>
 	
-	<!-- 사용자관리 그리드(메뉴 2) -->
+	<!-- risMenuE00 그리드1 저장(메뉴정보 관리)
+	<insert id="addList1Data" parameterType="egovframework.com.model.RisGrupDTO">
+		INSERT INTO risgrup (
+			MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
+		)
+		VALUES (
+			#{menuGroupId}, #{menuGroupName}, #{otptSqnc}, #{useYn}
+		)
+	</insert>
+	 -->
+	
+	
+	
+	<!-- 사용자관리 그리드1(메뉴 2) -->
 	<select id="RisUserList" resultType="egovframework.com.model.RisUserDTO">
-		SELECT A.HSPT_ID ,A.LOGIN_ID, A.LOGIN_NM, A.LOGIN_PWD, B.MDDL_KR_NM, A.START_DATE, A.END_DATE, A.ERROR_CNT
+		SELECT A.LOGIN_ID, A.LOGIN_NM, A.LOGIN_PWD, B.MDDL_KR_NM, A.START_DATE, A.END_DATE, A.ERROR_CNT
 		FROM risuser A
 		LEFT JOIN ris0102 B
 		ON A.HSPT_ID = B.HSPT_ID 
 		AND A.USER_GRADE = B.MDDL_CD
 		WHERE B.LRGC_CD = "GRADE"
+		ORDER BY LOGIN_ID
 	</select>
+	
+	<!-- 사용자관리 권한 변경 -->
+	<select id="selectMddlcd" parameterType="string" resultType="string">
+		SELECT DISTINCT MDDL_CD
+		FROM	ris0102
+		WHERE MDDL_KR_NM = #{mddlKrNm}
+			AND LRGC_CD = 'GRADE'
+	</select>
+	
+	<!-- 사용자관리 수정 -->
+	<update id="updateData" parameterType="egovframework.com.model.RisUserDTO">
+		UPDATE risuser
+		SET
+			USER_GRADE = #{userGrade},
+			START_DATE = #{startDate},
+			END_DATE = #{endDate}
+		WHERE
+			HSPT_ID = 'A001' AND LOGIN_ID = #{loginId}
+	</update>
+	
+	<!-- 사용자관리 입력 -->
+	<insert id="addUserData" parameterType="egovframework.com.model.RisUserDTO">
+		INSERT INTO risuser (
+			HSPT_ID, LOGIN_ID, LOGIN_NM, LOGIN_PWD, USER_GRADE, START_DATE, END_DATE, ERROR_CNT
+		)
+		VALUES (
+			"A001", #{loginId}, #{loginNm}, #{loginPwd}, #{userGrade}, #{startDate}, #{endDate}, 0
+		)
+	</insert>
+	
+	<!-- 사용자관리 비밀번호 초기화 -->
+	<update id="pwReset" parameterType="egovframework.com.model.RisUserDTO">
+		UPDATE risuser
+		SET
+			LOGIN_PWD = 1
+		WHERE
+			LOGIN_ID = #{loginId}
+	</update>
+	
 	
 	<!-- 프로그램 정보 관리 그리드(메뉴 3) -->
 	<select id="RisPrgmList" resultType="egovframework.com.model.RisPgrmDTO">
 		SELECT SYSTEM_ID, PGRM_ID, PGRM_NAME, PGRM_URL, PGRM_TYPE, PGRM_INFO, USE_YN, END_YN
 		FROM rispgrm
 	</select>
+		
+		
+		
 		
 	<!-- 사용자별 메뉴관리 그리드1(메뉴 4) -->
 	<select id="RisUserMenuList" resultType="egovframework.com.model.RisUserDTO">
@@ -47,39 +103,13 @@
 		AND HSPT_ID = #{type2}
 	</select>
 		
+		
+		
+		
 	<!-- 프로그램 기능 권한 그리드(메뉴 5) -->
 	<select id="RisBtnList" resultType="egovframework.com.model.RisBtnDTO">
 		SELECT DATA_GUBUN, USER_GRADE, PGRM_ID, PGRM_BTN, USE_YN
 		FROM risbtn
 	</select>
-	
-	<!-- risMenuE00 그리드1 저장(메뉴정보 관리) -->
-	<insert id="addList1Data" parameterType="egovframework.com.model.RisGrupDTO">
-		INSERT INTO risgrup (
-			MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
-		)
-		VALUES (
-			#{menuGroupId}, #{menuGroupName}, #{otptSqnc}, #{useYn}
-		)
-	</insert>
-	
-	<!-- 권한 변경 -->
-	<select id="selectMddlcd" parameterType="string" resultType="string">
-		SELECT DISTINCT MDDL_CD
-		FROM	ris0102
-		WHERE MDDL_KR_NM = #{mddlKrNm}
-			AND LRGC_CD = 'GRADE'
-	</select>
-	
-	<update id="updateData" parameterType="egovframework.com.model.RisUserDTO">
-		UPDATE risuser
-		SET
-			USER_GRADE = #{userGrade},
-			START_DATE = #{startDate},
-			END_DATE = #{endDate}
-		WHERE
-			HSPT_ID = #{hsptId} AND 
-			LOGIN_ID = #{loginId}
-	</update>
 	
 </mapper>

@@ -46,6 +46,7 @@ public class RISUSERQ00Controller {
 		return ".popup/pwPopup";
 	}
 	
+	// 그리드 불러오기
 	@RequestMapping(value = "/RISUSERQ00.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISUSERQ00(@RequestParam String type, HttpSession session, HttpServletRequest request,
@@ -66,6 +67,7 @@ public class RISUSERQ00Controller {
 		return json;
 	}
 	
+	// 저장
 	@RequestMapping(value = "/risuserSavaData.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject saveBtn(@RequestBody List<RisUserDTO> dtos, HttpSession session, HttpServletRequest request,
@@ -81,6 +83,9 @@ public class RISUSERQ00Controller {
 	            case "U":
 	                result = comService.updateData(dto);
 	                break;
+	            case "I":
+	                result = comService.addUserData(dto);
+	                break;
                 default:
                 	continue;
 	        }
@@ -94,6 +99,23 @@ public class RISUSERQ00Controller {
 	}
 	
 	
+	 // 팝업 비밀번호 초기화
+	 
+	 @RequestMapping(value = "/risuserResetData.do", method = RequestMethod.POST)
+	 @ResponseBody public JSONObject risuserResetData(@RequestBody List<RisUserDTO> dtos, HttpSession session, HttpServletRequest request,
+			 HttpServletResponse response, Model model) throws Exception { 
+		  JSONObject json = new JSONObject();
+		  RisUserDTO result = comService.pwReset(dtos);
+	 
+		  System.out.println("-----------------------"); 
+		  if (result == null) {
+			  json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌. } else {
+			  json.put("result", "success"); 
+		  }
+	 
+		  return json;
+	  }
+
 	
 }
 
