@@ -18,8 +18,8 @@ public class RIS1101E00ServiceImpl implements RIS1101E00Service {
 	private RIS1101E00Mapper RIS1101E00Mapper;
 	
 	@Override
-	public List<RIS1101DTO> RIS1101List() {
-		return RIS1101E00Mapper.RIS1101List();
+	public List<RIS1101DTO> ris1101List() {
+		return RIS1101E00Mapper.ris1101List();
 	}
 	
 	@Override

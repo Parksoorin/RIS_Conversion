@@ -40,7 +40,7 @@ public class RIS1101E00Controller {
 		
 		JSONObject json = new JSONObject(); 
 		
-		List<RIS1101DTO> ris1101Data = ris1101E00Service.RIS1101List();
+		List<RIS1101DTO> ris1101Data = ris1101E00Service.ris1101List();
 		
 		json.put("rows", ris1101Data);
 		

@@ -139,71 +139,92 @@
 	</main>
 
 	<script>
+		function calculateAge(brth) {
+		    // 현재 날짜를 생성
+		    var currentDate = new Date();
+	
+		    // 연, 월, 일 차이 계산
+		    var ageInMillis = currentDate - new Date(brth);
+	
+		    // 밀리초를 연으로 변환하고 나이 계산
+		    var ageInYears = ageInMillis / (365 * 24 * 60 * 60 * 1000);
+	
+		    // 소수점 이하 자리를 버리고 정수로 변환
+		    var age = Math.floor(ageInYears);
+			
+		    age += 1;
+		    
+		    return age;
+		}
+	
+	
+	
       $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            id: "id",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-          
-        ];
-
         $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            { name: "id", 	index: "id", width: 150, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "94%",
-          rownumbers: true,
-          multiselect: false,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
+ 			url: "/jubsu/RIS1201E03.do",    
+ 			reordercolNames:true,
+ 			postData : { type: 'A' },
+ 			mtype:'POST',
+          	datatype: "json",
+          	colNames: ["처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
+          	colModel: [
+            	{ name: "ordrDate", index: "ordrDate", width: 120, align: "center" },
+            	{ name: "ptntId", index: "ptntId", width: 120, align: "center" },
+	            { name: "ptntNm", 	index: "ptntNm", width: 80, align: "center" },
+	            { name: "gndrDvsn", index: "gndrDvsn", width: 50, align: "center" },
+	            { name: "brth", index: "brth", width: 50, align: "center",
+	            	formatter: function (cellvalue, options, rowObject) {
+			            // 나이를 계산하여 표시
+			            var age = calculateAge(cellvalue);
+			            return age;
+			        }
+	            },
+	            { name: "trtmDprtCd", index: "trtmDprtCd", width: 80, align: "center" },
+	            { name: "mddlKrNm", index: "mddlKrNm", width: 80, align: "center" },
+	            { name: "wardCd", index: "wardCd", width: 50, align: "center" },
+	            { name: "unitCd", index: "unitCd", width: 50, align: "center" },
+	          ],
+          	guiStyle: "bootstrap",
+          	autowidth: true,
+          	height: "94%",
+          	rownumbers: true,
+          	multiselect: false,
+          	sortname: "id",
+         	 sortorder: "asc",
+         	 gridview: true, // 선표시 true/false
+        	  viewsortcols: [true, "vertical", true],
+          	loadComplete: function (data) {
+         	   console.log(data);
+        	  }, // loadComplete END
+      	    onSelectRow: function (rowid) {
+      	      	console.log(rowid);
+      	      
+      	      	var selectRowData = jQuery("#list1").getRowData(rowid);
+          		console.log(selectRowData);
+      	      
+         	 },
+         	 onSortCol: function (index, idxcol, sortorder) {
+          	  // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+          	  // (화살표 css 변경하기 전 Frozen을 풀어주고)
+           	 $("#list1").jqGrid("destroyFrozenColumns");
+           	 var $icons = $(this.grid.headers[idxcol].el).find(
+             	 ">div.ui-jqgrid-sortable>span.s-ico"
+           	 );
+           	 if (this.p.sortorder === "asc") {
+             	 //$icons.find('>span.ui-icon-asc').show();
+              	$icons.find(">span.ui-icon-asc")[0].style.display = "";
+              	$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+             	 $icons.find(">span.ui-icon-desc").hide();
+            	} else {
+              	//$icons.find('>span.ui-icon-desc').show();
+              	$icons.find(">span.ui-icon-desc")[0].style.display = "";
+              	$icons.find(">span.ui-icon-asc").hide();
+           	 }
+           	 // (화살표 css 변경 후 Frozen을 다시 설정)
+           	 $("#list1").jqGrid("setFrozenColumns");
+          	 //alert(index+'/'+idxcol+'/'+sortorder);
+         	 },
+       	 });
         
         $("#list3").jqGrid({
           datatype: "local",

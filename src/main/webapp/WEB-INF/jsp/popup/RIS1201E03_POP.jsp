@@ -30,49 +30,71 @@
     </main>
 
     <script>
-      $(document).ready(function () {
-        var mydata = [
-          {
-            date: "2007-10-01",
-            name: "test",
-            product: "상품1",
-            amount: "10.00",
-            total: "210.00",
-          },
-        ];
+    function calculateAge(brth) {
+	    // 현재 날짜를 생성
+	    var currentDate = new Date();
 
+	    // 연, 월, 일 차이 계산
+	    var ageInMillis = currentDate - new Date(brth);
+
+	    // 밀리초를 연으로 변환하고 나이 계산
+	    var ageInYears = ageInMillis / (365 * 24 * 60 * 60 * 1000);
+
+	    // 소수점 이하 자리를 버리고 정수로 변환
+	    var age = Math.floor(ageInYears);
+		
+	    age += 1;
+	    
+	    return age;
+	}
+    
+      $(document).ready(function () {
         $("#list1").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["환자ID", "환자명", "성별", "나이", "생년월일"],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "91%",
-          rownumbers: true,
-          multiselect: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
+        	url: "/popup/RIS1201E03_POP.do",    
+ 			reordercolNames:true,
+ 			postData : { type: 'A' },
+ 			mtype:'POST',
+          	datatype: "json",
+          	colNames: ["환자ID", "환자명", "성별", "나이", "생년월일"],
+          	colModel: [
+            	{ name: "ptntId", index: "ptntId", width: 90, align: "center" },
+            	{ name: "ptntNm", index: "ptntNm", width: 100, align: "center" },
+            	{ name: "gndrDvsn", index: "gndrDvsn", width: 80, align: "center" },
+            	{ name: "brth", index: "brth", width: 80, align: "center",
+            		formatter: function (cellvalue, options, rowObject) {
+			            // 나이를 계산하여 표시
+			            var age = calculateAge(cellvalue);
+			            return age;
+			        }
+            	},
+            	{ name: "brth", index: "brth", width: 80, align: "center" },
+          	],
+          	guiStyle: "bootstrap",
+          	autowidth: true,
+          	height: "91%",
+          	rownumbers: true,
+          	multiselect: false,
+          	sortname: "id",
+          	sortorder: "asc",
+          	gridview: true, // 선표시 true/false
+          	viewsortcols: [true, "vertical", true],
+          	loadComplete: function (data) {
+            	console.log(data);
+          	}, // loadComplete END
+          	onSelectRow: function (rowid) {
+            	console.log(rowid);
+            	
+            	// 선택한 rowId의 데이터 가져오기
+            	var selectRowData = jQuery("#list1").getRowData(rowid);
+            	console.log(selectRowData);
+            	
+          	},
+          	onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
             $("#list1").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
+              	">div.ui-jqgrid-sortable>span.s-ico"
             );
             if (this.p.sortorder === "asc") {
               //$icons.find('>span.ui-icon-asc').show();

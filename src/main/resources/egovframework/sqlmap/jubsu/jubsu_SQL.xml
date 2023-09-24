@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.jubsu.mapper.RIS1201E03Mapper">
+
+	<select id="ris1201E0301Data" resultType="egovframework.jubsu.model.RIS1201E0301DTO">
+		SELECT ris1201.HSPT_ID, 
+			   ris1201.VIST_DVSN, 
+			   ris1201.PTNT_ID, 
+			   ris1201.PTNT_NM,
+			   ris1101.GNDR_DVSN,
+			   ris1101.BRTH,
+			   ris1201.ORDR_DATE,
+			   ris1201.TRTM_DPRT_CD,
+			   ris0102.MDDL_KR_NM,
+			   ris1201.WARD_CD,
+			   ris1201.UNIT_CD,
+			   ris1201.DSRD_DATE,
+			   ris1201.ELCT_TRTM_YN,
+			   ris1201.IMGN_CD,
+			   ris1201.ORDR_NM,
+			   ris1201.EXMN_NOTE_TEXT,
+			   ris1201.ORDR_NOTE_TEXT,
+			   ris1201.PMNT_YN,
+			   ris1201.PRTB_IMGN_YN,
+			   ris1201.EMRG_YN,
+			   ris1201.DC_YN,
+			   ris1201.RETK_YN
+		  FROM ris1201
+	 LEFT JOIN ris1101
+			ON ris1201.PTNT_ID = ris1101.PTNT_ID
+	 LEFT JOIN ris0102
+			ON ris0102.MDDL_CD = ris1201.ORDR_DOC_ID 
+		   and ris0102.HSPT_ID = ris1201.HSPT_ID;
+	</select>
+
+
+
+
+</mapper>
