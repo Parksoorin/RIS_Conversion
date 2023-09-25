@@ -16,10 +16,10 @@
                 기준정보관리
                 <div class="sub__menu-item">
                     <a href="/RIS0101E00.do">공통코드관리</a>
-                    <a href="/RIS0102E00.do">기준정보 입력관리</a>
+                    <a href="/RIS0109E00.do">기준정보 입력관리</a>
                     <a href="#">촬영실 관리</a>
-                    <a href="#">촬영실 장비관리</a>
-                    <a href="#">촬영코드 관리</a>
+                    <a href="/RIS0102E00.do">촬영실 장비관리</a>
+                    <a href="/RIS0201E00.do">촬영코드 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
@@ -35,16 +35,16 @@
             <li class="main__menu-items">
                 예약스케줄관리
                 <div class="sub__menu-item">
-                    <a href="/appn/RIS0201E00.do">예약기준관리</a>
-                    <a href="/appn/RIS0213E00.do">예외 기준 관리</a>
-                    <a href="/appn/RIS0212E00.do">휴일 기준관리</a>
-                    <a href="/appn/RIS1211E00.do">예약 관리</a>
+                    <a href="/appn/risappn.do">예약기준관리</a>
+                    <a href="/appn/ris0213List.do">예외 기준 관리</a>
+                    <a href="/appn/ris0212List.do">휴일 기준관리</a>
+                    <a href="/appn/ris1211e00.do">예약 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 환자관리
                 <div class="sub__menu-item">
-                    <a href="/pat/RIS1101E00.do">환자정보 관리</a>
+                    <a href="/pat/PatientSearch.do">환자정보 관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
@@ -61,16 +61,16 @@
             <li class="main__menu-items">
                 판독관리
                 <div class="sub__menu-item">
-                    <a href="/pandok/ris0601List.do">영상 판독문구 관리</a>
-                    <a href="/pandok/ris1301List.do">영상 판독관리</a>
+                    <a href="#">영상 판독문구 관리</a>
+                    <a href="#">영상 판독관리</a>
                 </div>
             </li>
             <li class="main__menu-items">
                 각종 통계현황
                 <div class="sub__menu-item">
-                    <a href="/stts/RisImgnStts.do">촬영실별 통계</a>
-                    <a href="/stts/RisEqpmStts.do">장비별 통계</a>
-                    <a href="/stts/RisViewDocStts.do">판독의별 통계</a>
+                    <a href="#">촬영실별 통계</a>
+                    <a href="#">장비별 통계</a>
+                    <a href="#">판독의별 통계</a>
                 </div>
             </li>
         </ul>
