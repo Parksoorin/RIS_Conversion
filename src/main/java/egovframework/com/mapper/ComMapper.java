@@ -26,5 +26,5 @@ public interface ComMapper {
 	int updateData(RisUserDTO dto);
 	int addUserData(RisUserDTO dto);
 	String selectMddlcd(String mddlKrNm);
-	RisUserDTO pwReset(List<RisUserDTO> dtos);
+	int pwReset(RisUserDTO dtos);
 }

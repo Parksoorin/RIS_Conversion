@@ -21,5 +21,5 @@ public interface ComService {
 	int addList1Data(RisGrupDTO dto);
 	int updateData(RisUserDTO dto);
 	int addUserData(RisUserDTO dto);
-	RisUserDTO pwReset(List<RisUserDTO> dtos);
+	int pwReset(RisUserDTO dtos);
 }

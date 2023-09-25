@@ -100,19 +100,14 @@ public class RISUSERQ00Controller {
 	
 	
 	 // 팝업 비밀번호 초기화
-	 
 	 @RequestMapping(value = "/risuserResetData.do", method = RequestMethod.POST)
-	 @ResponseBody public JSONObject risuserResetData(@RequestBody List<RisUserDTO> dtos, HttpSession session, HttpServletRequest request,
+	 @ResponseBody public JSONObject risuserResetData(@RequestBody RisUserDTO dtos, HttpSession session, HttpServletRequest request,
 			 HttpServletResponse response, Model model) throws Exception { 
+
 		  JSONObject json = new JSONObject();
-		  RisUserDTO result = comService.pwReset(dtos);
-	 
-		  System.out.println("-----------------------"); 
-		  if (result == null) {
-			  json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌. } else {
-			  json.put("result", "success"); 
-		  }
-	 
+		  int result = comService.pwReset(dtos);
+		  System.out.println(result);
+		  json.put("result", result);
 		  return json;
 	  }
 

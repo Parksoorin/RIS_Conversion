@@ -81,7 +81,7 @@ public class ComServiceImpl implements ComService {
 	}
 
 	 @Override
-	 public RisUserDTO pwReset(List<RisUserDTO> dtos) { 
+	 public int pwReset(RisUserDTO dtos) { 
 		 // TODO Auto-generated method stub 
 		 return comMapper.pwReset(dtos);
 	 }
