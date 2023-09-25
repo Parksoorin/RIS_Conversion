@@ -56,10 +56,10 @@
                 	index: "loginPwd", 
                 	width: 150, 
                 	align: "center", 
-                	formatter: function (cellValue, options, rowObject) {
+                   //formatter: function (cellValue, options, rowObject) {
                         // cellValue(셀 값)가 빈 값인 경우 빈 문자열을 반환, 그렇지 않으면 별표로 표시
-                        return cellValue ? "********" : "";
-                    },
+                  //      return cellValue ? "********" : "";
+                   // }, 
                     // 편집 가능한 필드로 설정하지 않음
                     editable: false
                 },
@@ -211,50 +211,47 @@
     
     // 저장
     $("#save__btn").click(function () {
-    console.log('저장 버튼 눌림');
-    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
-    console.log(totalRows + "번째");
-
-    // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
-    for (var i = 1; i <= totalRows; i++) {
-        let data = $("#list1").jqGrid("getRowData", i);
-     // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
-        if (data.flag === 'I') {
-            // 새로운 행인 경우, loginPwd 필드에 입력된 값을 그대로 저장
-            data.loginPwd = data.loginPwd || "********"; // 값이 없으면 기존 값인 ********로 설정
-        }
-        // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
-        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
-
-        console.log("----------");
-        console.log(data);
-        if (data.flag === 'U' || data.flag === 'I') {
-            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
-                || data.userGrade === '' || data.appnImpsText === ''
-                || data.startDate === '' || data.endDate === '') {
-                alert('미입력 사항이 있습니다.');
-                return;
-            }
-        }
-    }
-
-    var list1Data = $("#list1").getRowData();
-    console.log(list1Data);
-    $.ajax({
-        type: 'post',
-        url: '/risuserSavaData.do',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify(list1Data),
-        success: function (result) {
-            console.log(result);
-            reloadGrid();
-        },
-        error: function (error) {
-            console.log(error)
-        }
-    });
-});
+	    console.log('저장 버튼 눌림');
+	    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+	    console.log(totalRows + "번째");
+	
+	    // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
+	    for (var i = 1; i <= totalRows; i++) {
+	     // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	       
+	        // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
+	        let data = $("#list1").jqGrid("getRowData", i);
+	
+	        console.log("----------");
+	        console.log(data);
+	        if (data.flag === 'U' || data.flag === 'I') {
+	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
+	                || data.userGrade === '' || data.appnImpsText === ''
+	                || data.startDate === '' || data.endDate === '') {
+	                alert('미입력 사항이 있습니다.');
+	                return;
+	            }
+	        }
+	    }
+	
+	    var list1Data = $("#list1").getRowData();
+	    console.log(list1Data);
+	    $.ajax({
+	        type: 'post',
+	        url: '/risuserSavaData.do',
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        data: JSON.stringify(list1Data),
+	        success: function (result) {
+	            console.log(result);
+	            reloadGrid();
+	        },
+	        error: function (error) {
+	            console.log(error)
+	        }
+	    });
+	});
 
     
  	// 팝업 열기

@@ -70,11 +70,11 @@
           guiStyle: "bootstrap",
           autowidth: true,
           height: "94%",
-          rownumbers: true,
           multiselect: true,
           sortname: "id",
           sortorder: "asc",
           rownumbers: true,
+          rowNum: 999, // 페이징 해제
           gridview: true, // 선표시 true/false
           viewsortcols: [true, "vertical", true],
           loadComplete: function (data) {
