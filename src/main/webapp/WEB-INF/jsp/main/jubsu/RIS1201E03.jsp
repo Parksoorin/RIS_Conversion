@@ -70,19 +70,19 @@
 									<tbody class="tbodyClass">
 										<tr>
 											<th class="thNeed">환자명</th>
-											<td><input type="text" class="tableInput"
+											<td><input type="text" id="ptntKrNmInput" class="tableInput"
 												disabled="disabled" /></td>
 											<th class="thNeed">환자ID</th>
-											<td><input type="text" class="tableInput"
+											<td><input type="text" id="ptntIdInput" class="tableInput"
 												disabled="disabled" /></td>
 										</tr>
 
 										<tr>
 											<th class="thNeed">처방일</th>
-											<td><input type="date" class="tableInput"
+											<td><input type="date" id="ordrDateInput" class="tableInput"
 												disabled="disabled" /></td>
 											<th class="thNeed">내원구분</th>
-											<td><select class="selectClass" disabled="disabled">
+											<td><select id="vistDvsnInput" class="selectClass" disabled="disabled">
 													<option>외래</option>
 													<option>입원</option>
 													<option>응급</option>
@@ -92,13 +92,13 @@
 
 										<tr>
 											<th class="thNeed">진료과</th>
-											<td><select class="selectClass" disabled="disabled">
+											<td><select id="trtmDprtCdInput" class="selectClass" disabled="disabled">
 													<option>선택</option>
 													<option>내과</option>
 													<option>정형외과</option>
 											</select></td>
 											<th class="thNeed">의사정보</th>
-											<td><select class="selectClass" disabled="disabled">
+											<td><select id="mddlKrNmInput" class="selectClass" disabled="disabled">
 													<option>의사정보</option>
 													<option>이동준</option>
 											</select></td>
@@ -106,12 +106,12 @@
 
 										<tr>
 											<th>희망일</th>
-											<td><input type="date" class="tableInput"
+											<td><input type="date" id="dsrdDateInput" class="tableInput"
 												disabled="disabled" /></td>
 											<th>병동/병실</th>
-											<td class="tdDisplay"><input type="text"
+											<td class="tdDisplay"><input type="text" id="wardCdInput"
 												class="disuniteInput" disabled="disabled" /> / <input
-												type="text" class="disuniteInput" disabled="disabled" /></td>
+												type="text" id="unitCdInput" class="disuniteInput" disabled="disabled" /></td>
 										</tr>
 									</tbody>
 								</table>
@@ -157,8 +157,8 @@
 		    return age;
 		}
 	
-	
-	
+		var mydata = [];		
+
       $(document).ready(function () {
         $("#list1").jqGrid({
  			url: "/jubsu/RIS1201E03.do",    
@@ -166,8 +166,10 @@
  			postData : { type: 'A' },
  			mtype:'POST',
           	datatype: "json",
-          	colNames: ["처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
+          	colNames: ["pk", "hsptId", "처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
           	colModel: [
+            	{ name: "pkris1201", index: "pkris1201", width: 120, align: "center", hidden: true },
+            	{ name: "hsptId", index: "hsptId", width: 120, align: "center", hidden: true },
             	{ name: "ordrDate", index: "ordrDate", width: 120, align: "center" },
             	{ name: "ptntId", index: "ptntId", width: 120, align: "center" },
 	            { name: "ptntNm", 	index: "ptntNm", width: 80, align: "center" },
@@ -179,7 +181,18 @@
 			            return age;
 			        }
 	            },
-	            { name: "trtmDprtCd", index: "trtmDprtCd", width: 80, align: "center" },
+	            { name: "trtmDprtCd", index: "trtmDprtCd", width: 80, align: "center",
+	            	formatter: function (cellvalue, options, rowObject) {
+	            		// trtmDprtCd의 값이 'IM'이면 내과, 'OS'이면 '외과'로 변환하기
+	            		if (cellvalue === 'IM') {
+	            			return '내과';
+	            		} else if (cellvalue === 'OS') {
+	            			return '정형외과';
+	            		} else {
+	            			return callvalue;
+	            		}
+	            	}	
+	            },
 	            { name: "mddlKrNm", index: "mddlKrNm", width: 80, align: "center" },
 	            { name: "wardCd", index: "wardCd", width: 50, align: "center" },
 	            { name: "unitCd", index: "unitCd", width: 50, align: "center" },
@@ -187,7 +200,9 @@
           	guiStyle: "bootstrap",
           	autowidth: true,
           	height: "94%",
+          	autoheight : true,
           	rownumbers: true,
+          	rowNum: 9999,
           	multiselect: false,
           	sortname: "id",
          	 sortorder: "asc",
@@ -200,8 +215,98 @@
       	      	console.log(rowid);
       	      
       	      	var selectRowData = jQuery("#list1").getRowData(rowid);
-          		console.log(selectRowData);
+          		
+      	      	// 환자 기본정보 데이터
+      	      	$("#ptntKrNmInput").val(selectRowData.ptntNm);
+              	$("#ptntIdInput").val(selectRowData.ptntId);
+              	$("#ordrDateInput").val(selectRowData.ordrDate);
+              	$("#vistDvsnInput").val(selectRowData.vistDvsn);
+              	$("#trtmDprtCdInput").val(selectRowData.trtmDprtCd);
+              	$("#mddlKrNmInput").val(selectRowData.mddlKrNm);
+              	$("#dsrdDateInput").val(selectRowData.dsrdDate);
+              	$("#wardCdInput").val(selectRowData.wardCd);
+              	$("#unitCdInput").val(selectRowData.unitCd);
       	      
+				console.log(selectRowData);
+				
+              	// list3 그리는 부분
+              	jQuery.ajax({
+					type: 'POST',
+					url : "/jubsu/RIS1201E03Detail.do",
+					data : JSON.stringify(selectRowData),
+					contentType: "application/json; charset=utf-8",
+					dataType: 'json',
+              		
+					success : function (result) {
+						console.log("success :", result);
+						console.log(result.rows);
+						mydata = [];
+						mydata.push(result.rows);
+						console.log("mydata : ", mydata);
+						
+						$("#list3").jqGrid("GridUnload");
+						
+						$("#list3").jqGrid({
+				        	data: mydata,
+				          	datatype: "local",
+				          	colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
+				          	colModel: [
+				            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 90, align: "center" },
+				            	{ name: "imgnCd", index: "imgnCd", width: 100, align: "center" },
+				            	{ name: "ordrNm", index: "ordrNm", width: 150, align: "center" },
+				            	{ name: "exmnNoteText", index: "exmnNoteText", width: 80, align: "center" },
+				            	{ name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" },
+				            	{ name: "pmntYn", index: "pmntYn", width: 80, align: "center" },
+				            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 80, align: "center" },
+				            	{ name: "emrgYn", index: "emrgYn", width: 80, align: "center" },
+				            	{ name: "dcYn", index: "dcYn", width: 80, align: "center" },
+				            	{ name: "retkYn", index: "retkYn", width: 80, align: "center" },
+				          	],
+				          	guiStyle: "bootstrap",
+				          	autowidth: true,
+				          	height: "85%",
+				          	rownumbers: true,
+				          	rowNum: 9999,
+				          	multiselect: false,
+				          	sortname: "id",
+				          	sortorder: "asc",
+				          	loadonce: true,
+				          	gridview: true, // 선표시 true/false
+				          	viewsortcols: [true, "vertical", true],
+				          	loadComplete: function (data) {
+				            	console.log(data);
+				          	}, // loadComplete END
+				          	onSelectRow: function (rowid) {
+				            	console.log(rowid);
+				          	},
+				          	onSortCol: function (index, idxcol, sortorder) {
+				            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+				            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+				            $("#list1").jqGrid("destroyFrozenColumns");
+				            var $icons = $(this.grid.headers[idxcol].el).find(
+				            	">div.ui-jqgrid-sortable>span.s-ico"
+				            );
+				            if (this.p.sortorder === "asc") {
+				              	//$icons.find('>span.ui-icon-asc').show();
+				              	$icons.find(">span.ui-icon-asc")[0].style.display = "";
+				              	$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+				              	$icons.find(">span.ui-icon-desc").hide();
+				            } else {
+				              	//$icons.find('>span.ui-icon-desc').show();
+				              	$icons.find(">span.ui-icon-desc")[0].style.display = "";
+				              	$icons.find(">span.ui-icon-asc").hide();
+				            }
+				            // (화살표 css 변경 후 Frozen을 다시 설정)
+				            $("#list1").jqGrid("setFrozenColumns");
+				            //alert(index+'/'+idxcol+'/'+sortorder);
+				          },
+				        });
+					},
+					error : function (error) {
+						console.log(error);
+					}
+				});
+              	
          	 },
          	 onSortCol: function (index, idxcol, sortorder) {
           	  // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -226,60 +331,12 @@
          	 },
        	 });
         
-        $("#list3").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
-          colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            { name: "id", index: "id", width: 150, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "85%",
-          rownumbers: true,
-          multiselect: false,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
-      });
+        
+        
+        
+      
+      
+     });
       
       
    // 팝업 열기

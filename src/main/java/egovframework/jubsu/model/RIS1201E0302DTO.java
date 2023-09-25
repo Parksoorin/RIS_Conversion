@@ -16,26 +16,12 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 
-public class RIS1201E0301DTO {
+public class RIS1201E0302DTO {
 	
-	private int pkris1201; 			// pk 값
+	private int pkris1201;			// pk 값
 	
 	// 처방 목록
 	private String hsptId;  		// 병원 ID, pk 값
-	
-	private String vistDvsn; 		// 내원 구분
-	private String ptntId;  		// 환자 ID
-	private String ptntNm;  		// 환자명
-	private String gndrDvsn;  		// 성별 구분
-	private String brth;  			// 생일(생년월일)
-	private String ordrDate;  		// 처방일
-	private String trtmDprtCd;  	// 진료과(진료부서 코드)
-	private String mddlKrNm;  		// 의사정보(중분류 한글명)
-	private String wardCd;  		// 병동 코드
-	private String unitCd;  		// 병실 코드
-	
-	// 환자 기본정보
-	private String dsrdDate;  		// 희망일
 	
 	// 처방 정보 상세
 	private String elctTrtmYn;  	// V
