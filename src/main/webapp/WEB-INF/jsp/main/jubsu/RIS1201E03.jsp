@@ -12,11 +12,11 @@
 		<!-- 검색 -->
 		<section class="search__container">
 
-			<input type="date" class="inputDateClass" />
+			<input type="date" id="startDateInput" class="inputDateClass" />
 			<p class="inputBetween">~</p>
-			<input type="date" class="inputDateClass" />
+			<input type="date" id="endDateInput" class="inputDateClass" />
 			<p class="ptntNm">환자명</p>
-			<input type="text" class="ptntNmInputClass" />
+			<input type="text" id="inputKeyword" class="ptntNmInputClass" />
 
 			<button onclick="openPopup()" class="all__btn fontawesome__btn list__icon icon_margin"></button>
 			<button class="all__btn img__btn fontawesome__btn search__icon"></button>
@@ -160,6 +160,7 @@
 		var mydata = [];		
 
       $(document).ready(function () {
+    	$("#list1").jqGrid("GridUnload");
         $("#list1").jqGrid({
  			url: "/jubsu/RIS1201E03.do",    
  			reordercolNames:true,
@@ -197,6 +198,11 @@
 	            { name: "wardCd", index: "wardCd", width: 50, align: "center" },
 	            { name: "unitCd", index: "unitCd", width: 50, align: "center" },
 	          ],
+          jsonReader: {
+     		    repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+     		    root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+     		    records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
+     	      },
           	guiStyle: "bootstrap",
           	autowidth: true,
           	height: "94%",
@@ -358,6 +364,91 @@
               alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
           }
       }
+   
+   // 검색 기능
+  	const searchGrid = function(startDate, endDate, keyword, grid) {
+	  	// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
+	  	// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
+	  	$("#" + grid).jqGrid("setGridParam", {
+	  		datatype: "json", 
+	  		page: 1
+	  	}).trigger("reloadGrid");
+	  	// 파라미터를 설정하고, 새로고침하여 페이지를 1로 설정하고, 데이터 타입을 JSON으로 변경한다.
+	  			
+	  	$("#" + grid).jqGrid("setGridParam", {
+	  	// beforeProcessing 은 데이터를 처리하기 전에 호출되며, 데이터 그리드를 필터링한다.
+	  	beforeProcessing: function(data) {
+  			var filteredData = [];
+  					
+  			for (var i = 0; i < data.rows.length; i++) {
+  				var rowData = data.rows[i];
+  				var matched = false;
+  						
+	  			// 검색어와 일치하는지 확인
+	  			if(keyword) {
+	  				for (var key in rowData) {
+	  					var cellValue = rowData[key];
+	  							
+	  					if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(keyword)) {
+	  						matched = true;
+	  						break;
+	  					}
+	  				}
+	  			} else {
+	  				// 검색어가 비어 있을 때 모든 데이터를 포함
+	  				matched = true;
+	  			}
+	  			
+  				// 날짜 범위 내에 있는지 확인
+                  if (startDate && endDate) {
+                      var dateCellValue = rowData.ordrDate; // 날짜가 있는 열의 이름을 지정해야 합니다.
+                      if (dateCellValue) {
+                      	
+                          var dateValue = new Date(dateCellValue);
+                          
+                          if (dateValue >= startDate && dateValue <= endDate) {
+                        	  console.log(dateValue >= startDate, dateValue <= endDate);
+                              matched = true;
+                          } else {
+                        	  matched = false;
+                          }
+                      }
+                  } 
+  			
+		  			
+		  			if (matched) {
+  						filteredData.push(rowData);
+  					}
+  				}
+  			
+  			
+  				data.rows = filteredData;
+  			}
+  		});	
+  	};
+
+  		
+  	// date input 값 변경 이벤트 처리
+  	$(".inputDateClass").on("change", function() {
+  	    var startDate = new Date($("#startDateInput").val());
+  	    var endDate = new Date($("#endDateInput").val());
+  	    var keyword = $("#inputKeyword").val().replace(/\s+/g, "").toLowerCase();
+
+  	    searchGrid(startDate, endDate, keyword, "list1");
+  	});
+  		
+  	// list1 검색
+  	$("#inputKeyword").on("input", function() {
+  		var startDate = new Date($("#startDateInput").val());
+  	    var endDate = new Date($("#endDateInput").val());
+  	    var keyword = $(this).val().replace(/\s+/g, "").toLowerCase();
+
+  	    searchGrid(startDate, endDate, keyword, "list1");
+  	});
+   
+		
+		
+		
     </script>
 </body>
 </html>
