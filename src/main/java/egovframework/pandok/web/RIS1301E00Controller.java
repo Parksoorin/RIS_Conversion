@@ -1,5 +1,6 @@
 package egovframework.pandok.web;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,9 +42,15 @@ public class RIS1301E00Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
-		System.out.println(map);
+		Map<String, String> param = new HashMap<>();
 		
-		List<Ris1301DTO> ris1301Data = pandokService.getRis1301List();
+		param.put("viewYn", map.get("viewYn").toString());
+		param.put("startDate", map.get("startDate").toString());
+		param.put("endDate", map.get("endDate").toString());
+		param.put("ris1301Dvsn", "%".equals(map.get("ris1301Dvsn").toString()) ? "all" : map.get("ris1301Dvsn").toString());
+		param.put("ptntName", map.get("ptntName").toString());
+		
+		List<Ris1301DTO> ris1301Data = pandokService.getRis1301List(param);
 		
 		json.put("ris1301Data", ris1301Data);
 		
@@ -67,5 +74,11 @@ public class RIS1301E00Controller {
 		json.put("ris1101Data", ris1101Data);
 		
 		return json;
+	}
+	
+	@RequestMapping(value = "/pandok/filePopup.do")
+	public String filePopup(Model model) throws Exception {
+		
+		return ".popup/RIS1301E00_POP2";
 	}
 }

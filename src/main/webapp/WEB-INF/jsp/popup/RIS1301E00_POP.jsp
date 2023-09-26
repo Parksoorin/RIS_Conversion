@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>환자 검색</title>
 </head>
   <body>
     <main class="main__container">
@@ -24,8 +24,8 @@
       </div>
       
       <div class="popup-btn__container">
-		    <button class="all__btn fontawesome__btn text__btn">선택</button>
-			<button onclick="closePopup()" class="all__btn fontawesome__btn text__btn">닫기</button>
+		    <button id="selectBtn" class="all__btn fontawesome__btn text__btn">선택</button>
+			<button id="closeBtn" class="all__btn fontawesome__btn text__btn">닫기</button>
       </div>
     </main>
 
@@ -61,16 +61,32 @@
               
               console.log(rowData);
               
-              selectData(rowData);
+              // selectData(rowData);
             },
           });
       });
+      
       
       function selectData(data) {
           window.opener.postMessage(data, '*');
           // 현재 창을 닫습니다.
           window.close();
       }
+      
+      $("#selectBtn").click(function() {
+    	  var grid = $("#list1");
+    	  
+    	  var selectedRowId = grid.jqGrid("getGridParam", "selrow");
+    	  var selectedRowData = grid.jqGrid("getRowData", selectedRowId);
+    	  
+    	  console.log(selectedRowData);
+    	  
+    	  selectData(selectedRowData);
+      })
+      
+      $("#closeBtn").click(function() {
+    	  window.close();
+      });
     </script>
   </body>
 </html>
