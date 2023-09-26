@@ -48,10 +48,10 @@
 						<!-- 버튼 컨테이너 -->
 						<div class="btn__container">
 
-							<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-							<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-							<button class="all__btn img__btn fontawesome__btn circlePlus__icon">처방추가</button>
-							<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+							<button id="inputUpdate" class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+							<button id="inputInsert" class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+							<button id="inputListPlus" class="all__btn img__btn fontawesome__btn circlePlus__icon">처방추가</button>
+							<button id="ris1201DataSave" class="all__btn img__btn fontawesome__btn save__icon">저장</button>
 
 						</div>
 					</div>
@@ -257,16 +257,46 @@
 				          	datatype: "local",
 				          	colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
 				          	colModel: [
-				            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 90, align: "center" },
+				            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
 				            	{ name: "imgnCd", index: "imgnCd", width: 100, align: "center" },
-				            	{ name: "ordrNm", index: "ordrNm", width: 150, align: "center" },
+				            	{ name: "ordrNm", index: "ordrNm", width: 170, align: "center", editable: true },
 				            	{ name: "exmnNoteText", index: "exmnNoteText", width: 80, align: "center" },
 				            	{ name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" },
-				            	{ name: "pmntYn", index: "pmntYn", width: 80, align: "center" },
-				            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 80, align: "center" },
-				            	{ name: "emrgYn", index: "emrgYn", width: 80, align: "center" },
-				            	{ name: "dcYn", index: "dcYn", width: 80, align: "center" },
-				            	{ name: "retkYn", index: "retkYn", width: 80, align: "center" },
+				            	{ name: "pmntYn", index: "pmntYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
+				            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
+				            	{ name: "emrgYn", index: "emrgYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
+				            	{ name: "dcYn", index: "dcYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
+				            	{ name: "retkYn", index: "retkYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+				                    edittype: "checkbox", // 체크박스 형태로 설정
+				                    editoptions: {
+				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+				                    } },
 				          	],
 				          	guiStyle: "bootstrap",
 				          	autowidth: true,
@@ -276,6 +306,7 @@
 				          	multiselect: false,
 				          	sortname: "id",
 				          	sortorder: "asc",
+				          	cellEdit: true,
 				          	loadonce: true,
 				          	gridview: true, // 선표시 true/false
 				          	viewsortcols: [true, "vertical", true],
@@ -446,8 +477,104 @@
   	    searchGrid(startDate, endDate, keyword, "list1");
   	});
    
-		
-		
+	
+  	// 수정 버튼 이벤트
+  	document.getElementById("inputUpdate").addEventListener("click", function () {
+  		
+  		// 처방일
+  		var ordrDateInputElement = document.getElementById("ordrDateInput");
+  		// 내원구분
+  		var vistDvsnInputElement = document.getElementById("vistDvsnInput");
+  		// 진료과
+  		var trtmDprtCdInputElement = document.getElementById("trtmDprtCdInput");
+  		// 의사정보
+  		var mddlKrNmInputElement = document.getElementById("mddlKrNmInput");
+  		// 희망일
+  		var dsrdDateInputElement = document.getElementById("dsrdDateInput");
+  		// 병동,병실
+  		var wardCdInputElement = document.getElementById("wardCdInput");
+  		var unitCdInputElement = document.getElementById("unitCdInput");
+  		
+  		// disabled 해제
+  		ordrDateInputElement.disabled = false;
+  		vistDvsnInputElement.disabled = false;
+  		trtmDprtCdInputElement.disabled = false;
+  		mddlKrNmInputElement.disabled = false;
+  		dsrdDateInputElement.disabled = false;
+  		wardCdInputElement.disabled = false;
+  		unitCdInputElement.disabled = false;
+  		
+  	});
+  	
+  	
+  	// 입력 버튼 이벤트
+  	document.getElementById("inputInsert").addEventListener("click", function () {
+  		
+  		// 환자명
+  		var ptntKrNmInputElement = document.getElementById("ptntKrNmInput");
+  		// 환자ID
+  		var ptntIdInputElement = document.getElementById("ptntIdInput");
+  		// 처방일
+  		var ordrDateInputElement = document.getElementById("ordrDateInput");
+  		// 내원구분
+  		var vistDvsnInputElement = document.getElementById("vistDvsnInput");
+  		// 진료과
+  		var trtmDprtCdInputElement = document.getElementById("trtmDprtCdInput");
+  		// 의사정보
+  		var mddlKrNmInputElement = document.getElementById("mddlKrNmInput");
+  		// 희망일
+  		var dsrdDateInputElement = document.getElementById("dsrdDateInput");
+  		// 병동,병실
+  		var wardCdInputElement = document.getElementById("wardCdInput");
+  		var unitCdInputElement = document.getElementById("unitCdInput");
+  		
+  		// disabled 해제
+  		ptntKrNmInputElement.disabled = false;
+  		ptntIdInputElement.disabled = false;
+  		ordrDateInputElement.disabled = false;
+  		vistDvsnInputElement.disabled = false;
+  		trtmDprtCdInputElement.disabled = false;
+  		mddlKrNmInputElement.disabled = false;
+  		dsrdDateInputElement.disabled = false;
+  		wardCdInputElement.disabled = false;
+  		unitCdInputElement.disabled = false;
+  		
+  	});
+  	
+  	
+  	// 처방추가 버튼 이벤트
+	$("#inputListPlus").on("click", function () {
+    	var newRowId = "new_row_" + (new Date()).getTime(); // 고유한 ID 생성
+
+	    // 빈 행을 추가할 데이터를 정의 (각 열에 대한 데이터를 포함해야 함)
+	    var newRowData = {
+	        elctTrtmYn: "", // 예시: 촬영 코드
+	        imgnCd: "",    // 예시: 촬영명
+	        ordrNm: "",    // 예시: FIND
+	        exmnNoteText: "",
+	        ordrNoteText: "",
+	        pmntYn: "",
+	        prtbImgnYn: "",
+	        emrgYn: "",
+	        dcYn: "",
+	        retkYn: "",
+	    };
+	
+	    // jqGrid에 새로운 행 추가
+	    $("#list3").jqGrid("addRowData", newRowId, newRowData);
+	
+	    // 새로 추가된 행을 편집 모드로 변경 (cellEdit: true 설정이 필요함)
+	    $("#list3").jqGrid("editRow", newRowId, true);
+	
+	});
+
+
+
+
+
+
+
+  	
 		
     </script>
 </body>
