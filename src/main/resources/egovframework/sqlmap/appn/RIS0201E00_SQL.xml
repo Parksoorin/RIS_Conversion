@@ -15,9 +15,15 @@
 					   , APPN_HLXM_PSSB_CNT
 		 FROM 			RIS0210
 		 WHERE 			1						=					1
+		 		<if test='wkdy != null'>
  				AND		WKDY 					=					#{wkdy}
+ 				</if>
+ 				<if test='imgnRoomCd != null'>
  				AND 	IMGN_ROOM_CD 			= 					#{imgnRoomCd} 
+ 				</if>
+ 				<if test='hsptId != null'>
  				AND 	HSPT_ID 				=					#{hsptId}
+ 				</if>
 	</select>
 	
 	<select id="ris0210Duplicate" parameterType="egovframework.appn.model.Ris0210FormDTO" resultType="int">
@@ -35,14 +41,15 @@
 	
 	<update id="ris0210Update" parameterType="egovframework.appn.model.Ris0210DTO">
 		<foreach collection="list" item='item' separator=';' >
-		UPDATE 			RIS0210
-	  	   SET 			APPN_OUTP_PSSB_CNT 		=					 #{item.appnOutpPssbCnt} 
-	  	   			  , APPN_INPT_PSSB_CNT		= 					 #{item.appnInptPssbCnt}
-	  	   			  , APPN_HLXM_PSSB_CNT		= 					 #{item.appnHlxmPssbCnt}
-		 WHERE 			HSPT_ID 				= 					 #{item.hsptID}
-	  			AND 	IMGN_ROOM_CD 			= 					 #{item.imgnRoomCd}
-				AND 	WKDY 					= 					 #{item.wkdy}
-	 			AND 	STRT_TIME 				=					 #{item.strtTime}
+			UPDATE 			RIS0210
+		  	   SET 			APPN_OUTP_PSSB_CNT 		=					 #{item.appnOutpPssbCnt} 
+		  	   			  ,APPN_INPT_PSSB_CNT		= 					 #{item.appnInptPssbCnt}
+		  	   			  ,APPN_HLXM_PSSB_CNT		= 					 #{item.appnHlxmPssbCnt}
+			 WHERE 			1						=					1
+			 		AND		HSPT_ID 				= 					 #{item.hsptId}
+		  			AND 	IMGN_ROOM_CD 			= 					 #{item.imgnRoomCd}
+					AND 	WKDY 					= 					 #{item.wkdy}
+		 			AND 	STRT_TIME 				=					 #{item.strtTime}
 		</foreach>
 	</update>
 	
@@ -50,24 +57,25 @@
 		INSERT INTO 		RIS0210 
 						(
 							 HSPT_ID
-						   , IMGN_ROOM_CD
-						   , WKDY
-						   , STRT_TIME
-						   , END_TIME
-						   , APPN_OUTP_PSSB_CNT
-						   , APPN_INPT_PSSB_CNT
-						   , APPN_HLXM_PSSB_CNT
+						   ,IMGN_ROOM_CD
+						   ,WKDY
+						   ,STRT_TIME
+						   ,END_TIME
+						   ,APPN_OUTP_PSSB_CNT
+						   ,APPN_INPT_PSSB_CNT
+						   ,APPN_HLXM_PSSB_CNT
 						 )
+			VALUES
 						 <foreach collection="list" item='item' separator=',' >
-		 VALUES			(
+		 				(
 		 					#{item.hsptId}
-		 				  , #{item.imgnRoomCd}
-		 				  , #{item.wkdy}
-		 				  , #{item.strtTime}
-		 				  , #{item.endTime}
-		 				  , #{item.appnOutpPssbCnt}
-		 				  , #{item.appnInptPssbCnt}
-		 				  , #{item.appnHlxmPssbCnt} 
+		 				  ,#{item.imgnRoomCd}
+		 				  ,#{item.wkdy}
+		 				  ,#{item.strtTime}
+		 				  ,#{item.endTime}
+		 				  ,#{item.appnOutpPssbCnt}
+		 				  ,#{item.appnInptPssbCnt}
+		 				  ,#{item.appnHlxmPssbCnt} 
 		 				 )
 		 				 </foreach>
 	</insert>
@@ -76,13 +84,13 @@
 		INSERT INTO RIS0210 
 						(
 							 HSPT_ID
-						   , IMGN_ROOM_CD
-						   , WKDY
-						   , STRT_TIME
-						   , END_TIME
-						   , APPN_OUTP_PSSB_CNT
-						   , APPN_INPT_PSSB_CNT
-						   , APPN_HLXM_PSSB_CNT
+						   ,IMGN_ROOM_CD
+						   ,WKDY
+						   ,STRT_TIME
+						   ,END_TIME
+						   ,APPN_OUTP_PSSB_CNT
+						   ,APPN_INPT_PSSB_CNT
+						   ,APPN_HLXM_PSSB_CNT
 						 )
 						 
 					VALUES
@@ -90,13 +98,13 @@
 						 	<foreach collection="item.weekList" item='yoil' separator=',' >
 		 					(
 		 					#{item.hsptId}
-		 				  , #{item.imgnRoomCd}
-		 				  , #{yoil}
-		 				  , #{item.startTime}
-		 				  , #{item.endTime}
-		 				  , #{item.outPatient}
-		 				  , #{item.inPatient}
-		 				  , #{item.healthExamination} 
+		 				  ,#{item.imgnRoomCd}
+		 				  ,#{yoil}
+		 				  ,#{item.startTime}
+		 				  ,#{item.endTime}
+		 				  ,#{item.outPatient}
+		 				  ,#{item.inPatient}
+		 				  ,#{item.healthExamination} 
 		 				 )
 		 				 	</foreach>
 		 				 </foreach>

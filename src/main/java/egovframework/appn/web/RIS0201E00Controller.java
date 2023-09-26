@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.appn.model.ImagingDTO;
 import egovframework.appn.model.RIS0210RequestDTO;
+import egovframework.appn.model.RIS0211DateRequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.RISAppnCalDTO;
 import egovframework.appn.model.RISAppnCalRequestDTO;
@@ -128,8 +129,18 @@ public class RIS0201E00Controller {
 	}
 	
 	
-	
-	
+	@PostMapping("/RIS0201E00/ris0211DateApply.do")
+	@ResponseBody
+	public ResponseEntity<?> ris0211DateApplyRestPostMapping(@RequestBody RIS0211DateRequestDTO dto) {
+		System.out.println("/appn/RIS0201E00/ris0211DateApply.do	 POST Mapping!!!");
+		
+		System.out.println(dto.toString());
+		int result = service.ris0211DateApply(dto);
+		
+		
+		
+		return ResponseEntity.ok().body(result);
+	}
 	
 	@PostMapping("/RIS0201E00/ris0210.do")
 	@ResponseBody
@@ -144,6 +155,12 @@ public class RIS0201E00Controller {
 		return ResponseEntity.ok().body(result);
 	}
 	
+	@PostMapping("/RIS0201E00/ris0211DeleteByDate.do")
+	@ResponseBody
+	public ResponseEntity<?> ris0211DeleteByDate(@RequestBody RIS0211RequestDTO dto){
+		int result = service.ris0211DeleteByDate(dto);
+		return ResponseEntity.ok().body(result);
+	}
 	
 	
 	@PostMapping("/RIS0201E00/form/ris0210.do")

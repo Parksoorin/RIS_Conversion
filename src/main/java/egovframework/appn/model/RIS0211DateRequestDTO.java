@@ -15,10 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class RIS0211RequestDTO {
+public class RIS0211DateRequestDTO {
 	private String hsptId;
-	private String imgnRoomCd;
-	private String exmnDate;
-	private String strtDate;
-	private String endDate;
+    private String imgnRoomCd;
+    private String strtDate;
+	private String endDate;		
+
 }

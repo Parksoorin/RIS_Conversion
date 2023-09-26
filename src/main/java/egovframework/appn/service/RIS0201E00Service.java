@@ -2,6 +2,7 @@ package egovframework.appn.service;
 import java.util.List;
 
 import egovframework.appn.model.RIS0210RequestDTO;
+import egovframework.appn.model.RIS0211DateRequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.RISAppnCalDTO;
 import egovframework.appn.model.RISAppnCalRequestDTO;
@@ -21,9 +22,13 @@ public interface RIS0201E00Service {
 	public int ris0211Process(List<Ris0211DTO> list);
 	public List<Ris0211DTO> ris0211Select(RIS0211RequestDTO dto);
 	public List<String> ris0211YearSelect(RIS0211RequestDTO dto);
-
 	public String ris0210FormProcess(Ris0210FormDTO dto);
-	
 	public List<RISAppnCalDTO> risappnCalSelect(RISAppnCalRequestDTO dto);
+
 	
+	// 예약기준적용 버튼
+	public int ris0211DateApply(RIS0211DateRequestDTO dto);
+	// 예약기준 삭제 버튼
+	public int ris0211DeleteByDate(RIS0211RequestDTO dto);
 }
+

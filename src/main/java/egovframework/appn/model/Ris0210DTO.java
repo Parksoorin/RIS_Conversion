@@ -30,9 +30,9 @@ public class Ris0210DTO {
 	@NotBlank
 	private String strtTime;
 	private String endTime;
-	private Integer appnOutpPssbCnt;
-	private Integer appnInptPssbCnt;
-	private Integer appnHlxmPssbCnt;
+	private int appnOutpPssbCnt;
+	private int appnInptPssbCnt;
+	private int appnHlxmPssbCnt;
 	@Size(max = 20)
 	private String rgstId;
 	private String rgstDttm;

@@ -13,4 +13,9 @@ public interface RIS0211Mapper {
 	public int ris0211Insert(List<Ris0211DTO> list);
 	public int ris0211Delete(List<Ris0211DTO> list);
 	public List<String> ris0211YearSelect(RIS0211RequestDTO dto);
+
+	public int ris0211Duplicate(RIS0211RequestDTO dto);
+	public int ris0211DeleteByDate(RIS0211RequestDTO dto);
 }
+
+

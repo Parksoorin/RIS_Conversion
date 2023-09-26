@@ -1,5 +1,7 @@
 package egovframework.appn.service.Impl;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import egovframework.appn.mapper.RIS0211Mapper;
 import egovframework.appn.mapper.RISAppnChangeMapper;
 import egovframework.appn.mapper.RISAppnCommonMapper;
 import egovframework.appn.model.RIS0210RequestDTO;
+import egovframework.appn.model.RIS0211DateRequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.RISAppnCalDTO;
 import egovframework.appn.model.RISAppnCalRequestDTO;
@@ -86,14 +89,16 @@ public class RIS0201E00ServiceImpl implements RIS0201E00Service{
 				new IllegalArgumentException("ris0210Process 잘못된 요청입니다.(Ris0201E00Service)");
 			}
 		};
-		
+		System.out.println("aa");
 		if(insertList.size()>0) {
 			mapper.ris0210Insert(insertList);
 		}
+		System.out.println("aa");
 		
 		if(updateList.size()>0) {
 			mapper.ris0210Update(updateList);
 		}
+		System.out.println("aa");
 		
 		if(deleteList.size()>0) {
 			mapper.ris0210Delete(deleteList);
@@ -227,6 +232,80 @@ public class RIS0201E00ServiceImpl implements RIS0201E00Service{
 	@Override
 	public List<RISAppnCalDTO> risappnCalSelect(RISAppnCalRequestDTO dto) {
 		return risAppnCommonMapper.risappnCalSelect(dto);
+	}
+
+	
+	// 예약기준 적용
+	@Override
+	public int ris0211DateApply(RIS0211DateRequestDTO dto) {
+		
+		List<Ris0210DTO> list = mapper.ris0210Select(
+										RIS0210RequestDTO.builder()
+										.imgnRoomCd(dto.getImgnRoomCd())
+										.hsptId(dto.getHsptId())
+										.build());
+		
+		List<Ris0211DTO> dataList = new ArrayList<>();
+		
+		// 중복체크 로직 작성하기
+		int dupCnt = ris0211Mapper.ris0211Duplicate(RIS0211RequestDTO.builder()
+							.hsptId(dto.getHsptId())
+							.imgnRoomCd(dto.getImgnRoomCd())
+							.strtDate(dto.getStrtDate())
+							.endDate(dto.getEndDate())
+							.build());
+		
+		if(dupCnt>0) {
+			System.out.println("중복 발생");
+			return 0;
+		}
+		
+		
+		 LocalDate startDate = LocalDate.parse(dto.getStrtDate());
+	     LocalDate endDate = LocalDate.parse(dto.getEndDate());
+
+	        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+	        while (!startDate.isAfter(endDate)) {
+	        	
+	        	String curDate = startDate.format(formatter);
+	        	 DayOfWeek dayOfWeek = startDate.getDayOfWeek();
+	             String dayOfWeekString = dayOfWeek.name(); // 영어로 요일 얻기
+
+	             System.out.println(curDate + " " + dayOfWeekString);
+
+	
+	            list.stream()
+	            .filter(e -> e.getWkdy().equalsIgnoreCase(dayOfWeekString))
+	            .forEach(e -> {
+	            	dataList.add(Ris0211DTO.builder()
+		            		.hsptId(dto.getHsptId())
+		            		.imgnRoomCd(dto.getImgnRoomCd())
+		            		.exmnDate(curDate)
+		            		.strtTime(e.getStrtTime())
+		            		.endTime(e.getEndTime())
+		            		.appnOutpPssbCnt(e.getAppnOutpPssbCnt())
+		            		.appnInptPssbCnt(e.getAppnInptPssbCnt())
+		            		.appnHlxmPssbCnt(e.getAppnHlxmPssbCnt())
+		            		.build());
+	            	
+	            });
+	             
+	            startDate = startDate.plusDays(1);
+	        }
+	        System.out.println(dataList.size());
+	        for(Ris0211DTO ss : dataList) {
+	        	System.out.println(ss.toString());
+	        }
+	        
+	        ris0211Mapper.ris0211Insert(dataList);
+		return dataList.size();
+
+	}
+
+	@Override
+	public int ris0211DeleteByDate(RIS0211RequestDTO dto) {
+		return ris0211Mapper.ris0211DeleteByDate(dto);
 	}
 
 	

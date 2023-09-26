@@ -273,7 +273,7 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-    	
+    let list3Date='0000-00-00';
     let rowIdcList1 = -1;
     let rowIdcList2 = -1;
     let rowIdcList3 = -1;
@@ -420,6 +420,10 @@ pageEncoding="UTF-8"%>
         }
       
       
+      function clearInput(elem){
+    	  $(elem).val('');
+      }
+      
       function formatTimeInput(elem) {
           $(elem).on('input', function () {
               var inputValue = $(this).val();
@@ -460,6 +464,7 @@ pageEncoding="UTF-8"%>
         const { firstDay, lastDay } = getFirstAndLastDayOfMonth();
         $('#date1').val(firstDay);
         $('#date2').val(lastDay);
+        calendarSet();
       }
       
      
@@ -477,15 +482,18 @@ pageEncoding="UTF-8"%>
       }
       
       const getSelectRowData = (list, status, rowIdc) => {
-      	if(!isSelectedFunction()) return;
-	      	let data = $(list).jqGrid("getRowData",rowIdc);	// #list1
-	      	
-	      	if(data.flag == '입력' || data.flag == '수정' || data.flag == '삭제'){
-	      		alert(rowIdc + '행은 이미 ' + data.flag + '상태입니다.');
-	      		return false;
-	      	}
-	      	data.flag = status;
-	      	$(list).setRowData(rowIdc, data);
+      		
+    	  
+    	  	if(!isSelectedFunction()) return;
+    	  	var cellValue = $(list).jqGrid("getCell", rowIdc, 'flag');
+    	  	console.log(cellValue);
+    	  	if(cellValue==='입력') {
+    	  	  	$(list).jqGrid("setCell", rowIdc, 'flag', '입력');
+    	  		return false;
+    	  	}
+    	  	
+    	  	$(list).jqGrid("setCell", rowIdc, 'flag', status);
+      
       	return true;
       }
       
@@ -509,24 +517,27 @@ pageEncoding="UTF-8"%>
           }).trigger("reloadGrid");
       }
       
-      // 입력 수정 여부 체크
-      const isInputUpdate = (list) => {
-      	var totalRows = $(list).jqGrid('getGridParam', 'records'); // "#list1"
-  
-          for (var i = 1; i <= totalRows; i++) {
-          	  let data = $(list).jqGrid("getRowData",i);
-	        	  if(data.flag === '입력' || data.flag ==='수정'){
-		  		  	  return true;	  
-	        	  }
-        	}
-          return false;
+     
+    
+      const calendarSet = () => {
+    	  const date = $('#date1').val();
+         	let year = date.substring(0, 4);
+         	let month = date.substring(5, 7);
+          	if(month.substring(0, 1) === '0'){
+          		month = month.substring(1);
+          	}
+         	
+         	console.log(year);
+          	console.log(month);
+          	
+          	$('#appointment-year').val(year); 
+          	$('#appointment-month').val(month) ;   
       }
-    
-    
     
       $(document).ready(function () {
     	  init();
     	  
+    	 
     	  
     	  // 클릭 이벤트 처리 
 		  // 9월 25일 처리할 것
@@ -536,18 +547,23 @@ pageEncoding="UTF-8"%>
 
           $('#reload-btn').click(function(){
   	         console.log('갱신 버튼 눌림');
-  	         reloadGrid();
+  	       	 list1Data();
+          })
+          
+          $('#reload-btn2').click(function(){
+  	         console.log('갱신 버튼 눌림');
+  	       	 list3Data(list3Date);
           })
 
           $('#input-btn').click(function(){
-            	console.log('입력 버튼 눌림');
             	
             	var rowId = $("#list1").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
             	var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
-            	
+            	console.log(rowId);
             	var data = {
             		    flag: '',
-            		    hldyText: ''
+            		    imgnRoomCd : $('#imgnRoom').val(),
+            		    wkdy : checkedWeek
             		};
             	
             	
@@ -559,48 +575,134 @@ pageEncoding="UTF-8"%>
             		
             	}
             	$("#list1").jqGrid('editRow',rowId+1,{keys : true });	
-         		$("#list1").jqGrid('resetSelection');
-         	    $("#list1").jqGrid('setSelection', rowId+1, true);
-         		rowIdc = rowId+1;
-         		$("#"+rowIdc+"_hldyText").focus();
+    
+         	     rowIdcList1  = rowId+1;
+         		$("#"+rowIdcList1 +"_appnOutpPssbCnt").focus();
             	
-  	    	getSelectRowData('입력');
+  	    	getSelectRowData('#list1','입력', rowId+1);
+  	      	   
+          })
+          
+           $('#input-btn2').click(function(){
+            	
+            	var rowId = $("#list3").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
+            
+            	var selectedRowId = $("#list3").jqGrid('getGridParam', 'selrow');
+            	
+            	var data = {
+            		    flag: '',
+            		    imgnRoomCd : $('#imgnRoom').val(),
+            		    hsptId : 'A001',
+            		    exmnDate : list3Date,
+            		};
+            	
+            	
+            	if (!selectedRowId) {
+            		$("#list3").jqGrid("addRowData", rowId+1, data, 'last');
+      	    
+            	} else {
+            		$("#list3").jqGrid("addRowData", rowId +1, data, 'after', selectedRowId);
+            		
+            	}
+            	$("#list3").jqGrid('editRow',rowId+1,{keys : true });	
+    
+         	     rowIdcList3  = rowId+1;
+         		$("#"+rowIdcList3 +"_appnOutpPssbCnt").focus();
+            	
+  	    	getSelectRowData('#list3','입력', rowIdcList3);
   	      	   
           })
 
           $('#update-btn').click(function(){
   	        console.log('수정 버튼 눌림');
   	        
-  	        let data = $("#list1").jqGrid("getRowData",rowIdc);
-          	if(data.flag =='삭제'){
-  				data.flag = '수정'; 
-          	}
-          	if (!getSelectRowData('수정')) return;
-  	        $("#list1").jqGrid('editRow',rowIdc,{keys : true });	
-  	        $('#' + rowIdc + '_' + 'hldyDate').attr('disabled', true);
-  	    	$("#list1").jqGrid('setSelection', rowIdc, true);
-  	    	$("#"+rowIdc+"_hldyText").focus();
+  	      var selectedRowIds = $("#list1").jqGrid('getGridParam', 'selarrrow');
+		  console.log(selectedRowIds);
+		  selectedRowIds.forEach(function(rowId) {
+	  	        var data = $("#list1").jqGrid('getRowData', rowId);
+	  	        if(data.flag =='삭제'){
+	  	            data.flag = '수정'; 
+	  	        }
+	  	        if (!getSelectRowData('#list1', '수정', rowId)) return;
+	  	        $("#list1").jqGrid('editRow', rowId, { keys : true });
+	  	        $('#' + rowId + '_' + 'strtTime').attr('disabled', true);
+	  	        $('#' + rowId + '_' + 'endTime').attr('disabled', true);
+	  	        $("#" + rowId + "_appnOutpPssbCnt").focus();
+	  	    });
+  	  
+  	    })
+  	    
+  	     $('#update-btn2').click(function(){
+  	        console.log('수정 버튼 눌림');
+  	        
+  	      var selectedRowIds = $("#list3").jqGrid('getGridParam', 'selarrrow');
+		  console.log(selectedRowIds);
+		  selectedRowIds.forEach(function(rowId) {
+			  let data = $("#list3").jqGrid("getRowData",rowId );
+	          	if(data.flag =='삭제'){
+	  				data.flag = '수정'; 
+	          	}
+	          	if (!getSelectRowData('#list3', '수정', rowId)) return;
+	  	        $("#list3").jqGrid('editRow',rowId,{keys : true });	
+	  	        $('#' + rowId + '_' + 'strtTime').attr('disabled', true);
+	  	      	$('#' + rowId + '_' + 'endTime').attr('disabled', true);
+	  	    	$("#"+rowId+"_appnOutpPssbCnt").focus();  
+			  
+			  
+		  })
+  	        
+  	        
+  	        
 
   	    })
 
           $('#delete-btn').click(function(){
           	console.log('삭제 버튼 눌림');
           	
-  			let data = $("#list1").jqGrid("getRowData",rowIdc);
-          	if(data.flag =='입력'){
-  				$("#list1").jqGrid("delRowData", rowIdc); 
-          		return;
+	          	var selectedRowIds = $("#list1").jqGrid('getGridParam', 'selarrrow');
+	          
+	          	var rows = selectedRowIds.length;
+	          	
+
+	          	for(var i = rows - 1; i>=0; i--){	
+	          		let data = $("#list1").jqGrid("getRowData",selectedRowIds[i]);
+	          		console.log(data);
+	          		
+	          		
+	          		if(data.flag ==='입력'){
+	          			$('#list1').jqGrid('delRowData', selectedRowIds[i] );
+	              		continue;
+	              	}
+	              	
+	              	
+	              	
+	              	if(!getSelectRowData('#list1','삭제', selectedRowIds[i])) continue;	   
+	          	}
+          })
+          
+           $('#delete-btn2').click(function(){
+          	console.log('삭제 버튼 눌림');
+          	
+          	var selectedRowIds = $("#list3").jqGrid('getGridParam', 'selarrrow');
+	          
+          	var rows = selectedRowIds.length;
+          	
+
+          	for(var i = rows - 1; i>=0; i--){	
+          		let data = $("#list3").jqGrid("getRowData",selectedRowIds[i]);
+          		console.log(data);
+          		
+          		
+          		if(data.flag ==='입력'){
+          			$('#list3').jqGrid('delRowData', selectedRowIds[i] );
+              		continue;
+              	}
+              	
+              	
+              	
+              	if(!getSelectRowData('#list3','삭제', selectedRowIds[i])) continue;	   
           	}
-          	
-          	if(isInputUpdate()) {
-          		alert('저장 완료 후 삭제해주세요.');
-          		return;
-          	};
-          	
-          	if(!getSelectRowData('삭제')) return;
-          	
-          	
-          	
+
           })
 
           $('#save-btn').click(function(){
@@ -617,8 +719,9 @@ pageEncoding="UTF-8"%>
   	      		  	  
   	        	  let data = $("#list1").jqGrid("getRowData",i);
   	        	  
+  	        	  
   	        	  if(data.flag === '입력' || data.flag ==='수정'){
-  		  		  	  if(data.hldyText==='' || data.hldyText === ''){
+  		  		  	  if(data.appnOutpPssbCnt==='' || data.appnInptPssbCnt === '' || data.appnHlxmPssbCnt === ''){
   		  		  		  $("#list1").jqGrid('editRow',i,{keys : true });	
   		  		  		  alert(i + '행 미입력 사항이 있습니다.');
   		  		  		  return;
@@ -629,23 +732,67 @@ pageEncoding="UTF-8"%>
             var list = $("#list1").getRowData();
       	  	console.log(list);          
             $.ajax({
-          	    url: '/appn/RIS0212E00/ris0212.do',
+          	    url: '/appn/RIS0201E00/ris0210.do',
           	    method: 'POST', 
           	    data: JSON.stringify(list),
           	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
       			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
           	    success: function(response) {
           	    	alert(response + '건이 처리되었습니다.');
-          	    	
-          	    	
-          	    	reloadGrid();
+
+          	    	list1Data();
           	    },
           	    error: function(error) {
           	        console.error('Error ', error);
           	    }
           	});
+          })
+          
+          
+          
+          
+          $('#save-btn2').click(function(){
+            console.log('저장 버튼 눌림');
+            var totalRows = $("#list3").jqGrid('getGridParam', 'records');
+            console.log(totalRows + "번째");
             
-            
+          
+            // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
+            for (var i = 1; i <= totalRows; i++) {
+        		  	  
+          	  
+  	        	  $("#list3").jqGrid('saveRow',i, false, 'clientArray');    
+  	      		  	  
+  	        	  let data = $("#list3").jqGrid("getRowData",i);
+  	        	  
+  	        	  
+  	        	  if(data.flag === '입력' || data.flag ==='수정'){
+  		  		  	  if(data.appnOutpPssbCnt==='' || data.appnInptPssbCnt === '' || data.appnHlxmPssbCnt === ''){
+  		  		  		  $("#list3").jqGrid('editRow',i,{keys : true });	
+  		  		  		  alert(i + '행 미입력 사항이 있습니다.');
+  		  		  		  return;
+  		  		  	  }	  
+  	        	  }	  
+          	}
+          
+            var list = $("#list3").getRowData();
+      	  	console.log(list);          
+            $.ajax({
+          	    url: '/appn/RIS0201E00/ris0211.do',
+          	    method: 'POST', 
+          	    data: JSON.stringify(list),
+          	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+      			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+          	    success: function(response) {
+          	    	alert(response + '건이 처리되었습니다.');
+
+          	    	list3Data(list3Date);
+          	    	changeCalendar();
+          	    },
+          	    error: function(error) {
+          	        console.error('Error ', error);
+          	    }
+          	});
           })
           // -----------------------------------
     	  
@@ -731,6 +878,17 @@ pageEncoding="UTF-8"%>
           	    	list1Data();
           	        console.log('성공적으로 서버에 요청을 보냈습니다.');
           	        console.log('응답 데이터:', response);
+          	        
+          	      	clearInput('#start-time');
+          	    	clearInput('#end-time');
+          	    	clearInput('#interval');
+          	    	clearInput('#rest-start-time');
+          	    	clearInput('#rest-end-time');
+          	    	clearInput('#out-patient');
+          	    	clearInput('#in-patient');
+                	clearInput('#health-examination');
+                	clearInput('#week-batch');
+          	    
           	    },
           	    error: function(xhr, status, error) {
           	        console.error('서버 요청 중 에러가 발생했습니다.');
@@ -742,7 +900,7 @@ pageEncoding="UTF-8"%>
           
         
 
-        $(function(){
+       
       // calendar element 취득
       var calendarEl = $('#calendar')[0];
       // full-calendar 생성하기
@@ -785,18 +943,157 @@ pageEncoding="UTF-8"%>
         	  //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
         	  //alert('Current view: ' + info.view.type);
 			  console.log('aaa');
-			  
+			  list3Date = info.dateStr;
 			  console.log(info); // info.dateStr   '2023-09-13'
 			  list2Data(info.dateStr);
   	    	
 			  list3Data(info.dateStr);
         		  
 		},
+		viewDidMount: function(info) {
+			 console.log('뷰 렌더링이 완료되었습니다.');
+			 let year = $("#appointment-year").val();
+			  let month = $("#appointment-month").val();
+			  if(month.length===1){
+				  month = '0' + month;
+			  }
+			  let firstDayOfMonth = year + '-' + month + '-01';
+			  console.log(firstDayOfMonth);
+			  calendar.gotoDate(firstDayOfMonth);
+			  
+			  let lastDayOfMonth = new Date(year, month, 0);
+			  lastDayOfMonth = year + '-' + month + '-' + lastDayOfMonth.getDate();
+			  console.log('월말:', lastDayOfMonth);
+			  
+			  const postData = {
+					  imgnRoomCd : $('#imgnRoom').val(),
+					  hsptId : 'A001',
+					  startDate : firstDayOfMonth,
+					  endDate : lastDayOfMonth
+			  }
+			  
+			  
+			  $.ajax({
+	        	    url: '/appn/RIS0201E00/risappnCalSearch.do',
+	        	    method: 'POST', 
+	        	    data: JSON.stringify(postData),
+	        	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+	    			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+	        	    success: function(response) {
+	        	    	calendar.removeAllEvents();
+	        	    	console.log(response);
+	        	    	response.forEach(data => {
+	        	    		const obj = {
+	        	    				title: data.appnCnt + ' / ' + data.total,
+	        	    	            start: data.exmnDate
+	        	    		}
+
+       	    			console.log(data.appnHoliDate);
+	        	    		if(data.appnHoliDate){
+	        	    			obj.title = '0 / 0';
+	        	    			obj.backgroundColor = 'yellow';
+	        	    			obj.borderColor = 'yellow';
+	        	    			obj.textColor = 'black';
+	        	    		}
+	        	    		calendar.addEvent(obj);
+	        	    	});
+	        	    	
+	        	    	console.log(response);
+	        	    	//calendar.render();
+	        	    	
+	        	    },
+	        	    error: function(error) {
+	        	        console.error('Error ', error);
+	        	    }
+	        	});
+		},
+		
         // 이벤트 
         // events: event
       });
       // 캘린더 랜더링
       calendar.render();
+      
+      // 예약기준적용
+	  
+	  $('#appn-apply-btn').click(function(){
+		  
+		  console.log('예약적용버튼 눌림');
+	  		
+		  const postData = {
+				  hsptId : 'A001',
+				  imgnRoomCd : $('#imgnRoom').val(),
+				  strtDate : $('#date1').val(),
+				  endDate : $('#date2').val()
+		  };
+		  
+		  $.ajax({
+        	    url: '/appn/RIS0201E00/ris0211DateApply.do',
+          	    method: 'POST', 
+          	    data: JSON.stringify(postData),
+          	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+      			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+          	    success: function(response) {
+          	    	console.log('Success', response);	
+          	    	
+          	    	if(response===0){
+          	    		alert("이미 적용된 예약기준이 있습니다. 필요시 삭제후 적용하시기 바랍니다.");
+          	    	} else{
+          	        	calendarSet();
+          	        	changeCalendar();
+          	    	} 
+          	    	
+          	    	
+          	    	
+          	    },
+          	    error: function(error) {
+          	        console.error('Error ', error);
+          	    }
+		  
+	  		})
+	  })
+	  
+	  
+	  $('#appn-delete-btn').click(function(){
+		  
+		  console.log('예약기준삭제 눌림');
+	  		
+		  if(!confirm('해당 기간의 예약시간을 삭제하시겠습니까?')){
+			  return;
+		  }
+		  
+		  
+		  const postData = {
+				  hsptId : 'A001',
+				  imgnRoomCd : $('#imgnRoom').val(),
+				  strtDate : $('#date1').val(),
+				  endDate : $('#date2').val()
+		  };
+		  
+		  
+		  
+		  $.ajax({
+        	    url: '/appn/RIS0201E00/ris0211DeleteByDate.do',
+          	    method: 'POST', 
+          	    data: JSON.stringify(postData),
+          	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+      			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+          	    success: function(response) {
+          	    	console.log('Success', response);	
+          	    	alert("삭제되었습니다.");
+                	calendarSet();
+                	changeCalendar();
+
+          	    	
+          	    	
+          	    },
+          	    error: function(error) {
+          	        console.error('Error ', error);
+          	    }
+		  
+	  		})
+	  })
+	  
       
       // 캘린더 날짜 매핑 
       $('#search-btn').click(function(){
@@ -804,19 +1101,7 @@ pageEncoding="UTF-8"%>
         	if(!dateValidateCheck()){
         		alert('유효하지 않은 날짜입니다.');	
         	}
-        	
-       	const date = $('#date1').val();
-       	let year = date.substring(0, 4);
-       	let month = date.substring(5, 7);
-        	if(month.substring(0, 1) === '0'){
-        		month = month.substring(1);
-        	}
-       	
-       	console.log(year);
-        	console.log(month);
-        	
-        	$('#appointment-year').val(year); 
-        	$('#appointment-month').val(month) ; 
+        	calendarSet();
         	changeCalendar();
 		  })
 		  
@@ -890,7 +1175,7 @@ pageEncoding="UTF-8"%>
 	        	});
 	      }
 	      
-    });
+    
 
         $("#list1").jqGrid({
         	url: '/appn/RIS0201E00/ris0210Search.do',
@@ -908,7 +1193,7 @@ pageEncoding="UTF-8"%>
               root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
               records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
             },     
-          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden"],
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "요일-Hidden"],
           colModel: [
         	{ name: "flag", index: "flag", width: 40, align: "center" },
             { name: "strtTime", index: "strtTime", width: 90, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
@@ -918,11 +1203,14 @@ pageEncoding="UTF-8"%>
               index: "appnOutpPssbCnt",
               width: 60,
               align: "center",
+              editable:true, edittype:'text'
             },
-            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 60, align: "center" },
-            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 60, align: "center" },
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 60, align: "center", editable:true, edittype:'text'  },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 60, align: "center", editable:true, edittype:'text' },
             { name: "hsptId", index: "hsptId", width: 80, align: "center", hidden: true  },
-            { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },  
+            { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
+            { name: "wkdy", index: "wkdy", width: 80, align: "center" , hidden: true },
+            
           ],
           
           guiStyle: "bootstrap",
@@ -1037,19 +1325,23 @@ pageEncoding="UTF-8"%>
                'imgnRoomCd' : $('#imgnRoom').val(),
                'hsptId' : 'A001'
               }),
-          colNames: ["구분", "시작", "종료", "외래", "입원", "건진"],
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "날짜-Hidden"],
           colModel: [
             { name: "flag", index: "flag", width: 90, align: "center" },
-            { name: "strtTime", index: "strtTime", width: 100, align: "center" },
+            { name: "strtTime", index: "strtTime", width: 100, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
             {
               name: "endTime",
               index: "endTime",
               width: 100,
               align: "center",
+              editable:true, edittype:'text', editoptions: {type: "time"}
             },
-            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 80, align: "center" },
-            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center" },
-            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center" },
+            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 80, align: "center",  editable:true, edittype:'text'},
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center", editable:true, edittype:'text' },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center", editable:true, edittype:'text' },
+            { name: "hsptId", index: "hsptId", width: 80, align: "center" , hidden: true },
+            { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
+            { name: "exmnDate", index: "exmnDate", width: 80, align: "center" , hidden: true },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
