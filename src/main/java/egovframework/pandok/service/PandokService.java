@@ -14,6 +14,8 @@ public interface PandokService {
 	List<Ris0601DTO> getRis0601List(Map<String, String> param);
 	List<Ris0102DTO> getRis0102List();
 	List<RisUserDTO> getRisUserList();
-	List<Ris1301DTO> getRis1301List();
+	List<Ris1301DTO> getRis1301List(Map<String, String> param);
 	List<Ris1101DTO> getRis1101List();
+	int duplicateCheck(Ris0601DTO dto);
+	int saveRis0601List(Ris0601DTO dto);
 }

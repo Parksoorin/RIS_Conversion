@@ -13,15 +13,19 @@ pageEncoding="UTF-8"%>
       <!-- 검색 -->
       <section class="search__container">
         <!-- 의사 리스트 -->
-      	<div class="search__box docId__search">
-          <p class="filter__keyword">의사 :</p>
-          <select id="selectDocId" class="filter__options">
-          	<option value="all">의사 ID를 선택해주세요.</option>
-            <c:forEach items="${risUserData}" var="data">
-           	  <option value="${data.loginId}">${data.loginNm}(${data.loginId})</option>
-           	</c:forEach>
-          </select>
-        </div>
+        <c:choose>
+          <c:when test="${userGrade eq 'S' || userGrade eq 'A'}">
+	      	<div class="search__box docId__search">
+	          <p class="filter__keyword">의사 :</p>
+	          <select id="selectDocId" class="filter__options">
+	          	<option value="all">의사 ID를 선택해주세요.</option>
+	            <c:forEach items="${risUserData}" var="data">
+	           	  <option value="${data.loginId}">${data.loginNm}(${data.loginId})</option>
+	           	</c:forEach>
+	          </select>
+	        </div>
+          </c:when>
+        </c:choose>
         
         <!-- 검색어 입력 -->
         <div class="search__box keyword__search">
@@ -91,10 +95,21 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-   	  // 촬영 구분 select 태그로 변환
+   	  var selectDocId;
+   	  var userGrade = "${userGrade}";
+   	  // JSON 형식으로 받은 model 안의 변수를 parse
    	  var ris0102ListForJs = JSON.parse('${ris0102List}');
+   	  // 촬영 구분 select 태그로 변환
    	  var selectOption = {};
    	  
+   	  // 권한이 S이거나 A일 경우 초기 의사ID 고정
+   	  if (userGrade == 'S' || userGrade == 'A') {
+   		  selectDocId = "all";
+   	  } else {
+   		  selectDocId = "${userName}";
+   	  }
+
+   	  // jqGrid에서 사용할 ris0102List 생성
    	  for (data of ris0102ListForJs) {
    		  if (data.mddlCd != '%') {
     		  selectOption[data.mddlCd] = data.mddlKrNm;
@@ -103,10 +118,17 @@ pageEncoding="UTF-8"%>
    	  
       // 정형문 리스트 출력
       function setRis0601List() {
-    	  var selectDocId = $("#selectDocId").val();
+    	  // 권한이 관리자일 경우 의사ID 동적 변경
+    	  if ($("#selectDocId").val()) {
+	    	  selectDocId = $("#selectDocId").val();
+    	  }
+    	  
+    	  // 공용코드 체크박스 선택 시
     	  if ($("#commonCheck").is(':checked')) {
     		  selectDocId = "COMMON";
     	  }
+    	  
+    	  // 촬영구분
     	  var selectImgnDvsn = $("#selectImgnDvsn").val();
     	  
     	  $("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
@@ -121,12 +143,12 @@ pageEncoding="UTF-8"%>
               datatype: "json",
               colNames: ["구분", "의사ID", "정형문 코드", "촬영구분코드", "촬영구분", "판독약어명", "판독내용"],
               colModel: [
-                { name: "flag",       index: "flag",       width: 40,    align: "center" },
-                { name: "docId",      index: "docId",      width: 100,   align: "left" },
-                { name: "tmplCd",     index: "tmplCd",     width: 100,   align: "left" },
+                { name: "flag",       index: "flag",       width: 30,    align: "center", sortable: false },
+                { name: "docId",      index: "docId",      width: 60,    align: "left",   sortable: false, hidden: userGrade !== 'S' && userGrade !== 'A' },
+                { name: "tmplCd",     index: "tmplCd",     width: 70,    align: "left",   sortable: false, editable: true },
                 { name: "imgnDvsnCd", index: "imgnDvsnCd", hidden: true },
-                { name: "mddlKrNm",   index: "mddlKrNm",   width: 100,   align: "left", editable: true, edittype: 'select', editoptions: { value:selectOption } },
-                { name: "viewAbbrNm", index: "viewAbbrNm", width: 100,   align: "left", editable: true },
+                { name: "mddlKrNm",   index: "mddlKrNm",   width: 100,   align: "left",   sortable: false, editable: true, edittype: 'select', editoptions: { value:selectOption } },
+                { name: "viewAbbrNm", index: "viewAbbrNm", width: 100,   align: "left",   sortable: false, editable: true },
                 { name: "viewText",   index: "viewText",   hidden: true },
               ],
               jsonReader: {
@@ -141,10 +163,10 @@ pageEncoding="UTF-8"%>
       		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
       		  rowNum: 999999,
               rownumbers: true,
-              sortname: "docId",
-              sortorder: "asc",
+              // sortname: "docId",
+              // sortorder: "asc",
               loadonce: true,
-              viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
+              // viewsortcols: [true, "vertical", true], // 정렬 조건 [모든 열 여부, vertical || horizontal, Header 아무곳 클릭 여부]
               loadComplete: function (data) {
     	          console.log(data);
     	          var emptyRecord = '<div class="ui-state-default ui-state-active empty-state" id="load_list1">데이터가 존재하지 않습니다.</div>';
@@ -158,31 +180,14 @@ pageEncoding="UTF-8"%>
                 console.log(rowData);
                 
             	// 판독 내용 disabled
-            	$("#viewText").attr("disabled", true);
+            	if (rowData.flag == '입력' || rowData.flag == '수정') {            		
+	            	$("#viewText").attr("disabled", false);
+            	} else {
+            		$("#viewText").attr("disabled", true);
+            	}
             	
             	// 판독 내용에 데이터 삽입
                 $("#viewText").val(rowData.viewText);
-              },
-              onSortCol: function (index, idxcol, sortorder) {
-                // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-                // (화살표 css 변경하기 전 Frozen을 풀어주고)
-                $("#list1").jqGrid("destroyFrozenColumns");
-                var $icons = $(this.grid.headers[idxcol].el).find(
-                  ">div.ui-jqgrid-sortable>span.s-ico"
-                );
-                if (this.p.sortorder === "asc") {
-                  //$icons.find('>span.ui-icon-asc').show();
-                  $icons.find(">span.ui-icon-asc")[0].style.display = "";
-                  $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-                  $icons.find(">span.ui-icon-desc").hide();
-                } else {
-                  //$icons.find('>span.ui-icon-desc').show();
-                  $icons.find(">span.ui-icon-desc")[0].style.display = "";
-                  $icons.find(">span.ui-icon-asc").hide();
-                }
-                // (화살표 css 변경 후 Frozen을 다시 설정)
-                $("#list1").jqGrid("setFrozenColumns");
-                //alert(index+'/'+idxcol+'/'+sortorder);
               },
           });
       };
@@ -285,7 +290,10 @@ pageEncoding="UTF-8"%>
 	    	  navigator.clipboard.readText()
 	    	  .then(function(clipboardData) {
 	    	  	  // 가져온 데이터를 viewText에 설정
+	    	      var selectedRowId = $("#list1").getGridParam("selrow");
+	    	  	  
 	    	      $("#viewText").val(clipboardData);
+	        	  $("#list1").setCell(selectedRowId, "viewText", clipboardData);
 	    	  })
 	    	  .catch(function(err) {
 	    	      alert('클립보드에서 텍스트를 읽어오지 못했습니다.');
@@ -298,6 +306,7 @@ pageEncoding="UTF-8"%>
       $("#refreshBtn").click(function() {
     	  $("#selectDocId").val("all");
     	  $("#selectImgnDvsn").val("%");
+    	  $("#commonCheck").prop("checked", false);
     	  
     	  refreshPage();
       });
@@ -323,18 +332,24 @@ pageEncoding="UTF-8"%>
 		  var newRowData = { id: newRowId, flag: '입력', docId: newDocId, tmplCd: '', imgnDvsnCd: '', viewAbbrNm: '', viewText: '' }; // 빈 행 데이터 생성
 		  
 		  grid.jqGrid('addRowData', newRowId, newRowData, 'last'); // 행 추가
+		  grid.jqGrid('setSelection', newRowId);
 		  grid.jqGrid('setColProp', 'tmplCd', { editable: true }); // 정형문 코드 수정 가능하게
 		  grid.jqGrid('editRow', newRowId, true); // 편집 모드로 변경
 		  
 		  // 그리드 스크롤을 맨 밑으로
 		  var gridContainer = grid.closest(".ui-jqgrid-bdiv");
 		  gridContainer.scrollTop(gridContainer[0].scrollHeight);
+		  
+		  
+		  // 판독 내용 수정 설정
+		  $("#viewText").attr("disabled", false);
+		  $("#viewText").val("");
       });
       
       
       // 수정 버튼
       $("#updateBtn").click(function() {
-    	  $("#list1").setColProp('tmplCd', { editable: false} );
+    	  $("#list1").setColProp('tmplCd', { editable: false });
     	  var rowId = $("#list1").jqGrid('getGridParam', 'selrow');
     	  
     	  if (rowId) { // 선택된 행이 있는 경우에만 실행
@@ -343,7 +358,6 @@ pageEncoding="UTF-8"%>
 	    	  // 판독 내용 수정 가능
 	    	  $("#viewText").attr("disabled", false);
     	      
-    	  	  // 수정 조건 추가해야 함!!!!!!!
     	  	  if (rowData.flag != '입력') {    	  		  
 	    	  	  rowData.flag = '수정';
     	  	  	  $("#list1").jqGrid('setRowData', rowId, rowData);
@@ -374,21 +388,70 @@ pageEncoding="UTF-8"%>
       // 저장 버튼
       $("#saveBtn").click(function() {
     	  var totalRecords = $("#list1").jqGrid("getGridParam", "reccount");
+    	  console.log($("#list1").getRowData());
     	  
     	  for (var i = 1; i <= totalRecords; i++) {
+    		  // 입력 후 수정했을 경우 editable 옵션이 false가 되어 입력이 제대로 되지 않음
+    		  // tmplCd의 editable 옵션 재설정
+    		  $("#list1").setColProp('tmplCd', { editable: true });
+    		  
+    		  // input, select 값들을 모두 값으로 저장
    			  $("#list1").saveRow(i);
-   			  var mddlKrNmData = $("#list1").getCell(i, "mddlKrNm");
    			  
+   			  var rowData = $("#list1").getRowData(i);
+   			  var mddlKrNmData = $("#list1").getCell(i, "mddlKrNm");
    			  var imgnDvsnCdData = Object.keys(selectOption).find(key => selectOption[key] === mddlKrNmData);
    			  
+   			  // select 태그인 촬영구분에서 촬영구분 코드를 저장
    			  $("#list1").setCell(i, "imgnDvsnCd", imgnDvsnCdData);
    			  
-   			  console.log($("#list1").getRowData(i));
-    		  console.log(mddlKrNmData, imgnDvsnCdData);
+   			  // 데이터가 공백이 있을 경우
+   			  if (!rowData.tmplCd) {
+   				  alert(i + "번째 행 정형문 코드가 비어있습니다.\n정형문 코드를 입력해주세요.");
+   				  $("#list1").editRow(i, true);
+   				  $("#list1").setSelection(i);
+   				  break
+   			  } else if (!rowData.viewText) {
+   				  alert(i + "번째 행 판독 내용이 비어있습니다.\n판독 내용을 입력해주세요.");
+   				  $("#list1").editRow(i, true);
+   				$("#list1").setSelection(i);
+   			  }
     	  }
     	  
     	  var rowDatas = $("#list1").getRowData();
+    	  
+    	  $.ajax({
+    		  url: "/pandok/saveRis0601List.do",
+    		  method: "POST",
+    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+    		  data: JSON.stringify(rowDatas),
+    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
+    		  success: function(data) {
+    		      // 성공적으로 응답을 받았을 때 실행되는 함수
+    		      console.log(data);
+    		      if (data.msg === "중복") {
+    		    	  alert("중복된 데이터가 있습니다.");
+    		    	  
+    		    	  var rowDatas = $("#list1").getRowData();
+    		    	  
+    		    	  for (var i = 0; i < rowDatas.length; i++) {
+    		    		  if (rowDatas[i].flag) {
+    		    			  $("#list1").editRow(i + 1, true);
+    		    		  }
+    		    	  }
+    		      } else if (data.msg === "success") {
+    		    	  alert("총 " + data.cnt + "건의 데이터가 처리되었습니다.");
+    		    	  
+    		    	  refreshPage();
+    		      }
+    		  },
+    		  error: function(xhr, status, error) {
+    		      // 요청 중 오류가 발생했을 때 실행되는 함수
+    		      console.error(error);
+    		  }
+    	  })
       });
+      
       
       // 의사 ID 선택
       $("#selectDocId").change(function() {
@@ -417,6 +480,14 @@ pageEncoding="UTF-8"%>
       // 공용코드
       $("#commonCheck").change(function() {
     	  refreshPage();
+      })
+      
+      // 판독 내용 수정 시
+      $("#viewText").change(function() {
+    	  var selectedRowId = $("#list1").getGridParam("selrow");
+    	  var changedViewText = $("#viewText").val();
+    	  
+    	  $("#list1").setCell(selectedRowId, "viewText", changedViewText);
       })
     </script>
   </body>
