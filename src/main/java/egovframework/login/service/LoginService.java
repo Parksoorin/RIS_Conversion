@@ -7,4 +7,6 @@ import egovframework.com.model.RisUserDTO;
 
 public interface LoginService {
 	RisUserDTO loginId(RisUserDTO dto);
+	RisUserDTO userPasswordChk(RisUserDTO dto);
+	int userPasswordChange(RisUserDTO dtos);
 }

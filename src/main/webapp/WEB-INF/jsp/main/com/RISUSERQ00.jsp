@@ -100,9 +100,9 @@
 	        autowidth: true,
 	        height: "94%",
 	        rownumbers: true,
+	        rowNum: 999, // 페이징 해제
 	        sortname: "startDate",
 	        sortorder: "asc",
-	        rownumbers: true,
 	        gridview: true, // 선표시 true/false
 	        viewsortcols: [true, "vertical", true],
 	        loadComplete: function (data) {

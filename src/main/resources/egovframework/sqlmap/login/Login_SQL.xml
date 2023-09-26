@@ -6,4 +6,20 @@
 		SELECT * FROM risuser
 		WHERE LOGIN_ID = #{loginId} and LOGIN_PWD = #{loginPwd}
 	</select>
+	
+	<!-- 기존 비밀번호 확인 -->
+	<select id="userPasswordChk" parameterType="egovframework.com.model.RisUserDTO" resultType="egovframework.com.model.RisUserDTO">
+		SELECT * FROM risuser
+		WHERE LOGIN_ID = #{loginId} and LOGIN_PWD = #{loginPwd}
+	</select>
+	
+	<!-- 비밀번호 재설정 -->
+	<update id="userPasswordChange" parameterType="egovframework.com.model.RisUserDTO">
+		UPDATE risuser
+		SET
+			LOGIN_PWD = #{loginPwd}
+		WHERE
+			LOGIN_ID = #{loginId}
+	</update>
+	
 </mapper>

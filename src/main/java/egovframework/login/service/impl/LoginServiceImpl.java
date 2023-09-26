@@ -22,4 +22,16 @@ public class LoginServiceImpl implements LoginService {
 		// TODO Auto-generated method stub
 		return loginMapper.loginId(dto);
 	}
+
+	@Override
+	public RisUserDTO userPasswordChk(RisUserDTO dto) {
+		// TODO Auto-generated method stub
+		return loginMapper.userPasswordChk(dto);
+	}
+
+	@Override
+	public int userPasswordChange(RisUserDTO dtos) {
+		// TODO Auto-generated method stub
+		return loginMapper.userPasswordChange(dtos);
+	}
 }

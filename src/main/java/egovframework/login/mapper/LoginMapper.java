@@ -11,4 +11,6 @@ import egovframework.com.model.RisUserDTO;
 @Mapper("LoginMapper")
 public interface LoginMapper {
 	RisUserDTO loginId(RisUserDTO dto);
+	RisUserDTO userPasswordChk(RisUserDTO dto);
+	int userPasswordChange(RisUserDTO dtos);
 }
