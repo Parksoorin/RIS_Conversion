@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-// 예약 기준 관리 - 예약 변동 내역 DTO
-
 @Getter
 @Setter
 @Builder
@@ -17,8 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class RISAppnChangeDTO {
-	private String gubun;
-	private String date;
-	private String text;
+public class RISAppnCalDTO {
+	private String exmnDate;
+	private int total;
+	private int appnCnt;
+	private String appnHoliDate;
 }

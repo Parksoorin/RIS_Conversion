@@ -8,5 +8,5 @@ import egovframework.appn.model.*;
 
 @Mapper("RISAppnChangeMapper")
 public interface RISAppnChangeMapper {
-	public List<RISAppnChangeDTO> risAppnChangeSelect(RISAppnChangeDTO dto);
+	public List<RISAppnChangeDTO> risAppnChangeSelect(RISAppnChangeRequestDTO dto);
 }

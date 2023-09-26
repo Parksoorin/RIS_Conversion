@@ -20,6 +20,19 @@
  				AND 	HSPT_ID 				=					#{hsptId}
 	</select>
 	
+	<select id="ris0210Duplicate" parameterType="egovframework.appn.model.Ris0210FormDTO" resultType="int">
+		SELECT			COUNT(*)
+		 FROM 			RIS0210
+  		WHERE 			
+  						HSPT_ID 		= 		#{hsptId}
+			AND 		IMGN_ROOM_CD 	= 		#{imgnRoomCd}
+			<if test='weekBatch == false'>
+			AND 		WKDY 			=		#{dayOfWeek}
+			</if>
+			AND 		STRT_TIME BETWEEN #{startTime} AND #{endTime}  
+		  
+	</select>
+	
 	<update id="ris0210Update" parameterType="egovframework.appn.model.Ris0210DTO">
 		<foreach collection="list" item='item' separator=';' >
 		UPDATE 			RIS0210
@@ -58,6 +71,36 @@
 		 				 )
 		 				 </foreach>
 	</insert>
+	
+	<insert id="ris0210FormInsert" parameterType="egovframework.appn.model.Ris0210FormDTO">
+		INSERT INTO RIS0210 
+						(
+							 HSPT_ID
+						   , IMGN_ROOM_CD
+						   , WKDY
+						   , STRT_TIME
+						   , END_TIME
+						   , APPN_OUTP_PSSB_CNT
+						   , APPN_INPT_PSSB_CNT
+						   , APPN_HLXM_PSSB_CNT
+						 )
+						 
+					VALUES
+						 <foreach collection="list" item='item' separator=',' >
+						 	<foreach collection="item.weekList" item='yoil' separator=',' >
+		 					(
+		 					#{item.hsptId}
+		 				  , #{item.imgnRoomCd}
+		 				  , #{yoil}
+		 				  , #{item.startTime}
+		 				  , #{item.endTime}
+		 				  , #{item.outPatient}
+		 				  , #{item.inPatient}
+		 				  , #{item.healthExamination} 
+		 				 )
+		 				 	</foreach>
+		 				 </foreach>
+	</insert>
 
 	<delete id="ris0210Delete" parameterType="egovframework.appn.model.Ris0210DTO">
 		DELETE 
@@ -71,5 +114,17 @@
 					AND 	STRT_TIME			= 			#{item.strtTime}
 					</foreach>
 	</delete>
-
+	
+	<delete id="ris0210DeleteByDate" parameterType="egovframework.appn.model.Ris0210FormDTO">
+		DELETE 
+		FROM 		
+					RIS0210 
+		WHERE 		
+					IMGN_ROOM_CD		 =			#{imgnRoomCd}
+			<if test='weekBatch == false'>
+			AND	 	WKDY				 = 			#{dayOfWeek} 
+			</if>
+			AND		HSPT_ID 			 = 			#{hsptId}
+			AND 	STRT_TIME BETWEEN #{startTime} 		AND 		#{endTime}  
+	</delete>
 </mapper>

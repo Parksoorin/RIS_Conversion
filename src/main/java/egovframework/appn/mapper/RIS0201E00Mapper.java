@@ -14,5 +14,7 @@ public interface RIS0201E00Mapper {
 	public int ris0210Insert(List<Ris0210DTO> list);
 	public int ris0210Delete(List<Ris0210DTO> list);
 
-
+	public int ris0210Duplicate(Ris0210FormDTO dto);
+	public int ris0210DeleteByDate(Ris0210FormDTO dto);
+	public int ris0210FormInsert(List<Ris0210FormDTO> list);
 }

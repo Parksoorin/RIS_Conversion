@@ -7,22 +7,22 @@
 	<select id="risAppnChangeSelect" parameterType="egovframework.appn.model.RISAppnChangeRequestDTO" resultType="egovframework.appn.model.RISAppnChangeDTO">
 		
 		SELECT 
-						'휴일'			 AS 	예외구분 
-					  , HLDY_DATE 		 AS 	적용일자
-					  , HLDY_TEXT 		 AS		변동사유  
+						'휴일'			 AS 	gubun 
+					  , HLDY_DATE 		 AS 	date
+					  , HLDY_TEXT 		 AS		text  
 		FROM 		  
 					  RIS0212 
 		WHERE 		  
-					  HLDY_DATE		 BETWEEN 	#{strtDate} AND #{endDate} 
+					  HLDY_DATE		 = 			#{date} 
 			   AND 	  HSPT_ID 		 = 			#{hsptId}
 		UNION
-		SELECT 			'예외' 														  AS 	예외구분 
-					  , STRT_DATE 													  AS 	적용일자
-					  , CONCAT(APPN_IMPS_TEXT, ' (', STRT_TIME, ' ~ ', END_TIME, ')') AS	변동사유  
+		SELECT 			'예외' 														  AS 	gubun 
+					  , STRT_DATE 													  AS 	date
+					  , CONCAT(APPN_IMPS_TEXT, ' (', STRT_TIME, ' ~ ', END_TIME, ')') AS	text  
 	    FROM 		  RIS0213 
-	    WHERE 		  STRT_DATE 	 BETWEEN 	#{strtDate} AND #{endDate}
+	    WHERE 		  STRT_DATE 	 =			#{date} 
 	    		 AND  HSPT_ID		 = 			#{hsptId} 
-	    		 AND  IMGN_ROOM_CD 	 = 			#{imgnRoomCd}; 
+	    		 AND  IMGN_ROOM_CD 	 = 			#{imgnRoomCd} 
 	</select>
 
 </mapper>

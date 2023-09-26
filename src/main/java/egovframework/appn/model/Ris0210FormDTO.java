@@ -1,6 +1,7 @@
 package egovframework.appn.model;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,8 @@ public class Ris0210FormDTO {
 	private Integer healthExamination;
 	private String dayOfWeek; // 요일
 	private String imgnRoomCd; // 촬영실
+	private String hsptId;
 	private boolean weekBatch; // true = 월~금, false = 해당 요일
+	private List<String> weekList;
 }
 

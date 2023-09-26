@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.appn.model.ImagingDTO;
 import egovframework.appn.model.RIS0210RequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
+import egovframework.appn.model.RISAppnCalDTO;
+import egovframework.appn.model.RISAppnCalRequestDTO;
+import egovframework.appn.model.RISAppnChangeDTO;
+import egovframework.appn.model.RISAppnChangeRequestDTO;
 import egovframework.appn.model.Ris0210DTO;
 import egovframework.appn.model.Ris0210FormDTO;
 import egovframework.appn.model.Ris0211DTO;
@@ -56,27 +60,42 @@ public class RIS0201E00Controller {
 		return ".main/appn/RIS0201E00";
 	} 
 	 
+	
 	 /*
 	 * 예약 기준 관리 - RESTController
 	 * GET		/appn/RIS0201E00/ris0210.do	ris0210 조건에 맞는 조회
 	 * POST									ris0210 새로운 Data 저장
+	 * POST 	/appn/RIS0201E00/risChangeSelect.do   예약변동내역 조회
 	 */
+	
+	
+	@PostMapping("/RIS0201E00/risChangeSelect.do")
+	@ResponseBody
+	public ResponseEntity<?> risChangeSelectRestGetMapping(@RequestBody RISAppnChangeRequestDTO dto){
+		System.out.println("/appn/RIS0201E00/risChangeSelect.do POST Mapping!!!");
+		System.out.println(dto.toString());
+		List<RISAppnChangeDTO> list = service.risAppnChangeSelect(dto);
+		return ResponseEntity.ok().body(list);
+	}
+	
+	
 	
 	@PostMapping("/RIS0201E00/ris0210Search.do")
 	@ResponseBody
-	public ResponseEntity<?> risappnRestGetMapping(@RequestParam Map<String, Object> map) {
-		System.out.println("/appn/RIS0201E00/ris0210.do	 POST Mapping!!!");
+	public ResponseEntity<?> risappnRestGetMapping(@RequestBody RIS0210RequestDTO dto) {
+		System.out.println("/appn/RIS0201E00/ris0210Search.do	 POST Mapping!!!");
+		dto.setHsptId("A001");
 //		System.out.println("aaaaaaaaaaaaa");
 //		for(String key : map.keySet()) {
 //			//log.debug("{} key : {} ----------", key, map.get(key));
 //			System.out.println(key);
 //			System.out.println(map.get(key));
 //		}	
-		RIS0210RequestDTO dto = RIS0210RequestDTO.builder()
-				.hsptId("A001")
-				.imgnRoomCd(String.valueOf(map.get("imgnRoomCd")))
-				.wkdy(String.valueOf(map.get("wkdy")))				
-				.build();
+//		RIS0210RequestDTO dto = RIS0210RequestDTO.builder()
+//				.hsptId("A001")
+//				.imgnRoomCd(String.valueOf(map.get("imgnRoomCd")))
+//				.wkdy(String.valueOf(map.get("wkdy")))				
+//				.build();
 //		System.out.println(dto.toString());
 
 		List<Ris0210DTO> rows = service.ris0210Select(dto);
@@ -87,6 +106,31 @@ public class RIS0201E00Controller {
 		
 		return ResponseEntity.ok().body(rows);
 	}
+	
+	
+	@PostMapping("/RIS0201E00/ris0211Search.do")
+	@ResponseBody
+	public ResponseEntity<?> risappn0211RestGetMapping(@RequestBody RIS0211RequestDTO dto) {
+		System.out.println("/appn/RIS0201E00/ris0211Search.do	 POST Mapping!!!");
+		System.out.println(dto.toString());
+		List<Ris0211DTO> rows = service.ris0211Select(dto);
+		return ResponseEntity.ok().body(rows);
+	}
+	
+	@PostMapping("/RIS0201E00/risappnCalSearch.do")
+	@ResponseBody
+	public ResponseEntity<?> risappnCalRestGetMapping(@RequestBody RISAppnCalRequestDTO dto) {
+		System.out.println("/appn/RIS0201E00/risappnCalSearch.do	 POST Mapping!!!");
+		List<RISAppnCalDTO> rows = service.risappnCalSelect(dto);
+		System.out.println(dto.toString());
+		System.out.println(rows.toString());
+		return ResponseEntity.ok().body(rows);
+	}
+	
+	
+	
+	
+	
 	@PostMapping("/RIS0201E00/ris0210.do")
 	@ResponseBody
 	public ResponseEntity<?> ris0210ListPostMapping(@Valid @RequestBody List<Ris0210DTO> list){
@@ -107,9 +151,9 @@ public class RIS0201E00Controller {
 	public ResponseEntity<?> ris0210ListFormPostMapping(@Valid @RequestBody Ris0210FormDTO dto){
 		System.out.println("/appn/RIS0201E00/form/ris0210.do Post Mapping!!!");
 		System.out.println(dto.toString());
-		service.ris0210FormProcess(dto);
+		String result =  service.ris0210FormProcess(dto);
 		//int result = service.ris0210Process(list);
-		return ResponseEntity.ok().body("");
+		return ResponseEntity.ok().body(result);
 	}
 	
 	@PostMapping("/RIS0201E00/ris0211.do")

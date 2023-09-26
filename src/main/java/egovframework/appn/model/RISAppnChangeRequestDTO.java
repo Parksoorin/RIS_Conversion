@@ -17,7 +17,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class RISAppnChangeRequestDTO {
 	private String hsptId;
-	private String strtDate;
-	private String endDate;
+	private String date;
 	private String imgnRoomCd;
 }

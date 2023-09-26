@@ -180,15 +180,15 @@ pageEncoding="UTF-8"%>
             <div class="grid__title__flex">
               <div class="flex">
                 <p class="line-height-50 margin-10">요일설정</p>
-                <button class="all__btn img__btn update__btn top-25">갱신</button>
+                <button id="reload-btn" class="all__btn img__btn update__btn top-25">갱신</button>
               </div>
               
               <!-- 버튼 컨테이너 -->
               <div class="btn__container">
-                <button class="all__btn img__btn update__btn">수정</button>
-                <button class="all__btn img__btn insert__btn">입력</button>
-                <button class="all__btn img__btn delete__btn">삭제</button>
-                <button class="all__btn img__btn save__btn">저장</button>
+                <button id="update-btn" class="all__btn img__btn update__btn">수정</button>
+                <button id="input-btn" class="all__btn img__btn insert__btn">입력</button>
+                <button id="delete-btn" class="all__btn img__btn delete__btn">삭제</button>
+                <button id="save-btn" class="all__btn img__btn save__btn">저장</button>
               </div>
            </div>
           </div>
@@ -207,7 +207,9 @@ pageEncoding="UTF-8"%>
           <div id='calendar-container '>
             <div class="btn__container center bold-text">
               <select  id="appointment-year">
-                <option value="2023">2023</option>
+             	 <c:forEach var="item" items="${yearList}">
+		          	<option value="${item}">${item}</option>
+		          </c:forEach>
               </select>
               <label for="appointment-year">년  </label>
               <select  id="appointment-month">
@@ -248,14 +250,14 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <button class="all__btn img__btn update__btn">갱신</button>
+            <button id="reload-btn2" class="all__btn img__btn update__btn">갱신</button>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button class="all__btn img__btn update__btn">수정</button>
-              <button class="all__btn img__btn insert__btn">입력</button>
-              <button class="all__btn img__btn delete__btn">삭제</button>
-              <button class="all__btn img__btn save__btn">저장</button>
+              <button id="update-btn2" class="all__btn img__btn update__btn">수정</button>
+              <button id="input-btn2" class="all__btn img__btn insert__btn">입력</button>
+              <button id="delete-btn2" class="all__btn img__btn delete__btn">삭제</button>
+              <button id="save-btn2" class="all__btn img__btn save__btn">저장</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -272,7 +274,9 @@ pageEncoding="UTF-8"%>
 
     <script>
     	
-    let rowIdc = -1;
+    let rowIdcList1 = -1;
+    let rowIdcList2 = -1;
+    let rowIdcList3 = -1;
     let selectOption;
     let imgnRoomCode = 'CT1';
     let checkedWeek = 'monday';
@@ -311,10 +315,32 @@ pageEncoding="UTF-8"%>
 				'wkdy' : checkedWeek,
        			'imgnRoomCd' : $('#imgnRoom').val()
        	};
-		reloadGrid('#list1', postData);
+	    console.log(checkedWeek);
+		reloadGrid('#list1', postData, '/appn/RIS0201E00/ris0210Search.do');
    
    }
     
+   const list2Data = (date) => {
+	    var postData  = {	
+	    	
+	    		'hsptId' : 'A001',
+	    		'imgnRoomCd' : $('#imgnRoom').val(),
+	    		'date' : date
+      	};
+		reloadGrid('#list2', postData, '/appn/RIS0201E00/risChangeSelect.do');
+  
+  }
+   
+   const list3Data = (date) => {
+	    var postData  = {	
+	    		'hsptId' : 'A001',
+	    		'imgnRoomCd' : $('#imgnRoom').val(),
+	    		'exmnDate' : date
+      	};
+		reloadGrid('#list3', postData, '/appn/RIS0201E00/ris0211Search.do');
+  
+  }
+   
       // 날짜 처리 시작 -------------
       function getFirstAndLastDayOfMonth() {
         const today = new Date();
@@ -346,7 +372,7 @@ pageEncoding="UTF-8"%>
           console.log(date2);
           
       	if(date1 > date2){
-      		alert('조회 종료일은 조회 시작일 보다 높을 수 없습니다. 다시 선택해주세요. ');
+      		alert('예약 종료일은 예약 시작일 보다 높을 수 없습니다. 다시 선택해주세요. ');
       		return false;
       	}
       	return true;
@@ -419,13 +445,13 @@ pageEncoding="UTF-8"%>
 
       $("#date1").change(function(){
           if(dateValidateCheck() ){
-   			reloadGrid();
+   			return;
    	    }
       });
 
    	 $("#date2").change(function(){
           if(dateValidateCheck() ){
-   			reloadGrid();
+   			return;
    	    }
        });
       
@@ -442,7 +468,7 @@ pageEncoding="UTF-8"%>
     
       // 유틸 함수
       
-      const isSelectedFunction = () => {
+      const isSelectedFunction = (rowIdc) => {
       	if(rowIdc==-1){
       		alert('행을 먼저 선택해주세요.');
       		return false;
@@ -450,29 +476,33 @@ pageEncoding="UTF-8"%>
       	return true;
       }
       
-      const getSelectRowData = (status) => {
+      const getSelectRowData = (list, status, rowIdc) => {
       	if(!isSelectedFunction()) return;
-	      	let data = $("#list1").jqGrid("getRowData",rowIdc);
+	      	let data = $(list).jqGrid("getRowData",rowIdc);	// #list1
 	      	
 	      	if(data.flag == '입력' || data.flag == '수정' || data.flag == '삭제'){
 	      		alert(rowIdc + '행은 이미 ' + data.flag + '상태입니다.');
 	      		return false;
 	      	}
 	      	data.flag = status;
-	      	$('#list1').setRowData(rowIdc, data);
+	      	$(list).setRowData(rowIdc, data);
       	return true;
       }
       
 
     // list : 리스트 종류 #list1, #list2, #list3
     // postData : 서버로 보낼 객체 {'' : ''} 값으로 지정
-      const reloadGrid = (list, postData) => {
+      const reloadGrid = (list, postData, url) => {
 
 
           $(list).jqGrid("clearGridData", true);
           $(list).setGridParam({
+        	
             datatype	: "json",
-            postData	: postData,
+            url : url,
+            mtype: "POST",
+            contentType: 'application/json; charset=utf-8',
+            postData	: JSON.stringify(postData),
             loadComplete	: function(data) {
               console.log(data);
             }
@@ -480,11 +510,11 @@ pageEncoding="UTF-8"%>
       }
       
       // 입력 수정 여부 체크
-      const isInputUpdate = () => {
-      	var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+      const isInputUpdate = (list) => {
+      	var totalRows = $(list).jqGrid('getGridParam', 'records'); // "#list1"
   
           for (var i = 1; i <= totalRows; i++) {
-          	  let data = $("#list1").jqGrid("getRowData",i);
+          	  let data = $(list).jqGrid("getRowData",i);
 	        	  if(data.flag === '입력' || data.flag ==='수정'){
 		  		  	  return true;	  
 	        	  }
@@ -496,6 +526,128 @@ pageEncoding="UTF-8"%>
     
       $(document).ready(function () {
     	  init();
+    	  
+    	  
+    	  // 클릭 이벤트 처리 
+		  // 9월 25일 처리할 것
+          
+		  // 캘린더 날짜 매핑
+		 
+
+          $('#reload-btn').click(function(){
+  	         console.log('갱신 버튼 눌림');
+  	         reloadGrid();
+          })
+
+          $('#input-btn').click(function(){
+            	console.log('입력 버튼 눌림');
+            	
+            	var rowId = $("#list1").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
+            	var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
+            	
+            	var data = {
+            		    flag: '',
+            		    hldyText: ''
+            		};
+            	
+            	
+            	if (!selectedRowId) {
+            		$("#list1").jqGrid("addRowData", rowId+1, data, 'last');
+      	    
+            	} else {
+            		$("#list1").jqGrid("addRowData", rowId +1, data, 'after', selectedRowId);
+            		
+            	}
+            	$("#list1").jqGrid('editRow',rowId+1,{keys : true });	
+         		$("#list1").jqGrid('resetSelection');
+         	    $("#list1").jqGrid('setSelection', rowId+1, true);
+         		rowIdc = rowId+1;
+         		$("#"+rowIdc+"_hldyText").focus();
+            	
+  	    	getSelectRowData('입력');
+  	      	   
+          })
+
+          $('#update-btn').click(function(){
+  	        console.log('수정 버튼 눌림');
+  	        
+  	        let data = $("#list1").jqGrid("getRowData",rowIdc);
+          	if(data.flag =='삭제'){
+  				data.flag = '수정'; 
+          	}
+          	if (!getSelectRowData('수정')) return;
+  	        $("#list1").jqGrid('editRow',rowIdc,{keys : true });	
+  	        $('#' + rowIdc + '_' + 'hldyDate').attr('disabled', true);
+  	    	$("#list1").jqGrid('setSelection', rowIdc, true);
+  	    	$("#"+rowIdc+"_hldyText").focus();
+
+  	    })
+
+          $('#delete-btn').click(function(){
+          	console.log('삭제 버튼 눌림');
+          	
+  			let data = $("#list1").jqGrid("getRowData",rowIdc);
+          	if(data.flag =='입력'){
+  				$("#list1").jqGrid("delRowData", rowIdc); 
+          		return;
+          	}
+          	
+          	if(isInputUpdate()) {
+          		alert('저장 완료 후 삭제해주세요.');
+          		return;
+          	};
+          	
+          	if(!getSelectRowData('삭제')) return;
+          	
+          	
+          	
+          })
+
+          $('#save-btn').click(function(){
+            console.log('저장 버튼 눌림');
+            var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+            console.log(totalRows + "번째");
+            
+          
+            // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
+            for (var i = 1; i <= totalRows; i++) {
+        		  	  
+          	  
+  	        	  $("#list1").jqGrid('saveRow',i, false, 'clientArray');    
+  	      		  	  
+  	        	  let data = $("#list1").jqGrid("getRowData",i);
+  	        	  
+  	        	  if(data.flag === '입력' || data.flag ==='수정'){
+  		  		  	  if(data.hldyText==='' || data.hldyText === ''){
+  		  		  		  $("#list1").jqGrid('editRow',i,{keys : true });	
+  		  		  		  alert(i + '행 미입력 사항이 있습니다.');
+  		  		  		  return;
+  		  		  	  }	  
+  	        	  }	  
+          	}
+          
+            var list = $("#list1").getRowData();
+      	  	console.log(list);          
+            $.ajax({
+          	    url: '/appn/RIS0212E00/ris0212.do',
+          	    method: 'POST', 
+          	    data: JSON.stringify(list),
+          	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+      			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+          	    success: function(response) {
+          	    	alert(response + '건이 처리되었습니다.');
+          	    	
+          	    	
+          	    	reloadGrid();
+          	    },
+          	    error: function(error) {
+          	        console.error('Error ', error);
+          	    }
+          	});
+            
+            
+          })
+          // -----------------------------------
     	  
     	  
     	  
@@ -558,6 +710,9 @@ pageEncoding="UTF-8"%>
 		          	"imgnRoomCd" : imgnRoomCd,
           	}
           	
+          	
+          	
+          	
           	// /appn/RIS0201E00/form/ris0210.do	
           	var jsonData = JSON.stringify(postData);
 			console.log(postData);
@@ -567,6 +722,13 @@ pageEncoding="UTF-8"%>
           	    contentType: 'application/json',
           	    data: jsonData,
           	    success: function(response) {
+          	    	
+          	    	if(response === 'duplicate'){
+          	    		alert('기존의 예약기준과 겹쳐 생성할 수 없습니다.');
+          	    		return;
+          	    	}
+          	    	
+          	    	list1Data();
           	        console.log('성공적으로 서버에 요청을 보냈습니다.');
           	        console.log('응답 데이터:', response);
           	    },
@@ -578,18 +740,7 @@ pageEncoding="UTF-8"%>
           	});
           })
           
-          
-    	  var mydata = [
-       	   {
-                  date: "2007-10-01",
-                  name: "test",
-                  id: "id",
-                  product: "상품1",
-                  amount: "10.00",
-                  total: "210.00",
-                },
-                
-       ];
+        
 
         $(function(){
       // calendar element 취득
@@ -609,13 +760,15 @@ pageEncoding="UTF-8"%>
         header : false,
         
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-        initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
-        navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-        editable: true, // 수정 가능?
-        selectable: true, // 달력 일자 드래그 설정가능
-        nowIndicator: true, // 현재 시간 마크
+        initialDate: $('#date1').val(), // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+        navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+        editable: false, // 수정 가능?
+        selectable: false, // 달력 일자 드래그 설정가능
+        disableDragging: true,
+        eventStartEditable: false,
+        nowIndicator: false, // 현재 시간 마크
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-        locale: 'ko', // 한국어 설정
+        //locale: 'ko', // 한국어 설정
         eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
           console.log(obj);
         },
@@ -625,91 +778,131 @@ pageEncoding="UTF-8"%>
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
           console.log(obj);
         },
-        select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-          var title = prompt('Event Title:');
-          if (title) {
-            calendar.addEvent({
-              title: title,
-              start: arg.start,
-              end: arg.end,
-              allDay: arg.allDay
-            })
-          }
-          calendar.unselect()
-        },
+ 
+        // 클릭이 되면 list2, list3 렌더링
+        dateClick: function(info) {
+        	  //alert('Clicked on: ' + info.dateStr);
+        	  //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+        	  //alert('Current view: ' + info.view.type);
+			  console.log('aaa');
+			  
+			  console.log(info); // info.dateStr   '2023-09-13'
+			  list2Data(info.dateStr);
+  	    	
+			  list3Data(info.dateStr);
+        		  
+		},
         // 이벤트 
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2021-07-01',
-          },
-          {
-            title: 'Long Event',
-            start: '2021-07-07',
-            end: '2021-07-10'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2021-07-09T16:00:00'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2021-07-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2021-07-11',
-            end: '2021-07-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2021-07-12T10:30:00',
-            end: '2021-07-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2021-07-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2021-07-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2021-07-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2021-07-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2021-07-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/', // 클릭시 해당 url로 이동
-            start: '2021-07-28'
-          }
-        ]
+        // events: event
       });
       // 캘린더 랜더링
       calendar.render();
+      
+      // 캘린더 날짜 매핑 
+      $('#search-btn').click(function(){
+        	console.log('검색 버튼 눌림'); 
+        	if(!dateValidateCheck()){
+        		alert('유효하지 않은 날짜입니다.');	
+        	}
+        	
+       	const date = $('#date1').val();
+       	let year = date.substring(0, 4);
+       	let month = date.substring(5, 7);
+        	if(month.substring(0, 1) === '0'){
+        		month = month.substring(1);
+        	}
+       	
+       	console.log(year);
+        	console.log(month);
+        	
+        	$('#appointment-year').val(year); 
+        	$('#appointment-month').val(month) ; 
+        	changeCalendar();
+		  })
+		  
+		  
+		  $("#appointment-year").change(function(){
+			  changeCalendar();
+		  });
+      
+	      $("#appointment-month").change(function(){
+	    	  changeCalendar();
+	      });
+	      
+	      $('#imgnRoom').change(function() {
+	    	  changeCalendar();
+	       });
+	      
+	      const changeCalendar = () => {
+	    	  let year = $("#appointment-year").val();
+			  let month = $("#appointment-month").val();
+			  if(month.length===1){
+				  month = '0' + month;
+			  }
+			  let firstDayOfMonth = year + '-' + month + '-01';
+			  console.log(firstDayOfMonth);
+			  calendar.gotoDate(firstDayOfMonth);
+			  
+			  let lastDayOfMonth = new Date(year, month, 0);
+			  lastDayOfMonth = year + '-' + month + '-' + lastDayOfMonth.getDate();
+			  console.log('월말:', lastDayOfMonth);
+			  
+			  const postData = {
+					  imgnRoomCd : $('#imgnRoom').val(),
+					  hsptId : 'A001',
+					  startDate : firstDayOfMonth,
+					  endDate : lastDayOfMonth
+			  }
+			  
+			  
+			  $.ajax({
+	        	    url: '/appn/RIS0201E00/risappnCalSearch.do',
+	        	    method: 'POST', 
+	        	    data: JSON.stringify(postData),
+	        	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+	    			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+	        	    success: function(response) {
+	        	    	calendar.removeAllEvents();
+	        	    	console.log(response);
+	        	    	response.forEach(data => {
+	        	    		const obj = {
+	        	    				title: data.appnCnt + ' / ' + data.total,
+	        	    	            start: data.exmnDate
+	        	    		}
+
+        	    			console.log(data.appnHoliDate);
+	        	    		if(data.appnHoliDate){
+	        	    			obj.title = '0 / 0';
+	        	    			obj.backgroundColor = 'yellow';
+	        	    			obj.borderColor = 'yellow';
+	        	    			obj.textColor = 'black';
+	        	    		}
+	        	    		calendar.addEvent(obj);
+	        	    	});
+	        	    	
+	        	    	console.log(response);
+	        	    	//calendar.render();
+	        	    	
+	        	    },
+	        	    error: function(error) {
+	        	        console.error('Error ', error);
+	        	    }
+	        	});
+	      }
+	      
     });
 
         $("#list1").jqGrid({
-          url: "/appn/RIS0201E00/ris0210Search.do",
-          reordercolNames : true,
+        	url: '/appn/RIS0201E00/ris0210Search.do',
+        	mtype: "POST",
+            datatype: "json",
+            ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            postData : JSON.stringify({
+                'wkdy': checkedWeek,
+                'imgnRoomCd': $('#imgnRoom').val(),
+                'hsptId': 'A001'
+            }),
           
-          mtype: "POST",
-          postData : {
-        	 wkdy : checkedWeek,
-             imgnRoomCd : $('#imgnRoom').val()
-            
-            },
-          datatype: "json",
           jsonReader: {
               repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
               root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
@@ -747,6 +940,7 @@ pageEncoding="UTF-8"%>
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
+            rowIdcList1 = rowid;
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
@@ -772,27 +966,31 @@ pageEncoding="UTF-8"%>
         });
 
         $("#list2").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+        	url: '/appn/RIS0201E00/risChangeSelect.do',
+        	ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            mtype: "POST",
+            datatype: "json",
+            postData : JSON.stringify({
+          	 	'date' : '0000-00-00',
+               'imgnRoomCd' : $('#imgnRoom').val(),
+               'hsptId' : 'A001'
+              }),
+          colNames: ["예외구분", "적용일자", "변동사유"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
+            { name: "gubun", index: "gubun", width: 100, align: "center" },
+            { name: "date", index: "date", width: 100, align: "center" },
             {
-              name: "id",
-              index: "id",
-              width: 150,
+              name: "text",
+              index: "text",
+              width: 200,
               align: "center",
             },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
           height: "80%",
           rownumbers: true,
-          multiselect: true,
+          multiselect: false,
           sortname: "id",
           sortorder: "asc",
           gridview: true, // 선표시 true/false
@@ -802,11 +1000,13 @@ pageEncoding="UTF-8"%>
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
+            rowIdcList2 = rowid;
+            
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
+            $("#list2").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
               ">div.ui-jqgrid-sortable>span.s-ico"
             );
@@ -821,28 +1021,35 @@ pageEncoding="UTF-8"%>
               $icons.find(">span.ui-icon-asc").hide();
             }
             // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
+            $("#list2").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
 
 
         $("#list3").jqGrid({
-          datatype: "local",
-          data: mydata,
-          colNames: ["날짜", "아이디", "이름", "상품", "가격", "합계"],
+        	url: '/appn/RIS0201E00/ris0211Search.do',
+        	ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            mtype: "POST",
+            datatype: "json",
+            postData : JSON.stringify({
+          	 	'exmnDate' : '0000-00-00',
+               'imgnRoomCd' : $('#imgnRoom').val(),
+               'hsptId' : 'A001'
+              }),
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
+            { name: "flag", index: "flag", width: 90, align: "center" },
+            { name: "strtTime", index: "strtTime", width: 100, align: "center" },
             {
-              name: "id",
-              index: "id",
-              width: 150,
+              name: "endTime",
+              index: "endTime",
+              width: 100,
               align: "center",
             },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
-            { name: "total", index: "total", width: 80, align: "center" },
+            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 80, align: "center" },
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center" },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
@@ -858,11 +1065,13 @@ pageEncoding="UTF-8"%>
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
+            rowIdcList3 = rowid;
+            
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
+            $("#list3").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
               ">div.ui-jqgrid-sortable>span.s-ico"
             );
@@ -877,7 +1086,7 @@ pageEncoding="UTF-8"%>
               $icons.find(">span.ui-icon-asc").hide();
             }
             // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
+            $("#list3").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
