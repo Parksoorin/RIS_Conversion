@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egovframework.appn.mapper.RIS0211Mapper">
+	<!-- 작성자 : 송유근  -->
+	<!-- 예약 기준 관리 - RIS0211 -->
+	
+	<select id="ris0211Select" parameterType="egovframework.appn.model.RIS0211RequestDTO" resultType="egovframework.appn.model.Ris0211DTO">
+		SELECT 			
+						HSPT_ID
+					  ,IMGN_ROOM_CD
+					  ,EXMN_DATE
+					  ,STRT_TIME
+					  ,END_TIME
+					  ,APPN_OUTP_PSSB_CNT
+					  ,APPN_INPT_PSSB_CNT
+					  ,APPN_HLXM_PSSB_CNT
+					  
+		 FROM 		
+		 			  RIS0211 
+		 WHERE 
+		 			  EXMN_DATE 				= 			#{exmnDate} 
+	 			 AND  IMGN_ROOM_CD 				= 			#{imgnRoomCd} 
+	 			 AND  HSPT_ID					= 			#{hsptId}
+	</select>
+	
+	
+	
+	<select id="ris0211YearSelect" parameterType="egovframework.appn.model.RIS0211RequestDTO" resultType="string">
+		SELECT
+			  	DISTINCT DATE_FORMAT(EXMN_DATE,'%Y') AS EXMN_DATE 
+     	  FROM 
+     	  	  	RIS0211  
+  	     WHERE 
+  	     		HSPT_ID 		=		 #{hsptId}
+	</select>
+	
+	<select id="ris0211Duplicate" parameterType="egovframework.appn.model.RIS0211RequestDTO" resultType="int">
+		SELECT COUNT(*) 
+		FROM   RIS0211 
+		WHERE  IMGN_ROOM_CD	 = 	 #{imgnRoomCd}
+		 AND   HSPT_ID 		 =	 #{hsptId} 
+		 AND   EXMN_DATE BETWEEN #{strtDate} AND #{endDate}
+	    		 
+	</select>
+	
+	
+	<update id="ris0211Update" parameterType="egovframework.appn.model.Ris0211DTO">
+		<foreach collection="list" item='item' separator=';' >
+		UPDATE 
+				    RIS0211 
+	    SET 	
+		    		APPN_OUTP_PSSB_CNT		=		 #{item.appnOutpPssbCnt}
+		     	  ,APPN_INPT_PSSB_CNT 		=		 #{item.appnInptPssbCnt}
+		     	  ,APPN_HLXM_PSSB_CNT 		=		 #{item.appnHlxmPssbCnt}
+ 		WHERE 		
+	 	 			HSPT_ID					= 		 #{item.hsptId}
+		   		AND IMGN_ROOM_CD 			= 		 #{item.imgnRoomCd} 
+		   		AND EXMN_DATE 				= 		 #{item.exmnDate} 
+		   		AND STRT_TIME 				= 		 #{item.strtTime}
+		</foreach>
+	</update>
+	
+	<insert id="ris0211Insert" parameterType="egovframework.appn.model.Ris0211DTO">
+		INSERT 
+				INTO RIS0211 
+				(
+					HSPT_ID
+				  ,IMGN_ROOM_CD
+				  ,EXMN_DATE
+				  ,STRT_TIME
+				  ,END_TIME
+				  ,APPN_OUTP_PSSB_CNT
+				  ,APPN_INPT_PSSB_CNT
+				  ,APPN_HLXM_PSSB_CNT 
+				 ) 		 
+		 VALUES
+		 <foreach collection="list" item='item' separator=',' >
+		 			(
+		 			#{item.hsptId}
+		 		  ,#{item.imgnRoomCd}
+		 		  ,#{item.exmnDate}
+		 		  ,#{item.strtTime}
+		 		  ,#{item.endTime}
+		 		  ,#{item.appnOutpPssbCnt}
+		 		  ,#{item.appnInptPssbCnt}
+		 		  ,#{item.appnHlxmPssbCnt}
+		 		 )
+    	</foreach>
+	</insert>
+
+	<delete id="ris0211Delete" parameterType="egovframework.appn.model.Ris0211DTO">
+		DELETE 
+		  FROM 
+		  			 RIS0211 
+		 WHERE 		
+	 			<foreach collection="list" item="item" open="(" close=")" separator="OR">
+			 	 	 1				=	1  
+			    AND  HSPT_ID 		= 	#{item.hsptId} 
+		 		AND  IMGN_ROOM_CD 	= 	#{item.imgnRoomCd}
+		 		AND  EXMN_DATE 		=   #{item.exmnDate} 
+		 		AND  STRT_TIME		=   #{item.strtTime}
+		 		</foreach>
+	</delete>
+
+
+	<delete id="ris0211DeleteByDate" parameterType="egovframework.appn.model.RIS0211RequestDTO">
+		DELETE 
+		FROM 	RIS0211 
+		WHERE 	HSPT_ID = #{hsptId} 
+			AND IMGN_ROOM_CD = #{imgnRoomCd} 
+			AND EXMN_DATE BETWEEN #{strtDate} AND #{endDate}
+	</delete>
+</mapper>

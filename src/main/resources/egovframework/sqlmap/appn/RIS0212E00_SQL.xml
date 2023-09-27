@@ -42,8 +42,9 @@
 								,HLDY_DATE
 								,HLDY_TEXT
 							) 
+					VALUES 
 					<foreach collection="list" item='item' separator=',' >
-					 VALUES (
+					 		(
 					 			#{item.hsptId}
 					 			,#{item.hldyDate}
 					 			,#{item.hldyText}
