@@ -54,4 +54,9 @@ public class PandokServiceImpl implements PandokService {
 	public int saveRis0601List(Ris0601DTO dto) {
 		return pandokMapper.saveRis0601List(dto);
 	}
+
+	@Override
+	public int saveTempRis1301List(Ris1301DTO dto) {
+		return pandokMapper.saveTempRis1301List(dto);
+	}
 }

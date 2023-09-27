@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,5 +81,23 @@ public class RIS1301E00Controller {
 	public String filePopup(Model model) throws Exception {
 		
 		return ".popup/RIS1301E00_POP2";
+	}
+	
+	
+	@RequestMapping(value = "/pandok/saveTempRis1301List.do")
+	@ResponseBody
+	public JSONObject saveTempRis1301List(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		int cnt = 0;
+		
+		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		
+		cnt += ris1301Data;
+		
+		json.put("cnt", cnt);
+		
+		return json;
 	}
 }

@@ -452,10 +452,27 @@ pageEncoding="UTF-8"%>
 		  var rowData = $("#list1").getRowData(selectedRowId);
 		  
 		  // 처방상태 변경
-		  // 판독완료 Y로 변경
-		  // 판독일자, 판독시간 현재로 변경
-		  // 판독의사 변경
 		  // 판독내용 변경
+		  rowData.viewText = $("#viewTextArea").val();
+		  $("#list1").setRowData(selectedRowId);
+		  
+		  console.log(rowData);
+		  
+		  $.ajax({
+    		  url: "/pandok/saveTempRis1301List.do",
+    		  method: "POST",
+    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+    		  data: JSON.stringify(rowData),
+    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
+    		  success: function(data) {
+    		      // 성공적으로 응답을 받았을 때 실행되는 함수
+    		      console.log(data);
+    		  },
+    		  error: function(xhr, status, error) {
+    		      // 요청 중 오류가 발생했을 때 실행되는 함수
+    		      console.error(error);
+    		  }
+    	  })
 	  });
 	  
 	  
