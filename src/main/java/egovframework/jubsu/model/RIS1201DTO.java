@@ -66,6 +66,6 @@ public class RIS1201DTO {
 	private String rgstId; 			
 	private String rgstDttm; 		
 	private String mdfcId; 			
-	private String mdfcDttm; 		
-
+	private String mdfcDttm; 	
+	
 }

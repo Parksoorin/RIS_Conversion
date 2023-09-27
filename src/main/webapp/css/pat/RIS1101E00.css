@@ -8,21 +8,12 @@
 }
 
 
-::placeholder {
-	color: white;
-}
-
 .dateClass {
-	color:white;
 	font-size: 12px;
 }
 
 .thNeed::before {
 	content: "*"
-}
-
-#moblInput {
-	color: white;
 }
 
 .tdInputClass {

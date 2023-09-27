@@ -443,7 +443,7 @@ function isBrowserCheck(){
 	   //, showWeek: true   // 년간 주(week)를 표현
 	  });
 	 };
-})(jQuery);
+});
 
 //Date to string
 Date.prototype.yyyymmdd = function() {

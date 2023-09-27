@@ -4,6 +4,10 @@
 	align-items: center;
 }
 
+.fontawesome__btn::before {
+    height: 16px;
+}
+
 .download__icon::before {
     content: "\f6dd";
     color: #409721;

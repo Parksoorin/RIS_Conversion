@@ -40,7 +40,7 @@ public class RIS1101E00Controller {
 		
 		JSONObject json = new JSONObject(); 
 		
-		List<RIS1101DTO> ris1101Data = ris1101E00Service.RIS1101List();
+		List<RIS1101DTO> ris1101Data = ris1101E00Service.ris1101List();
 		
 		json.put("rows", ris1101Data);
 		
@@ -65,5 +65,67 @@ public class RIS1101E00Controller {
 		
 		return json;
 	}
-
+	
+	// 환자 정보 수정 및 입력
+	@RequestMapping(value = "/pat/RIS1101E00UpdateInsert.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1101E00UpdateInsert(@RequestBody RIS1101DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		JSONObject json = new JSONObject();
+		
+		System.out.println("77777");
+		System.out.println(dto);
+		
+		int result = 0;
+		
+		String flag = dto.getFlag();
+		
+		switch (flag) {
+		case "U":
+			result = ris1101E00Service.updateData(dto);
+			break;
+		case "I":
+			result = ris1101E00Service.insertData(dto);
+			break;
+		}
+		
+		if (result < 1) {
+			json.put("result", "error");
+			return json;
+		}
+		
+		json.put("result", "success");
+		return json;
+	}
+	
+	
+	// 환자 ID 중복 체크
+	@RequestMapping(value = "/pat/RIS1101E00PtntIdCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1101E00PtntIdCheck(@RequestBody Map<String, Object> ptntId, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		JSONObject json = new JSONObject();
+		
+		System.out.println("8888");
+		System.out.println(ptntId);
+		
+		// service로 보내서 ID체크
+		int checkId = ris1101E00Service.findOne(ptntId);
+		
+		// 같은 아이디가 있을 때
+		if (checkId == 1) {
+			json.put("result", "impossible");
+		}
+		
+		// 같은 아이디가 없을 때
+		if (checkId != 1) {
+			json.put("result", "possible");
+		}
+		
+		
+		return json;
+	}
+	
 }

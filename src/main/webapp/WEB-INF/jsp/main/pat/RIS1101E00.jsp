@@ -39,9 +39,9 @@
 				<div class="grid__title">
 					<p>환자 상세정보</p>
 					<div class="btn__container">
-						<button class="all__btn img__btn fontawesome__btn update__icon">수정</button>
-						<button class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
-						<button class="all__btn img__btn fontawesome__btn save__icon">저장</button>
+						<button id="inputUpdate" class="all__btn img__btn fontawesome__btn update__icon">수정</button>
+						<button id="inputInsert" class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
+						<button id="ris1101DataSave" class="all__btn img__btn fontawesome__btn save__icon">저장</button>
 					</div>
 				</div>
 
@@ -58,43 +58,43 @@
 							<th class="thNeed">환자ID</th>
 							<td><input type="text" id="ptntIdInput" class="tdInputClass"
 								placeholder="test" maxlength="20"
-								style="width: 85%; height: 34%;" readonly="readonly"
-								disabled="disabled" /></td>
+								style="width: 85%; height: 34%;"
+								disabled /></td>
 							<td colspan="2">
-								<button class="all__btn text__btn">중복확인</button>
+								<button id="ptntIdCheck" class="all__btn text__btn" disabled>중복확인</button>
 							</td>
 						</tr>
 						<tr>
 							<th class="thNeed">환자명</th>
 							<td><input type="text" id="ptntKrNmInput"
 								class="tdInputClass" placeholder="test" maxlength="100"
-								style="width: 85%; height: 50%;" readonly="r eadonly"
-								disabled="disabled" /></td>
+								style="width: 85%; height: 50%;" 
+								disabled /></td>
 							<td colspan="2"></td>
 						</tr>
 						<tr>
 							<th>영문 명</th>
 							<td><input type="text" id="ptntEnglNmFInput" value="HONG"
-								maxlength="20" style="width: 85%;" readonly="readonly"
-								disabled="disabled" /></td>
+								maxlength="20" style="width: 85%;" 
+								disabled /></td>
 							<td><input type="text" id="ptntEnglNmMInput" value="GIL"
-								maxlength="20" style="width: 85%;" readonly="readonly"
-								disabled="disabled" /></td>
+								maxlength="20" style="width: 85%;"
+								disabled /></td>
 							<td><input type="text" id="ptntEnglNmLInput" value="DONG"
-								maxlength="20" style="width: 85%;" readonly="readonly"
-								disabled="disabled" /></td>
+								maxlength="20" style="width: 85%;" 
+								disabled /></td>
 						</tr>
 						<tr>
 							<th class="thNeed">생년월일</th>
 							<td colspan="3"><input type="date" id="brthInput"
 								class="dateClass" value="2023-09-07"
-								style="width: 28%; height: 50%;" readonly="readonly"
-								disabled="disabled" /></td>
+								style="width: 28%; height: 50%;" 
+								disabled /></td>
 						</tr>
 						<tr>
 							<th class="thNeed">성별</th>
 							<td colspan="3">
-								<label><input type="radio" id="gndrDvsnA" name="MF_btn" value="M" onclick="return false">남</label>
+								<label><input type="radio" id="gndrDvsnA" name="MF_btn" value="M" onclick="return false" checked>남</label>
 								<label><input type="radio" id="gndrDvsnB" name="MF_btn" value="F" onclick="return false">여</label>
 							</td>
 						</tr>
@@ -104,7 +104,7 @@
 								type="text" placeholder="'-'를 제외하고 입력해주세요."
 								oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
 								maxlength="11" style="width: 28%; height: 50%;"
-								readonly="readonly" disabled="disabled" /></td>
+								disabled="disabled" /></td>
 						</tr>
 						<tr>
 							<th class="thNeed">국가</th>
@@ -125,7 +125,7 @@
 							<th>참고내용</th>
 							<td colspan="3"><textarea rows="4" id="ptntNoteTextInput"
 									style="width: 95%; resize: none;" maxlength="999"
-									readonly="readonly" disabled="disabled"></textarea></td>
+									disabled="disabled"></textarea></td>
 						</tr>
 					</table>
 				</div>
@@ -135,6 +135,8 @@
 
 	<script>
 		document.getElementById("moblInput").value = "01012345678";
+		var hsptId = null;
+		console.log("first_hsptId :", hsptId);
 		
 		function calculateAge(brth) {
 		    // 현재 날짜를 생성
@@ -182,7 +184,7 @@
 	     	      },
 
 				autowidth : true,
-				height : "68%",
+				height : "93%",
 				rownumbers : true,
 				multiselect : false,
 				sortname : "id",
@@ -236,9 +238,9 @@
 							document.getElementById("ntilCdInput").value = ntilCd;
 							document.getElementById("ptntNoteTextInput").value = ptntNoteText;
 							
-							
-							
-							console.log(result);
+							hsptId = result.rows.hsptId;
+							console.log("result :" , result);
+							console.log("hsptId :" , hsptId);
 						},
 						error : function (error) {
 							console.log(error);
@@ -316,6 +318,193 @@
 			var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
 			
 			searchGrid(inputValue, "list1");
+		});
+		
+		
+		
+		// flag를 선언
+		var flag;
+		
+		
+		// 수정버튼 이벤트
+		document.getElementById("inputUpdate").addEventListener("click", function () {
+					
+			flag = 'U';
+			
+			// 환자명 - disabled 해제
+			var ptntKrNmInputElement = document.getElementById("ptntKrNmInput");
+			ptntKrNmInputElement.disabled = false;
+			
+			// 영문명 - disabled 해제
+			var ptntEnglNmFInputElement = document.getElementById("ptntEnglNmFInput");
+			var ptntEnglNmMInputElement = document.getElementById("ptntEnglNmMInput");
+			var ptntEnglNmLInputElement = document.getElementById("ptntEnglNmLInput");
+			ptntEnglNmFInputElement.disabled = false;
+			ptntEnglNmMInputElement.disabled = false;
+			ptntEnglNmLInputElement.disabled = false;
+			
+			// 생년월일 - disabled 해제
+			var brthInputElement = document.getElementById("brthInput");
+			brthInputElement.disabled = false;
+			
+			// 성별
+			document.getElementById("gndrDvsnA").removeAttribute("onclick");
+			document.getElementById("gndrDvsnB").removeAttribute("onclick");
+			
+			// 전화번호 - disabled 해제
+			var moblInputElement = document.getElementById("moblInput");
+			moblInputElement.disabled = false;
+			
+			// 국가 - disabled 해제
+			var ntilCdInputElement = document.getElementById("ntilCdInput");
+			ntilCdInputElement.disabled = false;
+			
+			
+			// 참고내용 - disabled 해제
+			var ptntNoteTextInputElement = document.getElementById("ptntNoteTextInput");
+			ptntNoteTextInputElement.disabled = false;
+		});
+		
+		
+		// 입력버튼 이벤트
+		document.getElementById("inputInsert").addEventListener("click", function () {
+			
+			flag = 'I';
+			
+			var ptntIdCheckElement = document.getElementById("ptntIdCheck");
+			ptntIdCheckElement.disabled = false;
+			
+			// 환자 ID - disabled 해제
+			var ptntIdInputElement = document.getElementById("ptntIdInput");
+			ptntIdInputElement.disabled = false;
+			
+			// 환자명 - disabled 해제
+			var ptntKrNmInputElement = document.getElementById("ptntKrNmInput");
+			ptntKrNmInputElement.disabled = false;
+			
+			// 영문명 - disabled 해제
+			var ptntEnglNmFInputElement = document.getElementById("ptntEnglNmFInput");
+			var ptntEnglNmMInputElement = document.getElementById("ptntEnglNmMInput");
+			var ptntEnglNmLInputElement = document.getElementById("ptntEnglNmLInput");
+			ptntEnglNmFInputElement.disabled = false;
+			ptntEnglNmMInputElement.disabled = false;
+			ptntEnglNmLInputElement.disabled = false;
+			
+			// 생년월일 - disabled 해제
+			var brthInputElement = document.getElementById("brthInput");
+			brthInputElement.disabled = false;
+			
+			// 성별
+			document.getElementById("gndrDvsnA").removeAttribute("onclick");
+			document.getElementById("gndrDvsnB").removeAttribute("onclick");
+			
+			// 전화번호 - disabled 해제
+			var moblInputElement = document.getElementById("moblInput");
+			moblInputElement.disabled = false;
+			
+			// 국가 - disabled 해제
+			var ntilCdInputElement = document.getElementById("ntilCdInput");
+			ntilCdInputElement.disabled = false;
+			
+			
+			// 참고내용 - disabled 해제
+			var ptntNoteTextInputElement = document.getElementById("ptntNoteTextInput");
+			ptntNoteTextInputElement.disabled = false;
+		});
+		
+		
+		// 저장버튼 이벤트
+		document.getElementById("ris1101DataSave").addEventListener("click", function () {
+			console.log("실제값", hsptId);
+			// 데이터 가져오기
+			var ptntId = document.getElementById("ptntIdInput").value;
+		    var ptntKrNm = document.getElementById("ptntKrNmInput").value;
+		    var ptntEnglNmF = document.getElementById("ptntEnglNmFInput").value;
+		    var ptntEnglNmM = document.getElementById("ptntEnglNmMInput").value;
+		    var ptntEnglNmL = document.getElementById("ptntEnglNmLInput").value;
+		    var brth = document.getElementById("brthInput").value;
+		    var gndrDvsn = document.querySelector('input[name="MF_btn"]:checked').value;
+		    var mobl = document.getElementById("moblInput").value;
+		    var ntilCd = document.getElementById("ntilCdInput").value;
+		    var ptntNoteText = document.getElementById("ptntNoteTextInput").value;
+		    
+		    if (ptntId === "") {
+		    	alert("환자 ID를 입력하세요.")
+		    } else if (ptntKrNm === "") {
+		    	alert("환자명을 입력하세요.")
+		    } else if (brth === "") {
+		    	alert("생년월일을 입력하세요.")
+		    } else if (gndrDvsn === "") {
+		    	alert("성별을 선택하세요.")
+		    } else if (ntilCd === "") {
+		    	alert("국가를 선택하세요.")
+		    } else {
+			    var sendData = {
+			    		flag: flag,
+			    		hsptId: hsptId,
+			    		ptntId: ptntId,
+			            ptntKrNm: ptntKrNm,
+			            ptntEnglNmF: ptntEnglNmF,
+			            ptntEnglNmM: ptntEnglNmM,
+			            ptntEnglNmL: ptntEnglNmL,
+			            brth: brth,
+			            gndrDvsn: gndrDvsn,
+			            mobl: mobl,
+			            ntilCd: ntilCd,
+			            ptntNoteText: ptntNoteText
+			    	};
+			    
+			    console.log("sendData :", sendData)
+				
+			    $.ajax({
+			    	type: 'POST',
+			    	url: "/pat/RIS1101E00UpdateInsert.do",
+			    	data: JSON.stringify(sendData),
+			    	contentType: "application/json; charset=utf-8",
+			    	dataType: 'json',
+			    	success: function (result) {
+			    		console.log("데이터 전송 성공: ", result);
+			    	},
+			    	error: function (error) {
+			    		console.log("데이터 전송 실패: ", error);
+			    	}
+			    });
+		    }
+		});
+		
+		
+		// 중복확인
+		document.getElementById("ptntIdCheck").addEventListener("click", function () {
+			
+			var ptntId = document.getElementById("ptntIdInput").value;
+			
+			if (ptntId === "") {
+				// 입력된 환자 ID 가 없을 때 경고 메시지 출력
+				alert("ID 값을 입력하세요.")
+			} else {
+				var sendPtntId = {ptntId};
+				console.log(sendPtntId)
+				
+				$.ajax({
+					type: 'POST',
+					url: "/pat/RIS1101E00PtntIdCheck.do",
+					data: JSON.stringify(sendPtntId),
+			    	contentType: "application/json; charset=utf-8",
+			    	dataType: 'json',
+					success: function (result) {
+						console.log("result :", result)
+						
+						if (result.result === "impossible") {
+							return alert("중복된 ID 입니다.");
+						} else if (result.result === "possible") {
+							alert("사용 가능한 ID 입니다.");
+						}
+					},
+					error: function (error) {
+						console.log("error :", error)
+					}
+				});
+			}
 		});
 		
 	</script>

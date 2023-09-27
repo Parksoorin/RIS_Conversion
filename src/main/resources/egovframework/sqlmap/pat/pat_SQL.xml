@@ -2,14 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.pat.mapper.RIS1101E00Mapper">
 	
-	<select id="RIS1101List" resultType="egovframework.pat.model.RIS1101DTO">
-		SELECT PTNT_ID, PTNT_KR_NM, GNDR_DVSN, BRTH  
+	<select id="ris1101List" resultType="egovframework.pat.model.RIS1101DTO">
+		SELECT PTNT_ID, 
+			   PTNT_KR_NM, 
+			   GNDR_DVSN, 
+			   BRTH  
 			FROM 
-			ris1101;
+			   ris1101;
 	</select>
 
 	<select id="ris1101DtoDetail" parameterType="java.util.Map" resultType="egovframework.pat.model.RIS1101DTO">
-		SELECT PTNT_ID, PTNT_KR_NM, PTNT_ENGL_NM_F, PTNT_ENGL_NM_M, PTNT_ENGL_NM_L, BRTH, GNDR_DVSN, MOBL, NTIL_CD, PTNT_NOTE_TEXT 
+		SELECT HSPT_ID,
+				PTNT_ID, 
+				PTNT_KR_NM, 
+				PTNT_ENGL_NM_F, 
+				PTNT_ENGL_NM_M, 
+				PTNT_ENGL_NM_L, 
+				BRTH, 
+				GNDR_DVSN, 
+				MOBL, 
+				NTIL_CD, 
+				PTNT_NOTE_TEXT 
 			FROM 
 				ris1101
 			WHERE 
@@ -17,6 +30,54 @@
 				PTNT_KR_NM = #{ptntKrNm} and 
 				GNDR_DVSN = #{gndrDvsn} and 
 				BRTH = #{brth};
+	</select>
+	
+	<update id="updateData" parameterType="egovframework.pat.model.RIS1101DTO">
+		UPDATE ris1101 
+			SET PTNT_KR_NM = #{ptntKrNm}, 
+				PTNT_ENGL_NM_F = #{ptntEnglNmF}, 
+				PTNT_ENGL_NM_M = #{ptntEnglNmM}, 
+				PTNT_ENGL_NM_L = #{ptntEnglNmL}, 
+				BRTH = #{brth}, 
+				GNDR_DVSN = #{gndrDvsn}, 
+				MOBL = #{mobl}, 
+				NTIL_CD = #{ntilCd}, 
+				PTNT_NOTE_TEXT = #{ptntNoteText}
+		  WHERE HSPT_ID = #{hsptId} 
+			and PTNT_ID = #{ptntId};
+	</update>
+	
+	<insert id="insertData" parameterType="egovframework.pat.model.RIS1101DTO">
+		INSERT INTO ris1101(HSPT_ID, 
+							PTNT_ID, 
+							PTNT_KR_NM, 
+							PTNT_ENGL_NM_F, 
+							PTNT_ENGL_NM_M, 
+							PTNT_ENGL_NM_L, 
+							BRTH, 
+							GNDR_DVSN, 
+							MOBL, 
+							NTIL_CD, 
+							PTNT_NOTE_TEXT)
+					VALUES (#{hsptId}, 
+							#{ptntId}, 
+							#{ptntKrNm}, 
+							#{ptntEnglNmF}, 
+							#{ptntEnglNmM}, 
+							#{ptntEnglNmL}, 
+							#{brth}, 
+							#{gndrDvsn}, 
+							#{mobl}, 
+							#{ntilCd}, 
+							#{ptntNoteText}
+							);
+	</insert>
+	
+	<!-- 데이터베이스에 같은 ptntId가 있는지 체크하는 쿼리문 -->
+	<select id="findOne" parameterType='String' resultType="int">
+		select  count(PTNT_ID)
+		   from ris1101
+		  where PTNT_ID = #{ptntId};
 	</select>
 
 </mapper>

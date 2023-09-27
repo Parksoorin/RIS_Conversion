@@ -56,10 +56,6 @@
                 	index: "loginPwd", 
                 	width: 150, 
                 	align: "center", 
-                	formatter: function (cellValue, options, rowObject) {
-                        // cellValue(셀 값)를 숨기고 별표로 표시
-                        return "********";
-                    },
                     // 편집 가능한 필드로 설정하지 않음
                     editable: false
                 },
@@ -78,19 +74,7 @@
                 	width: 120, 
                 	align: "center", 
                 	editable: true,
-                	edittype: 'text', // 편집 모드에서 텍스트 필드로
-                	formatter: "date", // 날짜 형식으로 변환,
-                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
-                	editoptions: {
-                        dataInit: function (elem) {
-                            $(elem).datepicker({
-                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
-                                showOn: 'button',
-                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
-                                buttonImageOnly: true
-                            });
-                        }
-                    }
+                	editoptions: {type: "date"}
                 },
                 { 
                 	name: "endDate", 
@@ -98,19 +82,7 @@
                 	width: 120,
                 	align: "center",
                 	editable: true,
-                	edittype: 'text', // 편집 모드에서 텍스트 필드로
-                	formatter: "date", // 날짜 형식으로 변환,
-                	formatoptions: { srcformat: "Y-m-d", newformat: "Y/m/d" }, // 날짜 형식 지정
-                	editoptions: {
-                        dataInit: function (elem) {
-                            $(elem).datepicker({
-                                dateFormat: 'yy/mm/dd', // 달력의 날짜 형식 지정
-                                showOn: 'button',
-                                buttonImage: 'https://jqueryui.com/resources/demos/datepicker/images/calendar.gif', // 달력 아이콘 이미지
-                                buttonImageOnly: true
-                            });
-                        }
-                    }
+                	editoptions: {type: "date"}
                 },
                 { name: "errorCnt", index: "errorCnt", width: 50, align: "center" }
             ],
@@ -124,9 +96,9 @@
 	        autowidth: true,
 	        height: "94%",
 	        rownumbers: true,
-	        sortname: "id",
+	        rowNum: 999, // 페이징 해제
+	        sortname: "startDate",
 	        sortorder: "asc",
-	        rownumbers: true,
 	        gridview: true, // 선표시 true/false
 	        viewsortcols: [true, "vertical", true],
 	        loadComplete: function (data) {
@@ -156,52 +128,20 @@
 		        $("#list1").jqGrid("setFrozenColumns");
 		        //alert(index+'/'+idxcol+'/'+sortorder);
 	        },
-	   	});
-        
-        
-     	// 그리드1 입력, 삭제
-        $("#add-row__btn").on("click", function () {
-		    var newRowData = {};
-		    var grid = $("#list1");
-		    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-		    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-		    newRowData.flag = 'I';
-		
-		    // 모든 컬럼을 가져옵니다.
-		    var allColumns = grid.jqGrid('getGridParam', 'colModel');
-		    
-		    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
-		    allColumns.forEach(function (column) {
-		        if (column.name !== 'errorCnt') {
-		            grid.jqGrid('setColProp', column.name, { editable: true });
-		        }
-		    });
-		
-		    // 선택한 행을 편집 모드로 진입합니다.
-		    grid.jqGrid("editRow", newRowId, {
-		        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
-		        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
-		    });
-		});
-
-        $("#delete-row__btn").on("click", function () {
-        	var grid = $("#list1");
-    	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { 
-    	    	grid.jqGrid('delRowData', selectedRowId);
-    	    } else { 
-    	    	alert('Please select a row to delete.'); 
-    	    }
-        });
-        
-        
-        // 그리드1 행 수정
-        $("#update-row__btn").on("click", function(){
+	   	});        
+	});
+    
+    
+    // 그리드1 행 수정
+    $("#update-row__btn").on("click", function(){
     	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
         if (selectedRowId) {    	  	  	
         	// 선택한 행이 있는 경우 편집 모드로 진입
             var grid = $("#list1");
-            
+            var rowData = grid.jqGrid('getRowData', selectedRowId);
+		    rowData.flag = 'U';
+		    grid.jqGrid('setRowData', selectedRowId, rowData);
+		    console.log("list1 데이터 : ", rowData);
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
             
@@ -224,40 +164,96 @@
         } else {
             alert("편집할 행을 먼저 선택하세요.");
         }
-    })
-        
-        /* 
-        $("#save-row__btn").click(function () {
-		    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
-		    if (selectedRowId) {
-		        // 선택한 행이 있는 경우 편집 모드 종료
-		        $("#list1").jqGrid('saveRow', selectedRowId, {
-		            url: "/서버에저장할URL",
-		            mtype: 'POST', // 전송 타입
-		            successfunc: function (response) {
-		                // 수정이 성공한 경우
-		                alert("수정이 성공하였습니다.");
-		                $("#list1").trigger("reloadGrid");
-		            },
-		            errorfunc: function (rowId, response) {
-		                // 수정이 실패한 경우
-		                alert("수정에 실패하였습니다.");
-		            }
-		        });
-		    } else {
-		        alert("저장할 행을 먼저 선택하세요.");
-		    }
-		});
-        */
-        
-        
-        
+	})
+    
+	// 그리드1 입력
+    $("#add-row__btn").on("click", function () {
+	    var newRowData = {};
+	    var grid = $("#list1");
+    	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    newRowData.flag = 'I';
+	    
+	 	// 사용자로부터 loginPwd 값을 입력받아 설정
+	    var newLoginPwd = grid.jqGrid('getCell', selectedRowId, 'loginPwd'); // 현재 선택된 행의 loginPwd 셀 값 가져오기
+	    newRowData.loginPwd = newLoginPwd;
+	    
+	    grid.jqGrid('setRowData', selectedRowId, rowData);
+	    console.log("list1 데이터 : ", newRowData);
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    
+	    // 모든 컬럼을 가져옵니다.
+	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	    
+	    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
+	    allColumns.forEach(function (column) {
+	        if (column.name !== 'errorCnt') {
+	            grid.jqGrid('setColProp', column.name, { editable: true });
+	        }
+	    });
+	    
+	    // 선택한 행을 편집 모드로 진입합니다.
+	    grid.jqGrid("editRow", newRowId, {
+	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+	    });
 	});
+	
+    // 삭제 
+    $("#delete-row__btn").on("click", function () { 
+	    alert('삭제할 수 없는 정보입니다.'); 
+    });
+    
+    // 저장
+    $("#save__btn").click(function () {
+	    console.log('저장 버튼 눌림');
+	    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+	    console.log(totalRows + "번째");
+	
+	    // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
+	    for (var i = 1; i <= totalRows; i++) {
+	     // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	       
+	        // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
+	        let data = $("#list1").jqGrid("getRowData", i);
+	
+	        console.log("----------");
+	        console.log(data);
+	        if (data.flag === 'U' || data.flag === 'I') {
+	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
+	                || data.userGrade === '' || data.appnImpsText === ''
+	                || data.startDate === '' || data.endDate === '') {
+	                alert('미입력 사항이 있습니다.');
+	                return;
+	            }
+	        }
+	    }
+	
+	    var list1Data = $("#list1").getRowData();
+	    console.log(list1Data);
+	    $.ajax({
+	        type: 'post',
+	        url: '/risuserSavaData.do',
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        data: JSON.stringify(list1Data),
+	        success: function (result) {
+	            console.log(result);
+	            reloadGrid();
+	        },
+	        error: function (error) {
+	            console.log(error)
+	        }
+	    });
+	});
+
     
  	// 팝업 열기
     function openPopup() {
         // 팝업 창에 표시할 URL
-        var url = "/RISUSERE01.do";
+        var url = "/pwPopup.do";
 
         // 팝업 창의 크기와 위치 설정
         var width = 600;
@@ -309,11 +305,9 @@
 			}
 		});	
 	};
-
 	// list1 검색
 	$("#search").on("input", function() {
 		var inputValue = $(this).val().replace(/\s+/g, "").toLowerCase();
-		
 		searchGrid(inputValue, "list1");
 	});
     

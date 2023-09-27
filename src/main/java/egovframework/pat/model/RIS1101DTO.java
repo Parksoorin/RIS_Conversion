@@ -17,6 +17,8 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class RIS1101DTO {
 	
+	private String flag;
+	
 	private String hsptId;  		// pk 값
 	private String ptntId;  		// 환자 ID, pk값
 	

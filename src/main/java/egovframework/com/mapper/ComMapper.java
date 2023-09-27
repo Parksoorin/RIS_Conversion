@@ -23,4 +23,8 @@ public interface ComMapper {
 	List<RisUserDTO> RisUserMenuList();
 	List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params);
 	int addList1Data(RisGrupDTO dto);
+	int updateData(RisUserDTO dto);
+	int addUserData(RisUserDTO dto);
+	String selectMddlcd(String mddlKrNm);
+	int pwReset(RisUserDTO dtos);
 }

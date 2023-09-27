@@ -279,6 +279,7 @@
         //alert(index+'/'+idxcol+'/'+sortorder);
       },
     });
+
     $("#list3").jqGrid({
       datatype: "local",
       url : "/risCodeList3.do", // 중분류 리스트 조회
@@ -360,7 +361,7 @@
     jQuery('#list3').jqGrid('clearGridData'); // 그리드3 데이터 삭제
     $("#list1").setGridParam({
       datatype : "json",
-      postData : {"searchWord" : $("[name='searchWord']").val()} ,
+      postData : {"searchWord" : $("[name='searchWord']").val()} , 
       url : "/risCodeList1Search.do", // 중분류 리스트 조회
       mtype    : 'POST', // 전송 타입 */
       loadComplete:  //그리드2 데이터 로딩 완료후 실행되는 함수(빈 상태)

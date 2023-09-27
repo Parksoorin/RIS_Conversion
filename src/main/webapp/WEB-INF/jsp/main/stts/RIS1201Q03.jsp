@@ -327,11 +327,11 @@
     	  resetPage(); 
       });
       
-      $("#selectImgn").change(function() {
+      $("#selectDvsn").change(function() {
     	  resetPage(); 
       });
       
-      $("#selectRoom").change(function() {
+      $("#selectViewDoc").change(function() {
     	  resetPage(); 
       });
       
@@ -340,7 +340,7 @@
    	    var gridData = $("#list1").jqGrid("getGridParam", "data");
 
    	    // 헤더를 정의합니다.
-   	    var header = ["촬영실별 통계"]; // 제목 행
+   	    var header = ["판독의별 통계"]; // 제목 행
    	    var columnHeader = ["촬영실", "촬영구분", "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월", "합계", "전년"];
 
    	    // 데이터를 CSV 형식으로 생성합니다.
@@ -388,7 +388,7 @@
    	    XLSX.utils.book_append_sheet(workbook, ws_data, ws_name);
 
    	    // XLSX 파일 다운로드
-   	    XLSX.writeFile(workbook, "장비별통계.xlsx");
+   	    XLSX.writeFile(workbook, "판독의별통계.xlsx");
    	  });
     </script>
 </body>

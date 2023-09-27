@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.pandok.mapper.PandokMapper">
-	<select id="getRis0601List" resultType="egovframework.pandok.model.Ris0601DTO">
+	<select id="getRis0601List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris0601DTO">
 		SELECT DOC_ID, TMPL_CD, IMGN_DVSN_CD, B.MDDL_KR_NM, VIEW_ABBR_NM, VIEW_TEXT
           FROM ris0601 A
           JOIN ris0102 B
             ON B.LRGC_CD = "IMGN_DVSN_CD" AND A.IMGN_DVSN_CD = B.MDDL_CD
-         WHERE B.HSPT_ID = "A001";
+         <where>B.HSPT_ID = "A001"
+         	<if test="imgnDvsn != 'all'">
+         		AND A.IMGN_DVSN_CD = #{imgnDvsn}
+         	</if>
+         	<if test="docId != 'all'">
+         		AND DOC_ID = #{docId}
+         	</if>
+         </where>;
 	</select>
 	
 	<select id="getRis0102List" resultType="egovframework.pandok.model.Ris0102DTO">
@@ -20,4 +27,153 @@
 		  FROM risuser
 		 WHERE HSPT_ID = "A001";
 	</select>
+	
+	<select id="getRis1301List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris1301DTO">
+		SELECT A.ORDR_FK, 
+			   B.PTNT_ID, 
+			   B.PTNT_NM, 
+			   B.ORDR_DATE, 
+			   B.PRSC_DATE, 
+			   B.ORDR_NM, 
+			   C.MDDL_CD AS IMGN_DVSN_CD,
+			   A.VIST_DVSN,
+			   D.MDDL_KR_NM AS VIST_DVSN_NM,
+			   B.TRTM_DPRT_CD,
+			   E.MDDL_KR_NM AS TRTM_DPRT_NM,
+			   B.ORDR_DOC_ID,
+			   F.MDDL_KR_NM AS ORDR_DOC_NM,
+			   CASE
+		       		WHEN A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL THEN 'Y'
+		       		ELSE 'N'
+		       END AS VIEW_YN,
+			   CASE
+		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN DATE(A.VOIC_RGST_DTTM)
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN A.VIEW_DATE
+		       		ELSE NULL
+		       END AS VIEW_DATE,
+			   CASE
+		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN TIME(A.VOIC_RGST_DTTM)
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN TIME(A.VIEW_DTTM)
+		       		ELSE NULL
+		       END AS VIEW_TIME,
+			   A.VIEW_DOC_ID,
+			   G.LOGIN_NM AS VIEW_DOC_NM,
+			   A.RDLG_ID,
+			   G.LOGIN_NM AS RDLG_NM,
+			   CASE
+			   		WHEN A.VOIC_RGST_DTTM IS NOT NULL OR VOIC_VIEW_YN = 'Y' THEN 'Y'
+			   		ELSE 'N'
+			   END AS VOIC_VIEW_YN,
+			   RDLG_ID,
+			   B.ORDR_PRGR_DVSN,
+			   CASE
+					WHEN B.ORDR_PRGR_DVSN = '0' THEN '처방'
+					WHEN B.ORDR_PRGR_DVSN = '1' THEN '예약'
+					WHEN B.ORDR_PRGR_DVSN = '2' THEN '접수'
+					WHEN B.ORDR_PRGR_DVSN = '3' THEN '실시'
+					WHEN B.ORDR_PRGR_DVSN = '4' THEN '음성판독'
+					WHEN B.ORDR_PRGR_DVSN = '5' THEN '판독 임시 저장'
+					WHEN B.ORDR_PRGR_DVSN = '6' THEN '판독완료'
+					WHEN B.ORDR_PRGR_DVSN = '8' THEN '보류'
+					WHEN B.ORDR_PRGR_DVSN = '9' THEN '취소'
+			   END AS ORDR_PRGR_KR,
+			   VIEW_TEXT,
+			   VIEW_NOTE_TEXT
+		  FROM ris1301 A
+	 LEFT JOIN ris1201 B
+		    ON A.ORDR_FK = B.ORDR_FK AND B.HSPT_ID = 'A001'
+	 LEFT JOIN ris0102 C
+		    ON C.LRGC_CD = "IMGN_DVSN_CD" AND B.ORDR_BDYP_CD = C.MDDL_CD AND C.HSPT_ID = 'A001'
+	 LEFT JOIN ris0102 D
+		    ON A.VIST_DVSN = D.MDDL_CD AND D.HSPT_ID = 'A001' AND D.LRGC_CD = "VIST_DVSN_CD"
+	 LEFT JOIN ris0102 E
+		    ON B.TRTM_DPRT_CD = E.MDDL_CD AND E.HSPT_ID = 'A001' AND E.LRGC_CD = "GWA_LIST"
+	 LEFT JOIN ris0102 F
+		    ON B.ORDR_DOC_ID = F.MDDL_CD AND F.HSPT_ID = 'A001' AND F.LRGC_CD = "DOCTORLIST"
+  	 LEFT JOIN risuser G
+		    ON A.VIEW_DOC_ID = G.LOGIN_ID AND G.HSPT_ID = 'A001'
+	   <where> A.HSPT_ID = 'A001'
+       	   <choose>
+       	     <when test="viewYn == 'doneView'">
+       	       AND (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL)
+       	     </when>
+       	     <when test="viewYn == 'notView'">
+       	       AND (A.VIEW_DTTM IS NULL AND A.VOIC_RGST_DTTM IS NULL)
+       	     </when>
+       	     <otherwise>
+       	  	   AND 1=1
+       	     </otherwise>
+       	   </choose>
+	       <if test="startDate != null and startDate != ''">
+	           AND B.PRSC_DATE >= #{startDate}
+	       </if>
+	       <if test="endDate != null and endDate != ''">
+	           AND #{endDate} >= B.PRSC_DATE 
+	       </if>
+	       <if test="ris1301Dvsn != null and ris1301Dvsn != 'all'">
+	           AND C.MDDL_CD = #{ris1301Dvsn}
+	       </if>
+	       <if test="ptntName != null and ptntName != ''">
+	           AND B.PTNT_NM = #{ptntName}
+	       </if>
+	   </where>;
+	</select>
+	
+	<select id="getRis1101List" resultType="egovframework.pandok.model.Ris1101DTO">
+		SELECT HSPT_ID, PTNT_ID, PTNT_KR_NM, BRTH, GNDR_DVSN, TIMESTAMPDIFF(YEAR, BRTH, CURDATE()) + 1 AS AGE
+		  FROM ris1101
+		 WHERE HSPT_ID = "A001"
+	</select>
+	
+	
+	<select id="duplicateCheck" parameterType="egovframework.pandok.model.Ris0601DTO" resultType="int">
+		SELECT COUNT(*)
+		  FROM ris0601
+		 WHERE HSPT_ID = 'A001' AND
+		       DOC_ID = #{docId} AND
+		       TMPL_CD = #{tmplCd}
+	</select>
+	
+	<insert id="saveRis0601List" parameterType="egovframework.pandok.model.Ris0601DTO">
+		<choose>
+			<when test="flag == '입력'">
+				INSERT INTO ris0601 (
+					HSPT_ID,
+					DOC_ID,
+					TMPL_CD,
+					IMGN_DVSN_CD,
+					VIEW_ABBR_NM,
+					VIEW_TEXT,
+					RGST_ID,
+					RGST_DTTM
+				) VALUES (
+					'A001',
+					#{docId},
+					#{tmplCd},
+					#{imgnDvsnCd},
+					#{viewAbbrNm},
+					#{viewText},
+					'admin',
+					NOW()
+				)
+			</when>
+			<when test="flag == '수정'">
+				UPDATE ris0601 SET
+					   IMGN_DVSN_CD = #{imgnDvsnCd},
+					   VIEW_ABBR_NM = #{viewAbbrNm},
+					   VIEW_TEXT = #{viewText},
+					   MDFC_ID = 'admin',
+					   MDFC_DTTM = NOW()
+				 WHERE HSPT_ID = 'A001' AND
+				 	   DOC_ID = #{docId} AND
+				 	   TMPL_CD = #{tmplCd} 
+			</when>
+			<when test="flag == '삭제'">
+				DELETE FROM ris0601
+				 WHERE HSPT_ID = 'A001' AND
+				 	   DOC_ID = #{docId} AND
+				 	   TMPL_CD = #{tmplCd} 
+			</when>
+		</choose>
+	</insert>
 </mapper>

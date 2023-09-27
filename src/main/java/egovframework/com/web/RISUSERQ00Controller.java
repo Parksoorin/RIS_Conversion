@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ibatis.common.logging.Log;
 
+import egovframework.appn.model.Ris0213DTO;
 import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
@@ -44,6 +46,7 @@ public class RISUSERQ00Controller {
 		return ".popup/pwPopup";
 	}
 	
+	// 그리드 불러오기
 	@RequestMapping(value = "/RISUSERQ00.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISUSERQ00(@RequestParam String type, HttpSession session, HttpServletRequest request,
@@ -63,5 +66,51 @@ public class RISUSERQ00Controller {
 
 		return json;
 	}
+	
+	// 저장
+	@RequestMapping(value = "/risuserSavaData.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject saveBtn(@RequestBody List<RisUserDTO> dtos, HttpSession session, HttpServletRequest request,
+	                           HttpServletResponse response, Model model) throws Exception {
+		
+	    JSONObject json = new JSONObject();
+	    for (RisUserDTO dto : dtos) {
+	        String flag = dto.getFlag();
+	        System.out.println("-----------------------");
+	        System.out.println(flag);
+	        int result = 0;
+	        switch (flag) {
+	            case "U":
+	                result = comService.updateData(dto);
+	                break;
+	            case "I":
+	                result = comService.addUserData(dto);
+	                break;
+                default:
+                	continue;
+	        }
+	        if (result < 1) {
+	            json.put("result", "error");
+	            return json;
+	        }
+	    }
+	    json.put("result", "success");
+	    return json;
+	}
+	
+	
+	 // 팝업 비밀번호 초기화
+	 @RequestMapping(value = "/risuserResetData.do", method = RequestMethod.POST)
+	 @ResponseBody public JSONObject risuserResetData(@RequestBody RisUserDTO dtos, HttpSession session, HttpServletRequest request,
+			 HttpServletResponse response, Model model) throws Exception { 
+
+		  JSONObject json = new JSONObject();
+		  int result = comService.pwReset(dtos);
+		  System.out.println(result);
+		  json.put("result", result);
+		  return json;
+	  }
+
+	
 }
 

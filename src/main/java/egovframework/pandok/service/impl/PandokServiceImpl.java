@@ -1,6 +1,7 @@
 package egovframework.pandok.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,6 +11,7 @@ import egovframework.pandok.mapper.PandokMapper;
 import egovframework.pandok.service.PandokService;
 import egovframework.pandok.model.Ris0102DTO;
 import egovframework.pandok.model.Ris0601DTO;
+import egovframework.pandok.model.Ris1101DTO;
 import egovframework.pandok.model.Ris1301DTO;
 import egovframework.pandok.model.RisUserDTO;
 
@@ -19,8 +21,8 @@ public class PandokServiceImpl implements PandokService {
 	private PandokMapper pandokMapper;
 	
 	@Override
-	public List<Ris0601DTO> getRis0601List() {
-		return pandokMapper.getRis0601List();
+	public List<Ris0601DTO> getRis0601List(Map<String, String> param) {
+		return pandokMapper.getRis0601List(param);
 	}
 
 	@Override
@@ -34,7 +36,22 @@ public class PandokServiceImpl implements PandokService {
 	}
 
 	@Override
-	public List<Ris1301DTO> getRis1301List() {
-		return pandokMapper.getRis1301List();
+	public List<Ris1301DTO> getRis1301List(Map<String, String> param) {
+		return pandokMapper.getRis1301List(param);
+	}
+
+	@Override
+	public List<Ris1101DTO> getRis1101List() {
+		return pandokMapper.getRis1101List();
+	}
+
+	@Override
+	public int duplicateCheck(Ris0601DTO dto) {
+		return pandokMapper.duplicateCheck(dto);
+	}
+
+	@Override
+	public int saveRis0601List(Ris0601DTO dto) {
+		return pandokMapper.saveRis0601List(dto);
 	}
 }
