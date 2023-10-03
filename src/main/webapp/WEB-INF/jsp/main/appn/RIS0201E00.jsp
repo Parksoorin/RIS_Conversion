@@ -316,7 +316,7 @@ pageEncoding="UTF-8"%>
        			'imgnRoomCd' : $('#imgnRoom').val()
        	};
 	    console.log(checkedWeek);
-		reloadGrid('#list1', postData, '/appn/RIS0201E00/ris0210Search.do');
+		reloadGrid1('#list1', postData, '/appn/RIS0201E00/ris0210Search.do');
    
    }
     
@@ -327,7 +327,7 @@ pageEncoding="UTF-8"%>
 	    		'imgnRoomCd' : $('#imgnRoom').val(),
 	    		'date' : date
       	};
-		reloadGrid('#list2', postData, '/appn/RIS0201E00/risChangeSelect.do');
+		reloadGrid1('#list2', postData, '/appn/RIS0201E00/risChangeSelect.do');
   
   }
    
@@ -337,7 +337,7 @@ pageEncoding="UTF-8"%>
 	    		'imgnRoomCd' : $('#imgnRoom').val(),
 	    		'exmnDate' : date
       	};
-		reloadGrid('#list3', postData, '/appn/RIS0201E00/ris0211Search.do');
+		reloadGrid1('#list3', postData, '/appn/RIS0201E00/ris0211Search.do');
   
   }
    
@@ -500,7 +500,7 @@ pageEncoding="UTF-8"%>
 
     // list : 리스트 종류 #list1, #list2, #list3
     // postData : 서버로 보낼 객체 {'' : ''} 값으로 지정
-      const reloadGrid = (list, postData, url) => {
+      const reloadGrid1 = (list, postData, url) => {
 
 
           $(list).jqGrid("clearGridData", true);
