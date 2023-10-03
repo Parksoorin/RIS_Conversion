@@ -20,4 +20,5 @@ public interface PandokMapper {
 	List<Ris1101DTO> getRis1101List();
 	int duplicateCheck(Ris0601DTO dto);
 	int saveRis0601List(Ris0601DTO dto);
+	int saveTempRis1301List(Ris1301DTO dto);
 }
