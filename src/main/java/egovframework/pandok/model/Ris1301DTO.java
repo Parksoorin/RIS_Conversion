@@ -6,8 +6,8 @@ public class Ris1301DTO {
 	private String ptntNm;			// 환자명
 	private String ordrDate;		// 처방일
 	private String prscDate;		// 촬영일자
-	private String ordrCd;			// 촬영코드(촬영명)
-	private String imgnKrNm;		// 촬영명
+	private String ordrNm;			// 촬영명
+	private String imgnDvsnCd;		// 촬영구분코드
 	private String vistDvsn;		// 내원구분코드
 	private String vistDvsnNm;		// 내원구분
 	private String trtmDprtCd;		// 진료과코드
@@ -57,17 +57,17 @@ public class Ris1301DTO {
 	public void setPrscDate(String prscDate) {
 		this.prscDate = prscDate;
 	}
-	public String getOrdrCd() {
-		return ordrCd;
+	public String getOrdrNm() {
+		return ordrNm;
 	}
-	public void setOrdrCd(String ordrCd) {
-		this.ordrCd = ordrCd;
+	public void setOrdrNm(String ordrNm) {
+		this.ordrNm = ordrNm;
 	}
-	public String getImgnKrNm() {
-		return imgnKrNm;
+	public String getImgnDvsnCd() {
+		return imgnDvsnCd;
 	}
-	public void setImgnKrNm(String imgnKrNm) {
-		this.imgnKrNm = imgnKrNm;
+	public void setImgnDvsnCd(String imgnDvsnCd) {
+		this.imgnDvsnCd = imgnDvsnCd;
 	}
 	public String getVistDvsn() {
 		return vistDvsn;

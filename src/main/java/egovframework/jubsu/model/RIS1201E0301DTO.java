@@ -20,7 +20,7 @@ public class RIS1201E0301DTO {
 	
 	private int pkris1201; 			// pk 값
 	
-	// 처방 목록
+	// 처방 목록8
 	private String hsptId;  		// 병원 ID, pk 값
 	
 	private String vistDvsn; 		// 내원 구분

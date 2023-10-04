@@ -56,10 +56,6 @@
                 	index: "loginPwd", 
                 	width: 150, 
                 	align: "center", 
-                   //formatter: function (cellValue, options, rowObject) {
-                        // cellValue(셀 값)가 빈 값인 경우 빈 문자열을 반환, 그렇지 않으면 별표로 표시
-                  //      return cellValue ? "********" : "";
-                   // }, 
                     // 편집 가능한 필드로 설정하지 않음
                     editable: false
                 },
@@ -179,7 +175,7 @@
 	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
 	    newRowData.flag = 'I';
 	    
-	 // 사용자로부터 loginPwd 값을 입력받아 설정
+	 	// 사용자로부터 loginPwd 값을 입력받아 설정
 	    var newLoginPwd = grid.jqGrid('getCell', selectedRowId, 'loginPwd'); // 현재 선택된 행의 loginPwd 셀 값 가져오기
 	    newRowData.loginPwd = newLoginPwd;
 	    

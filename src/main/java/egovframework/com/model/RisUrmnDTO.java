@@ -32,9 +32,12 @@ public class RisUrmnDTO {
 	// 시스템ID
 	@Max(10)
 	private String systemId;
-	// 시스템ID
+	// 메뉴그룹ID
 	@Max(10)
 	private String menuGroupId;
+	// 메뉴그룹이룸
+	@Max(10)
+	private String menuGroupName;
 	// 메뉴ID
 	@Max(10)
 	private String menuId;

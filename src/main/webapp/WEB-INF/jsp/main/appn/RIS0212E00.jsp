@@ -142,7 +142,7 @@
       
     
    
-      const reloadGrid = () => {
+      var reloadGrid = () => {
       	var strtDate = $('#date1').val();
           var endDate = $('#date2').val();
           var postData  = {'strtDate' : strtDate , 'endDate' : endDate };

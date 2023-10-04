@@ -91,16 +91,24 @@
 		
 	<!-- 사용자별 메뉴관리 그리드1(메뉴 4) -->
 	<select id="RisUserMenuList" resultType="egovframework.com.model.RisUserDTO">
-		SELECT DISTINCT LOGIN_ID, LOGIN_NM, USER_GRADE, USER_GRADE, HSPT_ID
-		FROM risuser
+		SELECT DISTINCT A.LOGIN_ID, A.LOGIN_NM, B.MDDL_KR_NM, A.HSPT_ID
+		FROM risuser A
+		LEFT JOIN ris0102 B
+		ON A.HSPT_ID = B.HSPT_ID 
+		AND A.USER_GRADE = B.MDDL_CD
+		WHERE B.LRGC_CD = "GRADE"
+		ORDER BY LOGIN_ID
 	</select>
 	
 	<!-- 사용자별 메뉴관리 그리드2(메뉴 4) -->
 	<select id="RisUserMenuList2" parameterType="String" resultType="egovframework.com.model.RisUrmnDTO">
-		SELECT MENU_GROUP_ID, MENU_NAME, MENU_ID, MENU_GRADE, USE_YN, OTPT_SQNC
-		FROM risurmn
-		WHERE LOGIN_ID = #{type}
-		AND HSPT_ID = #{type2}
+		SELECT A.MENU_GROUP_ID, B.MENU_GROUP_NAME, A.MENU_ID, A.MENU_NAME, A.MENU_GRADE, A.USE_YN, A.OTPT_SQNC
+		FROM risurmn A
+		LEFT JOIN risgrup B
+		ON A.MENU_GROUP_ID = B.MENU_GROUP_ID 
+		AND A.HSPT_ID = B.HSPT_ID
+		WHERE A.LOGIN_ID = #{type}
+		AND A.HSPT_ID = #{type2}
 	</select>
 		
 		

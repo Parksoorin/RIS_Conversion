@@ -33,7 +33,43 @@
 				   	,MOBL
 		FROM 		 RIS1101;
 	</select>
-
+	
+	<!-- 캘린더 날짜 예약 현황  -->
+	<select id="risappnCalSelect" parameterType="egovframework.appn.model.RISAppnCalRequestDTO" resultType="egovframework.appn.model.RISAppnCalDTO">
+		SELECT
+				 	 EXMN_DATE
+					 , SUM(APPN_OUTP_PSSB_CNT) + SUM(APPN_INPT_PSSB_CNT) + SUM(APPN_HLXM_PSSB_CNT) AS total
+					 , (	
+					 		SELECT 	COUNT(*)		
+					 		FROM 	ris1211
+							WHERE 	HSPT_ID 		=		 #{hsptId}
+				 			 AND 	IMGN_ROOM_CD	=		 #{imgnRoomCd}
+				  			 AND 	APPN_DATE 		=		 EXMN_DATE ) AS APPN_CNT
+				  	, (
+							SELECT  HLDY_DATE 		 AS 	date
+							FROM 		  
+							     	RIS0212 
+							WHERE 		  
+									HLDY_DATE		 = 		EXMN_DATE 
+							  AND	HSPT_ID 		 = 		#{hsptId}
+							UNION
+							SELECT 		
+									STRT_DATE		  AS 	date
+						    FROM 	RIS0213 
+						    WHERE 	STRT_DATE 		 =		EXMN_DATE
+						     AND 	HSPT_ID			 = 		#{hsptId} 
+						     AND    IMGN_ROOM_CD 	 = 		#{imgnRoomCd} 
+												
+							) AS APPN_HOLI_DATE			 
+				  			 				  
+  			FROM 
+  					 RIS0211
+			WHERE 	
+					 IMGN_ROOM_CD 	= 	#{imgnRoomCd}
+				AND  HSPT_ID 		=	#{hsptId}
+				AND  EXMN_DATE BETWEEN #{startDate} AND #{endDate}
+			GROUP BY EXMN_DATE
+	</select>
 	
 
 

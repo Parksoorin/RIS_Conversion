@@ -2,9 +2,137 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="egovframework.appn.mapper.RIS0201E00Mapper">
 	<!-- 작성자 : 송유근  -->
-	<!-- 예약 기준 관리 -->
+	<!-- 예약 기준 관리 - RIS0210 -->
 	
+	<select id="ris0210Select" parameterType="egovframework.appn.model.RIS0210RequestDTO" resultType="egovframework.appn.model.Ris0210DTO">
+		SELECT 			 HSPT_ID
+					   , IMGN_ROOM_CD
+					   , WKDY
+					   , STRT_TIME
+					   , END_TIME
+					   , APPN_OUTP_PSSB_CNT
+					   , APPN_INPT_PSSB_CNT
+					   , APPN_HLXM_PSSB_CNT
+		 FROM 			RIS0210
+		 WHERE 			1						=					1
+		 		<if test='wkdy != null'>
+ 				AND		WKDY 					=					#{wkdy}
+ 				</if>
+ 				<if test='imgnRoomCd != null'>
+ 				AND 	IMGN_ROOM_CD 			= 					#{imgnRoomCd} 
+ 				</if>
+ 				<if test='hsptId != null'>
+ 				AND 	HSPT_ID 				=					#{hsptId}
+ 				</if>
+	</select>
 	
+	<select id="ris0210Duplicate" parameterType="egovframework.appn.model.Ris0210FormDTO" resultType="int">
+		SELECT			COUNT(*)
+		 FROM 			RIS0210
+  		WHERE 			
+  						HSPT_ID 		= 		#{hsptId}
+			AND 		IMGN_ROOM_CD 	= 		#{imgnRoomCd}
+			<if test='weekBatch == false'>
+			AND 		WKDY 			=		#{dayOfWeek}
+			</if>
+			AND 		STRT_TIME BETWEEN #{startTime} AND #{endTime}  
+		  
+	</select>
 	
+	<update id="ris0210Update" parameterType="egovframework.appn.model.Ris0210DTO">
+		<foreach collection="list" item='item' separator=';' >
+			UPDATE 			RIS0210
+		  	   SET 			APPN_OUTP_PSSB_CNT 		=					 #{item.appnOutpPssbCnt} 
+		  	   			  ,APPN_INPT_PSSB_CNT		= 					 #{item.appnInptPssbCnt}
+		  	   			  ,APPN_HLXM_PSSB_CNT		= 					 #{item.appnHlxmPssbCnt}
+			 WHERE 			1						=					1
+			 		AND		HSPT_ID 				= 					 #{item.hsptId}
+		  			AND 	IMGN_ROOM_CD 			= 					 #{item.imgnRoomCd}
+					AND 	WKDY 					= 					 #{item.wkdy}
+		 			AND 	STRT_TIME 				=					 #{item.strtTime}
+		</foreach>
+	</update>
+	
+	<insert id="ris0210Insert" parameterType="egovframework.appn.model.Ris0210DTO">
+		INSERT INTO 		RIS0210 
+						(
+							 HSPT_ID
+						   ,IMGN_ROOM_CD
+						   ,WKDY
+						   ,STRT_TIME
+						   ,END_TIME
+						   ,APPN_OUTP_PSSB_CNT
+						   ,APPN_INPT_PSSB_CNT
+						   ,APPN_HLXM_PSSB_CNT
+						 )
+			VALUES
+						 <foreach collection="list" item='item' separator=',' >
+		 				(
+		 					#{item.hsptId}
+		 				  ,#{item.imgnRoomCd}
+		 				  ,#{item.wkdy}
+		 				  ,#{item.strtTime}
+		 				  ,#{item.endTime}
+		 				  ,#{item.appnOutpPssbCnt}
+		 				  ,#{item.appnInptPssbCnt}
+		 				  ,#{item.appnHlxmPssbCnt} 
+		 				 )
+		 				 </foreach>
+	</insert>
+	
+	<insert id="ris0210FormInsert" parameterType="egovframework.appn.model.Ris0210FormDTO">
+		INSERT INTO RIS0210 
+						(
+							 HSPT_ID
+						   ,IMGN_ROOM_CD
+						   ,WKDY
+						   ,STRT_TIME
+						   ,END_TIME
+						   ,APPN_OUTP_PSSB_CNT
+						   ,APPN_INPT_PSSB_CNT
+						   ,APPN_HLXM_PSSB_CNT
+						 )
+						 
+					VALUES
+						 <foreach collection="list" item='item' separator=',' >
+						 	<foreach collection="item.weekList" item='yoil' separator=',' >
+		 					(
+		 					#{item.hsptId}
+		 				  ,#{item.imgnRoomCd}
+		 				  ,#{yoil}
+		 				  ,#{item.startTime}
+		 				  ,#{item.endTime}
+		 				  ,#{item.outPatient}
+		 				  ,#{item.inPatient}
+		 				  ,#{item.healthExamination} 
+		 				 )
+		 				 	</foreach>
+		 				 </foreach>
+	</insert>
 
+	<delete id="ris0210Delete" parameterType="egovframework.appn.model.Ris0210DTO">
+		DELETE 
+		FROM 				RIS0210 
+		WHERE 		
+					<foreach collection="list" item="item" open="(" close=")" separator="OR">
+							1					=			1
+					AND		HSPT_ID 			= 			#{item.hsptId} 
+					AND 	IMGN_ROOM_CD 		= 			#{item.imgnRoomCd}
+					AND 	WKDY 				=		 	#{item.wkdy} 
+					AND 	STRT_TIME			= 			#{item.strtTime}
+					</foreach>
+	</delete>
+	
+	<delete id="ris0210DeleteByDate" parameterType="egovframework.appn.model.Ris0210FormDTO">
+		DELETE 
+		FROM 		
+					RIS0210 
+		WHERE 		
+					IMGN_ROOM_CD		 =			#{imgnRoomCd}
+			<if test='weekBatch == false'>
+			AND	 	WKDY				 = 			#{dayOfWeek} 
+			</if>
+			AND		HSPT_ID 			 = 			#{hsptId}
+			AND 	STRT_TIME BETWEEN #{startTime} 		AND 		#{endTime}  
+	</delete>
 </mapper>

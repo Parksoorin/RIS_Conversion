@@ -176,4 +176,13 @@
 			</when>
 		</choose>
 	</insert>
+	
+	<update id="saveTempRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
+		UPDATE ris1301 SET
+			   VIEW_TEXT = #{viewText},
+			   VIEW_NOTE_TEXT = CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
+		 WHERE HSPT_ID = 'A001' AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk}
+	</update>
 </mapper>

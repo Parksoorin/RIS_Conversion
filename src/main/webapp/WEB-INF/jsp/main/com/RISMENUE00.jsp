@@ -182,7 +182,6 @@ pageEncoding="UTF-8"%>
 	          	autowidth: true,
 	          	height: "93%",
 	          	rownumbers: true,
-	            multiselect: true,
 	          	sortname: "id",
 	          	sortorder: "asc",
 	          	gridview: true, // 선표시 true/false
