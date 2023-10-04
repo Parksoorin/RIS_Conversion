@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.jubsu.model.RIS1201E0301DTO;
 import egovframework.jubsu.model.RIS1201E0302DTO;
 import egovframework.jubsu.service.RIS1201E03Service;
+import egovframework.pat.model.RIS1101DTO;
 
 @Controller
 public class RIS1201E03Controller {
@@ -92,5 +93,26 @@ public class RIS1201E03Controller {
 		
 		return json;
 	}
+	
+	// 처방 정보 관리 페이지 수정 및 입력
+	@RequestMapping(value = "/jubsu/RIS1201E03UpdateInsert.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1201E00UpdateInsert(@RequestBody RIS1201E0301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+	
+		JSONObject json = new JSONObject();
+		
+		
+		
+		System.out.println("55");
+		System.out.println(dto);
+		
+		
+		
+		return json;
+		
+	}
+	
+	
 		
 }

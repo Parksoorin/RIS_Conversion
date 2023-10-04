@@ -18,12 +18,15 @@ import lombok.ToString;
 
 public class RIS1201E0301DTO {
 	
+	private String flag;
+	
 	private int pkris1201; 			// pk 값
 	
 	// 처방 목록8
 	private String hsptId;  		// 병원 ID, pk 값
 	
 	private String vistDvsn; 		// 내원 구분
+	
 	private String ptntId;  		// 환자 ID
 	private String ptntNm;  		// 환자명
 	private String gndrDvsn;  		// 성별 구분

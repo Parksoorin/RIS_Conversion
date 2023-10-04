@@ -235,114 +235,7 @@
       	      
 				console.log(selectRowData);
 				
-              	// list3 그리는 부분
-              	jQuery.ajax({
-					type: 'POST',
-					url : "/jubsu/RIS1201E03Detail.do",
-					data : JSON.stringify(selectRowData),
-					contentType: "application/json; charset=utf-8",
-					dataType: 'json',
-              		
-					success : function (result) {
-						console.log("success :", result);
-						console.log(result.rows);
-						mydata = [];
-						mydata.push(result.rows);
-						console.log("mydata : ", mydata);
-						
-						$("#list3").jqGrid("GridUnload");
-						
-						$("#list3").jqGrid({
-				        	data: mydata,
-				          	datatype: "local",
-				          	colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
-				          	colModel: [
-				            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				            	{ name: "imgnCd", index: "imgnCd", width: 100, align: "center" },
-				            	{ name: "ordrNm", index: "ordrNm", width: 250, align: "center", editable: true },
-				            	{ name: "exmnNoteText", index: "exmnNoteText", width: 50, align: "center" },
-				            	{ name: "ordrNoteText", index: "ordrNoteText", width: 50, align: "center" },
-				            	{ name: "pmntYn", index: "pmntYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				            	{ name: "emrgYn", index: "emrgYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				            	{ name: "dcYn", index: "dcYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				            	{ name: "retkYn", index: "retkYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
-				                    edittype: "checkbox", // 체크박스 형태로 설정
-				                    editoptions: {
-				                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-				                    } },
-				          	],
-				          	guiStyle: "bootstrap",
-				          	autowidth: true,
-				          	height: "85%",
-				          	rownumbers: true,
-				          	rowNum: 9999,
-				          	multiselect: false,
-				          	sortname: "id",
-				          	sortorder: "asc",
-				          	cellEdit: true,
-				          	loadonce: true,
-				          	gridview: true, // 선표시 true/false
-				          	viewsortcols: [true, "vertical", true],
-				          	loadComplete: function (data) {
-				            	console.log(data);
-				          	}, // loadComplete END
-				          	onSelectRow: function (rowid) {
-				            	console.log(rowid);
-				          	},
-				          	onSortCol: function (index, idxcol, sortorder) {
-				            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-				            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-				            $("#list1").jqGrid("destroyFrozenColumns");
-				            var $icons = $(this.grid.headers[idxcol].el).find(
-				            	">div.ui-jqgrid-sortable>span.s-ico"
-				            );
-				            if (this.p.sortorder === "asc") {
-				              	//$icons.find('>span.ui-icon-asc').show();
-				              	$icons.find(">span.ui-icon-asc")[0].style.display = "";
-				              	$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-				              	$icons.find(">span.ui-icon-desc").hide();
-				            } else {
-				              	//$icons.find('>span.ui-icon-desc').show();
-				              	$icons.find(">span.ui-icon-desc")[0].style.display = "";
-				              	$icons.find(">span.ui-icon-asc").hide();
-				            }
-				            // (화살표 css 변경 후 Frozen을 다시 설정)
-				            $("#list1").jqGrid("setFrozenColumns");
-				            //alert(index+'/'+idxcol+'/'+sortorder);
-				          },
-				        });
-					},
-					error : function (error) {
-						console.log(error);
-					}
-				});
+              	rislist(selectRowData);
               	
          	 },
          	 onSortCol: function (index, idxcol, sortorder) {
@@ -395,6 +288,121 @@
               alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
           }
       }
+   
+   		function rislist(selectRowData) {
+   		// list3 그리는 부분
+    	jQuery.ajax({
+			type: 'POST',
+			url : "/jubsu/RIS1201E03Detail.do",
+			data : JSON.stringify(selectRowData),
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+    		
+			success : function (result) {
+				console.log("success :", result);
+				console.log(result.rows);
+				mydata = [];
+				mydata.push(result.rows);
+				console.log("mydata : ", mydata);
+				
+				$("#list3").jqGrid("GridUnload");
+				
+				$("#list3").jqGrid({
+		        	data: mydata,
+		          	datatype: "local",
+		          	colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
+		          	colModel: [
+		            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		            	{ name: "imgnCd", index: "imgnCd", width: 80, align: "center" },
+		            	{ name: "ordrNm", index: "ordrNm", width: 250, align: "center", editable: true, edittype: "text"  },
+		            	{ name: "exmnNoteText", index: "exmnNoteText", width: 70, align: "center" },
+		            	{ name: "ordrNoteText", index: "ordrNoteText", width: 70, align: "center" },
+		            	{ name: "pmntYn", index: "pmntYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 70, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		            	{ name: "emrgYn", index: "emrgYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		            	{ name: "dcYn", index: "dcYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		            	{ name: "retkYn", index: "retkYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
+		                    edittype: "checkbox", // 체크박스 형태로 설정
+		                    editoptions: {
+		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                    } },
+		          	],
+		          	guiStyle: "bootstrap",
+		          	autowidth: true,
+		          	height: "85%",
+		          	rownumbers: true,
+		          	rowNum: 9999,
+		          	multiselect: false,
+		          	sortname: "id",
+		          	sortorder: "asc",
+		          	cellEdit: true,
+		          	cellsubmit : 'clientArray',
+		          	loadonce: true,
+		          	gridview: true, // 선표시 true/false
+		          	viewsortcols: [true, "vertical", true],
+		          	loadComplete: function (data) {
+		            	console.log(data);
+		          	}, // loadComplete END
+		          	onSelectRow: function (rowid) {
+		            	console.log(rowid);
+		          	},
+		          	onSortCol: function (index, idxcol, sortorder) {
+		            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+		            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+		            $("#list1").jqGrid("destroyFrozenColumns");
+		            var $icons = $(this.grid.headers[idxcol].el).find(
+		            	">div.ui-jqgrid-sortable>span.s-ico"
+		            );
+		            if (this.p.sortorder === "asc") {
+		              	//$icons.find('>span.ui-icon-asc').show();
+		              	$icons.find(">span.ui-icon-asc")[0].style.display = "";
+		              	$icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+		              	$icons.find(">span.ui-icon-desc").hide();
+		            } else {
+		              	//$icons.find('>span.ui-icon-desc').show();
+		              	$icons.find(">span.ui-icon-desc")[0].style.display = "";
+		              	$icons.find(">span.ui-icon-asc").hide();
+		            }
+		            // (화살표 css 변경 후 Frozen을 다시 설정)
+		            $("#list1").jqGrid("setFrozenColumns");
+		            //alert(index+'/'+idxcol+'/'+sortorder);
+		          },
+		        });
+			},
+			error : function (error) {
+				console.log(error);
+			}
+		});
+   
+   		}
+   
+   
    
    // 검색 기능
   	const searchGrid = function(startDate, endDate, keyword, grid) {
@@ -477,9 +485,15 @@
   	    searchGrid(startDate, endDate, keyword, "list1");
   	});
    
+  	
+ 	// flag를 선언
+	var flag;
+  	
 	
   	// 수정 버튼 이벤트
   	document.getElementById("inputUpdate").addEventListener("click", function () {
+  		
+  		flag = 'U';
   		
   		// 처방일
   		var ordrDateInputElement = document.getElementById("ordrDateInput");
@@ -509,6 +523,8 @@
   	
   	// 입력 버튼 이벤트
   	document.getElementById("inputInsert").addEventListener("click", function () {
+  		
+  		flag = 'I';
   		
   		// 환자명
   		var ptntKrNmInputElement = document.getElementById("ptntKrNmInput");
@@ -569,7 +585,91 @@
 	});
 
 
+	
+  	// 저장버튼 이벤트
+  	document.getElementById("ris1201DataSave").addEventListener("click", function() {
+  		console.log("실제값");
+  		 
+  	// 데이터 가져오기
+    var ptntKrNm = document.getElementById("ptntKrNmInput").value;
+	var ptntId = document.getElementById("ptntIdInput").value;
+	var ordrDateInput = document.getElementById("ordrDateInput").value;
+	var vistDvsnInput = document.getElementById("vistDvsnInput").value;
+	var trtmDprtCdInput = document.getElementById("trtmDprtCdInput").value;
+	var mddlKrNmInput = document.getElementById("mddlKrNmInput").value;
+	var dsrdDateInput = document.getElementById("dsrdDateInput").value;
+	var wardCdInput = document.getElementById("wardCdInput").value;
+	var unitCdInput = document.getElementById("unitCdInput").value;
+	
+	// list3 데이터 가져오기
+	var listData = $("#list3").jqGrid("getRowData");
+	console.log("listData", listData)
+	
+	// list3 데이터를 배열에 저장
+    var listInfo = [];
+    for (var i = 0; i < listData.length; i++) {
+        var rowData = listData[i];
+        var elctTrtmYn = rowData.elctTrtmYn;
+        var imgnCd = rowData.imgnCd;
+        var ordrNm = rowData.ordrNm;
+        var exmnNoteText = rowData.exmnNoteText;
+        var ordrNoteText = rowData.ordrNoteText;
+        var pmntYn = rowData.pmntYn;
+        var prtbImgnYn = rowData.prtbImgnYn;
+        var emrgYn = rowData.emrgYn;
+        var dcYn = rowData.dcYn;
+        var retkYn = rowData.retkYn;
 
+        // 각 행의 데이터를 객체로 만들어 배열에 추가
+        var rowDataObject = {
+            elctTrtmYn: elctTrtmYn,
+            imgnCd: imgnCd,
+            ordrNm: ordrNm,
+            exmnNoteText: exmnNoteText,
+            ordrNoteText: ordrNoteText,
+            pmntYn: pmntYn,
+            prtbImgnYn: prtbImgnYn,
+            emrgYn: emrgYn,
+            dcYn: dcYn,
+            retkYn: retkYn,
+        };
+
+        listInfo.push(rowDataObject);
+    }
+	
+	
+	var sendData = {
+			flag: flag,
+			ptntKrNm: ptntKrNm,
+			ptntId: ptntId,
+			ordrDateInput: ordrDateInput,
+			vistDvsnInput: vistDvsnInput,
+			trtmDprtCdInput: trtmDprtCdInput,
+			mddlKrNmInput: mddlKrNmInput,
+			dsrdDateInput: dsrdDateInput,
+			wardCdInput: wardCdInput,
+			unitCdInput: unitCdInput,
+			listInfo: listInfo, // list3 데이터를 추가
+	};
+
+	console.log("sendData :", sendData)
+	
+	
+		$.ajax({
+			type: 'POST',
+			url: "/jubsu/RIS1201E03UpdateInsert.do",
+			data: JSON.stringify(sendData),
+			contentType: "application/json; charset=utf-8",
+			dataType: 'json',
+			success: function (result) {
+				console.log("데이터 전송 성공: ", result);
+			},
+			error: function (error) {
+	    		console.log("데이터 전송 실패: ", error);
+	    	}
+		});
+	
+  	});
 
 
 
