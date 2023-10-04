@@ -264,9 +264,9 @@
 				                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
 				                    } },
 				            	{ name: "imgnCd", index: "imgnCd", width: 100, align: "center" },
-				            	{ name: "ordrNm", index: "ordrNm", width: 170, align: "center", editable: true },
-				            	{ name: "exmnNoteText", index: "exmnNoteText", width: 80, align: "center" },
-				            	{ name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" },
+				            	{ name: "ordrNm", index: "ordrNm", width: 250, align: "center", editable: true },
+				            	{ name: "exmnNoteText", index: "exmnNoteText", width: 50, align: "center" },
+				            	{ name: "ordrNoteText", index: "ordrNoteText", width: 50, align: "center" },
 				            	{ name: "pmntYn", index: "pmntYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 				                    edittype: "checkbox", // 체크박스 형태로 설정
 				                    editoptions: {
