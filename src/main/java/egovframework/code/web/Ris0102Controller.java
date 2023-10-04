@@ -24,13 +24,103 @@ public class Ris0102Controller {
 	@Resource(name="ris0102Service")
 	private Ris0102Service ris0102Service;
 
-	@Resource(name="ris0103Service")
-	private Ris0103Service ris0103Service;
-
 	//촬영장비관리 관리화면
 	@RequestMapping(value = "/RIS0102E00.do")
 	public String RIS0102E00(Model model) throws Exception {
 		return ".main/code/RIS0102E00";
+	}
+
+	// 공통코드 중분류 ajax리스트
+	@RequestMapping(value = "/RIS0102E00List.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS0102E00List(@RequestParam Map<String, Object> requestMap,
+								   @RequestParam(value="hsptId", required=false, defaultValue="") String hsptId,
+								   @RequestParam(value="lrgcCd", required=false, defaultValue="") String lrgcCd
+	) throws Exception {
+		requestMap.put("hsptId",hsptId);
+		requestMap.put("lrgcCd",lrgcCd);
+		System.out.println("RIS0102E00List requestMap :::"+requestMap);
+
+		JSONObject json = new JSONObject();
+		List<Ris0102DTO> list = ris0102Service.findRis0102List(requestMap); // 중분류 코드 리스트 데이터
+		json.put("rows", list);
+		return json;
+	}
+
+	// 공통코드 중분류 ajax리스트
+	@RequestMapping(value = "/RIS0102E00View.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS0102E00View(@RequestParam Map<String, Object> requestMap,
+									 @RequestParam(value="hsptId", required=false, defaultValue="") String hsptId,
+									 @RequestParam(value="lrgcCd", required=false, defaultValue="") String lrgcCd,
+									 @RequestParam(value="mddlCd", required=false, defaultValue="") String mddlCd
+	) throws Exception {
+		requestMap.put("hsptId",hsptId);
+		requestMap.put("lrgcCd",lrgcCd);
+		requestMap.put("mddlCd",mddlCd);
+		System.out.println("RIS0102E00View requestMap :::"+requestMap);
+
+		JSONObject json = new JSONObject();
+		Ris0102DTO list = ris0102Service.findRis0102View(requestMap); // 중분류 코드 리스트 데이터
+		json.put("rows", list);
+		System.out.println("list :::"+list);
+
+		return json;
+	}
+
+	// 공통코드 상세화면 ajax등록
+	@RequestMapping(value = "/RIS0102E00InsertData.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS0102E00InsertData(@RequestBody Map<String, Object> requestMap,
+										@RequestParam(value="checkLMS", required=false, defaultValue="") String checkLMS
+	) throws Exception {
+		System.out.println("INSERT requestMap :::"+requestMap);
+		JSONObject json = new JSONObject();
+		json.put("result", "true");
+		int result = 0;
+		if("M".equals(checkLMS) && "I".equals(requestMap.get("iud"))){
+			result = ris0101Service.insertRis0102Data(requestMap);
+		}
+		json.put("error_code", 0);
+		return json;
+	}
+
+	// 공통코드 상세화면 ajax수정
+	@RequestMapping(value = "/RIS0102E00UpdateData.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS0102E00UpdateData(@RequestBody Map<String, Object> requestMap,
+										@RequestParam(value="checkLMS", required=false, defaultValue="") String checkLMS
+	) throws Exception {
+		System.out.println("UPDATE requestMap :::"+requestMap);
+		JSONObject json = new JSONObject();
+		json.put("result", "true");
+		int result = 0;
+		System.out.println("checkLMS :::"+checkLMS);
+		if("M".equals(checkLMS) && "U".equals(requestMap.get("iud"))){
+			result = ris0101Service.updateRis0102Data(requestMap);
+		}
+		json.put("error_code", 0);
+		return json;
+	}
+
+	// 공통코드 상세화면 ajax삭제
+	@RequestMapping(value = "/RIS0102E00DeleteData.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS0102E00DeleteData(@RequestBody Map<String, Object> requestMap,
+										@RequestParam(value="checkLMS", required=false, defaultValue="") String checkLMS,
+										@RequestParam(value="lrgc_cd", required=false, defaultValue="") String lrgc_cd,
+										@RequestParam(value="mddl_cd", required=false, defaultValue="") String mddl_cd,
+										@RequestParam(value="smll_cd", required=false, defaultValue="") String smll_cd
+	) throws Exception {
+		System.out.println("DELETE requestMap :::"+requestMap);
+		JSONObject json = new JSONObject();
+		json.put("result", "true");
+		int result = 0;
+		if("M".equals(checkLMS)){
+			result = ris0101Service.deleteRis0102Data(requestMap);
+		}
+		json.put("error_code", 0);
+		return json;
 	}
 
 }
