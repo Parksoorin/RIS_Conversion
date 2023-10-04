@@ -83,11 +83,12 @@ public class RIS0601E00Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
-		System.out.println(map);
 		int cnt = 0;
 		
 		for (Ris0601DTO m : map) {
+			// 입력, 수정, 삭제일 경우
 			if (m.getFlag() != "") {
+				// 입력일 경우만 중복 체크
 				if (m.getFlag() == "입력") {
 					int duplicateCheck = pandokService.duplicateCheck(m); 
 					
@@ -97,6 +98,8 @@ public class RIS0601E00Controller {
 						return json;
 					}				
 				}
+				
+				// 수정, 삭제는 바로 진행
 				pandokService.saveRis0601List(m);
 				cnt += 1;
 			}			
