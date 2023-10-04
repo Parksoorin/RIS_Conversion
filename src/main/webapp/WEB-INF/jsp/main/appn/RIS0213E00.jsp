@@ -200,7 +200,7 @@
             });
         }
         
-        const reloadGrid = () => {
+        var reloadGrid = () => {
         	var strtDate = $('#date1').val();
             var endDate = $('#date2').val();
             var imgnRoomCd = $('#imgnRoom').val();
