@@ -91,10 +91,68 @@ public class RIS1301E00Controller {
 		JSONObject json = new JSONObject();
 		
 		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
 		
 		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
 		
-		cnt += ris1301Data;
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
+		
+		json.put("cnt", cnt);
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/pandok/finishRis1301List.do")
+	@ResponseBody
+	public JSONObject finishRis1301List(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
+		
+		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
+		
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
+		
+		json.put("cnt", cnt);
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/pandok/deleteRis1301List.do")
+	@ResponseBody
+	public JSONObject deleteRis1301List(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
+		
+		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
+		
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
 		
 		json.put("cnt", cnt);
 		

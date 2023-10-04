@@ -19,4 +19,9 @@ public interface PandokService {
 	int duplicateCheck(Ris0601DTO dto);
 	int saveRis0601List(Ris0601DTO dto);
 	int saveTempRis1301List(Ris1301DTO dto);
+	int saveTempRis1201List(Map<String, Object> param);
+	int finishRis1301List(Ris1301DTO dto);
+	int finishRis1201List(Map<String, Object> param);
+	int deleteRis1301List(Ris1301DTO dto);
+	int deleteRis1201List(Map<String, Object> param);
 }

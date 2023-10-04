@@ -43,16 +43,14 @@
 			   B.ORDR_DOC_ID,
 			   F.MDDL_KR_NM AS ORDR_DOC_NM,
 			   CASE
-		       		WHEN A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL THEN 'Y'
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN 'Y'
 		       		ELSE 'N'
 		       END AS VIEW_YN,
 			   CASE
-		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN DATE(A.VOIC_RGST_DTTM)
 		       		WHEN A.VIEW_DTTM IS NOT NULL THEN A.VIEW_DATE
 		       		ELSE NULL
 		       END AS VIEW_DATE,
 			   CASE
-		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN TIME(A.VOIC_RGST_DTTM)
 		       		WHEN A.VIEW_DTTM IS NOT NULL THEN TIME(A.VIEW_DTTM)
 		       		ELSE NULL
 		       END AS VIEW_TIME,
@@ -178,11 +176,52 @@
 	</insert>
 	
 	<update id="saveTempRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
-		UPDATE ris1301 SET
-			   VIEW_TEXT = #{viewText},
+		UPDATE ris1301 
+		   SET VIEW_TEXT = #{viewText}
+		 WHERE HSPT_ID = 'A001' AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="saveTempRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '5'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="finishRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
+		UPDATE ris1301 
+		   SET VIEW_TEXT = '',
 			   VIEW_NOTE_TEXT = CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
 		 WHERE HSPT_ID = 'A001' AND
 		       VIST_DVSN = #{vistDvsn} AND
-		       ORDR_FK = #{ordrFk}
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="finishRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '6'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="deleteRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
+		UPDATE ris1301 
+		   SET VIEW_TEXT = '',
+			   VIEW_NOTE_TEXT = ''
+		 WHERE HSPT_ID = 'A001' AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="deleteRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '3'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
 	</update>
 </mapper>

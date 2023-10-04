@@ -59,4 +59,29 @@ public class PandokServiceImpl implements PandokService {
 	public int saveTempRis1301List(Ris1301DTO dto) {
 		return pandokMapper.saveTempRis1301List(dto);
 	}
+
+	@Override
+	public int saveTempRis1201List(Map<String, Object> param) {
+		return pandokMapper.saveTempRis1201List(param);
+	}
+
+	@Override
+	public int finishRis1301List(Ris1301DTO dto) {
+		return pandokMapper.finishRis1301List(dto);
+	}
+
+	@Override
+	public int finishRis1201List(Map<String, Object> param) {
+		return pandokMapper.finishRis1201List(param);
+	}
+
+	@Override
+	public int deleteRis1301List(Ris1301DTO dto) {
+		return pandokMapper.deleteRis1301List(dto);
+	}
+
+	@Override
+	public int deleteRis1201List(Map<String, Object> param) {
+		return pandokMapper.deleteRis1201List(param);
+	}
 }
