@@ -65,6 +65,8 @@
 	            	width: 80, 
 	            	align: "center",
 	            	editable: true,
+	            	formatter:"select", 
+		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 추가"
                 	edittype: 'select',
                 	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회; Option4:출력; Option5:배치" }
 	            },
@@ -74,6 +76,8 @@
 	            	width: 80, 
 	            	align: "center", 
 	            	editable: true,
+	            	formatter:"select", 
+		    	 	formatoptions :{value: "Z:메뉴헤더; M:메인화면; P:팝업화면" },
                 	edittype: 'select',
                 	editoptions: { value: "Option1:메인화면; Option2:팝업화면; Option3:메뉴헤더" }
 	            },
@@ -106,6 +110,7 @@
           	autowidth: true,
           	height: "94%",
           	rownumbers: true,
+          	rowNum: 999, // 페이징 해제
           	sortname: "id",
           	sortorder: "asc",
           	rownumbers: true,
