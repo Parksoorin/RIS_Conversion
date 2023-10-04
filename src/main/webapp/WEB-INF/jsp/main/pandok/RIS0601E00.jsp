@@ -56,6 +56,7 @@ pageEncoding="UTF-8"%>
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
             <p>판독정형문</p>
+            <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
           </div>
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
@@ -68,7 +69,7 @@ pageEncoding="UTF-8"%>
 
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
-          <div class="grid__title">
+          <div class="grid__title title__btn">
             <div class="btn__container">
         	  <button id="copyBtn" class="all__btn img__btn fontawesome__btn copy__icon">복사</button>
               <button id="pasteBtn" class="all__btn img__btn fontawesome__btn paste__icon">붙여넣기</button>
@@ -76,7 +77,6 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-        	  <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
         	  <button id="insertBtn" class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
               <button id="updateBtn" class="all__btn img__btn fontawesome__btn update__icon">수정</button>
 		      <button id="deleteBtn" class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
