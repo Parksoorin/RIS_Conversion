@@ -36,28 +36,31 @@
 	$('#loginBtn').on("click", function(){
 		var id = $('#loginId').val();
 		var password = $('#loginPw').val();
+		var currentURL = window.location.href;
+		var hsptId = currentURL.split('?hspt_id=')[1];
+		var postData = {
+			loginId: id,
+			loginPwd: password
+		};
 		
 		$.ajax({
 			type : "post",
-			url : "/login.do",
-			data: {
-				id: id,
-				password: password
-			},
+			url : "/?hspt_id=" + hsptId,
+  		    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+			data: JSON.stringify(postData),
 			dataType: "json",
-			error: function(){
-				alert("에러발생");
-			},
 			success: function(data){
 				console.log(data);
 				if (data.result === "success"){
-					alert("로그인 성공");
 					location.href="http://localhost:8080/stts/RisImgnStts.do";
 				} 
 				else if (data.result === "none") {			
 					alert("없는 정보 입니다.");
 					location.reload();
 				}
+			},
+			error: function(){
+				alert("에러발생");
 			}
 		})
 	})
