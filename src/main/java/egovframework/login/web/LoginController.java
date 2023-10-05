@@ -64,7 +64,7 @@ public class LoginController {
 		return json;
 	}
 	
-	// 로그인, 비밀번호 확인
+	// 비밀번호 재설정 로그인, 비밀번호 확인
 	@RequestMapping(value = "/userPasswordChk.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject userPasswordChk(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,

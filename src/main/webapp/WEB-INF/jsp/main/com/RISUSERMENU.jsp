@@ -185,38 +185,13 @@ pageEncoding="UTF-8"%>
     	          	autowidth: true,
     	          	height: "93%",
     	          	rownumbers: true,
-    	            multiselect: true,
-    	          	sortname: "id",
-    	          	sortorder: "asc",
     	          	gridview: true, // 선표시 true/false
-    	          	viewsortcols: [true, "vertical", true],
     	          	loadComplete: function (data) {
     	            	console.log(data);
     	          	}, // loadComplete END
     	          	onSelectRow: function (rowid) {
     	            	console.log(rowid);
-    	          	},
-    	          	onSortCol: function (index, idxcol, sortorder) {
-    		            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-    		            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-    		            $("#list1").jqGrid("destroyFrozenColumns");
-    		            var $icons = $(this.grid.headers[idxcol].el).find(
-    		              ">div.ui-jqgrid-sortable>span.s-ico"
-    		            );
-    		            if (this.p.sortorder === "asc") {
-    		              //$icons.find('>span.ui-icon-asc').show();
-    		              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-    		              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-    		              $icons.find(">span.ui-icon-desc").hide();
-    		            } else {
-    		              //$icons.find('>span.ui-icon-desc').show();
-    		              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-    		              $icons.find(">span.ui-icon-asc").hide();
-    		            }
-    		            // (화살표 css 변경 후 Frozen을 다시 설정)
-    		            $("#list1").jqGrid("setFrozenColumns");
-    		            //alert(index+'/'+idxcol+'/'+sortorder);
-    	          	},
+    	          	}
     	        });
       		};
       	});
@@ -303,6 +278,22 @@ pageEncoding="UTF-8"%>
 	        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
 	            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
 	        }
+	    }
+	 	
+	 	// 부모 창에서 정의된 함수
+	    function ReturnSelValue(menuGroupId, menuName) {		
+	        // 함수 내에서 선택한 데이터를 처리하고 원하는 작업을 수행합니다.
+	        console.log("선택한 메뉴 그룹 ID:", menuGroupId);
+	        console.log("선택한 메뉴 그룹명:", menuName);
+	        
+	        var grid = $("#list2");
+        	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
+    	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+    	    
+    	    rowData.menuGroupId = menuGroupId;
+    	    rowData.menuGroupName = menuName;
+    	    
+    	    grid.jqGrid('setRowData', selectedRowId, rowData);
 	    }
 	    
 	    // 삭제

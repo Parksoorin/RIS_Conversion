@@ -23,7 +23,7 @@
         </div>
 
         <div class="popup-btn__container">
-            <button class="all__btn fontawesome__btn text__btn">선택</button>
+            <button onclick="selvalue()" class="all__btn fontawesome__btn text__btn">선택</button>
             <button onclick="closePopup()" class="all__btn fontawesome__btn text__btn">닫기</button>
         </div>
     </main>
@@ -61,6 +61,24 @@
                 },
             });
         });
+        
+        
+      	// 선택한 정보를 리턴(메인화면으로)
+        function selvalue() {
+        	// 현재 선택된 행의 ID를 가져옵니다.
+            var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
+            
+            // 선택된 행의 데이터를 가져옵니다.
+            var rowData = $("#list1").jqGrid('getRowData', selectedRowId);
+            
+            // 선택한 데이터를 부모 창의 함수로 전달합니다.
+            // 수정된 부분: opener.parent.ReturnMenuValue 대신 opener.ReturnMenuValue를 사용합니다.
+    		opener.ReturnSelValue(rowData.menuGroupId, rowData.menuName);
+            window.close();
+        }
+        
+      	
+      	// 닫기
         function closePopup() {
             // 현재 창을 닫습니다.
             window.close();
