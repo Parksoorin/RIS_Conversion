@@ -87,17 +87,17 @@ pageEncoding="UTF-8"%>
             <section class="grid__box color-1 appointment-detail-container">
                <div class="mb-10">
                     <label for="imaging">촬영실 : </label>
-                    <select  id="imaging">
+                    <select  id="imaging" disabled>
                       <option>처방을 선택하세요</option>
                     </select>
                 </div>
                 <div>처방참고내용</div>
                 <div>
-                  <textarea></textarea>
+                  <textarea id="ordrNoteText" disabled></textarea>
                 </div>
                 <div>예약참고내용</div>
                 <div>  
-                  <textarea></textarea>
+                  <textarea id="appnNoteText" disabled></textarea>
                 </div>
             </section>
           </div>
@@ -485,7 +485,7 @@ pageEncoding="UTF-8"%>
                 "ptntId" : $('#ptntInput').val(),
                 'ordrPrgrDvsn' : $('input[name="appointment-gubun"]:checked').val(),
             }),
-          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden"],
+          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden", "예약참고내용-Hidden","처방참고내용-Hidden", "촬영환자구분명-Hidden"],
           colModel: [
         	{ name: "appnYn", index: "appnYn", width: 90, align: "center"},
             { name: "pmntYn", index: "pmntYn", width: 90, align: "center"},
@@ -508,6 +508,9 @@ pageEncoding="UTF-8"%>
             { name: "hsptId", index: "hsptId", width: 80, align: "center" , hidden: true },
             { name: "ptntId", index: "ptntId", width: 80, align: "center" , hidden: true },
             { name: "pkris1211", index: "pkris1211", width: 80, align: "center" , hidden: true },
+            { name: "appnNoteText", index: "appnNoteText", width: 80, align: "center" , hidden: true },
+            { name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" , hidden: true },
+            { name: "ordrBdypCd", index: "ordrBdypCd", width: 80, align: "center" , hidden: true },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
@@ -523,6 +526,52 @@ pageEncoding="UTF-8"%>
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
+            let data = $("#list1").jqGrid("getRowData",rowid );
+            console.log(data);
+            
+            
+            const postData = {
+    				chrc1 : data.ordrBdypCd,
+    				hsptId : "A001"
+    		};
+    		
+    		$.ajax({
+          	    url: '/appn/getImagingRoom.do',
+          	    method: 'POST', 
+          	    data: JSON.stringify(postData),
+          	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+      			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+          	    success: function(response) {
+          	    	console.log(response);
+          	    	
+          	    	var selectElement = document.querySelector("#imaging");
+          	    	selectElement.innerHTML = '';
+                    // Populate options using the received JSON data
+                    response
+                    .imagingList
+                    .forEach(function (item) {
+                        var option = document.createElement("option");
+                        option.value = item.mddlCd;
+                        option.textContent = item.mddlKrNm;
+                        selectElement.appendChild(option);
+                    });	
+          	    },
+          	    error: function(error) {
+          	        console.error('Error ', error);
+          	    }
+          	});
+            
+            
+            $('#imaging').prop('disabled', false);
+            // $('#ordrNoteText').prop('disabled', false);
+            $('#ordrNoteText').val(data.ordrNoteText);
+            $('#appnNoteText').val(data.appnNoteText);
+            $('#appnNoteText').prop('disabled', false);
+            
+            
+            
+            
+            
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정

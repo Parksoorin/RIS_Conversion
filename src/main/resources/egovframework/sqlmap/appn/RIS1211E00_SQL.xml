@@ -3,6 +3,7 @@
 <mapper namespace="egovframework.appn.mapper.RIS1211E00Mapper">
 	<!-- 작성자 : 송유근  -->
 	
+	
 	<!-- 예약 관리 -->
 	<select id="ris1211Select" parameterType="egovframework.appn.model.Ris1211RequestDTO" resultType="egovframework.appn.model.Ris1211DTO">
 		SELECT 	
@@ -19,6 +20,9 @@
 				, B.ORDR_DATE
 				, B.ORDR_CD
 				, B.ORDR_NM
+				, A.APPN_NOTE_TEXT
+				, B.ORDR_NOTE_TEXT
+				, B.ORDR_BDYP_CD
 				, (
 					SELECT MDDL_KR_NM 
 					FROM   RIS0102

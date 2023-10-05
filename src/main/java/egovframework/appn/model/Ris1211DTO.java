@@ -64,5 +64,7 @@ public class Ris1211DTO {
 	private String appnTreatment; // 진료과
 	private String gubun; // 외래, 응급
 	private String docNm; // 처방의사
+	private String ordrNoteText;
+	private String ordrBdypCd;
 	
 }
