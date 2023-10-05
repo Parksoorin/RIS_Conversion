@@ -3,8 +3,7 @@
 <mapper namespace="egovframework.jubsu.mapper.RIS1201E03Mapper">
 
 	<select id="ris1201E0301Data" resultType="egovframework.jubsu.model.RIS1201E0301DTO">
-		SELECT DISTINCT
-			   ris1201.PKRIS1201,
+		SELECT ris1201.PKRIS1201,
 			   ris1201.HSPT_ID, 
 			   ris1201.VIST_DVSN, 
 			   ris1201.PTNT_ID, 
@@ -23,6 +22,7 @@
 	 LEFT JOIN ris0102
 			ON ris0102.MDDL_CD = ris1201.ORDR_DOC_ID 
 		   and ris0102.HSPT_ID = ris1201.HSPT_ID
+    GROUP BY ris1201.ORDR_DATE, ris1201.PTNT_ID
 	ORDER BY ris1201.PKRIS1201;
 	</select>
 
@@ -39,9 +39,22 @@
 			   DC_YN,
 			   RETK_YN
 		  FROM ris1201
-		 WHERE PKRIS1201 = #{pkris1201} 
-		   and HSPT_ID = #{hsptId};
+		 WHERE HSPT_ID = #{hsptId}
+		   and PTNT_ID = #{ptntId}
+		   and ORDR_DATE = #{ordrDate};
 	</select>
 
+	
+	<update id="updateData" parameterType="egovframework.jubsu.model.RIS1201E0302DTO">
+		UPDATE ris1201 
+   			SET IMGN_CD = #{imgnCd},			
+   				ORDR_NM = #{ordrNm},	
+   				PRTB_IMGN_YN = #{prtbImgnYn},			
+   				RETK_YN = #{retkYn}				
+			WHERE PKRIS1201 = #{pkris1201};
+	</update>
+
+
+	
 
 </mapper>
