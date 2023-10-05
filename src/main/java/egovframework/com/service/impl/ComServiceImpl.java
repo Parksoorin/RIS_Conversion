@@ -52,11 +52,15 @@ public class ComServiceImpl implements ComService {
 		// TODO Auto-generated method stub
 		return comMapper.RisUserMenuList();
 	}
-
 	@Override
 	public List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params) {
 		// TODO Auto-generated method stub
 		return comMapper.RisUserMenuList2(params);
+	}
+	@Override
+	public List<RisUrmnDTO> popupUrmnList() {
+		// TODO Auto-generated method stub
+		return comMapper.popupUrmnList();
 	}
 	@Override
 	public int addList1Data(RisGrupDTO dto) {
@@ -79,7 +83,6 @@ public class ComServiceImpl implements ComService {
 		dto.setUserGrade(mddlCd);
 		return comMapper.addUserData(dto);
 	}
-
 	 @Override
 	 public int pwReset(RisUserDTO dtos) { 
 		 // TODO Auto-generated method stub 

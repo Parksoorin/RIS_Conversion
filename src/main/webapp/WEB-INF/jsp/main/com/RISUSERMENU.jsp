@@ -269,8 +269,6 @@ pageEncoding="UTF-8"%>
     	    
     	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
     	    
-    	    
-    	    
     	 	// 모든 컬럼을 가져옵니다.
     	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
     	    
@@ -284,10 +282,28 @@ pageEncoding="UTF-8"%>
     	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
     	    });
     	    
-    	    grid.jqGrid('setRowData', selectedRowId, rowData);
-    	    
-    	    grid.jqGrid('setRowData', selectedRowId, { "menuGroupId": '<button class="all__btn fontawesome__btn list__icon" onclick="yourButtonClickFunction()"></button>'});
+    	    grid.jqGrid('setRowData', newRowId, { "menuGroupId": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopup()"></button>'});
         });
+	    
+	 	// 팝업 열기
+	    function openPopup() {
+	        // 팝업 창에 표시할 URL
+	        var url = "/RISUSERMENU_POP.do";
+
+	        // 팝업 창의 크기와 위치 설정
+	        var width = 800;
+	        var height = 400;
+	        var left = (window.innerWidth - width) / 2;
+	        var top = (window.innerHeight - height) / 2;
+
+	        // 팝업 창을 열기
+	        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+	        // 팝업 창이 차단되었을 때 처리
+	        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+	            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+	        }
+	    }
 	    
 	    // 삭제
         $("#delete-row__btn").on("click", function () {

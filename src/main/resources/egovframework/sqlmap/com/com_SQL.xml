@@ -82,8 +82,11 @@
 	
 	<!-- 프로그램 정보 관리 그리드(메뉴 3) -->
 	<select id="RisPrgmList" resultType="egovframework.com.model.RisPgrmDTO">
-		SELECT SYSTEM_ID, PGRM_ID, PGRM_NAME, PGRM_URL, PGRM_TYPE, PGRM_INFO, USE_YN, END_YN
-		FROM rispgrm
+		SELECT B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL, A.PGRM_TYPE, A.PGRM_INFO, A.USE_YN, A.END_YN
+		FROM rispgrm A
+		LEFT JOIN rissytm B
+		ON A.HSPT_ID = B.HSPT_ID
+		AND A.SYSTEM_ID = B.SYSTEM_ID
 	</select>
 		
 		
@@ -111,13 +114,21 @@
 		AND A.HSPT_ID = #{type2}
 	</select>
 		
+	<!-- 사용자별 메뉴관리 팝업(메뉴 4) -->
+	<select id="popupUrmnList" resultType="egovframework.com.model.RisUrmnDTO">
+		SELECT DISTINCT MENU_GROUP_ID, MENU_NAME
+		FROM risurmn
+	</select>
 		
 		
 		
 	<!-- 프로그램 기능 권한 그리드(메뉴 5) -->
 	<select id="RisBtnList" resultType="egovframework.com.model.RisBtnDTO">
-		SELECT DATA_GUBUN, USER_GRADE, PGRM_ID, PGRM_BTN, USE_YN
-		FROM risbtn
+		SELECT A.DATA_GUBUN, A.USER_GRADE, B.PGRM_NAME, A.PGRM_BTN, A.USE_YN
+		FROM risbtn A
+		LEFT JOIN rispgrm B
+		ON A.HSPT_ID = B.HSPT_ID 
+		AND A.PGRM_ID = B.PGRM_ID
 	</select>
 	
 </mapper>
