@@ -93,14 +93,11 @@
 	   <where> A.HSPT_ID = 'A001'
        	   <choose>
        	     <when test="viewYn == 'doneView'">
-       	       AND (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL)
+       	       AND A.VIEW_DTTM IS NOT NULL
        	     </when>
        	     <when test="viewYn == 'notView'">
-       	       AND (A.VIEW_DTTM IS NULL AND A.VOIC_RGST_DTTM IS NULL)
+       	       AND A.VIEW_DTTM IS NULL
        	     </when>
-       	     <otherwise>
-       	  	   AND 1=1
-       	     </otherwise>
        	   </choose>
 	       <if test="startDate != null and startDate != ''">
 	           AND B.PRSC_DATE >= #{startDate}
@@ -114,6 +111,14 @@
 	       <if test="ptntName != null and ptntName != ''">
 	           AND B.PTNT_NM = #{ptntName}
 	       </if>
+	       <choose>
+       	     <when test="voicViewYn == 'doneView'">
+       	       AND VOIC_VIEW_YN = 'Y'
+       	     </when>
+       	     <when test="voicViewYn == 'notView'">
+       	       AND (VOIC_VIEW_YN != 'Y' OR VOIC_VIEW_YN IS NULL)
+       	     </when>
+       	   </choose>
 	   </where>;
 	</select>
 	
@@ -177,7 +182,9 @@
 	
 	<update id="saveTempRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
 		UPDATE ris1301 
-		   SET VIEW_TEXT = #{viewText}
+		   SET VIEW_TEXT = #{viewText},
+		   	   MDFC_ID = 'admin',
+		   	   MDFC_DTTM = NOW()
 		 WHERE HSPT_ID = 'A001' AND
 		       VIST_DVSN = #{vistDvsn} AND
 		       ORDR_FK = #{ordrFk};

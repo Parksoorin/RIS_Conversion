@@ -46,6 +46,7 @@ public class RIS1301E00Controller {
 		Map<String, String> param = new HashMap<>();
 		
 		param.put("viewYn", map.get("viewYn").toString());
+		param.put("voicViewYn", map.get("voicViewYn").toString());
 		param.put("startDate", map.get("startDate").toString());
 		param.put("endDate", map.get("endDate").toString());
 		param.put("ris1301Dvsn", "%".equals(map.get("ris1301Dvsn").toString()) ? "all" : map.get("ris1301Dvsn").toString());

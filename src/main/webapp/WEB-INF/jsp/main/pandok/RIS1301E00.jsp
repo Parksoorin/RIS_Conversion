@@ -83,9 +83,9 @@ pageEncoding="UTF-8"%>
 	          
               <!-- 음성판독 버튼 컨테이너 -->
               <div class="btn__container">
-                <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon">음성녹음</button>
-        	    <button class="all__btn img__btn fontawesome__btn play__icon">음성듣기</button>
-	  	        <button class="all__btn img__btn fontawesome__btn download__icon">다운로드</button>
+                <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon" disabled>음성녹음</button>
+        	    <button id="voicPlayBtn" class="all__btn img__btn fontawesome__btn play__icon" disabled>음성듣기</button>
+	  	        <button id="voicDownloadBtn" class="all__btn img__btn fontawesome__btn download__icon" disabled>다운로드</button>
       		    <button class="all__btn text__btn">PACS 뷰어 조회</button>
               </div>
 	        </div>
@@ -161,6 +161,7 @@ pageEncoding="UTF-8"%>
     <script>
 	  function drawGrid1() {
 		var viewYn = $("input[name='viewYn']:checked").val();
+		var voicViewYn = $("input[name='voicViewYn']:checked").val();
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		var ris1301Dvsn = $("#ris1301Dvsn").val();
@@ -172,6 +173,7 @@ pageEncoding="UTF-8"%>
 	      reordercolNames:true,
 	      postData : {
 	    	viewYn: viewYn,
+	    	voicViewYn: voicViewYn,
 	    	startDate: startDate,
 	    	endDate: endDate,
 	    	ris1301Dvsn: ris1301Dvsn,
@@ -240,6 +242,7 @@ pageEncoding="UTF-8"%>
 	          
 	          console.log(rowData);
 	          
+	          // 판독내용 속성 변경
 	          if (rowData.viewYn !== "Y") {
 	        	  $("#viewTextArea").attr("disabled", false);
 	        	  $("#viewTextArea").attr("readonly", true);
@@ -248,8 +251,20 @@ pageEncoding="UTF-8"%>
 	        	  $("#viewTextArea").attr("readonly", false);
 	          }
 	          
+	          // 판독내용, 판독이력 값 부여
 	          $("#viewTextArea").val(rowData.viewText);
 	          $("#viewNoteTextArea").val(rowData.viewNoteText);
+	          
+	          // 음성판독여부에 따라 버튼 속성 변경
+	          if (rowData.voicViewYn === 'N') {
+				  $("#recordBtn").prop("disabled", false);
+				  $("#voicPlayBtn").prop("disabled", true);
+				  $("#voicDownloadBtn").prop("disabled", true);
+			  } else {
+				  $("#recordBtn").prop("disabled", true);
+				  $("#voicPlayBtn").prop("disabled", false);
+				  $("#voicDownloadBtn").prop("disabled", false);
+			  }
 	      }
 	    });
       };
@@ -449,12 +464,31 @@ pageEncoding="UTF-8"%>
 		  $("#ptntAge").val("");
 		  $("#ptntSex").val("");
 		  $("input[name='viewYn']:input[value='allView']").prop('checked', true);
+		  $("input[name='voicViewYn']:input[value='allView']").prop('checked', true);
 		  $("#startDate").val("");
 		  $("#endDate").val("");
 		  $("#ris1301Dvsn").val("%");
 		  $("#ris0601Dvsn").val("%");
 		  
 		  drawGrid1();
+	  });
+	  
+	  
+	  // 음성판독구분 변경
+	  $("input[name='voicViewYn']").change(function() {
+		  drawGrid1();
+		  
+		  var voicViewYn = $("input[name='voicViewYn']:checked").val();
+		  
+		  if (voicViewYn === 'notView') {
+			  $("#recordBtn").prop("disabled", false);
+			  $("#voicPlayBtn").prop("disabled", true);
+			  $("#voicDownloadBtn").prop("disabled", true);
+		  } else if (voicViewYn === 'doneView') {
+			  $("#recordBtn").prop("disabled", true);
+			  $("#voicPlayBtn").prop("disabled", false);
+			  $("#voicDownloadBtn").prop("disabled", false);
+		  }
 	  });
 	  
 	  
@@ -502,13 +536,7 @@ pageEncoding="UTF-8"%>
 	  
 	  // 비우기 버튼
 	  $("#clearBtn").click(function() {
-		  var selectedRowId = $("#list1").getGridParam("selrow");
-		  var rowData = $("#list1").getRowData(selectedRowId);
-		  
 		  $("#viewTextArea").val("");
-		  rowData.viewText = "";
-		  
-		  $("#list1").setRowData(selectedRowId);
 	  });
 	  
 	  
@@ -531,7 +559,7 @@ pageEncoding="UTF-8"%>
 			  // 판독일자, 판독시간 삭제
 			  // 판독이력 삭제
 			  // 방사선사 삭제
-			  // 처방상태 실서로 변경
+			  // 처방상태 실시로 변경
 		  }
 	  });
     </script>

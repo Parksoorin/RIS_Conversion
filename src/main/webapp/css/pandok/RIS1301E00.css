@@ -35,6 +35,10 @@
 	margin: 0px 5px;
 }
 
+.grid__title {
+	padding: 0px 10px;
+}
+
 .pat__container {
 	display: flex;
 	flex-direction: column;
@@ -135,7 +139,6 @@
 
 .main__title {
 	height: 75px;
-	padding: 0px 10px;
 }
 
 .twoGrid__box {
@@ -144,7 +147,7 @@
 }
 
 .main__twoGrid-box {
-	height: calc(100% - 80px);
+	height: calc(100% - 75px);
 }
 
 .left__container {
@@ -173,4 +176,26 @@
 
 textarea {
 	resize: none;
+}
+
+input[type="text"]:disabled, textarea:disabled, textarea:read-only {
+	color: rgb(84, 84, 84);
+	background-color: #ccc !important;
+}
+
+button:disabled:hover {
+	cursor: default;
+	background-color: #fff;
+}
+
+.record__icon:disabled::before, .play__icon:disabled::before, .download__icon:disabled::before {
+    color: #1010104D;
+}
+
+button:disabled:active {
+	color: #1010104D;
+}
+
+button:disabled::before:active {
+	color: #1010104D;
 }
