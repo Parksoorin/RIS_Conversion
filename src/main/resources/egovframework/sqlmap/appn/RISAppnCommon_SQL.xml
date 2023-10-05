@@ -15,12 +15,22 @@
 	
 	<!-- 촬영실 조회 -->
 	<select id="imagingSelect" resultType="egovframework.appn.model.ImagingDTO">
-		SELECT 
-					 DISTINCT MDDL_CD
-					,MDDL_KR_NM
-					,MDDL_ENGL_NM
+			SELECT 
+						 DISTINCT MDDL_CD
+						,MDDL_KR_NM
+						,MDDL_ENGL_NM
+			FROM		 RIS0102
+			WHERE		 LRGC_CD = 'IMGN_ROOM_CD'
+	</select>
+	
+	<!-- 촬영실 조회 (검색) -->
+	<select id="imagingSelectSearch" parameterType="egovframework.appn.model.ImagingRequestDTO" resultType="egovframework.appn.model.ImagingDTO">
+		SELECT		 MDDL_CD
+					 , MDDL_KR_NM
 		FROM		 RIS0102
-		WHERE		 LRGC_CD = 'IMGN_ROOM_CD'
+		WHERE		 CHRC1 			LIKE 		#{chrc1}
+				AND  HSPT_ID		 = 			#{hsptId}
+				AND  LRGC_CD 		 =		    'IMGN_ROOM_CD';
 	</select>
 	<!-- 환자 조회  -->	
 	<select id="patientSelect" resultType="egovframework.appn.model.PatientDTO">

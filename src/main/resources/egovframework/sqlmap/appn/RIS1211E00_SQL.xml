@@ -4,6 +4,61 @@
 	<!-- 작성자 : 송유근  -->
 	
 	<!-- 예약 관리 -->
+	<select id="ris1211Select" parameterType="egovframework.appn.model.Ris1211RequestDTO" resultType="egovframework.appn.model.Ris1211DTO">
+		SELECT 	
+				  A.HSPT_ID
+				, A.PTNT_ID
+				, A.PKRIS1211
+				, CASE WHEN B.ORDR_PRGR_DVSN = "0" then "N" WHEN B.ORDR_PRGR_DVSN = "1" THEN "Y" END AS APPN_YN
+				, A.PMNT_YN
+				, A.PTNT_KR_NM
+				, A.DSRD_DATE
+				, A.DSRD_TIME
+				, A.APPN_DATE
+				, A.APPN_TIME
+				, B.ORDR_DATE
+				, B.ORDR_CD
+				, B.ORDR_NM
+				, (
+					SELECT MDDL_KR_NM 
+					FROM   RIS0102
+					WHERE  1 		=		 1
+				  	 AND   HSPT_ID 	=		 'A001'
+				   	 AND   LRGC_CD  = 		 'GWA_LIST'
+				     AND   MDDL_CD  =		 B.TRTM_DPRT_CD) AS appn_treatment
+				, CASE WHEN B.EMRG_YN = 'N' THEN '외래'
+				  	   WHEN B.EMRG_YN = 'Y' THEN '응급' ELSE 0 END AS gubun
+				, (SELECT MDDL_KR_NM FROM ris0102 WHERE 1=1
+				   AND HSPT_ID = 'A001'
+				   AND LRGC_CD = 'DOCTORLIST'
+				   AND MDDL_CD = ORDR_DOC_ID) AS DOC_NM	 	
+ 		  FROM 
+ 		  			RIS1211 A
+		  LEFT JOIN RIS1201 B
+		  ON 		A.FKRIS1201 = B.PKRIS1201
+		  WHERE 	1					=			1
+		  	AND 	ORDR_DATE BETWEEN #{ordrStartDate} AND #{ordrEndDate}
+			<if test='ptntKrNm != null and ptntKrNm != ""'>
+			AND		A.PTNT_KR_NM 		= 			#{ptntKrNm}
+			</if>
+			<if test='ptntId != null and ptntId != ""'>
+			OR	 	A.PTNT_ID 			= 			#{ptntId}
+			</if>
+			<if test='ordrBdypCd != null and ordrBdypCd != ""'>
+			AND 	B.ORDR_BDYP_CD 		LIKE		#{ordrBdypCd}
+			</if>
+			<if test='imgnRoomCd != null and imgnRoomCd != ""'>
+			AND 	A.IMGN_ROOM_CD 		LIKE		#{imgnRoomCd}
+			</if>
+			AND 	A.HSPT_ID 			= 			#{hsptId}
+			<if test='ordrPrgrDvsn != null and ordrPrgrDvsn != "" and ordrPrgrDvsn.equals("1") or ordrPrgrDvsn.equals("0")'>
+			AND 	B.ORDR_PRGR_DVSN	= 			#{ordrPrgrDvsn}
+			</if>
+		   	<if test='ordrPrgrDvsn != null and ordrPrgrDvsn != "" and ordrPrgrDvsn.equals("all")'>
+		   	AND    (B.ORDR_PRGR_DVSN 	= '0' OR B.ORDR_PRGR_DVSN = '1')
+		   	</if>
+	</select>
+	
 	
 
 </mapper>

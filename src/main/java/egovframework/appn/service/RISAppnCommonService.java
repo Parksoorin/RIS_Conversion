@@ -3,6 +3,7 @@ import java.util.List;
 
 import egovframework.appn.model.ImagingDTO;
 import egovframework.appn.model.ImagingDivisionPatientDTO;
+import egovframework.appn.model.ImagingRequestDTO;
 import egovframework.appn.model.PatientDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 
@@ -12,5 +13,5 @@ public interface RISAppnCommonService {
 	public List<ImagingDivisionPatientDTO> imagingDivisionPatientSelect();
 	public List<ImagingDTO> imagingSelect();
 	public List<PatientDTO> patientSelect();
-
+	public List<ImagingDTO> imagingSelectSearch(ImagingRequestDTO dto);
 }
