@@ -6,7 +6,7 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>쵤영실 장비관리</title>
+  <title>쵤영실 관리</title>
   <!-- css -->
   <link rel="stylesheet" type="text/css" href="/css/code/RIS0101E01.css"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-serialize-object/2.5.0/jquery.serialize-object.min.js"></script>
@@ -17,7 +17,7 @@
   <div class="inquiry__page-flex mt5">
     <section class="search__container">
         <div class="box__flex">
-          <label class="box__label" style="margin-right:2rem;">쵤영실 장비관리</label>
+          <label class="box__label" style="margin-right:2rem;">쵤영실 코드 관리</label>
           <label class="box__label">사용여부</label>
 
           <input style="margin-left:2rem;" type="radio" name="use_yn" id="use_yn1" value="Y" onchange="fn_egov_selectGrid();" checked/>
@@ -80,7 +80,7 @@
             </colgroup>
             <tbody>
             <tr>
-              <th><span id="col_mddl_cd">*장비 코드</span></th>
+              <th><span id="col_mddl_cd">*촬영실 코드</span></th>
               <td>
                 <input type="text" id="mddl_cd" name="mddl_cd" value="" readonly="readonly">
                 <button type="button" class="all__btn img__btn fontawesome__btn search__icon ml-2" onclick="overlapCheck('M')" style="display: inline-block;">중복확인</button>
@@ -96,16 +96,27 @@
             </tr>
             <tr>
               <!-- 		                   		<th><span id="col_mddl_kr_nm">한글 명</span></th> -->
-              <th><span id="col_mddl_kr_nm">*장비한글명</span></th>
+              <th><span id="col_mddl_kr_nm">*촬영실 한글 명</span></th>
               <td>
                 <input type="text" id="mddl_kr_nm" name="mddl_kr_nm" value="" readonly="readonly">
               </td>
-              <th><span id="col_mddl_engl_nm">장비영문명</span></th>
+              <th><span id="col_mddl_engl_nm">촬영실 영문 명</span></th>
               <td><div><input type="text" id="mddl_engl_nm" name="mddl_engl_nm" value="" readonly="readonly"></div></td>
             </tr>
             <tr>
-              <!-- 		                       	<th><span id="col_chrc1">문자값1</span></th> -->
-              <th><span id="col_chrc1">*촬영실</span></th>
+              <th><span id="col_chrc1">*촬영실 촬영구분</span></th>
+              <td>
+                <select id="chrc1" name="chrc1">
+                  <c:forEach var="result" items="${resultList}" varStatus="status">
+                    <option value="${result.mddlCd}"><c:out value="${result.mddlKrNm}" /></option>
+                  </c:forEach>
+                </select>
+              </td>
+            </tr>
+            <th><span id="col_mddl_engl_nm">촬영실 정보</span></th>
+              <td><div><input type="text" id="mddl_engl_nm" name="mddl_engl_nm" value="" readonly="readonly"></div></td>         
+            <tr>
+              <th><span id="col_chrc1">*촬영실 장비</span></th>
               <td>
                 <select id="chrc1" name="chrc1">
                   <c:forEach var="result" items="${resultList}" varStatus="status">
