@@ -218,7 +218,6 @@
          	   console.log(data);
         	  }, // loadComplete END
       	    onSelectRow: function (rowid) {
-      	      	console.log(rowid);
       	      
       	      	var selectRowData = jQuery("#list1").getRowData(rowid);
           		
@@ -233,7 +232,7 @@
               	$("#wardCdInput").val(selectRowData.wardCd);
               	$("#unitCdInput").val(selectRowData.unitCd);
       	      
-				console.log(selectRowData);
+				console.log("list1selectRowData : ", selectRowData);
 				
               	rislist(selectRowData);
               	
@@ -260,16 +259,11 @@
           	 //alert(index+'/'+idxcol+'/'+sortorder);
          	 },
        	 });
-        
-        
-        
-        
-      
       
      });
       
       
-   // 팝업 열기
+   	  // 팝업 열기
       function openPopup() {
           // 팝업 창에 표시할 URL
           var url = "/popup/RIS1201E03_POP.do";
@@ -299,19 +293,17 @@
 			dataType: 'json',
     		
 			success : function (result) {
-				console.log("success :", result);
-				console.log(result.rows);
-				mydata = [];
-				mydata.push(result.rows);
-				console.log("mydata : ", mydata);
+				
+				console.log("list3 Data : ", result.rows);
 				
 				$("#list3").jqGrid("GridUnload");
 				
 				$("#list3").jqGrid({
-		        	data: mydata,
+		        	data: result.rows,
 		          	datatype: "local",
-		          	colNames: ["pk", "V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
+		          	colNames: ["flag", "pk", "V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
 		          	colModel: [
+		          		{ name: "flag", index: "flag", width: 50, align: "center", hidden: true },
 		          		{ name: "pkris1201", index: "pkris1201", width: 120, align: "center", hidden: true },
 		            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
@@ -397,7 +389,7 @@
 		        });
 			},
 			error : function (error) {
-				console.log(error);
+				console.log("error : ", error);
 			}
 		});
    
@@ -489,7 +481,6 @@
   	
  	// flag를 선언
 	var flag;
-	var list3Data;
 	
   	// 수정 버튼 이벤트
   	document.getElementById("inputUpdate").addEventListener("click", function () {
@@ -498,15 +489,13 @@
   		
   		var listDatas = $("#list3").jqGrid("getRowData");
   		
-  		console.log("listDatas :", listDatas);
-  		
-  		// 첫 번째 객체에 flag 속성 추가
-  	  	listDatas[0].flag = flag;
-  		
-  		// flag 값을 로컬 스토리지에 저장
-  	    localStorage.setItem("flag", flag);
-  	  
-  	  	console.log("listDatas with flag:", listDatas);
+  		// 모든 요소에 flag 속성 추가
+  	  	for (var i = 0; i < listDatas.length; i++) {
+  			listDatas[i].flag = flag;
+  			var rowId = i + 1;
+  			
+  	  	$("#list3").jqGrid("setRowData", rowId, listDatas[i]);
+  	  	}
   		
   		
   		
@@ -578,9 +567,8 @@
   	
   	// 처방추가 버튼 이벤트
 	$("#inputListPlus").on("click", function () {
-    	var newRowId = "new_row_" + (new Date()).getTime(); // 고유한 ID 생성
 
-	    // 빈 행을 추가할 데이터를 정의 (각 열에 대한 데이터를 포함해야 함)
+	    // 빈 객체 생성
 	    var newRowData = {
 	        elctTrtmYn: "", // 예시: 촬영 코드
 	        imgnCd: "",    // 예시: 촬영명
@@ -593,31 +581,72 @@
 	        dcYn: "",
 	        retkYn: "",
 	    };
-	
-	    // jqGrid에 새로운 행 추가
-	    $("#list3").jqGrid("addRowData", newRowId, newRowData);
-	
-	    // 새로 추가된 행을 편집 모드로 변경 (cellEdit: true 설정이 필요함)
-	    $("#list3").jqGrid("editRow", newRowId, true);
-	
+	    
+	    // list3 요소를 변수에 저장
+	    var grid = $("#list3");
+	    // list1 요소의 현재 선택된 행의 ID를 가져옴
+	    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+	    // grid에서 선택한 행의 데이터를 가져온다.
+	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+	    // 새 행을 추가하기 위한 새 행의 ID 계산
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    // 생성한 객체에 flag 속성 추가 및 값 부여
+	    newRowData.flag = 'I';
+	    
+	    // 그리드에 새 행 추가
+	    // newRowId는 새 행의 ID, newRowData는 새 행의 데이터
+	    // first는 새 행을 그리드의 맨 위에 추가하도록 지정
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    
+	 	// 모든 컬럼을 가져옵니다.
+	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	    
+	    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
+	    allColumns.forEach(function (column) {
+	            grid.jqGrid('setColProp', column.name, { editable: true });
+	    });
+	    
+	    // 선택한 행을 편집 모드로 진입
+	    grid.jqGrid("editRow", newRowId, {
+	    	// 엔터 키를 누를 때 저장되도록 설정
+	    	keys: true,
+	    });
+	    
+	    // 새로 추가한 행의 exmnNoteText 컬럼에 HTML 버튼을 추가한다.
+	    // 버튼을 클릭하면 openPopUp() 함수가 호출되며 팝업 창이 열린다.
+	    grid.jqGrid('setRowData', newRowId, { "exmnNoteText": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopUp()"></button>' });
+
 	});
 
+  	
+  	/*
+	// 팝업 열기
+    function openPopup() {
+        // 팝업 창에 표시할 URL
+        var url = "/RISUSERMENU_POP.do";
 
+        // 팝업 창의 크기와 위치 설정
+        var width = 800;
+        var height = 400;
+        var left = (window.innerWidth - width) / 2;
+        var top = (window.innerHeight - height) / 2;
+
+        // 팝업 창을 열기
+        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+        // 팝업 창이 차단되었을 때 처리
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+        }
+    }
+	*/
 	
   	// 저장버튼 이벤트
   	document.getElementById("ris1201DataSave").addEventListener("click", function() {
-	
-  		// 로컬 스토리지에서 flag 값을 읽어옴
-  	    var flag = localStorage.getItem("flag");
-  		
-  		
-  		
-		// list3 데이터 가져오기
+
+  		// list3 데이터 가져오기
 		var listDatas = $("#list3").jqGrid("getRowData");
-		// 첫 번째 객체에 flag 속성 추가
-  	  	listDatas[0].flag = flag;
-		console.log("listData", listDatas)
-	
+ 
 		listDatas.forEach(listData =>{
 			
 			console.log("sendData :", JSON.stringify(listData))

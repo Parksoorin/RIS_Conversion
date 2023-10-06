@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import egovframework.jubsu.model.RIS1201E0301DTO;
 import egovframework.jubsu.model.RIS1201E0302DTO;
 import egovframework.jubsu.service.RIS1201E03Service;
-import egovframework.pat.model.RIS1101DTO;
 
 @Controller
 public class RIS1201E03Controller {
@@ -84,13 +84,17 @@ public class RIS1201E03Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		
 		JSONObject json = new JSONObject(); 
-	
-		System.out.println("1234");
-		System.out.println(selectRowData);
 		
-		RIS1201E0302DTO ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
+		List<RIS1201E0302DTO> ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
 		
-		json.put("rows", ris1201DtoDetail);
+		JSONArray jsonArray = new JSONArray();
+		
+		for (RIS1201E0302DTO dto : ris1201DtoDetail) {
+			
+			jsonArray.add(dto);
+		}
+		
+		json.put("rows", jsonArray);
 		
 		return json;
 	}

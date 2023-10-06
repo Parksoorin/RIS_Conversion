@@ -25,7 +25,7 @@ public class RIS1201E03ServiceImpl implements RIS1201E03Service {
 	}
 	
 	@Override
-	public RIS1201E0302DTO ris1201DtoDetail(Map<String, Object> selectRowData) {
+	public List<RIS1201E0302DTO> ris1201DtoDetail(Map<String, Object> selectRowData) {
 		return RIS1201E03Mapper.ris1201DtoDetail(selectRowData);
 	}
 	
