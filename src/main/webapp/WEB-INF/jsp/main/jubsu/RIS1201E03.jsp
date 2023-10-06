@@ -310,13 +310,14 @@
 				$("#list3").jqGrid({
 		        	data: mydata,
 		          	datatype: "local",
-		          	colNames: ["V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
+		          	colNames: ["pk", "V", "촬영코드", "촬영명", "FIND", "참고내용", "수납", "이동촬영", "응급", "DC", "재촬영"],
 		          	colModel: [
+		          		{ name: "pkris1201", index: "pkris1201", width: 120, align: "center", hidden: true },
 		            	{ name: "elctTrtmYn", index: "elctTrtmYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
 		                    } },
 		            	{ name: "imgnCd", index: "imgnCd", width: 80, align: "center" },
 		            	{ name: "ordrNm", index: "ordrNm", width: 250, align: "center", editable: true, edittype: "text"  },
@@ -325,40 +326,40 @@
 		            	{ name: "pmntYn", index: "pmntYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
 		                    } },
 		            	{ name: "prtbImgnYn", index: "prtbImgnYn", width: 70, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
 		                    } },
 		            	{ name: "emrgYn", index: "emrgYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
 		                    } },
 		            	{ name: "dcYn", index: "dcYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
 		                    } },
 		            	{ name: "retkYn", index: "retkYn", width: 50, align: "center", editable: true, // 편집 가능하도록 설정
 		                    edittype: "checkbox", // 체크박스 형태로 설정
 		                    editoptions: {
-		                        value: "True:False", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
-		                        defaultValue: "False" // 기본값 설정 (체크 안됐을 때)
-		                    } },
+		                        value: "Y:N", // 체크박스 값 설정 (체크됐을 때와 체크 안됐을 때의 값)
+		                        defaultValue: "N" // 기본값 설정 (체크 안됐을 때)
+		                    } }, 
 		          	],
 		          	guiStyle: "bootstrap",
 		          	autowidth: true,
 		          	height: "85%",
 		          	rownumbers: true,
 		          	rowNum: 9999,
-		          	multiselect: false,
+		          	multiselect: true,
 		          	sortname: "id",
 		          	sortorder: "asc",
 		          	cellEdit: true,
@@ -488,12 +489,26 @@
   	
  	// flag를 선언
 	var flag;
-  	
+	var list3Data;
 	
   	// 수정 버튼 이벤트
   	document.getElementById("inputUpdate").addEventListener("click", function () {
   		
-  		flag = 'U';
+  		flag = "U";
+  		
+  		var listDatas = $("#list3").jqGrid("getRowData");
+  		
+  		console.log("listDatas :", listDatas);
+  		
+  		// 첫 번째 객체에 flag 속성 추가
+  	  	listDatas[0].flag = flag;
+  		
+  		// flag 값을 로컬 스토리지에 저장
+  	    localStorage.setItem("flag", flag);
+  	  
+  	  	console.log("listDatas with flag:", listDatas);
+  		
+  		
   		
   		// 처방일
   		var ordrDateInputElement = document.getElementById("ordrDateInput");
@@ -518,13 +533,15 @@
   		wardCdInputElement.disabled = false;
   		unitCdInputElement.disabled = false;
   		
+  		
+  		
   	});
   	
   	
   	// 입력 버튼 이벤트
   	document.getElementById("inputInsert").addEventListener("click", function () {
   		
-  		flag = 'I';
+  		flag = "I";
   		
   		// 환자명
   		var ptntKrNmInputElement = document.getElementById("ptntKrNmInput");
@@ -555,6 +572,7 @@
   		wardCdInputElement.disabled = false;
   		unitCdInputElement.disabled = false;
   		
+
   	});
   	
   	
@@ -588,87 +606,37 @@
 	
   	// 저장버튼 이벤트
   	document.getElementById("ris1201DataSave").addEventListener("click", function() {
-  		console.log("실제값");
-  		 
-  	// 데이터 가져오기
-    var ptntKrNm = document.getElementById("ptntKrNmInput").value;
-	var ptntId = document.getElementById("ptntIdInput").value;
-	var ordrDateInput = document.getElementById("ordrDateInput").value;
-	var vistDvsnInput = document.getElementById("vistDvsnInput").value;
-	var trtmDprtCdInput = document.getElementById("trtmDprtCdInput").value;
-	var mddlKrNmInput = document.getElementById("mddlKrNmInput").value;
-	var dsrdDateInput = document.getElementById("dsrdDateInput").value;
-	var wardCdInput = document.getElementById("wardCdInput").value;
-	var unitCdInput = document.getElementById("unitCdInput").value;
 	
-	// list3 데이터 가져오기
-	var listData = $("#list3").jqGrid("getRowData");
-	console.log("listData", listData)
+  		// 로컬 스토리지에서 flag 값을 읽어옴
+  	    var flag = localStorage.getItem("flag");
+  		
+  		
+  		
+		// list3 데이터 가져오기
+		var listDatas = $("#list3").jqGrid("getRowData");
+		// 첫 번째 객체에 flag 속성 추가
+  	  	listDatas[0].flag = flag;
+		console.log("listData", listDatas)
 	
-	// list3 데이터를 배열에 저장
-    var listInfo = [];
-    for (var i = 0; i < listData.length; i++) {
-        var rowData = listData[i];
-        var elctTrtmYn = rowData.elctTrtmYn;
-        var imgnCd = rowData.imgnCd;
-        var ordrNm = rowData.ordrNm;
-        var exmnNoteText = rowData.exmnNoteText;
-        var ordrNoteText = rowData.ordrNoteText;
-        var pmntYn = rowData.pmntYn;
-        var prtbImgnYn = rowData.prtbImgnYn;
-        var emrgYn = rowData.emrgYn;
-        var dcYn = rowData.dcYn;
-        var retkYn = rowData.retkYn;
-
-        // 각 행의 데이터를 객체로 만들어 배열에 추가
-        var rowDataObject = {
-            elctTrtmYn: elctTrtmYn,
-            imgnCd: imgnCd,
-            ordrNm: ordrNm,
-            exmnNoteText: exmnNoteText,
-            ordrNoteText: ordrNoteText,
-            pmntYn: pmntYn,
-            prtbImgnYn: prtbImgnYn,
-            emrgYn: emrgYn,
-            dcYn: dcYn,
-            retkYn: retkYn,
-        };
-
-        listInfo.push(rowDataObject);
-    }
-	
-	
-	var sendData = {
-			flag: flag,
-			ptntKrNm: ptntKrNm,
-			ptntId: ptntId,
-			ordrDateInput: ordrDateInput,
-			vistDvsnInput: vistDvsnInput,
-			trtmDprtCdInput: trtmDprtCdInput,
-			mddlKrNmInput: mddlKrNmInput,
-			dsrdDateInput: dsrdDateInput,
-			wardCdInput: wardCdInput,
-			unitCdInput: unitCdInput,
-			listInfo: listInfo, // list3 데이터를 추가
-	};
-
-	console.log("sendData :", sendData)
-	
-	
-		$.ajax({
-			type: 'POST',
-			url: "/jubsu/RIS1201E03UpdateInsert.do",
-			data: JSON.stringify(sendData),
-			contentType: "application/json; charset=utf-8",
-			dataType: 'json',
-			success: function (result) {
-				console.log("데이터 전송 성공: ", result);
-			},
-			error: function (error) {
-	    		console.log("데이터 전송 실패: ", error);
-	    	}
-		});
-	
+		listDatas.forEach(listData =>{
+			
+			console.log("sendData :", JSON.stringify(listData))
+		
+		
+			$.ajax({
+				type: 'POST',
+				url: "/jubsu/RIS1201E03UpdateInsert.do",
+				data: JSON.stringify(listData),
+				contentType: "application/json; charset=utf-8",
+				dataType: 'json',
+				success: function (result) {
+					console.log("데이터 전송 성공: ", result);
+				},
+				error: function (error) {
+		    		console.log("데이터 전송 실패: ", error);
+		    	}
+			});
+		})
   	});
 
 
