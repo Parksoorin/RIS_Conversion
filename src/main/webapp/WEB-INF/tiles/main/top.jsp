@@ -83,7 +83,7 @@
             <option value="">ENG</option>
         </select>
         <p class="user">사용자:
-            <span id="userName"></span>
+            <span id="userName">${sessionScope.login_name}</span>
         </p>
         <img src="/images/icons/icon-key2.png" class="key-img" />
     </div>
@@ -100,8 +100,6 @@
 		
 		if (!loginId) {
 			window.location.href = "/?hspt_id=A001";
-		} else {
-			$("#userName").text(loginName);
 		}
 	})
 </script>
