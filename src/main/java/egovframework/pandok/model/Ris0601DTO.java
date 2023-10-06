@@ -1,6 +1,8 @@
 package egovframework.pandok.model;
 
 public class Ris0601DTO {
+	private String hsptId;
+	private String loginId;
 	private String flag;
 	private String docId;
 	private String tmplCd;
@@ -9,6 +11,18 @@ public class Ris0601DTO {
 	private String viewAbbrNm;
 	private String viewText;
 	
+	public String getHsptId() {
+		return hsptId;
+	}
+	public void setHsptId(String hsptId) {
+		this.hsptId = hsptId;
+	}
+	public String getLoginId() {
+		return loginId;
+	}
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
 	public String getFlag() {
 		return flag;
 	}

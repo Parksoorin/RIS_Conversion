@@ -6,7 +6,7 @@
           FROM ris0601 A
           JOIN ris0102 B
             ON B.LRGC_CD = "IMGN_DVSN_CD" AND A.IMGN_DVSN_CD = B.MDDL_CD
-         <where>B.HSPT_ID = "A001"
+         <where>B.HSPT_ID = #{hsptId}
          	<if test="imgnDvsn != 'all'">
          		AND A.IMGN_DVSN_CD = #{imgnDvsn}
          	</if>
@@ -16,16 +16,16 @@
          </where>;
 	</select>
 	
-	<select id="getRis0102List" resultType="egovframework.pandok.model.Ris0102DTO">
+	<select id="getRis0102List" parameterType="java.lang.String" resultType="egovframework.pandok.model.Ris0102DTO">
 		SELECT MDDL_CD, MDDL_KR_NM
 		  FROM ris0102
-		 WHERE HSPT_ID = "A001" AND LRGC_CD = "IMGN_DVSN_CD"; 
+		 WHERE HSPT_ID = #{hsptId} AND LRGC_CD = "IMGN_DVSN_CD"; 
 	</select>
 	
-	<select id="getRisUserList" resultType="egovframework.pandok.model.RisUserDTO">
+	<select id="getRisUserList" parameterType="java.lang.String" resultType="egovframework.pandok.model.RisUserDTO">
 		SELECT LOGIN_ID, LOGIN_NM
 		  FROM risuser
-		 WHERE HSPT_ID = "A001";
+		 WHERE HSPT_ID = #{hsptId};
 	</select>
 	
 	<select id="getRis1301List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris1301DTO">
@@ -129,15 +129,15 @@
 	</select>
 	
 	
-	<select id="duplicateCheck" parameterType="egovframework.pandok.model.Ris0601DTO" resultType="int">
+	<select id="duplicateCheck" resultType="int">
 		SELECT COUNT(*)
 		  FROM ris0601
-		 WHERE HSPT_ID = 'A001' AND
+		 WHERE HSPT_ID = #{hsptId} AND
 		       DOC_ID = #{docId} AND
 		       TMPL_CD = #{tmplCd}
 	</select>
 	
-	<insert id="saveRis0601List" parameterType="egovframework.pandok.model.Ris0601DTO">
+	<insert id="saveRis0601List">
 		<choose>
 			<when test="flag == '입력'">
 				INSERT INTO ris0601 (
@@ -150,13 +150,13 @@
 					RGST_ID,
 					RGST_DTTM
 				) VALUES (
-					'A001',
+					#{hsptId},
 					#{docId},
 					#{tmplCd},
 					#{imgnDvsnCd},
 					#{viewAbbrNm},
 					#{viewText},
-					'admin',
+					#{loginId},
 					NOW()
 				)
 			</when>
@@ -165,15 +165,15 @@
 					   IMGN_DVSN_CD = #{imgnDvsnCd},
 					   VIEW_ABBR_NM = #{viewAbbrNm},
 					   VIEW_TEXT = #{viewText},
-					   MDFC_ID = 'admin',
+					   MDFC_ID = #{loginId},
 					   MDFC_DTTM = NOW()
-				 WHERE HSPT_ID = 'A001' AND
+				 WHERE HSPT_ID = #{hsptId} AND
 				 	   DOC_ID = #{docId} AND
 				 	   TMPL_CD = #{tmplCd} 
 			</when>
 			<when test="flag == '삭제'">
 				DELETE FROM ris0601
-				 WHERE HSPT_ID = 'A001' AND
+				 WHERE HSPT_ID = #{hsptId} AND
 				 	   DOC_ID = #{docId} AND
 				 	   TMPL_CD = #{tmplCd} 
 			</when>

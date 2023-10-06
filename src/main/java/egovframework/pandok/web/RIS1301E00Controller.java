@@ -29,8 +29,10 @@ public class RIS1301E00Controller {
 	PandokService pandokService;
 	
 	@RequestMapping(value = "/pandok/ris1301List.do")
-	public String ris1301ListPage(Model model) throws Exception {
-		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List();
+	public String ris1301ListPage(HttpSession session, Model model) throws Exception {
+		String hsptId = session.getAttribute("hspt_id").toString();
+		
+		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List(hsptId);
 		
 		model.addAttribute("ris0102Data", ris0102Data);
 		
