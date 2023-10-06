@@ -8,7 +8,7 @@
             <li class="main__menu-items">
                 업무메뉴
                 <div class="sub__menu-item">
-                    <a href="#">메뉴재생성</a>
+                    <a href="/RISMAIN.do">메뉴재생성</a>
                     <a href="/logout.do">로그아웃</a>
                 </div>
             </li>
