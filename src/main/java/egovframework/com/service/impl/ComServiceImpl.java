@@ -28,9 +28,9 @@ public class ComServiceImpl implements ComService {
 		return comMapper.RisUserList();
 	}
 	@Override
-	public List<RisPgrmDTO> RisPrgmList() {
+	public List<RisPgrmDTO> RisPrgmList(String hsptId) {
 		// TODO Auto-generated method stub
-		return comMapper.RisPrgmList();
+		return comMapper.RisPrgmList(hsptId);
 	}
 	@Override
 	public List<RisBtnDTO> RisBtnList() {

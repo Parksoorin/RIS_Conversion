@@ -12,7 +12,7 @@ import egovframework.com.model.RisUserDTO;
 
 public interface ComService {
 	List<RisUserDTO> RisUserList();
-	List<RisPgrmDTO> RisPrgmList();
+	List<RisPgrmDTO> RisPrgmList(String hsptId);
 	List<RisBtnDTO> RisBtnList();
 	List<RisGrupDTO> RisGrupList();
 	List<RisGrmuDTO> RisGrmuList(String type);

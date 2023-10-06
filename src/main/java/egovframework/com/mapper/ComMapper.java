@@ -16,7 +16,7 @@ import egovframework.com.model.RisUserDTO;
 @Mapper("ComMapper")
 public interface ComMapper {
 	List<RisUserDTO> RisUserList();
-	List<RisPgrmDTO> RisPrgmList();
+	List<RisPgrmDTO> RisPrgmList(String hsptId);
 	List<RisBtnDTO> RisBtnList();
 	List<RisGrupDTO> RisGrupList();
 	List<RisGrmuDTO> RisGrmuList(String type);
