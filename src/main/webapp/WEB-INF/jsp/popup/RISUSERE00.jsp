@@ -124,9 +124,6 @@
                     loginPwd: oldLoginPwd
                 },
                 dataType: "json",
-                error: function () {
-                    alert("[전산오류]처리시 오류가 발생하였습니다. 전산실에 문의하세요.!!!");
-                },
                 success: function (data) {
                     if (data.result === "none") {
                         alert("없는 정보 입니다.");
@@ -156,6 +153,9 @@
                             }
                         })
                     }
+                },
+                error: function () {
+                    alert("[전산오류]처리시 오류가 발생하였습니다. 전산실에 문의하세요.!!!");
                 }
             })
         })

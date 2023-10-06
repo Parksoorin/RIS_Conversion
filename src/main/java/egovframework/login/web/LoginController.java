@@ -29,17 +29,16 @@ public class LoginController {
 	LoginService loginService;
 	
 	
-	//@RequestParam String hspt_id 
-	@GetMapping("/login.do")
+	// 로그인 페이지
+	// index.jsp가 로그인 페이지('/'로 접근)
+	
+	/* @GetMapping("/login.do")
 	public String login() {
 		return ".login/LOGIN";
-	}
+	} */
 	
-	@GetMapping("/RISUSERE00.do")
-	public String risuserE00() {
-		return ".popup/RISUSERE00";
-	}
 	
+	// 로그인
 	@RequestMapping(value = "/login.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject loginId(@RequestBody RisUserDTO dto, HttpSession session, HttpServletRequest request,
@@ -52,8 +51,8 @@ public class LoginController {
 			json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌.
 		} else {
 			session.setAttribute("hspt_id", result.getHsptId());
-	        session.setAttribute("user_id", result.getLoginId());
-	        session.setAttribute("user_name", result.getLoginNm());
+	        session.setAttribute("login_id", result.getLoginId());
+	        session.setAttribute("login_name", result.getLoginNm());
 	        session.setAttribute("user_grade", result.getUserGrade());
 			
 			json.put("result", "success");
@@ -62,11 +61,33 @@ public class LoginController {
 		return json;
 	}
 	
+	
 	// 메인 페이지 이동
 	@GetMapping("/RISMAIN.do")
 	public String risMainPage() {
 		return ".main/RISMAIN";
 	}
+	
+	
+	// 로그아웃
+	@RequestMapping(value = "/logout.do")
+	public String logout(HttpSession session) {
+		// 세션에서 특정 속성을 제거
+		session.removeAttribute("hspt_id");
+		session.removeAttribute("login_id");
+		session.removeAttribute("login_name");
+		session.removeAttribute("user_grade");
+		
+		return "redirect:/?hspt_id=A001";
+	}
+	
+
+	// 비밀번호 변경 팝업
+	@GetMapping("/RISUSERE00.do")
+	public String risuserE00() {
+		return ".popup/RISUSERE00";
+	}
+	
 	
 	// 비밀번호 재설정 로그인, 비밀번호 확인
 	@RequestMapping(value = "/userPasswordChk.do", method = RequestMethod.POST)

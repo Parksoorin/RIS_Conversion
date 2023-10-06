@@ -9,7 +9,7 @@
                 업무메뉴
                 <div class="sub__menu-item">
                     <a href="#">메뉴재생성</a>
-                    <a href="#">로그아웃</a>
+                    <a href="/logout.do">로그아웃</a>
                 </div>
             </li>
             <li class="main__menu-items">
@@ -75,16 +75,33 @@
             </li>
         </ul>
     </div>
+    
     <!-- 언어, 유저 정보 -->
     <div class="header__user">
         <select class="sel">
-            <option value="">KOR</option>
+            <option value="KR">KOR</option>
             <option value="">ENG</option>
         </select>
         <p class="user">사용자:
-            <span>관리자</span>
+            <span id="userName"></span>
         </p>
         <img src="/images/icons/icon-key2.png" class="key-img" />
     </div>
-
 </div>
+
+<script>
+	// $(document).ready(function() {})과 같음
+	$(function() {
+		var hsptId = "${hspt_id}";
+		var loginId = "${login_id}";
+		var loginName = "${login_name}";
+		var userGrade = "${user_grade}";
+		console.log(loginName);
+		
+		if (!loginId) {
+			window.location.href = "/?hspt_id=A001";
+		} else {
+			$("#userName").text(loginName);
+		}
+	})
+</script>
