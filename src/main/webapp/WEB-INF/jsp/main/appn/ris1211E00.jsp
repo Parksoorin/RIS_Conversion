@@ -164,7 +164,7 @@ pageEncoding="UTF-8"%>
           <div class="twoGrid__box">
             <section class="grid__box">
               <!-- 그리드 -->
-              <table id="list3" class="grid3"></table>
+              <table id="list3" class="grid1"></table>
             </section>
           </div>
         </div>
@@ -380,7 +380,7 @@ pageEncoding="UTF-8"%>
         slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
         header: false, 
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
-        initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+ //       initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
         editable: true, // 수정 가능?
         selectable: true, // 달력 일자 드래그 설정가능
@@ -485,7 +485,7 @@ pageEncoding="UTF-8"%>
                 "ptntId" : $('#ptntInput').val(),
                 'ordrPrgrDvsn' : $('input[name="appointment-gubun"]:checked').val(),
             }),
-          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden", "예약참고내용-Hidden","처방참고내용-Hidden", "촬영환자구분명-Hidden"],
+          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden", "예약참고내용-Hidden","처방참고내용-Hidden", "촬영환자구분명-Hidden", "촬영실-Hidden"],
           colModel: [
         	{ name: "appnYn", index: "appnYn", width: 90, align: "center"},
             { name: "pmntYn", index: "pmntYn", width: 90, align: "center"},
@@ -511,7 +511,8 @@ pageEncoding="UTF-8"%>
             { name: "appnNoteText", index: "appnNoteText", width: 80, align: "center" , hidden: true },
             { name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" , hidden: true },
             { name: "ordrBdypCd", index: "ordrBdypCd", width: 80, align: "center" , hidden: true },
-          ],
+            { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
+           ],
           guiStyle: "bootstrap",
           autowidth: true,
           height: "94%",
@@ -597,20 +598,27 @@ pageEncoding="UTF-8"%>
         });
 
         $("#list2").jqGrid({
-          datatype: "local",
-          data: mydata,
+        	// url: '/appn/RIS1211E00/ris0211List2Search.do',
+        	mtype: "POST",
+            datatype: "json",
+            ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            postData : JSON.stringify({
+            	'hsptId': 'A001',
+            	'imgnRoomCd': 'CT1',
+            	'date' : '2022-03-21'
+            }),
           colNames: ["예약시간", "총인원", "외래", "입원", "건진" ],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
+            { name: "strtTime", index: "strtTime", width: 90, align: "center" },
+            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 100, align: "center" },
             {
-              name: "id",
-              index: "id",
+              name: "appnOutpPssbCnt",
+              index: "appnOutpPssbCnt",
               width: 150,
               align: "center",
             },
-            { name: "product", index: "product", width: 80, align: "center" },
-            { name: "amount", index: "amount", width: 80, align: "center" },
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center" },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center" },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
@@ -630,7 +638,7 @@ pageEncoding="UTF-8"%>
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
+            $("#list2").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
               ">div.ui-jqgrid-sortable>span.s-ico"
             );
@@ -645,20 +653,28 @@ pageEncoding="UTF-8"%>
               $icons.find(">span.ui-icon-asc").hide();
             }
             // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
+            $("#list2").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
        
 
         $("#list3").jqGrid({
-          datatype: "local",
-          data: mydata,
+        	// url: '/appn/RIS1211E00/ris0211List3Search.do',
+        	mtype: "POST",
+            datatype: "json",
+            ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            postData : JSON.stringify({
+            	'hsptId': 'A001',
+            	'imgnRoomCd': 'CT1',
+            	'appnDate' : '2022-03-21',
+            	'appnTime' : '09:00:00'
+            }),
           colNames: ["내원구분", "환자ID", "환자명"],
           colModel: [
-            { name: "date", index: "date", width: 90, align: "center" },
-            { name: "name", index: "name", width: 100, align: "center" },
-            { name: "product", index: "product", width: 80, align: "center" }
+            { name: "gubun", index: "gubun", width: 90, align: "center" },
+            { name: "ptntId", index: "ptntId", width: 100, align: "center" },
+            { name: "ptntKrNm", index: "ptntKrNm", width: 80, align: "center" }
           ],
           guiStyle: "bootstrap",
           autowidth: true,
@@ -678,7 +694,7 @@ pageEncoding="UTF-8"%>
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
             // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
+            $("#list3").jqGrid("destroyFrozenColumns");
             var $icons = $(this.grid.headers[idxcol].el).find(
               ">div.ui-jqgrid-sortable>span.s-ico"
             );
@@ -693,7 +709,7 @@ pageEncoding="UTF-8"%>
               $icons.find(">span.ui-icon-asc").hide();
             }
             // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
+            $("#list3").jqGrid("setFrozenColumns");
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });

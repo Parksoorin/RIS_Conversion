@@ -27,6 +27,10 @@ import egovframework.appn.model.RIS0210RequestDTO;
 import egovframework.appn.model.RIS0211RequestDTO;
 import egovframework.appn.model.Ris0210DTO;
 import egovframework.appn.model.Ris1211DTO;
+import egovframework.appn.model.Ris1211List2DTO;
+import egovframework.appn.model.Ris1211List2RequestDTO;
+import egovframework.appn.model.Ris1211List3DTO;
+import egovframework.appn.model.Ris1211List3RequestDTO;
 import egovframework.appn.model.Ris1211RequestDTO;
 import egovframework.appn.service.RIS1211E00Service;
 import egovframework.appn.service.RISAppnCommonService;
@@ -107,6 +111,23 @@ public class RIS1211E00Controller {
 	public ResponseEntity<?> ris1211e00RestGetMapping(@RequestBody Ris1211RequestDTO dto) {
 		System.out.println("appn/RIS1211E00/ris0211.do Get Mapping!!!");
 		List<Ris1211DTO> rows = service.ris1211Select(dto);
+		return ResponseEntity.ok().body(rows);
+	}
+	
+	
+	@PostMapping("/RIS1211E00/ris0211List2Search.do")
+	@ResponseBody
+	public ResponseEntity<?> ris1211e00List2RestGetMapping(@RequestBody Ris1211List2RequestDTO dto) {
+		System.out.println("appn/RIS1211E00/ris0211.do Get Mapping!!!");
+		List<Ris1211List2DTO> rows = service.ris1211SelectList2(dto);
+		return ResponseEntity.ok().body(rows);
+	}
+	
+	@PostMapping("/RIS1211E00/ris0211List3Search.do")
+	@ResponseBody
+	public ResponseEntity<?> ris1211e00List3RestGetMapping(@RequestBody Ris1211List3RequestDTO dto) {
+		System.out.println("appn/RIS1211E00/ris0211.do Get Mapping!!!");
+		List<Ris1211List3DTO> rows = service.ris1211SelectList3(dto);
 		return ResponseEntity.ok().body(rows);
 	}
 	
