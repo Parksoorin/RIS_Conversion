@@ -209,18 +209,11 @@
     $("#save__btn").click(function () {
 	    console.log('저장 버튼 눌림');
 	    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
-	    console.log(totalRows + "번째");
-	
-	    // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
 	    for (var i = 1; i <= totalRows; i++) {
-	     // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
-	       
-	        // 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	    	// 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
 	        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
 	        let data = $("#list1").jqGrid("getRowData", i);
-	
-	        console.log("----------");
-	        console.log(data);
+
 	        if (data.flag === 'U' || data.flag === 'I') {
 	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
 	                || data.userGrade === '' || data.appnImpsText === ''

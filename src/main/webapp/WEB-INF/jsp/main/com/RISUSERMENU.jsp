@@ -159,10 +159,11 @@ pageEncoding="UTF-8"%>
     	            	  	width: 80,
     	            	  	align: "center",
    	            		  	editable: true,
-   	            			formatter:"select", 
-   			    	 		formatoptions :{value: "W:등록; V:조회" }, //"W:등록;V:조회"
-    	                  	edittype: 'select',
-    	                  	editoptions: { value: "Option1:등록; Option2: 조회" }
+   	            			
+			    	 		edittype: 'select',
+			    	 		editoptions: { value: "W:등록; V: 조회" },
+    	                 	
+   	            			
     	              	},
     	              	{ 
     	              		name: "useYn",
@@ -289,20 +290,56 @@ pageEncoding="UTF-8"%>
 	        var grid = $("#list2");
         	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
     	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+    	    console.log('========================');
     	    
+    	    console.log(rowData);
     	    rowData.menuGroupId = menuGroupId;
     	    rowData.menuGroupName = menuName;
-    	    
+
     	    grid.jqGrid('setRowData', selectedRowId, rowData);
+    	    
+    	    
+    		
+    	    
+    	    
+
 	    }
 	    
 	    // 삭제
         $("#delete-row__btn").on("click", function () {
         	var grid = $("#list2");
     	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-    	    } else { alert('Please select a row to delete.'); }
+    	    if (selectedRowId) { 
+    	    	alert('삭제할 수 없는 데이터입니다.');
+    	    } else { 
+    	    	alert('Please select a row to delete.');
+    	    }
         });
+	    
+     	// 저장
+        $("#save__btn").click(function () { 
+        	console.log('저장 버튼 눌림');
+    	    var totalRows = $("#list2").jqGrid('getGridParam', 'records');
+    	    for (var i = 1; i <= totalRows; i++) {
+    	    	let data1 = $("#list2").jqGrid("getRowData", i);
+				console.log(data1);    	    	
+    	        $("#list2").jqGrid('saveRow', i, false, 'clientArray');
+    	        let data = $("#list2").jqGrid("getRowData", i);
+    	        console.log(data); 
+    	        if (data.flag === 'U' || data.flag === 'I') {
+    	            if (data.menuGroupId === '' || data.menuGroupName === '' || data.menuId === ''
+    	                || data.menuName === '' || data.menuGrade === '') {
+    	                alert('미입력 사항이 있습니다.');
+    	                return;
+    	            }
+    	        }
+    	    }
+			
+    	    var list1Data = $("#list1").getRowData();
+    	    console.log(list1Data);
+        })
+	    
+	    
       	
      	// 검색 기능
     	const searchGrid = function(value, grid) {
@@ -346,6 +383,9 @@ pageEncoding="UTF-8"%>
     		
     		searchGrid(inputValue, "list1");
     	});
+    	
+    	
+    	
     </script>
   </body>
 </html>
