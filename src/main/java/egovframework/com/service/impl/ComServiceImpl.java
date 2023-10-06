@@ -19,48 +19,14 @@ import egovframework.com.service.ComService;
 
 @Service("ComService")
 public class ComServiceImpl implements ComService {
-	
 	@Resource(name = "ComMapper")
 	private ComMapper comMapper;
+	
+	// 사용자 관리
 	@Override
 	public List<RisUserDTO> RisUserList() {
 		// TODO Auto-generated method stub
 		return comMapper.RisUserList();
-	}
-	@Override
-	public List<RisPgrmDTO> RisPrgmList(String hsptId) {
-		// TODO Auto-generated method stub
-		return comMapper.RisPrgmList(hsptId);
-	}
-	@Override
-	public List<RisBtnDTO> RisBtnList() {
-		// TODO Auto-generated method stub
-		return comMapper.RisBtnList();
-	}
-	@Override
-	public List<RisGrupDTO> RisGrupList() {
-		// TODO Auto-generated method stub
-		return comMapper.RisGrupList();
-	}
-	@Override
-	public List<RisGrmuDTO> RisGrmuList(String type) {
-		// TODO Auto-generated method stub
-		return comMapper.RisGrmuList(type);
-	}
-	@Override
-	public List<RisUserDTO> RisUserMenuList() {
-		// TODO Auto-generated method stub
-		return comMapper.RisUserMenuList();
-	}
-	@Override
-	public List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params) {
-		// TODO Auto-generated method stub
-		return comMapper.RisUserMenuList2(params);
-	}
-	@Override
-	public List<RisUrmnDTO> popupUrmnList() {
-		// TODO Auto-generated method stub
-		return comMapper.popupUrmnList();
 	}
 	@Override
 	public int addList1Data(RisGrupDTO dto) {
@@ -83,10 +49,53 @@ public class ComServiceImpl implements ComService {
 		dto.setUserGrade(mddlCd);
 		return comMapper.addUserData(dto);
 	}
-	 @Override
-	 public int pwReset(RisUserDTO dtos) { 
-		 // TODO Auto-generated method stub 
-		 return comMapper.pwReset(dtos);
-	 }
-	 
+	@Override
+	public int pwReset(RisUserDTO dtos) { 
+		// TODO Auto-generated method stub 
+		return comMapper.pwReset(dtos);
+	}
+	
+	// 프로그램정보 관리
+	@Override
+	public List<RisPgrmDTO> RisPrgmList(String hsptId) {
+		// TODO Auto-generated method stub
+		return comMapper.RisPrgmList(hsptId);
+	}
+	
+	// 메뉴정보 관리
+	@Override
+	public List<RisGrupDTO> RisGrupList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrupList();
+	}
+	@Override
+	public List<RisGrmuDTO> RisGrmuList(String type) {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrmuList(type);
+	}
+	
+	// 사용자별 메뉴관리
+	@Override
+	public List<RisUserDTO> RisUserMenuList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisUserMenuList();
+	}
+	@Override
+	public List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		return comMapper.RisUserMenuList2(params);
+	}
+	@Override
+	public List<RisUrmnDTO> popupUrmnList() {
+		// TODO Auto-generated method stub
+		return comMapper.popupUrmnList();
+	}
+	
+	// 프로그램 기능 권한 관리
+	@Override
+	public List<RisBtnDTO> RisBtnList() {
+		// TODO Auto-generated method stub
+		return comMapper.RisBtnList();
+	}
+	
 }

@@ -25,9 +25,9 @@
             <li class="main__menu-items">
                 메뉴관리
                 <div class="sub__menu-item">
-                    <a href="/RISMENUE00.do">메뉴정보 관리</a>
                     <a href="/RISUSERQ00.do">사용자 관리</a>
                     <a href="/RISPRGMQ00.do">프로그램정보 관리</a>
+                    <a href="/RISMENUE00.do">메뉴정보 관리</a>
                     <a href="/RISUSERMENU.do">사용자별 메뉴관리</a>
                     <a href="/RISBTNE00.do">프로그램 기능 권한 관리</a>
                 </div>
