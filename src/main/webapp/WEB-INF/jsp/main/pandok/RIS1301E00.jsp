@@ -40,42 +40,59 @@ pageEncoding="UTF-8"%>
         
         <div class="btn__container search__box">
           <button id="searchBtn" class="all__btn fontawesome__btn search__icon"></button>
-          <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
         </div>
         
       </section>
 
       <div class="grid__container main__container-twoGrid">
         <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
+        
+          <!-- 환자정보, 음성판독정보 -->
           <div class="grid__title main__title">
-	        <div class="search__container-sub">	        
-	          <div class="search__box">
-	            <label class="filter__keyword">환자명</label>
-	            <input id="ptntName" type="text" class="filter__options pat__name" disabled />
-	          
-                <button id="ptntListBtn" class="all__btn fontawesome__btn list__icon pat__list-icon"></button>
-              </div>
-              
-	          <div class="search__box">
-	            <p class="filter__keyword">환자정보</p>
-	            <input id="ptntAge" type="text" class="filter__options pat__age" disabled />
-	            <input id="ptntSex" type="text" class="filter__options pat__sex" disabled />
+            <!-- 환자 정보 -->
+	        <div class="search__container-sub">
+	          <div class="pat__container">
+		        <div class="search__box">
+		          <label class="filter__keyword pat__info-label">환자검색</label>
+		          <input id="ptntId" type="text" class="filter__options pat__id" disabled />
+		          
+	              <button id="ptntListBtn" class="all__btn fontawesome__btn list__icon pat__list-icon"></button>
+          		  <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
+	            </div>
+	              
+		        <div class="search__box">
+		          <p class="filter__keyword pat__info-label">환자정보</p>
+		          <input id="ptntName" type="text" class="filter__options pat__name" disabled />
+		          <input id="ptntAge" type="text" class="filter__options pat__age" disabled />
+		          <input id="ptntSex" type="text" class="filter__options pat__sex" disabled />
+			    </div>
 		      </div>
             </div>
             
-	        
-	        
-            <!-- 버튼 컨테이너 -->
-            <div class="btn__container">
-              <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon">음성녹음</button>
-        	  <button class="all__btn img__btn fontawesome__btn play__icon">음성듣기</button>
-		      <button class="all__btn img__btn fontawesome__btn download__icon">다운로드</button>
-    		  <button class="all__btn text__btn">PACS 뷰어 조회</button>
-            </div>
+	        <div class="voic__filter-container">
+	          <!-- 음성판독 구분 -->
+	          <div class="voic__filter">
+	            <p class="filter__keyword">음성판독구분</p>
+	            <input class="pandok__radio" type="radio" id="allVoicView" name="voicViewYn" value="allView" checked />
+	      		<label class="pandok__label" for="allVoicView">전체</label>
+	      		<input class="pandok__radio" type="radio" id="notVoicView" name="voicViewYn" value="notView" />
+	      		<label class="pandok__label" for="notVoicView">미판독</label>
+	      		<input class="pandok__radio" type="radio" id="doneVoicView" name="voicViewYn" value="doneView" />
+	      		<label class="pandok__label" for="doneVoicView">판독</label>
+	          </div>
+	          
+              <!-- 음성판독 버튼 컨테이너 -->
+              <div class="btn__container">
+                <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon" disabled>음성녹음</button>
+        	    <button id="voicPlayBtn" class="all__btn img__btn fontawesome__btn play__icon" disabled>음성듣기</button>
+	  	        <button id="voicDownloadBtn" class="all__btn img__btn fontawesome__btn download__icon" disabled>다운로드</button>
+      		    <button class="all__btn text__btn">PACS 뷰어 조회</button>
+              </div>
+	        </div>
           </div>
+          
           <!-- 그리드 박스 -->
-          <div class="twoGrid__box">
+          <div class="twoGrid__box main__twoGrid-box">
             <section class="grid__box">
               <!-- 그리드 -->
               <table id="list1" class="grid1"></table>
@@ -144,12 +161,11 @@ pageEncoding="UTF-8"%>
     <script>
 	  function drawGrid1() {
 		var viewYn = $("input[name='viewYn']:checked").val();
+		var voicViewYn = $("input[name='voicViewYn']:checked").val();
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		var ris1301Dvsn = $("#ris1301Dvsn").val();
 		var ptntName = $("#ptntName").prop("value");
-		
-		console.log(viewYn, startDate, endDate, ris1301Dvsn, ptntName);
 		
 	  	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
 	    $("#list1").jqGrid({
@@ -157,6 +173,7 @@ pageEncoding="UTF-8"%>
 	      reordercolNames:true,
 	      postData : {
 	    	viewYn: viewYn,
+	    	voicViewYn: voicViewYn,
 	    	startDate: startDate,
 	    	endDate: endDate,
 	    	ris1301Dvsn: ris1301Dvsn,
@@ -200,7 +217,7 @@ pageEncoding="UTF-8"%>
 	 		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
 	 	  },
 	      autowidth: true,
-	      height: "85%",
+	      height: "83%",
 	      scroll: true,
 	      loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때   
 		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
@@ -225,6 +242,7 @@ pageEncoding="UTF-8"%>
 	          
 	          console.log(rowData);
 	          
+	          // 판독내용 속성 변경
 	          if (rowData.viewYn !== "Y") {
 	        	  $("#viewTextArea").attr("disabled", false);
 	        	  $("#viewTextArea").attr("readonly", true);
@@ -233,8 +251,20 @@ pageEncoding="UTF-8"%>
 	        	  $("#viewTextArea").attr("readonly", false);
 	          }
 	          
+	          // 판독내용, 판독이력 값 부여
 	          $("#viewTextArea").val(rowData.viewText);
 	          $("#viewNoteTextArea").val(rowData.viewNoteText);
+	          
+	          // 음성판독여부에 따라 버튼 속성 변경
+	          if (rowData.voicViewYn === 'N') {
+				  $("#recordBtn").prop("disabled", false);
+				  $("#voicPlayBtn").prop("disabled", true);
+				  $("#voicDownloadBtn").prop("disabled", true);
+			  } else {
+				  $("#recordBtn").prop("disabled", true);
+				  $("#voicPlayBtn").prop("disabled", false);
+				  $("#voicDownloadBtn").prop("disabled", false);
+			  }
 	      }
 	    });
       };
@@ -286,12 +316,17 @@ pageEncoding="UTF-8"%>
 	          }
 	      }, // loadComplete END
           onSelectRow: function (rowid) {
-            console.log(rowid);
             var rowData = $("#list2").getRowData(rowid);
+            console.log(rowData);
+            var selectedRowId = $("#list1").getGridParam("selrow");
+  		    var grid1RowData = $("#list1").getRowData(selectedRowId);
+           	var currentText = grid1RowData.viewText;
             
             // 수정 상태일 경우만 판독내용 변경
             if (!($("#viewTextArea").is(":disabled") || $("#viewTextArea").attr("readonly"))) {
-            	$("#viewTextArea").val(rowData.viewText);
+            	var updatedText = currentText + '\n' + rowData.viewText;
+            	
+            	$("#viewTextArea").val(updatedText);
             }
           },
         });
@@ -314,6 +349,7 @@ pageEncoding="UTF-8"%>
               // console.log(selectedData);
               
               // 환자정보 값 업데이트
+              $("#ptntId").val(selectedData.ptntId);
               $("#ptntName").val(selectedData.ptntKrNm);
               $("#ptntAge").val(selectedData.age + "세");
               
@@ -423,16 +459,36 @@ pageEncoding="UTF-8"%>
 	  
 	  // 새로고침 버튼
 	  $("#refreshBtn").click(function() {
+		  $("#ptntId").val("");
 		  $("#ptntName").val("");
 		  $("#ptntAge").val("");
 		  $("#ptntSex").val("");
 		  $("input[name='viewYn']:input[value='allView']").prop('checked', true);
+		  $("input[name='voicViewYn']:input[value='allView']").prop('checked', true);
 		  $("#startDate").val("");
 		  $("#endDate").val("");
 		  $("#ris1301Dvsn").val("%");
 		  $("#ris0601Dvsn").val("%");
 		  
 		  drawGrid1();
+	  });
+	  
+	  
+	  // 음성판독구분 변경
+	  $("input[name='voicViewYn']").change(function() {
+		  drawGrid1();
+		  
+		  var voicViewYn = $("input[name='voicViewYn']:checked").val();
+		  
+		  if (voicViewYn === 'notView') {
+			  $("#recordBtn").prop("disabled", false);
+			  $("#voicPlayBtn").prop("disabled", true);
+			  $("#voicDownloadBtn").prop("disabled", true);
+		  } else if (voicViewYn === 'doneView') {
+			  $("#recordBtn").prop("disabled", true);
+			  $("#voicPlayBtn").prop("disabled", false);
+			  $("#voicDownloadBtn").prop("disabled", false);
+		  }
 	  });
 	  
 	  
@@ -467,6 +523,8 @@ pageEncoding="UTF-8"%>
     		  success: function(data) {
     		      // 성공적으로 응답을 받았을 때 실행되는 함수
     		      console.log(data);
+    		      alert(data.cnt + '건이 임시저장되었습니다.');
+    		      drawGrid1();
     		  },
     		  error: function(xhr, status, error) {
     		      // 요청 중 오류가 발생했을 때 실행되는 함수
@@ -478,13 +536,7 @@ pageEncoding="UTF-8"%>
 	  
 	  // 비우기 버튼
 	  $("#clearBtn").click(function() {
-		  var selectedRowId = $("#list1").getGridParam("selrow");
-		  var rowData = $("#list1").getRowData(selectedRowId);
-		  
 		  $("#viewTextArea").val("");
-		  rowData.viewText = "";
-		  
-		  $("#list1").setRowData(selectedRowId);
 	  });
 	  
 	  
@@ -506,6 +558,8 @@ pageEncoding="UTF-8"%>
 			  // 판독완료 N으로 변경
 			  // 판독일자, 판독시간 삭제
 			  // 판독이력 삭제
+			  // 방사선사 삭제
+			  // 처방상태 실시로 변경
 		  }
 	  });
     </script>

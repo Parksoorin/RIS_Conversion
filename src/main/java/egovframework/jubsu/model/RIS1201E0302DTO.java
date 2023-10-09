@@ -18,6 +18,8 @@ import lombok.ToString;
 
 public class RIS1201E0302DTO {
 	
+	private String flag;
+	
 	private int pkris1201;			// pk 값
 	
 	// 처방 목록

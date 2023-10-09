@@ -12,6 +12,7 @@ import egovframework.jubsu.model.RIS1201E0302DTO;
 @Mapper("RIS1201E03Mapper")
 public interface RIS1201E03Mapper {
 	List<RIS1201E0301DTO> ris1201E0301Data();
-	RIS1201E0302DTO ris1201DtoDetail(Map<String, Object> selectRowData);
+	List<RIS1201E0302DTO> ris1201DtoDetail(Map<String, Object> selectRowData);
+	int updateData(RIS1201E0302DTO dto);
 	
 }

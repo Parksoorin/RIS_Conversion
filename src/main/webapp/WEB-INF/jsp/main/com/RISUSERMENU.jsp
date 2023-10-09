@@ -159,10 +159,11 @@ pageEncoding="UTF-8"%>
     	            	  	width: 80,
     	            	  	align: "center",
    	            		  	editable: true,
-   	            			formatter:"select", 
-   			    	 		formatoptions :{value: "W:등록; V:조회" }, //"W:등록;V:조회"
-    	                  	edittype: 'select',
-    	                  	editoptions: { value: "Option1:등록; Option2: 조회" }
+   	            			
+			    	 		edittype: 'select',
+			    	 		editoptions: { value: "W:등록; V: 조회" },
+    	                 	
+   	            			
     	              	},
     	              	{ 
     	              		name: "useYn",
@@ -185,38 +186,13 @@ pageEncoding="UTF-8"%>
     	          	autowidth: true,
     	          	height: "93%",
     	          	rownumbers: true,
-    	            multiselect: true,
-    	          	sortname: "id",
-    	          	sortorder: "asc",
     	          	gridview: true, // 선표시 true/false
-    	          	viewsortcols: [true, "vertical", true],
     	          	loadComplete: function (data) {
     	            	console.log(data);
     	          	}, // loadComplete END
     	          	onSelectRow: function (rowid) {
     	            	console.log(rowid);
-    	          	},
-    	          	onSortCol: function (index, idxcol, sortorder) {
-    		            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-    		            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-    		            $("#list1").jqGrid("destroyFrozenColumns");
-    		            var $icons = $(this.grid.headers[idxcol].el).find(
-    		              ">div.ui-jqgrid-sortable>span.s-ico"
-    		            );
-    		            if (this.p.sortorder === "asc") {
-    		              //$icons.find('>span.ui-icon-asc').show();
-    		              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-    		              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-    		              $icons.find(">span.ui-icon-desc").hide();
-    		            } else {
-    		              //$icons.find('>span.ui-icon-desc').show();
-    		              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-    		              $icons.find(">span.ui-icon-asc").hide();
-    		            }
-    		            // (화살표 css 변경 후 Frozen을 다시 설정)
-    		            $("#list1").jqGrid("setFrozenColumns");
-    		            //alert(index+'/'+idxcol+'/'+sortorder);
-    	          	},
+    	          	}
     	        });
       		};
       	});
@@ -269,8 +245,6 @@ pageEncoding="UTF-8"%>
     	    
     	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
     	    
-    	    
-    	    
     	 	// 모든 컬럼을 가져옵니다.
     	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
     	    
@@ -284,18 +258,88 @@ pageEncoding="UTF-8"%>
     	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
     	    });
     	    
+    	    grid.jqGrid('setRowData', newRowId, { "menuGroupId": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopup()"></button>'});
+        });
+	    
+	 	// 팝업 열기
+	    function openPopup() {
+	        // 팝업 창에 표시할 URL
+	        var url = "/RISUSERMENU_POP.do";
+
+	        // 팝업 창의 크기와 위치 설정
+	        var width = 800;
+	        var height = 400;
+	        var left = (window.innerWidth - width) / 2;
+	        var top = (window.innerHeight - height) / 2;
+
+	        // 팝업 창을 열기
+	        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+	        // 팝업 창이 차단되었을 때 처리
+	        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+	            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+	        }
+	    }
+	 	
+	 	// 부모 창에서 정의된 함수
+	    function ReturnSelValue(menuGroupId, menuName) {		
+	        // 함수 내에서 선택한 데이터를 처리하고 원하는 작업을 수행합니다.
+	        console.log("선택한 메뉴 그룹 ID:", menuGroupId);
+	        console.log("선택한 메뉴 그룹명:", menuName);
+	        
+	        var grid = $("#list2");
+        	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
+    	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+    	    console.log('========================');
+    	    
+    	    console.log(rowData);
+    	    rowData.menuGroupId = menuGroupId;
+    	    rowData.menuGroupName = menuName;
+
     	    grid.jqGrid('setRowData', selectedRowId, rowData);
     	    
-    	    grid.jqGrid('setRowData', selectedRowId, { "menuGroupId": '<button class="all__btn fontawesome__btn list__icon" onclick="yourButtonClickFunction()"></button>'});
-        });
+    	    
+    		
+    	    
+    	    
+
+	    }
 	    
 	    // 삭제
         $("#delete-row__btn").on("click", function () {
         	var grid = $("#list2");
     	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-    	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-    	    } else { alert('Please select a row to delete.'); }
+    	    if (selectedRowId) { 
+    	    	alert('삭제할 수 없는 데이터입니다.');
+    	    } else { 
+    	    	alert('Please select a row to delete.');
+    	    }
         });
+	    
+     	// 저장
+        $("#save__btn").click(function () { 
+        	console.log('저장 버튼 눌림');
+    	    var totalRows = $("#list2").jqGrid('getGridParam', 'records');
+    	    for (var i = 1; i <= totalRows; i++) {
+    	    	let data1 = $("#list2").jqGrid("getRowData", i);
+				console.log(data1);    	    	
+    	        $("#list2").jqGrid('saveRow', i, false, 'clientArray');
+    	        let data = $("#list2").jqGrid("getRowData", i);
+    	        console.log(data); 
+    	        if (data.flag === 'U' || data.flag === 'I') {
+    	            if (data.menuGroupId === '' || data.menuGroupName === '' || data.menuId === ''
+    	                || data.menuName === '' || data.menuGrade === '') {
+    	                alert('미입력 사항이 있습니다.');
+    	                return;
+    	            }
+    	        }
+    	    }
+			
+    	    var list1Data = $("#list1").getRowData();
+    	    console.log(list1Data);
+        })
+	    
+	    
       	
      	// 검색 기능
     	const searchGrid = function(value, grid) {
@@ -339,6 +383,9 @@ pageEncoding="UTF-8"%>
     		
     		searchGrid(inputValue, "list1");
     	});
+    	
+    	
+    	
     </script>
   </body>
 </html>

@@ -3,7 +3,7 @@ package egovframework.login.service;
 import java.util.List;
 import java.util.Map;
 
-import egovframework.com.model.RisUserDTO;
+import egovframework.login.model.RisUserDTO;
 
 public interface LoginService {
 	RisUserDTO loginId(RisUserDTO dto);

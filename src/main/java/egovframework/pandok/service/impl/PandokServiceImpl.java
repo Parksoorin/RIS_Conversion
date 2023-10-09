@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import egovframework.pandok.mapper.PandokMapper;
@@ -26,13 +27,13 @@ public class PandokServiceImpl implements PandokService {
 	}
 
 	@Override
-	public List<Ris0102DTO> getRis0102List() {
-		return pandokMapper.getRis0102List();
+	public List<Ris0102DTO> getRis0102List(String hsptId) {
+		return pandokMapper.getRis0102List(hsptId);
 	}
 
 	@Override
-	public List<RisUserDTO> getRisUserList() {
-		return pandokMapper.getRisUserList();
+	public List<RisUserDTO> getRisUserList(String hsptId) {
+		return pandokMapper.getRisUserList(hsptId);
 	}
 
 	@Override
@@ -58,5 +59,30 @@ public class PandokServiceImpl implements PandokService {
 	@Override
 	public int saveTempRis1301List(Ris1301DTO dto) {
 		return pandokMapper.saveTempRis1301List(dto);
+	}
+
+	@Override
+	public int saveTempRis1201List(Map<String, Object> param) {
+		return pandokMapper.saveTempRis1201List(param);
+	}
+
+	@Override
+	public int finishRis1301List(Ris1301DTO dto) {
+		return pandokMapper.finishRis1301List(dto);
+	}
+
+	@Override
+	public int finishRis1201List(Map<String, Object> param) {
+		return pandokMapper.finishRis1201List(param);
+	}
+
+	@Override
+	public int deleteRis1301List(Ris1301DTO dto) {
+		return pandokMapper.deleteRis1301List(dto);
+	}
+
+	@Override
+	public int deleteRis1201List(Map<String, Object> param) {
+		return pandokMapper.deleteRis1201List(param);
 	}
 }

@@ -32,19 +32,16 @@ public class RIS0601E00Controller {
 	PandokService pandokService;
 	
 	@RequestMapping(value = "/pandok/ris0601List.do")
-	public String ris0601ListPage(Model model) throws Exception {
-		// 페이지 이동 시 model에 데이터를 넣어서 이동
-		
-		// 사용자 ID와 권한 (동적으로 변경해야 함)
-		model.addAttribute("userName", "admin");
-		model.addAttribute("userGrade", "S");
-		
+	public String ris0601ListPage(HttpSession session, Model model) throws Exception {
+		// 세션에 있는 hspt_id 값 가져오기
+		String hsptId = session.getAttribute("hspt_id").toString();
 		// 촬영구분 리스트
-		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List();
+		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List(hsptId);
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 	    String ris0102ListJson = objectMapper.writeValueAsString(ris0102Data);
 	    
+	    // 페이지 이동 시 model에 데이터를 넣어서 이동
 	    // 기존 List<DTO> 형태 데이터
 	    model.addAttribute("ris0102Data", ris0102Data);
 	    // JS에서 사용하기 위한 변환된 JSON 데이터
@@ -52,7 +49,7 @@ public class RIS0601E00Controller {
 		
 	    
 	    // 의사 ID 리스트
-		List<RisUserDTO> risUserData = pandokService.getRisUserList();
+		List<RisUserDTO> risUserData = pandokService.getRisUserList(hsptId);
 		model.addAttribute("risUserData", risUserData);
 		
 		return ".main/pandok/RIS0601E00";
@@ -64,9 +61,12 @@ public class RIS0601E00Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
+		String userGrade = session.getAttribute("user_grade").toString();
+		
 		Map<String, String> param = new HashMap<>();
 		
 		// 의사ID와 촬영구분 parameter로 설정
+		param.put("hsptId", map.get("hsptId").toString());
 		param.put("docId", map.get("docId").toString());
 		param.put("imgnDvsn", "%".equals(map.get("imgnDvsn").toString()) ? "all" : map.get("imgnDvsn").toString());
 		
@@ -79,17 +79,24 @@ public class RIS0601E00Controller {
 	
 	@RequestMapping(value = "/pandok/saveRis0601List.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject saveRis0601List(@RequestBody List<Ris0601DTO> map, HttpSession session, HttpServletRequest request,
+	public JSONObject saveRis0601List(@RequestBody List<Ris0601DTO> dtos, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 		JSONObject json = new JSONObject();
 		
-		System.out.println(map);
+		String hsptId = session.getAttribute("hspt_id").toString();
+		String loginId = session.getAttribute("login_id").toString();
 		int cnt = 0;
 		
-		for (Ris0601DTO m : map) {
-			if (m.getFlag() != "") {
-				if (m.getFlag() == "입력") {
-					int duplicateCheck = pandokService.duplicateCheck(m); 
+		for (Ris0601DTO dto : dtos) {
+			// 그리드에서 받은 dto에 세션 값 넣어주기
+			dto.setHsptId(hsptId);
+			dto.setLoginId(loginId);
+			
+			// 입력, 수정, 삭제일 경우
+			if (dto.getFlag() != null && !dto.getFlag().equals("")) {
+				// 입력일 경우만 중복 체크
+				if (dto.getFlag().equals("입력")) {
+					int duplicateCheck = pandokService.duplicateCheck(dto); 
 					
 					if (duplicateCheck == 1) {					
 						json.put("msg", "중복");
@@ -97,7 +104,9 @@ public class RIS0601E00Controller {
 						return json;
 					}				
 				}
-				pandokService.saveRis0601List(m);
+				
+				// 수정, 삭제는 바로 진행
+				pandokService.saveRis0601List(dto);
 				cnt += 1;
 			}			
 		}

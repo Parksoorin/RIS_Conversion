@@ -39,17 +39,19 @@
 
     <script>
     $(document).ready(function () {
+    	var hsptId = "${hspt_id}";
         $("#list1").jqGrid({
+        	
         	url: "/RISPRGMQ00.do",   // 서버주소 
         	reordercolNames:true,
-            postData : { type: 'A' }, // 보낼 파라미터
+            postData : { hsptId: hsptId }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-       		colNames: ["시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방싱", "사용", "완료"],
+       		colNames: ["시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방식", "사용", "완료"],
        		colModel: [
 	          	{ 
-	          		name: "systemId",
-	          		index: "systemId", 
+	          		name: "systemName",
+	          		index: "systemName", 
 	          		width: 100, 
 	          		align: "center", 
 	          		editable: true,
@@ -65,6 +67,8 @@
 	            	width: 80, 
 	            	align: "center",
 	            	editable: true,
+	            	formatter:"select", 
+		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 추가"
                 	edittype: 'select',
                 	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회; Option4:출력; Option5:배치" }
 	            },
@@ -74,6 +78,8 @@
 	            	width: 80, 
 	            	align: "center", 
 	            	editable: true,
+	            	formatter:"select", 
+		    	 	formatoptions :{value: "Z:메뉴헤더; M:메인화면; P:팝업화면" },
                 	edittype: 'select',
                 	editoptions: { value: "Option1:메인화면; Option2:팝업화면; Option3:메뉴헤더" }
 	            },
@@ -106,6 +112,7 @@
           	autowidth: true,
           	height: "94%",
           	rownumbers: true,
+          	rowNum: 999, // 페이징 해제
           	sortname: "id",
           	sortorder: "asc",
           	rownumbers: true,

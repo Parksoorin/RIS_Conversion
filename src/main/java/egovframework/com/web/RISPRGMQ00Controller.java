@@ -33,12 +33,12 @@ public class RISPRGMQ00Controller {
 	
 	@RequestMapping(value = "/RISPRGMQ00.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RISPRGMQ00(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISPRGMQ00(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
 	        HttpServletResponse response, Model model) throws Exception {
 			
 			System.out.println("/RISPRGMQ00.do POST!!!!");
 			JSONObject json = new JSONObject(); 
-			List<RisPgrmDTO> data =comService.RisPrgmList(); 
+			List<RisPgrmDTO> data =comService.RisPrgmList(hsptId); 
 			  
 			JSONArray rowsArray = new JSONArray(); 
 			JSONObject row = new JSONObject(); 

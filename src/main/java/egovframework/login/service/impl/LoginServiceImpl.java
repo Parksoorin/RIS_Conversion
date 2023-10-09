@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.login.service.LoginService;
-import egovframework.com.model.RisUserDTO;
+import egovframework.login.model.RisUserDTO;
 import egovframework.login.mapper.LoginMapper;
 
 

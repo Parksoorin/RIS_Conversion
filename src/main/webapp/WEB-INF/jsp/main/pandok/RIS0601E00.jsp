@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
       <section class="search__container">
         <!-- 의사 리스트 -->
         <c:choose>
-          <c:when test="${userGrade eq 'S' || userGrade eq 'A'}">
+          <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A'}">
 	      	<div class="search__box docId__search">
 	          <p class="filter__keyword">의사 :</p>
 	          <select id="selectDocId" class="filter__options">
@@ -53,10 +53,12 @@ pageEncoding="UTF-8"%>
 
       <div class="grid__container main__container-twoGrid">
         <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
+          <!-- 판독정형문 타이틀 -->
           <div class="grid__title">
             <p>판독정형문</p>
+            <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
           </div>
+          
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
             <section class="grid__box">
@@ -67,8 +69,8 @@ pageEncoding="UTF-8"%>
         </div>
 
         <div class="twoGrid__container">
-          <!-- 그리드 타이틀 -->
-          <div class="grid__title">
+          <!-- 판독내용 타이틀 -->
+          <div class="grid__title title__btn">
             <div class="btn__container">
         	  <button id="copyBtn" class="all__btn img__btn fontawesome__btn copy__icon">복사</button>
               <button id="pasteBtn" class="all__btn img__btn fontawesome__btn paste__icon">붙여넣기</button>
@@ -76,14 +78,14 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-        	  <button id="refreshBtn" class="all__btn fontawesome__btn rotate__icon"></button>
         	  <button id="insertBtn" class="all__btn img__btn fontawesome__btn insert__icon">입력</button>
               <button id="updateBtn" class="all__btn img__btn fontawesome__btn update__icon">수정</button>
 		      <button id="deleteBtn" class="all__btn img__btn fontawesome__btn delete__icon">삭제</button>
     		  <button id="saveBtn" class="all__btn img__btn fontawesome__btn save__icon">저장</button>
             </div>
           </div>
-          <!-- 그리드 박스 -->
+          
+          <!-- 판독내용 박스 -->
           <div class="twoGrid__box">
             <section class="grid__box textarea__box">
               <label for="viewText">판독 내용</label>
@@ -95,19 +97,13 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-   	  var selectDocId;
-   	  var userGrade = "${userGrade}";
+      var hsptId = "${hspt_id}";
+   	  var selectDocId = "${login_id}";
+   	  var userGrade = "${user_grade}";
    	  // JSON 형식으로 받은 model 안의 변수를 parse
    	  var ris0102ListForJs = JSON.parse('${ris0102List}');
    	  // 촬영 구분 select 태그로 변환
    	  var selectOption = {};
-   	  
-   	  // 권한이 S이거나 A일 경우 초기 의사ID 고정
-   	  if (userGrade == 'S' || userGrade == 'A') {
-   		  selectDocId = "all";
-   	  } else {
-   		  selectDocId = "${userName}";
-   	  }
 
    	  // jqGrid에서 사용할 ris0102List 생성
    	  for (data of ris0102ListForJs) {
@@ -118,15 +114,24 @@ pageEncoding="UTF-8"%>
    	  
       // 정형문 리스트 출력
       function setRis0601List() {
+    	  var selectDocIdValue = $("#selectDocId").val();
     	  // 권한이 관리자일 경우 의사ID 동적 변경
-    	  if ($("#selectDocId").val()) {
-	    	  selectDocId = $("#selectDocId").val();
+    	  if (selectDocIdValue) {
+	    	  selectDocId = selectDocIdValue;
     	  }
     	  
     	  // 공용코드 체크박스 선택 시
     	  if ($("#commonCheck").is(':checked')) {
     		  selectDocId = "COMMON";
+    	  } else {
+    		  if (selectDocIdValue) {
+    	    	  selectDocId = selectDocIdValue;
+        	  } else {
+	    		  selectDocId = "${login_id}";
+        	  }
     	  }
+    	  
+    	  console.log(selectDocId);
     	  
     	  // 촬영구분
     	  var selectImgnDvsn = $("#selectImgnDvsn").val();
@@ -136,6 +141,7 @@ pageEncoding="UTF-8"%>
               url: "/pandok/getRis0601List.do",
               reordercolNames:true,
               postData: {
+            	  hsptId: hsptId,
             	  docId: selectDocId,
             	  imgnDvsn: selectImgnDvsn 
               },
@@ -320,14 +326,17 @@ pageEncoding="UTF-8"%>
 		  var grid = $("#list1");
 		  var newDocId = "";
 		  
-		  // 공용 코드일 경우 & 의사 아이디가 선택된 경우 & 그 외
+		  // 공용 코드일 경우 & 의사 아이디가 선택된 경우(관리자 이상) & 관리자가 아닐 때 & 그 외
 		  if ($("#commonCheck").is(":checked")) {
 			  newDocId = "COMMON";
 		  } else if ($("#selectDocId").val() && $("#selectDocId").val() !== "all") {
 			  newDocId = $("#selectDocId").val();
+		  } else if (userGrade !== "S" && userGrade !== "U") {
+			  newDocId = selectDocId;
 		  } else {
 			  return alert("의사 ID를 먼저 선택해주세요.");
 		  }
+		  
 		  var newRowId = (grid.jqGrid('getDataIDs').length + 1).toString(); // 현재 행 개수 + 1로 아이디 생성
 		  var newRowData = { id: newRowId, flag: '입력', docId: newDocId, tmplCd: '', imgnDvsnCd: '', viewAbbrNm: '', viewText: '' }; // 빈 행 데이터 생성
 		  
@@ -479,6 +488,13 @@ pageEncoding="UTF-8"%>
       
       // 공용코드
       $("#commonCheck").change(function() {
+    	  if ($("#commonCheck").is(":checked")) {    		  
+	    	  if (userGrade !== 'S' && userGrade !== 'U') {
+	    		  $(".btn__container").css("display", "none");
+	    	  }
+    	  } else {
+    		  $(".btn__container").css("display", "flex");
+    	  }
     	  refreshPage();
       })
       

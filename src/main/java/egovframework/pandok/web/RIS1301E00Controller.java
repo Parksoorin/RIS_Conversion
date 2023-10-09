@@ -29,8 +29,10 @@ public class RIS1301E00Controller {
 	PandokService pandokService;
 	
 	@RequestMapping(value = "/pandok/ris1301List.do")
-	public String ris1301ListPage(Model model) throws Exception {
-		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List();
+	public String ris1301ListPage(HttpSession session, Model model) throws Exception {
+		String hsptId = session.getAttribute("hspt_id").toString();
+		
+		List<Ris0102DTO> ris0102Data = pandokService.getRis0102List(hsptId);
 		
 		model.addAttribute("ris0102Data", ris0102Data);
 		
@@ -46,6 +48,7 @@ public class RIS1301E00Controller {
 		Map<String, String> param = new HashMap<>();
 		
 		param.put("viewYn", map.get("viewYn").toString());
+		param.put("voicViewYn", map.get("voicViewYn").toString());
 		param.put("startDate", map.get("startDate").toString());
 		param.put("endDate", map.get("endDate").toString());
 		param.put("ris1301Dvsn", "%".equals(map.get("ris1301Dvsn").toString()) ? "all" : map.get("ris1301Dvsn").toString());
@@ -91,10 +94,68 @@ public class RIS1301E00Controller {
 		JSONObject json = new JSONObject();
 		
 		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
 		
 		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
 		
-		cnt += ris1301Data;
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
+		
+		json.put("cnt", cnt);
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/pandok/finishRis1301List.do")
+	@ResponseBody
+	public JSONObject finishRis1301List(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
+		
+		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
+		
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
+		
+		json.put("cnt", cnt);
+		
+		return json;
+	}
+	
+	@RequestMapping(value = "/pandok/deleteRis1301List.do")
+	@ResponseBody
+	public JSONObject deleteRis1301List(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		JSONObject json = new JSONObject();
+		
+		int cnt = 0;
+		Map<String, Object> param = new HashMap<>();
+		int pkRis1201 = Integer.parseInt(dto.getOrdrFk().toString().substring(3));
+		
+		param.put("pkRis1201", pkRis1201);
+		param.put("ordrFk", dto.getOrdrFk().toString());
+		
+		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1201Data = pandokService.saveTempRis1201List(param);
+		
+		if (ris1301Data * ris1201Data == 1) {			
+			cnt += 1;
+		}
 		
 		json.put("cnt", cnt);
 		

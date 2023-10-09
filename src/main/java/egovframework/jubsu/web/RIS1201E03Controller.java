@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,14 +84,57 @@ public class RIS1201E03Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		
 		JSONObject json = new JSONObject(); 
-	
-		System.out.println(selectRowData);
 		
-		RIS1201E0302DTO ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
+		List<RIS1201E0302DTO> ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
 		
-		json.put("rows", ris1201DtoDetail);
+		JSONArray jsonArray = new JSONArray();
+		
+		for (RIS1201E0302DTO dto : ris1201DtoDetail) {
+			
+			jsonArray.add(dto);
+		}
+		
+		json.put("rows", jsonArray);
 		
 		return json;
 	}
+	
+	// 처방 정보 관리 페이지 수정 및 입력
+	@RequestMapping(value = "/jubsu/RIS1201E03UpdateInsert.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1201E00UpdateInsert(@RequestBody RIS1201E0302DTO dto, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+	
+		JSONObject json = new JSONObject();
+		
+		System.out.println("55");
+		System.out.println(dto);
+		
+		
+		int result = 0;
+		
+		String flag = dto.getFlag();
+		
+		switch (flag) {
+		case "U":
+			result = ris1201E03Service.updateData(dto);
+			break;
+//		case "I":
+//			result = RIS1201E03Service.insertData(dto);
+//			break;
+		}
+		
+		if (result < 1) {
+			json.put("result", "error");
+			return json;
+		}
+		
+		
+		json.put("result", "success");
+		return json;
+		
+	}
+	
+	
 		
 }

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
-import egovframework.com.model.RisUserDTO;
+import egovframework.login.model.RisUserDTO;
 
 
 @Mapper("LoginMapper")

@@ -16,7 +16,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @EqualsAndHashCode
-public class Ris0103DTO {
+public class Ris0109DTO {
 	@NotBlank
 	@Size(max = 20)
 	private String hsptId; 

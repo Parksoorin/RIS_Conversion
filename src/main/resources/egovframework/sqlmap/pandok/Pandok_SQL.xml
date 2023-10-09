@@ -6,7 +6,7 @@
           FROM ris0601 A
           JOIN ris0102 B
             ON B.LRGC_CD = "IMGN_DVSN_CD" AND A.IMGN_DVSN_CD = B.MDDL_CD
-         <where>B.HSPT_ID = "A001"
+         <where>B.HSPT_ID = #{hsptId}
          	<if test="imgnDvsn != 'all'">
          		AND A.IMGN_DVSN_CD = #{imgnDvsn}
          	</if>
@@ -16,16 +16,16 @@
          </where>;
 	</select>
 	
-	<select id="getRis0102List" resultType="egovframework.pandok.model.Ris0102DTO">
+	<select id="getRis0102List" parameterType="java.lang.String" resultType="egovframework.pandok.model.Ris0102DTO">
 		SELECT MDDL_CD, MDDL_KR_NM
 		  FROM ris0102
-		 WHERE HSPT_ID = "A001" AND LRGC_CD = "IMGN_DVSN_CD"; 
+		 WHERE HSPT_ID = #{hsptId} AND LRGC_CD = "IMGN_DVSN_CD"; 
 	</select>
 	
-	<select id="getRisUserList" resultType="egovframework.pandok.model.RisUserDTO">
+	<select id="getRisUserList" parameterType="java.lang.String" resultType="egovframework.pandok.model.RisUserDTO">
 		SELECT LOGIN_ID, LOGIN_NM
 		  FROM risuser
-		 WHERE HSPT_ID = "A001";
+		 WHERE HSPT_ID = #{hsptId};
 	</select>
 	
 	<select id="getRis1301List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris1301DTO">
@@ -43,16 +43,14 @@
 			   B.ORDR_DOC_ID,
 			   F.MDDL_KR_NM AS ORDR_DOC_NM,
 			   CASE
-		       		WHEN A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL THEN 'Y'
+		       		WHEN A.VIEW_DTTM IS NOT NULL THEN 'Y'
 		       		ELSE 'N'
 		       END AS VIEW_YN,
 			   CASE
-		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN DATE(A.VOIC_RGST_DTTM)
 		       		WHEN A.VIEW_DTTM IS NOT NULL THEN A.VIEW_DATE
 		       		ELSE NULL
 		       END AS VIEW_DATE,
 			   CASE
-		       		WHEN A.VOIC_RGST_DTTM IS NOT NULL THEN TIME(A.VOIC_RGST_DTTM)
 		       		WHEN A.VIEW_DTTM IS NOT NULL THEN TIME(A.VIEW_DTTM)
 		       		ELSE NULL
 		       END AS VIEW_TIME,
@@ -95,14 +93,11 @@
 	   <where> A.HSPT_ID = 'A001'
        	   <choose>
        	     <when test="viewYn == 'doneView'">
-       	       AND (A.VIEW_DTTM IS NOT NULL OR A.VOIC_RGST_DTTM IS NOT NULL)
+       	       AND A.VIEW_DTTM IS NOT NULL
        	     </when>
        	     <when test="viewYn == 'notView'">
-       	       AND (A.VIEW_DTTM IS NULL AND A.VOIC_RGST_DTTM IS NULL)
+       	       AND A.VIEW_DTTM IS NULL
        	     </when>
-       	     <otherwise>
-       	  	   AND 1=1
-       	     </otherwise>
        	   </choose>
 	       <if test="startDate != null and startDate != ''">
 	           AND B.PRSC_DATE >= #{startDate}
@@ -116,6 +111,14 @@
 	       <if test="ptntName != null and ptntName != ''">
 	           AND B.PTNT_NM = #{ptntName}
 	       </if>
+	       <choose>
+       	     <when test="voicViewYn == 'doneView'">
+       	       AND VOIC_VIEW_YN = 'Y'
+       	     </when>
+       	     <when test="voicViewYn == 'notView'">
+       	       AND (VOIC_VIEW_YN != 'Y' OR VOIC_VIEW_YN IS NULL)
+       	     </when>
+       	   </choose>
 	   </where>;
 	</select>
 	
@@ -126,15 +129,15 @@
 	</select>
 	
 	
-	<select id="duplicateCheck" parameterType="egovframework.pandok.model.Ris0601DTO" resultType="int">
+	<select id="duplicateCheck" resultType="int">
 		SELECT COUNT(*)
 		  FROM ris0601
-		 WHERE HSPT_ID = 'A001' AND
+		 WHERE HSPT_ID = #{hsptId} AND
 		       DOC_ID = #{docId} AND
 		       TMPL_CD = #{tmplCd}
 	</select>
 	
-	<insert id="saveRis0601List" parameterType="egovframework.pandok.model.Ris0601DTO">
+	<insert id="saveRis0601List">
 		<choose>
 			<when test="flag == '입력'">
 				INSERT INTO ris0601 (
@@ -147,13 +150,13 @@
 					RGST_ID,
 					RGST_DTTM
 				) VALUES (
-					'A001',
+					#{hsptId},
 					#{docId},
 					#{tmplCd},
 					#{imgnDvsnCd},
 					#{viewAbbrNm},
 					#{viewText},
-					'admin',
+					#{loginId},
 					NOW()
 				)
 			</when>
@@ -162,15 +165,15 @@
 					   IMGN_DVSN_CD = #{imgnDvsnCd},
 					   VIEW_ABBR_NM = #{viewAbbrNm},
 					   VIEW_TEXT = #{viewText},
-					   MDFC_ID = 'admin',
+					   MDFC_ID = #{loginId},
 					   MDFC_DTTM = NOW()
-				 WHERE HSPT_ID = 'A001' AND
+				 WHERE HSPT_ID = #{hsptId} AND
 				 	   DOC_ID = #{docId} AND
 				 	   TMPL_CD = #{tmplCd} 
 			</when>
 			<when test="flag == '삭제'">
 				DELETE FROM ris0601
-				 WHERE HSPT_ID = 'A001' AND
+				 WHERE HSPT_ID = #{hsptId} AND
 				 	   DOC_ID = #{docId} AND
 				 	   TMPL_CD = #{tmplCd} 
 			</when>
@@ -178,11 +181,54 @@
 	</insert>
 	
 	<update id="saveTempRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
-		UPDATE ris1301 SET
-			   VIEW_TEXT = #{viewText},
+		UPDATE ris1301 
+		   SET VIEW_TEXT = #{viewText},
+		   	   MDFC_ID = 'admin',
+		   	   MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = 'A001' AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="saveTempRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '5'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="finishRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
+		UPDATE ris1301 
+		   SET VIEW_TEXT = '',
 			   VIEW_NOTE_TEXT = CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
 		 WHERE HSPT_ID = 'A001' AND
 		       VIST_DVSN = #{vistDvsn} AND
-		       ORDR_FK = #{ordrFk}
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="finishRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '6'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="deleteRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
+		UPDATE ris1301 
+		   SET VIEW_TEXT = '',
+			   VIEW_NOTE_TEXT = ''
+		 WHERE HSPT_ID = 'A001' AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk};
+	</update>
+	
+	<update id="deleteRis1201List" parameterType="java.util.HashMap">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '3'
+		 WHERE HSPT_ID = 'A001' AND
+		 	   PKRIS1201 = #{pkRis1201} AND
+		 	   ORDR_FK = #{ordrFk};
 	</update>
 </mapper>

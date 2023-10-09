@@ -13,6 +13,17 @@
 	border-radius: 3px;
 }
 
+.grid__title {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	gap: 10px;
+}
+
+.title__btn {
+	justify-content: space-between;
+}
+
 .fontawesome__btn::before {
 	width: 14px;
 	height: 14px;

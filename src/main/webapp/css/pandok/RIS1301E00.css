@@ -18,7 +18,7 @@
 }
 
 .pandok__radio {
-	margin-left: 4px;
+	margin-left: 10px;
 }
 
 .pandok__label {
@@ -35,12 +35,32 @@
 	margin: 0px 5px;
 }
 
-.pat__name {
-	width: 150px;
+.grid__title {
+	padding: 0px 10px;
+}
+
+.pat__container {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.pat__info-label {
+	width: 65px;
+}
+
+.pat__id {
+	width: 210px;
 }
 
 .pat__list-icon {
 	margin-left: 10px;
+	margin-right: 5px;
+}
+
+.pat__name {
+	width: 100px;
+	margin-right: 5px;
 }
 
 .pat__age, .pat__sex {
@@ -63,8 +83,24 @@
 	color: #218ECB;
 }
 
+.voic__filter-container {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.voic__filter {
+	display: flex;
+	height: 30px;
+	align-items: center;
+}
+
+
+/* 아래 그리드 */
+
 .main__container-twoGrid {
 	flex-direction: column;
+	height: calc(100% - 60px);
 }
 
 .twoGrid__container {
@@ -101,14 +137,17 @@
 	gap: 5px;
 }
 
-.grid__title {
-	height: 40px;
-	padding: 0px 10px;
+.main__title {
+	height: 75px;
 }
 
 .twoGrid__box {
 	padding: 0px;
-	height: calc(100% - 45px);
+	height: calc(100% - 55px);
+}
+
+.main__twoGrid-box {
+	height: calc(100% - 75px);
 }
 
 .left__container {
@@ -137,4 +176,26 @@
 
 textarea {
 	resize: none;
+}
+
+input[type="text"]:disabled, textarea:disabled, textarea:read-only {
+	color: rgb(84, 84, 84);
+	background-color: #ccc !important;
+}
+
+button:disabled:hover {
+	cursor: default;
+	background-color: #fff;
+}
+
+.record__icon:disabled::before, .play__icon:disabled::before, .download__icon:disabled::before {
+    color: #1010104D;
+}
+
+button:disabled:active {
+	color: #1010104D;
+}
+
+button:disabled::before:active {
+	color: #1010104D;
 }

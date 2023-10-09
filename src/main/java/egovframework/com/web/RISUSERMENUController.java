@@ -30,11 +30,17 @@ public class RISUSERMENUController {
 	@Resource(name="ComService")
 	private ComService comService;
 	
+	@RequestMapping(value = "/RISUSERMENU_POP.do")
+	public String menupopup(Model model) throws Exception {
+		return ".popup/RISUSERMENU_POP";
+	}
+	
 	@RequestMapping(value = "/RISUSERMENU.do")
 	public String menu(Model model) throws Exception {
 		return ".main/com/RISUSERMENU";
 	}
 	
+	// 그리드1
 	@RequestMapping(value = "/RISUSERMENU.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISUSERMENU(@RequestParam String type, HttpSession session, HttpServletRequest request,
@@ -52,6 +58,7 @@ public class RISUSERMENUController {
 		return json;
 	}
 	
+	//그리드2
 	@RequestMapping(value = "/RISUSERMENU2.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISUSERMENU2(@RequestParam String type, String type2, HttpSession session, HttpServletRequest request,
@@ -63,6 +70,24 @@ public class RISUSERMENUController {
         params.put("type2", type2);
 		JSONObject json = new JSONObject(); 
 		List<RisUrmnDTO> data =comService.RisUserMenuList2(params); 
+		  
+		JSONArray rowsArray = new JSONArray(); 
+		JSONObject row = new JSONObject(); 
+		  
+		json.put("rows", data);
+
+		return json;
+	}
+	
+	// 팝업
+	@RequestMapping(value = "/RISUSERMENU_POP.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RISUSERMENU_POP(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	        HttpServletResponse response, Model model) throws Exception {
+		
+		System.out.println("/RISUSERMENU_POP.do POST!!!!");
+		JSONObject json = new JSONObject(); 
+		List<RisUrmnDTO> data =comService.popupUrmnList(); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 
