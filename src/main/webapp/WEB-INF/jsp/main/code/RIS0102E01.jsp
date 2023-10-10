@@ -111,10 +111,10 @@
                     <option value="${result.mddlCd}"><c:out value="${result.mddlKrNm}" /></option>
                   </c:forEach>
                 </select>
-              </td>
-            </tr>
+              </td>         
             <th><span id="col_mddl_engl_nm">촬영실 정보</span></th>
-              <td><div><input type="text" id="mddl_engl_nm" name="mddl_engl_nm" value="" readonly="readonly"></div></td>         
+              <td><div><input type="text" id="mddl_engl_nm" name="mddl_engl_nm" value="" readonly="readonly"></div></td>     
+              </tr>    
             <tr>
               <th><span id="col_chrc1">*촬영실 장비</span></th>
               <td>

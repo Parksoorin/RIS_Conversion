@@ -71,7 +71,6 @@ public class Ris0102Controller {
 		JSONObject json = new JSONObject();
 		Ris0102DTO list = ris0102Service.findRis0102View(requestMap); // 중분류 코드 리스트 데이터
 		json.put("rows", list);
-		System.out.println("list :::"+list);
 
 		return json;
 	}
@@ -104,7 +103,7 @@ public class Ris0102Controller {
 		json.put("result", "true");
 		int result = 0;
 		System.out.println("checkLMS :::"+checkLMS);
-		if("M".equals(checkLMS) && "U".equals(requestMap.get("iud"))){
+		if("M".equals(checkLMS) && "U".equals(requestMap.get("iud")) || "D".equals(requestMap.get("iud"))){
 			result = ris0101Service.updateRis0102Data(requestMap);
 		}
 		json.put("error_code", 0);
@@ -158,17 +157,6 @@ public class Ris0102Controller {
 		}
 		return json;
 	}
-	
-	//촬영실 관리화면
-		@RequestMapping(value = "/RIS0102E01.do")
-		public String RIS0102E01(Model model,Map<String, Object> requestMap) throws Exception {
-
-			requestMap.put("hsptId","A001");
-			requestMap.put("lrgcCd","IMGN_ROOM_CD");
-			List<Ris0102DTO> list = ris0102Service.findRis0102List(requestMap); // 중분류 코드 리스트 데이터
-			model.addAttribute("resultList", list);
-			return ".main/code/RIS0102E01";
-		}
 
 }
 
