@@ -54,7 +54,18 @@
 			WHERE PKRIS1201 = #{pkris1201};
 	</update>
 
-
+	<select id="ris0102JoinRis1201PopData" resultType="egovframework.jubsu.model.RIS0102JoinRIS1201DTO" >
+		SELECT
+			    ris1201 .PKRIS1201,
+			    ris1201 .IMGN_CD,
+			    ris1201 .ORDR_NM,
+			    r1.MDDL_KR_NM AS MDDL_KR_NM_ONE,
+			    r2.MDDL_KR_NM AS MDDL_KR_NM_TWO
+			FROM ris1201 
+			LEFT JOIN ris0102 r1 ON r1.LRGC_CD = 'IMGN_ROOM_CD' AND r1.MDDL_CD = ris1201.IMGN_ROOM_CD
+			LEFT JOIN ris0102 r2 ON r2.LRGC_CD = 'IMGN_DVSN_CD' AND r2.MDDL_CD = ris1201.ORDR_BDYP_CD;
+	</select>
+	
 	
 
 </mapper>

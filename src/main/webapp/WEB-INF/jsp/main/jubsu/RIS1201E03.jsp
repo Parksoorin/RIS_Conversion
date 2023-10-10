@@ -277,6 +277,8 @@
           // 팝업 창을 열기
           var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
 
+          console.log("popup : ", popup);
+          
           // 팝업 창이 차단되었을 때 처리
           if (!popup || popup.closed || typeof popup.closed == 'undefined') {
               alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
@@ -619,12 +621,14 @@
 	});
 
   	
-  	/*
-	// 팝업 열기
-    function openPopup() {
+  	
+	// 처방정보 팝업 열기
+    function openPopUp() {
         // 팝업 창에 표시할 URL
-        var url = "/RISUSERMENU_POP.do";
+        var url = "/popup/RIS1201E03Detail_POP.do";
 
+        console.log("url :", url);
+        
         // 팝업 창의 크기와 위치 설정
         var width = 800;
         var height = 400;
@@ -634,12 +638,14 @@
         // 팝업 창을 열기
         var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
 
+        console.log("popup : ", popup);
+        
         // 팝업 창이 차단되었을 때 처리
         if (!popup || popup.closed || typeof popup.closed == 'undefined') {
             alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
         }
     }
-	*/
+	
 	
   	// 저장버튼 이벤트
   	document.getElementById("ris1201DataSave").addEventListener("click", function() {
