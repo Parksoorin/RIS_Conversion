@@ -20,7 +20,10 @@
         <input id="date1" type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input id="date2" type="date">
-        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1">검색</button>
+        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">검색
+        	<span class="tooltiptext tooltip-top">시작일 ~ 종료일로 휴일목록을 조회할 수 있습니다.</span>
+        </button>
+      		
       </section>
       
       <!-- 그리드 타이틀 -->

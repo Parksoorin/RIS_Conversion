@@ -123,9 +123,15 @@ pageEncoding="UTF-8"%>
         <input id="date1" type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input id="date2" type="date">
-        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1">검색</button>
-        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1">예약기준 적용</button>
-        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1">예약기준 삭제</button>
+        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">검색
+        	<span class="tooltiptext tooltip-top">촬영실을 선택하여 시작일 ~ 종료일로 예약 현황을 조회할 수 있습니다.</span>
+        </button>
+        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">예약기준 적용
+        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 월요일~일요일의 예약 기준을 적용합니다.</span>
+        </button>
+        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">예약기준 삭제
+        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 해당 기간의 예약 기준을 삭제합니다.</span>
+        </button>
 		</div>
       <div class="grid__container main__container-twoGrid">
         <div class="twoGrid__container">
@@ -134,11 +140,13 @@ pageEncoding="UTF-8"%>
                 <div class="width-20">시간 설정</div>
                 <div class="flex width-80 flex-end">
                   <div class="margin-10">* 생성구분 </div>
-                  <label for="new-create" class="margin-10">새로 생성 </label>
+                  <label for="new-create" class="margin-10">새로 생성</label>
                   <input type="radio" id="new-create" class="margin-10" name="create-gubun" checked>
                   <label for="addition-create" class="margin-10">추가 생성 </label>
                   <input class="margin-10"  type="radio" id="addition-create" name="create-gubun">
-                  <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10">기준 생성 </button>
+                  <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10 tooltip">기준 생성 
+                  	<span class="tooltiptext tooltip-top"><div>새로 생성 : 기존 예약 기준을 삭제 후 새로운 예약 기준을 적용합니다.</div><div>추가 생성 : 기존 예약 기준에 예약 기준을 추가합니다.</div></span>
+                  </button>
                 </div>
               </div>
               <div class="height-fix-50 flex ">

@@ -42,7 +42,9 @@ pageEncoding="UTF-8"%>
         <input id="date2" type="date" class="margin-10">
         <p class="filter__keyword margin-10">환자명 </p>
         <input id="ptntInput" type="text" class="margin-10">
-        <button id="ptntListBtn" class="all__btn img__btn img__btn update__btn margin-10">찾기</button>
+        <button id="ptntListBtn" class="all__btn img__btn img__btn update__btn margin-10 tooltip">찾기
+        	<span class="tooltiptext tooltip-top">환자 번호를 팝업창으로 찾을 수 있습니다.</span>
+        </button>
         <p class="filter__keyword margin-10">촬영구분환자명 </p>
         <select id="imagingDivision" class="margin-10">
           <!--  <option>전체</option> -->
@@ -64,7 +66,9 @@ pageEncoding="UTF-8"%>
         <label for="appointment-reserved" class="filter__keyword margin-10">예약 </label>
         <input type="radio" value="0" id="appointment-unreserved" class="margin-10" name="appointment-gubun" >
         <label for="appointment-unreserved" class="filter__keyword margin-10">미예약 </label>
- 		<button class="all__btn img__btn img__btn update__btn margin-10">검색</button>
+ 		<button class="all__btn img__btn img__btn update__btn margin-10 tooltip">검색
+ 			<span class="tooltiptext tooltip-top">조회일자, 환자명, 촬영실, 예약여부를 입력받아 예약 현황을 조회할 수 있습니다.</span>
+ 		</button>
       </section>
       <!-- 그리드 -->
       <div class="grid__container height-35">
@@ -152,7 +156,9 @@ pageEncoding="UTF-8"%>
          
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnBtn" class="all__btn img__btn save__btn">예약</button>
+              <button id="appnBtn" class="all__btn img__btn save__btn tooltip">예약
+              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 할 수 있습니다.</span>
+              </button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -170,7 +176,9 @@ pageEncoding="UTF-8"%>
             <p id="appnTimeText"></p>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnCancelBtn" class="all__btn img__btn save__btn">취소</button>
+              <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip">취소
+              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 취소할 수 있습니다.</span>
+              </button>
             </div>
           </div>
           <!-- 그리드 박스 -->
