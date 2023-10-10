@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
  		<button class="all__btn img__btn img__btn update__btn margin-10">검색</button>
       </section>
       <!-- 그리드 -->
-      <div class="grid__container height-40">
+      <div class="grid__container height-35">
         <section class="grid__box">
           <!-- 그리드 -->
           <table id="list1" class="grid1"></table>
@@ -76,7 +76,7 @@ pageEncoding="UTF-8"%>
     
 
 
-      <div class="grid__container main__container-twoGrid height-45">
+      <div class="grid__container main__container-twoGrid height-58">
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
@@ -110,12 +110,25 @@ pageEncoding="UTF-8"%>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <select  id="appointment-year">
-                <option></option>
+              <select  id="appointment-year" disabled>
+                 <c:forEach var="item" items="${yearList}">
+		          	<option value="${item}">${item}</option>
+		          </c:forEach>
               </select>
               <label for="appointment-year">년  </label>
-              <select  id="appointment-month">
-                <option></option>
+              <select  id="appointment-month" disabled>
+                  <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
               </select>
               <label for="appointment-month">월  </label>
             </div>
@@ -135,11 +148,11 @@ pageEncoding="UTF-8"%>
           <!-- 그리드 타이틀 -->
           
             <div class="grid__title">
-            <p></p>
+            <p id="appnDateText"></p>
          
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button class="all__btn img__btn save__btn">예약</button>
+              <button id="appnBtn" class="all__btn img__btn save__btn">예약</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -154,10 +167,10 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p></p>
+            <p id="appnTimeText"></p>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button class="all__btn img__btn save__btn">취소</button>
+              <button id="appnCancelBtn" class="all__btn img__btn save__btn">취소</button>
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -173,7 +186,7 @@ pageEncoding="UTF-8"%>
 
     <script>
     
-    
+    let externalChangeCalendar = null;
     const init = () => {
         dateInit();
       }
@@ -272,6 +285,151 @@ pageEncoding="UTF-8"%>
      });
     
     
+    
+    
+    $('#appnBtn').click(function(){
+    	
+    	    console.log('예약적용버튼 눌림');
+	  		
+    		var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
+    		var selectedRowId2 = $("#list2").jqGrid('getGridParam', 'selrow');
+        	
+    		if(!selectedRowId){
+		  		alert('예약할 처방을 선택해주세요');
+		  		return;
+		  	}
+    		
+    		if(!selectedRowId2){
+		  		alert('예약할 시간을 선택해주세요');
+		  		return;
+		  	}
+    		
+    		
+    		
+    	    let data = $("#list1").jqGrid("getRowData",selectedRowId );	// 처방 정보 데이터
+		  	let data2 = $("#list2").jqGrid("getRowData",selectedRowId2); // 리스트2 예약 시간 데이터
+    	    console.log(data);
+		  	//console.log(selectedRowId);
+		  	console.log(data2);
+		  	
+		  	var date1 = new Date(data.ordrDate);
+		  	var date2 = new Date(data2.exmnDate);
+		  	
+		  	if(date1>date2){
+		  		alert('예약일이 처방일보다 먼저입니다. 다른 날짜를 선택해주세요');
+		  		return;
+		  	}
+
+		  	if(data.appnDate){
+		  		if(!confirm('이미 예약이 생성된 처방입니다. 예약을 변경하시겠습니까?')){
+		  			return;
+		  		}
+		  	}
+		  	
+		  	console.log('서버실행 ');
+    	    
+    	   
+		  const postData = {
+				  'appnNoteText'	:  $('#appnNoteText').val(),	
+					'appnDate'	:	data2.exmnDate,
+					'appnTime'	:	data2.strtTime + ":00",
+					'hsptId'	:	data.hsptId,
+					'pkris1211'	:	data.pkris1211
+		  };
+		  
+		  console.log(postData);
+		  
+		  $.ajax({
+      	    url: '/appn/RIS1211E00/ris0211Update.do',
+        	    method: 'POST', 
+        	    data: JSON.stringify(postData),
+        	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+    			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+        	    success: function(response) {
+        	    	console.log('Success', response);
+        	    	alert('예약되었습니다');
+       				list1Data();
+       				list2Data(data2.exmnDate, data.imgnRoomCd);
+       				list3Data(data2.exmnDate, data2.strtTime + ":00", data.imgnRoomCd);
+       	    		externalChangeCalendar();
+        	    	 
+        	    },
+        	    error: function(error) {
+        	        console.error('Error ', error);
+        	    }
+		  
+	  		})
+	  		
+	  })
+	  $('#appnCancelBtn').click(function(){
+		  
+		  console.log('예약취소버튼 눌림');
+		  
+		  var selectedRowId = $("#list1").jqGrid('getGridParam', 'selrow');
+      	
+  		if(!selectedRowId){
+		  		alert('취소할 예약을 선택해주세요');
+		  		return;
+		 	}
+  		
+  	
+  		
+  		
+  		
+  	    let data = $("#list1").jqGrid("getRowData",selectedRowId );	// 처방 정보 데이터
+		console.log(data);
+		  	
+		  	if(!data.appnDate){
+		  		alert('예약이 안된 처방입니다.');
+		  		return;
+		  	}
+
+		
+		  	if(!confirm('예약을 정말 취소하시겠습니까?')){
+		  			return;
+		  	}
+		  	
+		  	console.log('서버실행 ');
+  	    
+  	   
+		  const postData = {
+				  'appnNoteText'	:  null,	
+					'appnDate'	:	null,
+					'appnTime'	:	null,
+					'hsptId'	:	data.hsptId,
+					'pkris1211'	:	data.pkris1211
+		  };
+		  
+		  console.log(postData);
+		  
+		  $.ajax({
+    	    url: '/appn/RIS1211E00/ris0211Update.do',
+      	    method: 'POST', 
+      	    data: JSON.stringify(postData),
+      	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+  			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+      	    success: function(response) {
+      	    	console.log('Success', response);
+      	    	alert('예약이 취소되었습니다.');
+     				list1Data();
+     				list2Data(data.appnDate, data.imgnRoomCd);
+     				list3Data(data.appnDate, data.appnTime, data.imgnRoomCd);
+     	    		externalChangeCalendar();
+      	    	 
+      	    },
+      	    error: function(error) {
+      	        console.error('Error ', error);
+      	    }
+		  
+	  		})
+		  
+		  
+		  
+		  
+	  })
+	  
+    
+    
     const list1Data = () => {
 	    var postData  = {	
 	    		'hsptId': 'A001',
@@ -287,6 +445,28 @@ pageEncoding="UTF-8"%>
 		reloadGrid1('#list1', postData, '/appn/RIS1211E00/ris0211Search.do');
    
    }
+    
+    const list2Data = (date, imgnRoomCd) => {
+	    var postData  = {	
+	    	
+	    		'hsptId' : 'A001',
+	    		'imgnRoomCd' : imgnRoomCd || $('#imaging').val(),
+	    		'date' : date
+      	};
+		reloadGrid1('#list2', postData, '/appn/RIS1211E00/ris0211List2Search.do');
+  
+  	}
+   
+    const list3Data = (date, time, imgnRoomCd) => {
+	    var postData  = {	
+	    		'hsptId' : 'A001',
+	    		'imgnRoomCd' : imgnRoomCd || $('#imaging').val(),
+	    		'appnDate' : date,
+	    		'appnTime' : time
+      	};
+		reloadGrid1('#list3', postData, '/appn/RIS1211E00/ris0211List3Search.do');
+  
+  }
     
     
     const reloadGrid1 = (list, postData, url) => {
@@ -305,7 +485,37 @@ pageEncoding="UTF-8"%>
           }
         }).trigger("reloadGrid");
     }
+  
     
+ // 총인원을 계산하는 함수
+    function calculateTotal(cellValue, options, rowObject) {
+      var outpatient = parseInt(rowObject.appnOutpPssbCnt) || 0;
+      var inpatient = parseInt(rowObject.appnInptPssbCnt) || 0;
+      var emergency = parseInt(rowObject.appnHlxmPssbCnt) || 0;
+
+      var total = outpatient + inpatient + emergency;
+      
+      return rowObject.appnSum + "/" + total;
+    }
+ 
+ 
+    function outpTotal(cellValue, options, rowObject) {
+        var outpatient = parseInt(rowObject.appnOutpPssbCnt) || 0;   
+        return rowObject.outpCnt + "/" + outpatient;
+      }
+      
+    function inptTotal(cellValue, options, rowObject) {
+        var inpatient = parseInt(rowObject.appnInptPssbCnt) || 0;   
+        return rowObject.inptCnt + "/" + inpatient;
+      }
+    
+    function hlxmTotal(cellValue, options, rowObject) {
+        var emergency = parseInt(rowObject.appnHlxmPssbCnt) || 0;   
+        return rowObject.hlxmCnt + "/" + emergency;
+      }
+    
+ 
+ 
       $(document).ready(function () {
         var mydata=[];
         init();
@@ -374,7 +584,7 @@ pageEncoding="UTF-8"%>
         center: '', // 중앙 영역 숨기기
         end: '' // 오른쪽 영역 숨기기
         },
-        height: '97%', // calendar 높이 설정
+        height: '100%', // calendar 높이 설정
         expandRows: true, // 화면에 맞게 높이 재설정
         slotMinTime: '08:00', // Day 캘린더에서 시작 시간
         slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
@@ -382,11 +592,12 @@ pageEncoding="UTF-8"%>
         initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
  //       initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
         navLinks: false, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
-        editable: true, // 수정 가능?
-        selectable: true, // 달력 일자 드래그 설정가능
-        nowIndicator: true, // 현재 시간 마크
+        editable: false, // 수정 가능?
+        selectable: false, // 달력 일자 드래그 설정가능
+        nowIndicator: false, // 현재 시간 마크
+        disableDragging: true,
         dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
-        locale: 'ko', // 한국어 설정
+        // locale: 'ko', // 한국어 설정
         eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
           console.log(obj);
         },
@@ -396,77 +607,109 @@ pageEncoding="UTF-8"%>
         eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
           console.log(obj);
         },
+        dateClick: function(info) {
+      	  //alert('Clicked on: ' + info.dateStr);
+      	  //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+      	  //alert('Current view: ' + info.view.type);
+			  console.log('aaa');
+			  //list3Date = info.dateStr;
+			  console.log(info); // info.dateStr   '2023-09-13'
+			  list2Data(info.dateStr, "");
+	    	
+			  
+			  $("#appnDateText").text(info.dateStr);
+	            $("#appnTimeText").text('');
+			  //list3Data(info.dateStr);
+      		  
+		},
         select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
-          var title = prompt('Event Title:');
-          if (title) {
-            calendar.addEvent({
-              title: title,
-              start: arg.start,
-              end: arg.end,
-              allDay: arg.allDay
-            })
-          }
-          calendar.unselect()
+         // var title = prompt('Event Title:');
+         // if (title) {
+         //   calendar.addEvent({
+          //    title: title,
+          //    start: arg.start,
+          //    end: arg.end,
+          //    allDay: arg.allDay
+          //  })
+          //}
+          //calendar.unselect()
         },
-        // 이벤트 
-        events: [
-          {
-            title: 'All Day Event',
-            start: '2021-07-01',
-          },
-          {
-            title: 'Long Event',
-            start: '2021-07-07',
-            end: '2021-07-10'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2021-07-09T16:00:00'
-          },
-          {
-            groupId: 999,
-            title: 'Repeating Event',
-            start: '2021-07-16T16:00:00'
-          },
-          {
-            title: 'Conference',
-            start: '2021-07-11',
-            end: '2021-07-13'
-          },
-          {
-            title: 'Meeting',
-            start: '2021-07-12T10:30:00',
-            end: '2021-07-12T12:30:00'
-          },
-          {
-            title: 'Lunch',
-            start: '2021-07-12T12:00:00'
-          },
-          {
-            title: 'Meeting',
-            start: '2021-07-12T14:30:00'
-          },
-          {
-            title: 'Happy Hour',
-            start: '2021-07-12T17:30:00'
-          },
-          {
-            title: 'Dinner',
-            start: '2021-07-12T20:00:00'
-          },
-          {
-            title: 'Birthday Party',
-            start: '2021-07-13T07:00:00'
-          },
-          {
-            title: 'Click for Google',
-            url: 'http://google.com/', // 클릭시 해당 url로 이동
-            start: '2021-07-28'
-          }
-        ]
+        
+        
+        
       });
+        
       // 캘린더 랜더링
+      
+      $("#appointment-year").change(function(){
+			  changeCalendar();
+		  });
+      
+	      $("#appointment-month").change(function(){
+	    	  changeCalendar();
+	      });
+	      
+	      $('#imaging').change(function() {
+	    	  changeCalendar();
+	       });
+	      
+	      const changeCalendar = () => {
+	    	  let year = $("#appointment-year").val();
+			  let month = $("#appointment-month").val();
+			  if(month.length===1){
+				  month = '0' + month;
+			  }
+			  let firstDayOfMonth = year + '-' + month + '-01';
+			  console.log(firstDayOfMonth);
+			  calendar.gotoDate(firstDayOfMonth);
+			  
+			  let lastDayOfMonth = new Date(year, month, 0);
+			  lastDayOfMonth = year + '-' + month + '-' + lastDayOfMonth.getDate();
+			  console.log('월말:', lastDayOfMonth);
+			  
+			  const postData = {
+					  imgnRoomCd : $('#imaging').val(),
+					  hsptId : 'A001',
+					  startDate : firstDayOfMonth,
+					  endDate : lastDayOfMonth
+			  }
+			  
+			  
+			  $.ajax({
+	        	    url: '/appn/RIS0201E00/risappnCalSearch.do',
+	        	    method: 'POST', 
+	        	    data: JSON.stringify(postData),
+	        	    dataType: "JSON", //응답받을 데이터 타입 (XML,JSON,TEXT,HTML,JSONP)    			
+	    			contentType: "application/json; charset=utf-8", //헤더의 Content-Type을 설정
+	        	    success: function(response) {
+	        	    	calendar.removeAllEvents();
+	        	    	console.log(response);
+	        	    	response.forEach(data => {
+	        	    		const obj = {
+	        	    				title: data.appnCnt + ' / ' + data.total,
+	        	    	            start: data.exmnDate
+	        	    		}
+
+        	    			console.log(data.appnHoliDate);
+	        	    		if(data.appnHoliDate){
+	        	    			obj.title = '0 / 0';
+	        	    			obj.backgroundColor = 'yellow';
+	        	    			obj.borderColor = 'yellow';
+	        	    			obj.textColor = 'black';
+	        	    		}
+	        	    		calendar.addEvent(obj);
+	        	    	});
+	        	    	
+	        	    	console.log(response);
+	        	    	//calendar.render();
+	        	    	
+	        	    },
+	        	    error: function(error) {
+	        	        console.error('Error ', error);
+	        	    }
+	        	});
+	      }
+	      externalChangeCalendar = changeCalendar;
       calendar.render();
     });
 
@@ -526,6 +769,8 @@ pageEncoding="UTF-8"%>
             console.log(data);
           }, // loadComplete END
           onSelectRow: function (rowid) {
+        	  console.log('================================');
+                
             console.log(rowid);
             let data = $("#list1").jqGrid("getRowData",rowid );
             console.log(data);
@@ -555,6 +800,11 @@ pageEncoding="UTF-8"%>
                         option.value = item.mddlCd;
                         option.textContent = item.mddlKrNm;
                         selectElement.appendChild(option);
+                        
+                        if(data.imgnRoomCd===item.mddlCd){
+                        	$("#imaging").val(item.mddlCd);
+                        }
+                        
                     });	
           	    },
           	    error: function(error) {
@@ -564,13 +814,27 @@ pageEncoding="UTF-8"%>
             
             
             $('#imaging').prop('disabled', false);
+            //$("#imaging").val(valueToSelect);
             // $('#ordrNoteText').prop('disabled', false);
             $('#ordrNoteText').val(data.ordrNoteText);
             $('#appnNoteText').val(data.appnNoteText);
             $('#appnNoteText').prop('disabled', false);
             
+            $("#appointment-year").prop('disabled', false);
+            $("#appointment-month").prop('disabled', false);
+            const { firstDay} = getFirstAndLastDayOfMonth();
+            
+            $("#appointment-year").val(firstDay.substring(0,4));
+            $("#appointment-month").val(firstDay.substring(5,7));
+            externalChangeCalendar();
+            $("#appnDateText").text(data.appnDate);
+            $("#appnTimeText").text(data.appnTime);
             
             
+            //if(data.appnDate !== "" && data.appnTime !== ""){
+            	list2Data(data.appnDate, data.imgnRoomCd);
+            	list3Data(data.appnDate, data.appnTime, data.imgnRoomCd);
+            //}
             
             
           },
@@ -607,19 +871,28 @@ pageEncoding="UTF-8"%>
             	'imgnRoomCd': 'CT1',
             	'date' : '2022-03-21'
             }),
-          colNames: ["예약시간", "총인원", "외래", "입원", "건진" ],
+          colNames: ["예약시간", "총인원", "외래", "입원", "건진", "날짜-hidden", "총예약수-H", "외래예약수-H", "입원예약수-H" , "건진예약수-H" ],
           colModel: [
             { name: "strtTime", index: "strtTime", width: 90, align: "center" },
-            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 100, align: "center" },
+            { name: "appnOutpPssbCnt", index: "appnOutpPssbCnt", width: 100, align: "center", formatter: calculateTotal },
             {
               name: "appnOutpPssbCnt",
               index: "appnOutpPssbCnt",
               width: 150,
-              align: "center",
+              align: "center", formatter: outpTotal
             },
-            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center" },
-            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center" },
+            { name: "appnInptPssbCnt", index: "appnInptPssbCnt", width: 80, align: "center", formatter: inptTotal },
+            { name: "appnHlxmPssbCnt", index: "appnHlxmPssbCnt", width: 80, align: "center", formatter: hlxmTotal},
+            { name: "exmnDate", index: "exmnDate", width: 80, align: "center", hidden:true },
+            { name: "appnSum", index: "appnSum", width: 80, align: "center", hidden:true },
+            { name: "outpCnt", index: "outpCnt", width: 80, align: "center", hidden:true },
+            { name: "inptCnt", index: "inptCnt", width: 80, align: "center", hidden:true },
+            { name: "hlxmCnt", index: "hlxmCnt", width: 80, align: "center", hidden:true },
+            
+            
           ],
+
+   
           guiStyle: "bootstrap",
           autowidth: true,
           height: "94%",
@@ -634,6 +907,10 @@ pageEncoding="UTF-8"%>
           }, // loadComplete END
           onSelectRow: function (rowid) {
             console.log(rowid);
+            let data = $("#list2").jqGrid("getRowData",rowid );
+            console.log(data);
+            list3Data(data.exmnDate, data.strtTime, "");
+            $("#appnTimeText").text(data.strtTime);
           },
           onSortCol: function (index, idxcol, sortorder) {
             // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정

@@ -160,4 +160,28 @@
 			AND		A.IMGN_ROOM_CD	= #{imgnRoomCd}
 			AND 	A.APPN_PRGR_DVSN = 1
 	</select>
+	
+	<select id="getRis1101List" parameterType="egovframework.appn.model.Ris1211RequestDTO" resultType="egovframework.pandok.model.Ris1101DTO">
+		SELECT HSPT_ID, PTNT_ID, PTNT_KR_NM, BRTH, GNDR_DVSN, TIMESTAMPDIFF(YEAR, BRTH, CURDATE()) + 1 AS AGE
+		  FROM ris1101
+		 WHERE HSPT_ID = "A001"
+	 		<if test='ptntKrNm != null and ptntKrNm != ""'>
+			AND		PTNT_KR_NM 		= 			#{ptntKrNm}
+			</if>
+			<if test='ptntId != null and ptntId != ""	'>
+			OR	 	PTNT_ID 			= 			#{ptntId}
+			</if>
+	</select>
+	
+	<update id="ris1211Update" parameterType="egovframework.appn.model.Ris1211RequestDTO">
+		UPDATE 		RIS1211
+		SET			APPN_NOTE_TEXT	=	#{appnNoteText}
+					, APPN_DATE	 	=	#{appnDate}
+					, APPN_TIME		=	#{appnTime}
+		WHERE		HSPT_ID			=	#{hsptId}
+			AND		PKRIS1211 		=	#{pkris1211}
+	</update>
+	
+	
+	
 </mapper>

@@ -32,6 +32,7 @@ import egovframework.appn.model.Ris1211List2RequestDTO;
 import egovframework.appn.model.Ris1211List3DTO;
 import egovframework.appn.model.Ris1211List3RequestDTO;
 import egovframework.appn.model.Ris1211RequestDTO;
+import egovframework.appn.service.RIS0201E00Service;
 import egovframework.appn.service.RIS1211E00Service;
 import egovframework.appn.service.RISAppnCommonService;
 
@@ -45,6 +46,9 @@ public class RIS1211E00Controller {
 	@Resource(name="RIS1211E00Service")
 	private RIS1211E00Service service;
 	
+	@Resource(name="RIS0201E00Service")
+	private RIS0201E00Service ris0201Service;
+
 	@Resource(name="RISAppnCommonService")
 	private RISAppnCommonService risAppnCommonService;
 	
@@ -65,8 +69,13 @@ public class RIS1211E00Controller {
 		System.out.println("/RIS1211E00.do Get Mapping!!!");
 		List<ImagingDTO> imagingList = risAppnCommonService.imagingSelect();
 		List<ImagingDivisionPatientDTO> imagingDivisionPatientList = risAppnCommonService.imagingDivisionPatientSelect();
+		List<String> yearList = ris0201Service.ris0211YearSelect(RIS0211RequestDTO
+				.builder()
+				.hsptId("A001")
+				.build());
 		model.addAttribute("imagingList", imagingList);
 		model.addAttribute("imagingDivisionPatientList", imagingDivisionPatientList);
+		model.addAttribute("yearList", yearList);
 		return ".main/appn/RIS1211E00";
 	}
 	
@@ -95,14 +104,15 @@ public class RIS1211E00Controller {
 	 */
 	
 	
-	@GetMapping("/getRis1101List.do")
+	@PostMapping("/getRis1101List.do")
 	@ResponseBody
-	public JSONObject getRis1101List(@RequestParam Map<String, Object> map, HttpSession session, HttpServletRequest request,
+	public ResponseEntity<?> getRis1101List(@RequestBody Ris1211RequestDTO dto, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
-		JSONObject json = new JSONObject();
-		List<Ris1101DTO> ris1101Data = pandokService.getRis1101List();
-		json.put("ris1101Data", ris1101Data);
-		return json;
+		System.out.println("ㅎㅇㅎㅇ");
+		List<Ris1101DTO> rows = service.getRis1101List(dto);
+		
+		
+		return ResponseEntity.ok().body(rows);
 	}
 	
 	
@@ -131,4 +141,13 @@ public class RIS1211E00Controller {
 		return ResponseEntity.ok().body(rows);
 	}
 	
+	
+	
+	@PostMapping("/RIS1211E00/ris0211Update.do")
+	@ResponseBody
+	public ResponseEntity<?> ris1211Update(@RequestBody Ris1211RequestDTO dto) {
+		System.out.println("appn/RIS1211E00/ris0211.do Get Mapping!!!");
+		int result = service.ris1211Update(dto);
+		return ResponseEntity.ok().body(result);
+	}
 }

@@ -15,6 +15,7 @@ import egovframework.appn.model.Ris1211List3DTO;
 import egovframework.appn.model.Ris1211List3RequestDTO;
 import egovframework.appn.model.Ris1211RequestDTO;
 import egovframework.appn.service.RIS1211E00Service;
+import egovframework.pandok.model.Ris1101DTO;
 import lombok.extern.slf4j.Slf4j;
 
 // 예약 관리
@@ -48,6 +49,19 @@ public class RIS1211E00ServiceImpl implements RIS1211E00Service{
 	@Override
 	public List<Ris1211List3DTO> ris1211SelectList3(Ris1211List3RequestDTO dto) {
 		return mapper.ris1211SelectList3(dto);
+	}
+
+
+	@Override
+	public int ris1211Update(Ris1211RequestDTO dto) {
+		return mapper.ris1211Update(dto);
+	}
+
+
+	@Override
+	public List<Ris1101DTO> getRis1101List(Ris1211RequestDTO dto) {
+		// TODO Auto-generated method stub
+		return mapper.getRis1101List(dto);
 	}
 
 

@@ -11,7 +11,7 @@
       <!-- 검색 -->
       <section class="search__container">
         <p class="filter__keyword">검색어 :</p>
-        <input type="text" class="filter__options" placeholder="Enter text to search..."></input>
+        <input id="ptntInput" type="text" class="filter__options" placeholder="Enter text to search..."></input>
         <button class="all__btn img__btn fontawesome__btn search__icon">검색</button>
       </section>
 
@@ -30,12 +30,43 @@
     </main>
 
     <script>
+    
+    
+    $("#ptntInput").keyup(function(){
+	    
+		  const postData = {
+				  'ptntKrNm' : $('#ptntInput').val(),
+	               'ptntId' : $('#ptntInput').val(),
+		  }
+		  
+		  $("#list1").jqGrid("clearGridData", true);
+	        $("#list1").setGridParam({
+	      	
+	          datatype	: "json",
+	          url : '/appn/getRis1101List.do',
+	          mtype: "POST",
+	          contentType: 'application/json; charset=utf-8',
+	          postData	: JSON.stringify(postData),
+	          loadComplete	: function(data) {
+	            console.log(data);
+	          }
+	        }).trigger("reloadGrid");
+	    });
+    
+    
       $(document).ready(function () {
     	  
-    	  
+    	 
     	  
     	  $("#list1").jqGrid({
       		url: "/appn/getRis1101List.do",
+      		mtype: "POST",
+            datatype: "json",
+            ajaxGridOptions: { contentType: 'application/json; charset=utf-8' },
+            postData : JSON.stringify({
+            	  'ptntKrNm' : null,
+	               "ptntId" : null,
+            }),
             reordercolNames:true,
             datatype: "json",
             colNames: ["병원ID", "환자ID", "환자명", "성별", "나이", "생년월일"],
@@ -49,7 +80,7 @@
             ],
             jsonReader: {
      		  repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-     		  root:'ris1101Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+     		  root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
      		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
      	    },
             autowidth: true,

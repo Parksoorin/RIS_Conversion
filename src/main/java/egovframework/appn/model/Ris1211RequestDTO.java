@@ -25,4 +25,10 @@ public class Ris1211RequestDTO {
 	private String ptntId;
 	private String ordrPrgrDvsn;
 	
+	private String appnNoteText;
+	private String appnDate;
+	private String appnTime;
+	private String pkris1211;
+	
+	
 }
