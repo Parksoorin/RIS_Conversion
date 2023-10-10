@@ -55,7 +55,7 @@
 	</update>
 
 	<select id="ris0102JoinRis1201PopData" resultType="egovframework.jubsu.model.RIS0102JoinRIS1201DTO" >
-		SELECT
+		SELECT DISTINCT
 			    ris1201 .PKRIS1201,
 			    ris1201 .IMGN_CD,
 			    ris1201 .ORDR_NM,

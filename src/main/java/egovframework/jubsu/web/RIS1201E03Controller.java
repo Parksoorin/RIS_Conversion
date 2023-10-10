@@ -53,6 +53,14 @@ public class RIS1201E03Controller {
 	}
 	
 	
+	// 처방 정보 상세 팝업 페이지
+	@RequestMapping(value = "/popup/RIS1201E03ordrNoteTextDetail_POP.do")
+	private String RIS1201E03ordrNoteTextDetail_POP(Model model) throws Exception {
+		
+		return ".popup/RIS1201E03ordrNoteTextDetail_POP";
+	}
+	
+	
 	// 처방 정보 관리 페이지 - 처방 목록 데이터
 	@RequestMapping(value = "/jubsu/RIS1201E03.do", method = RequestMethod.POST)
 	@ResponseBody
@@ -117,17 +125,25 @@ public class RIS1201E03Controller {
 		
 		JSONObject json = new JSONObject(); 
 		
-		System.out.println("123777");
-		
 		List<RIS0102JoinRIS1201DTO> ris0102JoinRis1201PopData = ris1201E03Service.ris0102JoinRis1201PopData();
-		
-		System.out.println("ris0102JoinRis1201PopData");
 		
 		json.put("rows", ris0102JoinRis1201PopData);
 		
 		return json;
 	}
 	
+	/*
+	// 처방 정보 관리 페이지 - 처방추가 데이터
+	@RequestMapping(value = "/popup/RIS1201E03ordrNoteTextDetail_POP.do", method =  RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1201E03ordrNoteTextDetail_POP(@RequestParam String type, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		JSONObject json = new JSONObject(); 
+		
+		return json;
+	}
+	*/
 	
 	
 	// 처방 정보 관리 페이지 수정 및 입력
