@@ -29,6 +29,7 @@ public class RisPgrmDTO {
 	// 시스템ID            
 	@Max(10)
 	private String systemId;
+	private String systemName;
 	// 프로그램 ID      
 	@Max(20)
 	private String pgrmId;

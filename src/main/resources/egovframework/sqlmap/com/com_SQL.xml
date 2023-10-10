@@ -52,7 +52,7 @@
 	
 	
 	<!-- 프로그램 정보 관리 그리드(메뉴 2) -->
-	<select id="RisPrgmList" resultType="egovframework.com.model.RisPgrmDTO">
+	<select id="RisPgrmList" resultType="egovframework.com.model.RisPgrmDTO">
 		SELECT B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL, A.PGRM_TYPE, A.PGRM_INFO, A.USE_YN, A.END_YN
 		FROM rispgrm A
 		LEFT JOIN rissytm B
@@ -105,7 +105,6 @@
 	<select id="RisUserMenuList2" parameterType="String" resultType="egovframework.com.model.RisUrmnDTO">
 		SELECT A.MENU_GROUP_ID, B.MENU_GROUP_NAME, A.MENU_ID, A.MENU_NAME, 
 			CASE WHEN A.MENU_GRADE = 'W' THEN '등록' WHEN A.MENU_GRADE = 'V' THEN '조회' END AS MENU_GRADE
-		
 		, A.USE_YN, A.OTPT_SQNC
 		FROM risurmn A
 		LEFT JOIN risgrup B

@@ -42,7 +42,7 @@
     	var hsptId = "${hspt_id}";
         $("#list1").jqGrid({
         	
-        	url: "/RISPRGMQ00.do",   // 서버주소 
+        	url: "/RISPGRMQ00.do",   // 서버주소 
         	reordercolNames:true,
             postData : { hsptId: hsptId }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
@@ -245,7 +245,7 @@
 	    console.log(list1Data);
 	    $.ajax({
 	        type: 'post',
-	        url: '/risprgmSavaData.do',
+	        url: '/rispgrmSavaData.do',
 	        contentType: 'application/json',
 	        dataType: 'json',
 	        data: JSON.stringify(list1Data),

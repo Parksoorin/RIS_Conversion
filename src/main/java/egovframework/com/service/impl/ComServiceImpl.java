@@ -57,9 +57,9 @@ public class ComServiceImpl implements ComService {
 	
 	// 프로그램정보 관리
 	@Override
-	public List<RisPgrmDTO> RisPrgmList(String hsptId) {
+	public List<RisPgrmDTO> RisPgrmList(String hsptId) {
 		// TODO Auto-generated method stub
-		return comMapper.RisPrgmList(hsptId);
+		return comMapper.RisPgrmList(hsptId);
 	}
 	
 	// 메뉴정보 관리
