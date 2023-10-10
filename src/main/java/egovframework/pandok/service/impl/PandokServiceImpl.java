@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import egovframework.pandok.mapper.PandokMapper;
@@ -26,13 +27,13 @@ public class PandokServiceImpl implements PandokService {
 	}
 
 	@Override
-	public List<Ris0102DTO> getRis0102List() {
-		return pandokMapper.getRis0102List();
+	public List<Ris0102DTO> getRis0102List(String hsptId) {
+		return pandokMapper.getRis0102List(hsptId);
 	}
 
 	@Override
-	public List<RisUserDTO> getRisUserList() {
-		return pandokMapper.getRisUserList();
+	public List<RisUserDTO> getRisUserList(String hsptId) {
+		return pandokMapper.getRisUserList(hsptId);
 	}
 
 	@Override

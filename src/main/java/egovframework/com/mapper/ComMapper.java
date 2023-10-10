@@ -15,17 +15,26 @@ import egovframework.com.model.RisUserDTO;
 
 @Mapper("ComMapper")
 public interface ComMapper {
+	// 사용자 관리
 	List<RisUserDTO> RisUserList();
-	List<RisPgrmDTO> RisPrgmList();
-	List<RisBtnDTO> RisBtnList();
-	List<RisGrupDTO> RisGrupList();
-	List<RisGrmuDTO> RisGrmuList(String type);
-	List<RisUserDTO> RisUserMenuList();
-	List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params);
-	List<RisUrmnDTO> popupUrmnList();
 	int addList1Data(RisGrupDTO dto);
 	int updateData(RisUserDTO dto);
 	int addUserData(RisUserDTO dto);
-	String selectMddlcd(String mddlKrNm);
 	int pwReset(RisUserDTO dtos);
+	String selectMddlcd(String mddlKrNm);
+	
+	// 프로그램정보 관리
+	List<RisPgrmDTO> RisPgrmList(String hsptId);
+	
+	// 메뉴정보 관리
+	List<RisGrupDTO> RisGrupList();
+	List<RisGrmuDTO> RisGrmuList(String type);
+	
+	// 사용자별 메뉴관리
+	List<RisUserDTO> RisUserMenuList();
+	List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params);
+	List<RisUrmnDTO> popupUrmnList();
+	
+	// 프로그램 기능 권한 관리
+	List<RisBtnDTO> RisBtnList();
 }

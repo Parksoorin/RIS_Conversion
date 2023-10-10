@@ -39,17 +39,20 @@
 
     <script>
     $(document).ready(function () {
+    	var hsptId = "${hspt_id}";
         $("#list1").jqGrid({
-        	url: "/RISPRGMQ00.do",   // 서버주소 
+        	
+        	url: "/RISPGRMQ00.do",   // 서버주소 
         	reordercolNames:true,
-            postData : { type: 'A' }, // 보낼 파라미터
+            postData : { hsptId: hsptId }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-       		colNames: ["시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방싱", "사용", "완료"],
+       		colNames: ["flag", "시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방식", "사용", "완료"],
        		colModel: [
+       			{ name: 'flag', index: 'flag', hidden: true },
 	          	{ 
-	          		name: "systemId",
-	          		index: "systemId", 
+	          		name: "systemName",
+	          		index: "systemName", 
 	          		width: 100, 
 	          		align: "center", 
 	          		editable: true,
@@ -66,9 +69,9 @@
 	            	align: "center",
 	            	editable: true,
 	            	formatter:"select", 
-		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 추가"
+		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 없앰"
                 	edittype: 'select',
-                	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회; Option4:출력; Option5:배치" }
+                	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회" }
 	            },
 	            { 
 	            	name: "pgrmInfo",
@@ -153,7 +156,10 @@
 	    if (selectedRowId) {
 	        // 선택한 행이 있는 경우 편집 모드로 진입
 	        var grid = $("#list1");
-	        
+	        var rowData = grid.jqGrid('getRowData', selectedRowId);
+		    rowData.flag = 'U';
+		    grid.jqGrid('setRowData', selectedRowId, rowData);
+		    console.log("list1 데이터 : ", rowData);
 	        // 모든 컬럼을 가져옵니다.
 	        var allColumns = grid.jqGrid('getGridParam', 'colModel');
 	        
@@ -181,7 +187,7 @@
 	});
 
     
- 	// 그리드1 입력, 삭제
+ 	// 그리드1 입력
     $("#add-row__btn").on("click", function () {
     	var newRowData = {};
     	var grid = $("#list1");
@@ -201,6 +207,59 @@
 	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
 	    });
     });  
+ 	
+ 	// 그리드1 삭제
+    $("#delete-row__btn").click(function(){
+    	var rowid  = $("#list1").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값
+    	if(confirm("삭제시 메뉴도 같이 삭제됩니다. 해당 프로그램 정보를 삭제하시겠습니까?") == true){
+    		$("#list1").jqGrid('delRowData', rowid);
+            alert("삭제되었습니다");
+        }
+        else{
+            return ;
+        }
+    	/* var grid = $('#list1');
+	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+		grid.jqGrid('setRowData', selectedRowId, rowData); */
+	});
+ 	
+ 	// 저장
+	$("#save__btn").click(function (){
+		var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+	    for (var i = 1; i <= totalRows; i++) {
+	    	// 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
+	        let data = $("#list1").jqGrid("getRowData", i);
+
+	        /* if (data.flag === 'U' || data.flag === 'I') {
+	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
+	                || data.userGrade === '' || data.appnImpsText === ''
+	                || data.startDate === '' || data.endDate === '') {
+	                alert('미입력 사항이 있습니다.');
+	                return;
+	            }
+	        } */
+	    }
+		var list1Data = $("#list1").getRowData();
+	    console.log(list1Data);
+	    $.ajax({
+	        type: 'post',
+	        url: '/rispgrmSavaData.do',
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        data: JSON.stringify(list1Data),
+	        success: function (result) {
+	            console.log(result);
+	            reloadGrid();
+	        },
+	        error: function (error) {
+	            console.log(error)
+	        }
+	    });
+	})
+ 	
+ 	
     
  	// 검색 기능
 	const searchGrid = function(value, grid) {

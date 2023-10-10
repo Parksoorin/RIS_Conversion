@@ -21,24 +21,24 @@ import egovframework.com.model.RisPgrmDTO;
 import egovframework.com.service.ComService;
 
 @Controller
-public class RISPRGMQ00Controller {
+public class RISPGRMQ00Controller {
 	
 	@Resource(name="ComService")
 	private ComService comService;
 	
-	@RequestMapping(value = "/RISPRGMQ00.do")
+	@RequestMapping(value = "/RISPGRMQ00.do")
 	public String menu(Model model) throws Exception {
-		return ".main/com/RISPRGMQ00";
+		return ".main/com/RISPGRMQ00";
 	}
 	
-	@RequestMapping(value = "/RISPRGMQ00.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/RISPGRMQ00.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RISPRGMQ00(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISPGRMQ00(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
 	        HttpServletResponse response, Model model) throws Exception {
 			
-			System.out.println("/RISPRGMQ00.do POST!!!!");
+			System.out.println("/RISPGRMQ00.do POST!!!!");
 			JSONObject json = new JSONObject(); 
-			List<RisPgrmDTO> data =comService.RisPrgmList(); 
+			List<RisPgrmDTO> data =comService.RisPgrmList(hsptId); 
 			  
 			JSONArray rowsArray = new JSONArray(); 
 			JSONObject row = new JSONObject(); 

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.jubsu.model.RIS0102JoinRIS1201DTO;
 import egovframework.jubsu.model.RIS1201E0301DTO;
 import egovframework.jubsu.model.RIS1201E0302DTO;
 import egovframework.jubsu.service.RIS1201E03Service;
-import egovframework.pat.model.RIS1101DTO;
 
 @Controller
 public class RIS1201E03Controller {
@@ -41,6 +42,22 @@ public class RIS1201E03Controller {
 	private String RIS1201E03_POP(Model model) throws Exception {
 		
 		return ".popup/RIS1201E03_POP";
+	}
+	
+	
+	// 처방 정보 상세 팝업 페이지
+	@RequestMapping(value = "/popup/RIS1201E03Detail_POP.do")
+	private String RIS1201E03Detail_POP(Model model) throws Exception {
+		
+		return ".popup/RIS1201E03Detail_POP";
+	}
+	
+	
+	// 처방 정보 상세 팝업 페이지
+	@RequestMapping(value = "/popup/RIS1201E03ordrNoteTextDetail_POP.do")
+	private String RIS1201E03ordrNoteTextDetail_POP(Model model) throws Exception {
+		
+		return ".popup/RIS1201E03ordrNoteTextDetail_POP";
 	}
 	
 	
@@ -84,16 +101,50 @@ public class RIS1201E03Controller {
 			HttpServletResponse response, Model model) throws Exception {
 		
 		JSONObject json = new JSONObject(); 
-	
-		System.out.println("1234");
-		System.out.println(selectRowData);
 		
-		RIS1201E0302DTO ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
+		List<RIS1201E0302DTO> ris1201DtoDetail = ris1201E03Service.ris1201DtoDetail(selectRowData);
 		
-		json.put("rows", ris1201DtoDetail);
+		JSONArray jsonArray = new JSONArray();
+		
+		for (RIS1201E0302DTO dto : ris1201DtoDetail) {
+			
+			jsonArray.add(dto);
+		}
+		
+		json.put("rows", jsonArray);
 		
 		return json;
 	}
+	
+	
+	// 처방 정보 관리 페이지 - 처방추가 데이터
+	@RequestMapping(value = "/popup/RIS1201E03Detail_POP.do", method =  RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1201E03Detail_POP(@RequestParam String type, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		JSONObject json = new JSONObject(); 
+		
+		List<RIS0102JoinRIS1201DTO> ris0102JoinRis1201PopData = ris1201E03Service.ris0102JoinRis1201PopData();
+		
+		json.put("rows", ris0102JoinRis1201PopData);
+		
+		return json;
+	}
+	
+	/*
+	// 처방 정보 관리 페이지 - 처방추가 데이터
+	@RequestMapping(value = "/popup/RIS1201E03ordrNoteTextDetail_POP.do", method =  RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RIS1201E03ordrNoteTextDetail_POP(@RequestParam String type, HttpSession session, HttpServletRequest request,
+			HttpServletResponse response, Model model) throws Exception {
+		
+		JSONObject json = new JSONObject(); 
+		
+		return json;
+	}
+	*/
+	
 	
 	// 처방 정보 관리 페이지 수정 및 입력
 	@RequestMapping(value = "/jubsu/RIS1201E03UpdateInsert.do", method = RequestMethod.POST)
@@ -130,6 +181,9 @@ public class RIS1201E03Controller {
 		return json;
 		
 	}
+	
+	
+	
 	
 	
 		

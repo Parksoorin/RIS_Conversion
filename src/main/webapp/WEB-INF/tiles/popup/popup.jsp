@@ -15,3 +15,18 @@
 		</div>
 	</div>
 </body>
+
+<script>
+	// 팝업 창 로드 시 세션 정보 없으면 로그인 페이지로 리다이렉트
+	$(function() {
+		var hsptId = "${hspt_id}";
+		var loginId = "${login_id}";
+		var loginName = "${login_name}";
+		var userGrade = "${user_grade}";
+		console.log(loginName);
+		
+		if (!loginId) {
+			window.location.href = "/?hspt_id=A001";
+		}
+	})
+</script>

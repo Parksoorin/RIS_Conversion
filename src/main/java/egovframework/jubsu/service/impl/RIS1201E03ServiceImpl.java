@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.jubsu.mapper.RIS1201E03Mapper;
+import egovframework.jubsu.model.RIS0102JoinRIS1201DTO;
 import egovframework.jubsu.model.RIS1201E0301DTO;
 import egovframework.jubsu.model.RIS1201E0302DTO;
 import egovframework.jubsu.service.RIS1201E03Service;
@@ -25,13 +26,18 @@ public class RIS1201E03ServiceImpl implements RIS1201E03Service {
 	}
 	
 	@Override
-	public RIS1201E0302DTO ris1201DtoDetail(Map<String, Object> selectRowData) {
+	public List<RIS1201E0302DTO> ris1201DtoDetail(Map<String, Object> selectRowData) {
 		return RIS1201E03Mapper.ris1201DtoDetail(selectRowData);
 	}
 	
 	@Override
 	public int updateData(RIS1201E0302DTO dto) {
 		return RIS1201E03Mapper.updateData(dto);
+	}
+	
+	@Override
+	public List<RIS0102JoinRIS1201DTO> ris0102JoinRis1201PopData() {
+		return RIS1201E03Mapper.ris0102JoinRis1201PopData();
 	}
 	
 	

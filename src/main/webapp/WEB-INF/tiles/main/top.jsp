@@ -8,8 +8,8 @@
             <li class="main__menu-items">
                 업무메뉴
                 <div class="sub__menu-item">
-                    <a href="#">메뉴재생성</a>
-                    <a href="#">로그아웃</a>
+                    <a href="/RISMAIN.do">메뉴재생성</a>
+                    <a href="/logout.do">로그아웃</a>
                 </div>
             </li>
             <li class="main__menu-items">
@@ -25,9 +25,9 @@
             <li class="main__menu-items">
                 메뉴관리
                 <div class="sub__menu-item">
-                    <a href="/RISMENUE00.do">메뉴정보 관리</a>
                     <a href="/RISUSERQ00.do">사용자 관리</a>
-                    <a href="/RISPRGMQ00.do">프로그램정보 관리</a>
+                    <a href="/RISPGRMQ00.do">프로그램정보 관리</a>
+                    <a href="/RISMENUE00.do">메뉴정보 관리</a>
                     <a href="/RISUSERMENU.do">사용자별 메뉴관리</a>
                     <a href="/RISBTNE00.do">프로그램 기능 권한 관리</a>
                 </div>
@@ -75,16 +75,31 @@
             </li>
         </ul>
     </div>
+    
     <!-- 언어, 유저 정보 -->
     <div class="header__user">
         <select class="sel">
-            <option value="">KOR</option>
+            <option value="KR">KOR</option>
             <option value="">ENG</option>
         </select>
         <p class="user">사용자:
-            <span>관리자</span>
+            <span id="userName">${sessionScope.login_name}</span>
         </p>
         <img src="/images/icons/icon-key2.png" class="key-img" />
     </div>
-
 </div>
+
+<script>
+	// $(document).ready(function() {})과 같음
+	$(function() {
+		var hsptId = "${hspt_id}";
+		var loginId = "${login_id}";
+		var loginName = "${login_name}";
+		var userGrade = "${user_grade}";
+		console.log(loginName);
+		
+		if (!loginId) {
+			window.location.href = "/?hspt_id=A001";
+		}
+	})
+</script>

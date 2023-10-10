@@ -37,32 +37,38 @@
 			var password = $('#loginPw').val();
 			var currentURL = window.location.href;
 			var hsptId = currentURL.split('?hspt_id=')[1];
-			var postData = {
-				hsptId: hsptId,
-				loginId: id,
-				loginPwd: password
-			};
 			
-			$.ajax({
-				type : "post",
-				url : "/login.do",
-	  		    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
-				data: JSON.stringify(postData),
-				dataType: "json",
-				success: function(data){
-					console.log(data);
-					if (data.result === "success"){
-						location.href="/RISMAIN.do";
-					} 
-					else if (data.result === "none") {			
-						alert("없는 정보 입니다.");
-						location.reload();
+			if (!hsptId) {
+				alert("URL 주소를 '/?hspt_id=[병원아이디]'로 접근해주세요.");
+			} else {				
+				var postData = {
+					hsptId: hsptId,
+					loginId: id,
+					loginPwd: password
+				};
+				
+				$.ajax({
+					type : "post",
+					url : "/login.do",
+		  		    contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+					data: JSON.stringify(postData),
+					dataType: "json",
+					success: function(data){
+						console.log(data);
+						if (data.result === "success"){
+							location.href="/RISMAIN.do";
+						} 
+						else if (data.result === "none") {			
+							alert("없는 정보 입니다.");
+							location.reload();
+						}
+					},
+					error: function(){
+						alert("에러발생");
 					}
-				},
-				error: function(){
-					alert("에러발생");
-				}
-			})
+				})
+			}
+			
 		})
 	
 		// 팝업 열기
