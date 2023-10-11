@@ -231,9 +231,25 @@
           	}
             return false;
         }
+        var dateConvert = () => {
+      	  const now = new Date();
+      	  const year = now.getFullYear();
+      	  const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+      	  const day = String(now.getDate()).padStart(2, '0');
+      	  const hours = String(now.getHours()).padStart(2, '0');
+      	  const minutes = String(now.getMinutes()).padStart(2, '0');
+      	  const seconds = String(now.getSeconds()).padStart(2, '0');
+  		  console.log(year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+  		  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+        }
         
       $(document).ready(function () {
 
+    	  var hsptId = "${hspt_id}";
+    	  var loginId = "${login_id}";
+    	  var loginName = "${login_name}";
+    	  var userGrade = "${user_grade}";
+    	  console.log(loginId);
         init();
 
         
@@ -344,10 +360,33 @@
 	        	
 	        	  
 	        	  
+	        	
 	        	  data.imgnRoomCd = Object.keys(selectOption).find(key => selectOption[key] === data.mddlKrNm);
 	        	  console.log('test----------');
 	        	  console.log(data.imgnRoomCd);
 	  	      	  $('#list1').setRowData(i, data);
+	  	      	  
+	  	        if(data.flag === '입력'){
+
+  	  	        	$("#list1").jqGrid('editCell', i, "rgstId", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	      		  $("#list1").jqGrid('editCell', i, "rgstDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	  	        $("#list1").jqGrid('setCell',  i, "rgstId", loginId); // 값을 변경
+	  	  		    $("#list1").jqGrid('setCell',  i, "rgstDttm", dateConvert()); // 값을 변경
+	  	  	        $("#list1").jqGrid('saveCell', i, "rgstId"); // 현재 편집 중인 셀을 저장
+	  	  	 		   $("#list1").jqGrid('saveCell', i, "rgstDttm");
+  	        	  }
+  	        	  
+  	        	if(data.flag === '수정'){
+	        		 
+	  	        	$("#list1").jqGrid('editCell', i, "mdfcId", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	      		$("#list1").jqGrid('editCell', i, "mdfcDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	  	        $("#list1").jqGrid('setCell',  i, "mdfcId", loginId); // 값을 변경
+	  	  		    $("#list1").jqGrid('setCell',  i, "mdfcDttm", dateConvert()); // 값을 변경
+	  	  	        $("#list1").jqGrid('saveCell', i, "mdfcId"); // 현재 편집 중인 셀을 저장
+	  	  	 		$("#list1").jqGrid('saveCell', i, "mdfcDttm");
+	        	  }  
+        	  
+        	  
       		  	  
         	}
         
@@ -393,7 +432,7 @@
             root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
             records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
           },     
-          colNames: ["구분", "촬영실", "예외일자", "시작시간", "종료시간", "예외사유", "병원ID-Hidden", "촬영실코드-Hidden"],
+          colNames: ["구분", "촬영실", "예외일자", "시작시간", "종료시간", "예외사유", "병원ID-Hidden", "촬영실코드-Hidden", "등록아이디", "등록한날짜", "수정한아이디", "수정한날짜"],
           colModel: [
             { name: "flag", index: "flag", width: 40, align: "center" },
             { name: "mddlKrNm", index: "mddlKrNm", width: 100, align: "center",  editable:true, edittype: 'select',  editoptions: { value:selectOption } },	
@@ -409,7 +448,11 @@
             { name: "endTime", index: "endTime", width: 80, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
             { name: "appnImpsText", index: "appnImpsText", width: 80, align: "center", editable:true, edittype:'text' },
             { name: "hsptId", index: "hsptId", editoptions: { defaultValue: 'A001'}, hidden: true },
-            { name : "imgnRoomCd", index: "imgnRoomCd", editoptions: {defaultValue: 'CT1'}, hidden:true }
+            { name : "imgnRoomCd", index: "imgnRoomCd", editoptions: {defaultValue: 'CT1'}, hidden:true },
+            { name: "rgstId", index: "rgstId", hidden: true },
+            { name: "rgstDttm", index: "rgstDttm", hidden: true },
+            { name: "mdfcId", index: "mdfcId", hidden: true },
+            { name: "mdfcDttm", index: "mdfcDttm", hidden: true },
           ],
           guiStyle: "bootstrap",
           autowidth: true,

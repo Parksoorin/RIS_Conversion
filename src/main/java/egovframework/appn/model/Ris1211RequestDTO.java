@@ -30,5 +30,8 @@ public class Ris1211RequestDTO {
 	private String appnTime;
 	private String pkris1211;
 	
+
+	private String mdfcId;	
+	private String mdfcDttm;	
 	
 }

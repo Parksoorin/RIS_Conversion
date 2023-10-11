@@ -24,6 +24,8 @@
 				, B.ORDR_NOTE_TEXT
 				, A.IMGN_ROOM_CD
 				, B.ORDR_BDYP_CD
+				, A.MDFC_ID
+				, A.MDFC_DTTM
 				, (
 					SELECT MDDL_KR_NM 
 					FROM   RIS0102
@@ -178,6 +180,8 @@
 		SET			APPN_NOTE_TEXT	=	#{appnNoteText}
 					, APPN_DATE	 	=	#{appnDate}
 					, APPN_TIME		=	#{appnTime}
+					, MDFC_ID 		=	#{mdfcId}
+ 					, MDFC_DTTM 	=	#{mdfcDttm}
 		WHERE		HSPT_ID			=	#{hsptId}
 			AND		PKRIS1211 		=	#{pkris1211}
 	</update>

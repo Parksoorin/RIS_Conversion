@@ -194,13 +194,29 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
-    
+    var hsptId = "${hspt_id}";
+    var loginId = "${login_id}";
+    var loginName = "${login_name}";
+    var userGrade = "${user_grade}";
     let externalChangeCalendar = null;
     const init = () => {
         dateInit();
       }
 
       // 날짜 처리 시작 -------------
+      
+       const dateConvert = () => {
+    	  const now = new Date();
+    	  const year = now.getFullYear();
+    	  const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+    	  const day = String(now.getDate()).padStart(2, '0');
+    	  const hours = String(now.getHours()).padStart(2, '0');
+    	  const minutes = String(now.getMinutes()).padStart(2, '0');
+    	  const seconds = String(now.getSeconds()).padStart(2, '0');
+		  console.log(year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+		  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+      }
+       
       function getFirstAndLastDayOfMonth() {
         const today = new Date();
         const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -343,7 +359,9 @@ pageEncoding="UTF-8"%>
 					'appnDate'	:	data2.exmnDate,
 					'appnTime'	:	data2.strtTime + ":00",
 					'hsptId'	:	data.hsptId,
-					'pkris1211'	:	data.pkris1211
+					'pkris1211'	:	data.pkris1211,
+					'mdfcId'  : loginId,
+					'mdfcDttm' : dateConvert()
 		  };
 		  
 		  console.log(postData);
@@ -406,7 +424,9 @@ pageEncoding="UTF-8"%>
 					'appnDate'	:	null,
 					'appnTime'	:	null,
 					'hsptId'	:	data.hsptId,
-					'pkris1211'	:	data.pkris1211
+					'pkris1211'	:	data.pkris1211,
+					'mdfcId'  : loginId,
+					'mdfcDttm' : dateConvert()
 		  };
 		  
 		  console.log(postData);
@@ -527,6 +547,9 @@ pageEncoding="UTF-8"%>
  
       $(document).ready(function () {
         var mydata=[];
+
+        
+
         init();
         
         
@@ -737,7 +760,7 @@ pageEncoding="UTF-8"%>
                 "ptntId" : $('#ptntInput').val(),
                 'ordrPrgrDvsn' : $('input[name="appointment-gubun"]:checked').val(),
             }),
-          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden", "예약참고내용-Hidden","처방참고내용-Hidden", "촬영환자구분명-Hidden", "촬영실-Hidden"],
+          colNames: ["예약", "수납", "환자명", "처방일", "처방코드", "처방명", "진료과", "처방의사", "구분", "희망일", "희망시간", "예약일", "예약시간", "병원아이디-Hidden", "환자아이디-Hidden", "PK값-Hidden", "예약참고내용-Hidden","처방참고내용-Hidden", "촬영환자구분명-Hidden", "촬영실-Hidden", "수정한아이디", "수정한날짜"],
           colModel: [
         	{ name: "appnYn", index: "appnYn", width: 90, align: "center"},
             { name: "pmntYn", index: "pmntYn", width: 90, align: "center"},
@@ -764,6 +787,8 @@ pageEncoding="UTF-8"%>
             { name: "ordrNoteText", index: "ordrNoteText", width: 80, align: "center" , hidden: true },
             { name: "ordrBdypCd", index: "ordrBdypCd", width: 80, align: "center" , hidden: true },
             { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
+            { name: "mdfcId", index: "mdfcId", hidden: true },
+            { name: "mdfcDttm", index: "mdfcDttm", hidden: true },
            ],
           guiStyle: "bootstrap",
           autowidth: true,
