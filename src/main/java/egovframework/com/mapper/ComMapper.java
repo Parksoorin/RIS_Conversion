@@ -24,7 +24,7 @@ public interface ComMapper {
 	String selectMddlcd(String mddlKrNm);
 	
 	// 프로그램정보 관리
-	List<RisPgrmDTO> RisPrgmList(String hsptId);
+	List<RisPgrmDTO> RisPgrmList(String hsptId);
 	
 	// 메뉴정보 관리
 	List<RisGrupDTO> RisGrupList();

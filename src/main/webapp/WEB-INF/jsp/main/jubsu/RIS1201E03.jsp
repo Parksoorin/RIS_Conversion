@@ -277,6 +277,8 @@
           // 팝업 창을 열기
           var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
 
+          console.log("popup : ", popup);
+          
           // 팝업 창이 차단되었을 때 처리
           if (!popup || popup.closed || typeof popup.closed == 'undefined') {
               alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
@@ -615,16 +617,19 @@
 	    // 새로 추가한 행의 exmnNoteText 컬럼에 HTML 버튼을 추가한다.
 	    // 버튼을 클릭하면 openPopUp() 함수가 호출되며 팝업 창이 열린다.
 	    grid.jqGrid('setRowData', newRowId, { "exmnNoteText": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopUp()"></button>' });
+	    grid.jqGrid('setRowData', newRowId, { "ordrNoteText": '<button class="all__btn fontawesome__btn list__icon" onclick="openordrNoteTextPopUp()"></button>' });
 
 	});
 
   	
-  	/*
-	// 팝업 열기
-    function openPopup() {
+  	
+	// 처방정보 팝업 열기
+    function openPopUp() {
         // 팝업 창에 표시할 URL
-        var url = "/RISUSERMENU_POP.do";
+        var url = "/popup/RIS1201E03Detail_POP.do";
 
+        console.log("url :", url);
+        
         // 팝업 창의 크기와 위치 설정
         var width = 800;
         var height = 400;
@@ -634,12 +639,38 @@
         // 팝업 창을 열기
         var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
 
+        console.log("popup : ", popup);
+        
         // 팝업 창이 차단되었을 때 처리
         if (!popup || popup.closed || typeof popup.closed == 'undefined') {
             alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
         }
     }
-	*/
+	
+	
+	function openordrNoteTextPopUp() {
+		// 팝업 창에 표시할 URL
+        var url = "/popup/RIS1201E03ordrNoteTextDetail_POP.do";
+
+        console.log("url :", url);
+        
+        // 팝업 창의 크기와 위치 설정
+        var width = 800;
+        var height = 400;
+        var left = (window.innerWidth - width) / 2;
+        var top = (window.innerHeight - height) / 2;
+
+        // 팝업 창을 열기
+        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+        console.log("popup : ", popup);
+        
+        // 팝업 창이 차단되었을 때 처리
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+        }
+	}
+	
 	
   	// 저장버튼 이벤트
   	document.getElementById("ris1201DataSave").addEventListener("click", function() {
