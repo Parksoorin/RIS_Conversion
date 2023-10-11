@@ -19,6 +19,8 @@ public class RIS0211DateRequestDTO {
 	private String hsptId;
     private String imgnRoomCd;
     private String strtDate;
-	private String endDate;		
+	private String endDate;	
+	private String rgstId;
+	private String rgstDttm;
 
 }

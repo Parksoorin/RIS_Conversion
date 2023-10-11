@@ -287,6 +287,8 @@ public class RIS0201E00ServiceImpl implements RIS0201E00Service{
 		            		.appnOutpPssbCnt(e.getAppnOutpPssbCnt())
 		            		.appnInptPssbCnt(e.getAppnInptPssbCnt())
 		            		.appnHlxmPssbCnt(e.getAppnHlxmPssbCnt())
+		            		.rgstId(dto.getRgstId())
+		            		.rgstDttm(dto.getRgstDttm())
 		            		.build());
 	            	
 	            });

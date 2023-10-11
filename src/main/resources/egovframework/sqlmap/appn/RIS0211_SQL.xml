@@ -52,6 +52,8 @@
 		    		APPN_OUTP_PSSB_CNT		=		 #{item.appnOutpPssbCnt}
 		     	  ,APPN_INPT_PSSB_CNT 		=		 #{item.appnInptPssbCnt}
 		     	  ,APPN_HLXM_PSSB_CNT 		=		 #{item.appnHlxmPssbCnt}
+		     	  ,MDFC_ID 		=		#{item.mdfcId}
+ 				  ,MDFC_DTTM 	=		#{item.mdfcDttm}
  		WHERE 		
 	 	 			HSPT_ID					= 		 #{item.hsptId}
 		   		AND IMGN_ROOM_CD 			= 		 #{item.imgnRoomCd} 
@@ -72,6 +74,8 @@
 				  ,APPN_OUTP_PSSB_CNT
 				  ,APPN_INPT_PSSB_CNT
 				  ,APPN_HLXM_PSSB_CNT 
+				  ,RGST_ID
+				  ,RGST_DTTM
 				 ) 		 
 		 VALUES
 		 <foreach collection="list" item='item' separator=',' >
@@ -83,7 +87,9 @@
 		 		  ,#{item.endTime}
 		 		  ,#{item.appnOutpPssbCnt}
 		 		  ,#{item.appnInptPssbCnt}
-		 		  ,#{item.appnHlxmPssbCnt}
+		 		  ,#{item.appnHlxmPssbCnt}	
+		 		  ,#{item.rgstId}
+				  ,#{item.rgstDttm}
 		 		 )
     	</foreach>
 	</insert>

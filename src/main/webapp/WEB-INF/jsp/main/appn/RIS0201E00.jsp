@@ -282,6 +282,10 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
+    var hsptId = "${hspt_id}";
+    var loginId = "${login_id}";
+    var loginName = "${login_name}";
+    var userGrade = "${user_grade}";
     let list3Date='0000-00-00';
     let rowIdcList1 = -1;
     let rowIdcList2 = -1;
@@ -294,6 +298,19 @@ pageEncoding="UTF-8"%>
         formValidate();
         
       }
+    
+    
+    const dateConvert = () => {
+  	  const now = new Date();
+  	  const year = now.getFullYear();
+  	  const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+  	  const day = String(now.getDate()).padStart(2, '0');
+  	  const hours = String(now.getHours()).padStart(2, '0');
+  	  const minutes = String(now.getMinutes()).padStart(2, '0');
+  	  const seconds = String(now.getSeconds()).padStart(2, '0');
+		  console.log(year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+		  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+    }
     
     const formValidate = () => {
     	formatTimeInput('#start-time');
@@ -736,6 +753,27 @@ pageEncoding="UTF-8"%>
   		  		  		  return;
   		  		  	  }	  
   	        	  }	  
+  	        	  
+  	        	  if(data.flag === '입력'){
+
+    	  	        	$("#list1").jqGrid('editCell', i, "rgstId", true); // 2행, "Name" 열을 편집 모드로 변경
+    	  	      		  $("#list1").jqGrid('editCell', i, "rgstDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	  	        $("#list1").jqGrid('setCell',  i, "rgstId", loginId); // 값을 변경
+  	  	  		    $("#list1").jqGrid('setCell',  i, "rgstDttm", dateConvert()); // 값을 변경
+  	  	  	        $("#list1").jqGrid('saveCell', i, "rgstId"); // 현재 편집 중인 셀을 저장
+  	  	  	 		   $("#list1").jqGrid('saveCell', i, "rgstDttm");
+    	        	  }
+    	        	  
+    	        	if(data.flag === '수정'){
+  	        		 
+  	  	        	$("#list1").jqGrid('editCell', i, "mdfcId", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	      		$("#list1").jqGrid('editCell', i, "mdfcDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	  	        $("#list1").jqGrid('setCell',  i, "mdfcId", loginId); // 값을 변경
+  	  	  		    $("#list1").jqGrid('setCell',  i, "mdfcDttm", dateConvert()); // 값을 변경
+  	  	  	        $("#list1").jqGrid('saveCell', i, "mdfcId"); // 현재 편집 중인 셀을 저장
+  	  	  	 		$("#list1").jqGrid('saveCell', i, "mdfcDttm");
+  	        	  }  
+
           	}
           
             var list = $("#list1").getRowData();
@@ -782,6 +820,26 @@ pageEncoding="UTF-8"%>
   		  		  		  return;
   		  		  	  }	  
   	        	  }	  
+  	        	  if(data.flag === '입력'){
+
+    	  	        	$("#list3").jqGrid('editCell', i, "rgstId", true); // 2행, "Name" 열을 편집 모드로 변경
+    	  	      		  $("#list3").jqGrid('editCell', i, "rgstDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	  	        $("#list3").jqGrid('setCell',  i, "rgstId", loginId); // 값을 변경
+  	  	  		    $("#list3").jqGrid('setCell',  i, "rgstDttm", dateConvert()); // 값을 변경
+  	  	  	        $("#list3").jqGrid('saveCell', i, "rgstId"); // 현재 편집 중인 셀을 저장
+  	  	  	 		   $("#list3").jqGrid('saveCell', i, "rgstDttm");
+    	        	  }
+    	        	  
+    	        	if(data.flag === '수정'){
+  	        		 
+  	  	        	$("#list3").jqGrid('editCell', i, "mdfcId", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	      		$("#list3").jqGrid('editCell', i, "mdfcDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	  	        $("#list3").jqGrid('setCell',  i, "mdfcId", loginId); // 값을 변경
+  	  	  		    $("#list3").jqGrid('setCell',  i, "mdfcDttm", dateConvert()); // 값을 변경
+  	  	  	        $("#list3").jqGrid('saveCell', i, "mdfcId"); // 현재 편집 중인 셀을 저장
+  	  	  	 		$("#list3").jqGrid('saveCell', i, "mdfcDttm");
+  	        	  }  
+
           	}
           
             var list = $("#list3").getRowData();
@@ -1033,7 +1091,9 @@ pageEncoding="UTF-8"%>
 				  hsptId : 'A001',
 				  imgnRoomCd : $('#imgnRoom').val(),
 				  strtDate : $('#date1').val(),
-				  endDate : $('#date2').val()
+				  endDate : $('#date2').val(),
+				  rgstId : loginId,
+				  rgstDttm : dateConvert()
 		  };
 		  
 		  $.ajax({
@@ -1202,7 +1262,7 @@ pageEncoding="UTF-8"%>
               root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
               records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
             },     
-          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "요일-Hidden"],
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "요일-Hidden", "등록아이디", "등록한날짜", "수정한아이디", "수정한날짜"],
           colModel: [
         	{ name: "flag", index: "flag", width: 40, align: "center" },
             { name: "strtTime", index: "strtTime", width: 90, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
@@ -1219,7 +1279,10 @@ pageEncoding="UTF-8"%>
             { name: "hsptId", index: "hsptId", width: 80, align: "center", hidden: true  },
             { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
             { name: "wkdy", index: "wkdy", width: 80, align: "center" , hidden: true },
-            
+            { name: "rgstId", index: "rgstId", hidden: true },
+            { name: "rgstDttm", index: "rgstDttm", hidden: true },
+            { name: "mdfcId", index: "mdfcId", hidden: true },
+            { name: "mdfcDttm", index: "mdfcDttm", hidden: true },
           ],
           
           guiStyle: "bootstrap",
@@ -1334,7 +1397,7 @@ pageEncoding="UTF-8"%>
                'imgnRoomCd' : $('#imgnRoom').val(),
                'hsptId' : 'A001'
               }),
-          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "날짜-Hidden"],
+          colNames: ["구분", "시작", "종료", "외래", "입원", "건진", "병원아이디-Hidden", "촬영실코드-Hidden", "날짜-Hidden", "등록아이디", "등록한날짜", "수정한아이디", "수정한날짜"],
           colModel: [
             { name: "flag", index: "flag", width: 90, align: "center" },
             { name: "strtTime", index: "strtTime", width: 100, align: "center", editable:true, edittype:'text', editoptions: {type: "time"} },
@@ -1351,6 +1414,10 @@ pageEncoding="UTF-8"%>
             { name: "hsptId", index: "hsptId", width: 80, align: "center" , hidden: true },
             { name: "imgnRoomCd", index: "imgnRoomCd", width: 80, align: "center" , hidden: true },
             { name: "exmnDate", index: "exmnDate", width: 80, align: "center" , hidden: true },
+            { name: "rgstId", index: "rgstId", hidden: true },
+            { name: "rgstDttm", index: "rgstDttm", hidden: true },
+            { name: "mdfcId", index: "mdfcId", hidden: true },
+            { name: "mdfcDttm", index: "mdfcDttm", hidden: true },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
