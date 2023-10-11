@@ -157,9 +157,18 @@ pageEncoding="UTF-8"%>
          
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_017" text="예약" />
-              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 할 수 있습니다.</span>
-              </button>
+              	<c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						<button id="appnBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_017" text="예약" />
+			              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 할 수 있습니다.</span>
+			             </button>
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
+              
+               
             </div>
           </div>
           <!-- 그리드 박스 -->
@@ -177,9 +186,18 @@ pageEncoding="UTF-8"%>
             <p id="appnTimeText"></p>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_004" text="취소" />
-              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 취소할 수 있습니다.</span>
-              </button>
+            		<c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						  <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_004" text="취소" />
+			              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 취소할 수 있습니다.</span>
+			              </button>		
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
+            
+           
             </div>
           </div>
           <!-- 그리드 박스 -->
