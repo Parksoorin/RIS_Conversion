@@ -68,10 +68,8 @@
 	            	width: 80, 
 	            	align: "center",
 	            	editable: true,
-	            	formatter:"select", 
-		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 없앰"
                 	edittype: 'select',
-                	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회" }
+                	editoptions: { value: "M:메뉴; W:등록; Q:조회" }
 	            },
 	            { 
 	            	name: "pgrmInfo",
@@ -79,10 +77,8 @@
 	            	width: 80, 
 	            	align: "center", 
 	            	editable: true,
-	            	formatter:"select", 
-		    	 	formatoptions :{value: "Z:메뉴헤더; M:메인화면; P:팝업화면" },
                 	edittype: 'select',
-                	editoptions: { value: "Option1:메인화면; Option2:팝업화면; Option3:메뉴헤더" }
+                	editoptions: { value: "M:메인화면; P:팝업화면; Z:메뉴헤더" }
 	            },
 	            { 
 	                name: "useYn", 

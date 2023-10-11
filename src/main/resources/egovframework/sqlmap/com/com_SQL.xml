@@ -53,7 +53,10 @@
 	
 	<!-- 프로그램 정보 관리 그리드(메뉴 2) -->
 	<select id="RisPgrmList" resultType="egovframework.com.model.RisPgrmDTO">
-		SELECT A.HSPT_ID, B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL, A.PGRM_TYPE, A.PGRM_INFO, A.USE_YN, A.END_YN
+		SELECT A.HSPT_ID, B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL,
+		CASE WHEN A.PGRM_TYPE = 'W' THEN '등록' WHEN A.PGRM_TYPE = 'M' THEN '메뉴' WHEN A.PGRM_TYPE = 'Q' THEN '조회' END AS PGRM_TYPE,
+		CASE WHEN A.PGRM_INFO = 'M' THEN '메인화면' WHEN A.PGRM_INFO = 'P' THEN '팝업화면' WHEN A.PGRM_INFO = 'Z' THEN '메뉴헤더' END AS PGRM_INFO, 
+		A.USE_YN, A.END_YN
 		FROM rispgrm A
 		LEFT JOIN rissytm B
 		ON A.HSPT_ID = B.HSPT_ID
