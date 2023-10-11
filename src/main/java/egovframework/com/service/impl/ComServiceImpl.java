@@ -64,6 +64,10 @@ public class ComServiceImpl implements ComService {
 	@Override
 	public int updatePgrmData(RisPgrmDTO dto) {
 		// TODO Auto-generated method stub
+		// 시스템id 변경
+		String systemId = comMapper.selectSystemid(dto.getSystemName());
+		dto.setSystemId(systemId);
+		System.out.println(dto.toString());
 		return comMapper.updatePgrmData(dto);
 	}
 	@Override

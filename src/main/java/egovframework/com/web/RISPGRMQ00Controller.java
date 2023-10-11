@@ -64,20 +64,20 @@ public class RISPGRMQ00Controller {
 		        // 화면유형 변환
 		        String pgrmType = dto.getPgrmType(); 
 		        if ("등록".equals(pgrmType)) {
-		        	pgrmType = "W";
+		        	dto.setPgrmType("W");
 		        } else if ("메뉴".equals(pgrmType)) {
-		        	pgrmType = "M";
+		        	dto.setPgrmType("M");
 		        } else if ("조회".equals(pgrmType)) {
-		        	pgrmType = "Q";
+		        	dto.setPgrmType("Q");
 		        }
 		        // 호출방식 변환
 		        String pgrmInfo = dto.getPgrmInfo(); 
 		        if ("메인화면".equals(pgrmInfo)) {
-		        	pgrmType = "M";
+		        	dto.setPgrmInfo("W");
 		        } else if ("팝업화면".equals(pgrmInfo)) {
-		        	pgrmType = "P";
+		        	dto.setPgrmInfo("P");
 		        } else if ("메뉴헤더".equals(pgrmInfo)) {
-		        	pgrmType = "Z";
+		        	dto.setPgrmInfo("Z");
 		        }
 
 		        System.out.println("-----------------------");

@@ -71,11 +71,21 @@
 		WHERE SYSTEM_NAME = #{systemName}
 	</select>
 	
-	<!--  프로그램 정보 관리 수정(메뉴 2)
+	<!--  프로그램 정보 관리 수정(메뉴 2) -->
 	<update id="updatePgrmData" parameterType="egovframework.com.model.RisPgrmDTO">
-
+		UPDATE rispgrm
+		SET
+			SYSTEM_ID = #{systemId},
+			PGRM_NAME = #{pgrmName},
+			PGRM_URL = #{pgrmUrl},
+			PGRM_TYPE = #{pgrmType},
+			PGRM_INFO = #{pgrmInfo},
+			USE_YN = #{useYn},
+			END_YN = #{endYn}
+		WHERE
+			HSPT_ID = #{hsptId} AND SYSTEM_ID = #{systemId} AND PGRM_ID = #{pgrmId}
 	</update>
-	 -->
+	
 	<!-- 프로그램 정보 관리 입력(메뉴 2) -->
 	<insert id="addPgrmData" parameterType="egovframework.com.model.RisPgrmDTO">
 		INSERT INTO rispgrm (
