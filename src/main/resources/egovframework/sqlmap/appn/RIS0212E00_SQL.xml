@@ -25,6 +25,8 @@
 		<foreach collection="list" item='item' separator=';' >
 					UPDATE 					 RIS0212
 					SET						 HLDY_TEXT  =		#{item.hldyText}
+						,					 MDFC_ID 	=		#{item.mdfcId}
+				 		, 					 MDFC_DTTM 	=		#{item.mdfcDttm}
 					WHERE					 1			=		1
 			 		<if test="item.hsptId != null">
 					  AND 					 HSPT_ID 	=		#{item.hsptId}
@@ -32,6 +34,7 @@
 			 		<if test="item.hldyDate != null">
 		 			  AND 					 HLDY_DATE 	=		#{item.hldyDate}
 			 		</if>
+			 		
 		
 		</foreach>
 	</update>
@@ -41,6 +44,8 @@
 								HSPT_ID
 								,HLDY_DATE
 								,HLDY_TEXT
+								,RGST_ID
+								,RGST_DTTM
 							) 
 					VALUES 
 					<foreach collection="list" item='item' separator=',' >
@@ -48,6 +53,8 @@
 					 			#{item.hsptId}
 					 			,#{item.hldyDate}
 					 			,#{item.hldyText}
+					 			,#{item.rgstId}
+					 			,#{item.rgstDttm}
 					 		 )
 			 		 </foreach>
 	</insert>
