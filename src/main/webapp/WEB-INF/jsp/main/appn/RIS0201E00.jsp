@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -8,7 +9,7 @@ pageEncoding="UTF-8"%>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js" defer></script>
     <link rel="stylesheet" href="/css/appn/appnCommon.css">
     
-    <title>예약 기준 관리</title>
+    <title><spring:message code="text_019" text="예약 기준 관리" /></title>
     <style>
     
 	  .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
@@ -106,7 +107,7 @@ pageEncoding="UTF-8"%>
     	<div>
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword">촬영실 </p>
+        <p class="filter__keyword"><spring:message code="text_104" text="촬영실" /> </p>
         <select id="imgnRoom" class="filter__options">
           <c:forEach var="item" items="${imagingList}">
           	<c:if test="${item.mddlKrNm ne '전체'}">
@@ -119,17 +120,17 @@ pageEncoding="UTF-8"%>
           <option value="">option 1</option>
           <option value="">option 2</option> -->
         </select>
-        <p class="filter__keyword">예약일자 </p>
+        <p class="filter__keyword"><spring:message code="text_125" text="예약일자" /> </p>
         <input id="date1" type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input id="date2" type="date">
-        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">검색
+        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
         	<span class="tooltiptext tooltip-top">촬영실을 선택하여 시작일 ~ 종료일로 예약 현황을 조회할 수 있습니다.</span>
         </button>
-        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">예약기준 적용
+        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_126" text="예약기준 적용" />
         	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 월요일~일요일의 예약 기준을 적용합니다.</span>
         </button>
-        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip">예약기준 삭제
+        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_127" text="예약기준 삭제" />
         	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 해당 기간의 예약 기준을 삭제합니다.</span>
         </button>
 		</div>
@@ -150,9 +151,9 @@ pageEncoding="UTF-8"%>
                 </div>
               </div>
               <div class="height-fix-50 flex ">
-                  <label for="start-time" class="mr-5">시작시간</label>
+                  <label for="start-time" class="mr-5"><spring:message code="text_209" text="시작시간" /></label>
                   <input type="text" id="start-time" class="input-box input-box-custom mr-5"  maxlength="5">
-                  <label for="end-time" class="mr-5">종료시간</label>
+                  <label for="end-time" class="mr-5"><spring:message code="text_210" text="종료시간" /></label>
                   <input type="text" id="end-time" class="input-box input-box-custom mr-5 "  maxlength="5">
                   <label for="interval" class="mr-10">간격</label>
                   <input type="text" id="interval" class="input-box input-box-custom mr-5 "  maxlength="2">
@@ -163,11 +164,11 @@ pageEncoding="UTF-8"%>
                   <input type="text" id="rest-end-time" class="input-box input-box-custom "  maxlength="5">
               </div>
               <div class="height-fix-50 flex ">
-                <label for="out-patient" class="mr-35">외래</label>
+                <label for="out-patient" class="mr-35"><spring:message code="text_129" text="외래" /></label>
                 <input type="text" id="out-patient" class="input-box  input-box-custom mr-5 "  maxlength="5">
-                <label for="in-patient" class="mr-35">입원</label>
+                <label for="in-patient" class="mr-35"><spring:message code="text_130" text="입원" /></label>
                 <input type="text" id="in-patient" class="input-box  input-box-custom mr-5 "  maxlength="5">
-                <label for="health-examination" class="mr-10">건진</label>
+                <label for="health-examination" class="mr-10"><spring:message code="text_131" text="건진" /></label>
                 <input type="text" id="health-examination" class="input-box  input-box-custom mr-35"  maxlength="5">
                 <input type="checkbox" id="week-batch" class="height-md input-box-custom mr-5">
                 <label for="week-batch">월 ~ 금 일괄적용</label>
@@ -187,16 +188,16 @@ pageEncoding="UTF-8"%>
             </div>
             <div class="grid__title__flex">
               <div class="flex">
-                <p class="line-height-50 margin-10">요일설정</p>
-                <button id="reload-btn" class="all__btn img__btn update__btn top-25">갱신</button>
+                <p class="line-height-50 margin-10"><spring:message code="text_128" text="요일설정" /></p>
+                <button id="reload-btn" class="all__btn img__btn update__btn top-25"><spring:message code="button_014" text="갱신" /></button>
               </div>
               
               <!-- 버튼 컨테이너 -->
               <div class="btn__container">
-                <button id="update-btn" class="all__btn img__btn update__btn">수정</button>
-                <button id="input-btn" class="all__btn img__btn insert__btn">입력</button>
-                <button id="delete-btn" class="all__btn img__btn delete__btn">삭제</button>
-                <button id="save-btn" class="all__btn img__btn save__btn">저장</button>
+                <button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
+                <button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
+                <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
+                <button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
               </div>
            </div>
           </div>
@@ -242,7 +243,7 @@ pageEncoding="UTF-8"%>
           </div>
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>예약 변동 내역</p>
+            <p><spring:message code="text_132" text="예약 변동내역" /></p>
 
         
           </div>
@@ -258,14 +259,14 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <button id="reload-btn2" class="all__btn img__btn update__btn">갱신</button>
+            <button id="reload-btn2" class="all__btn img__btn update__btn"><spring:message code="button_014" text="갱신" /></button>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="update-btn2" class="all__btn img__btn update__btn">수정</button>
-              <button id="input-btn2" class="all__btn img__btn insert__btn">입력</button>
-              <button id="delete-btn2" class="all__btn img__btn delete__btn">삭제</button>
-              <button id="save-btn2" class="all__btn img__btn save__btn">저장</button>
+              <button id="update-btn2" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
+              <button id="input-btn2" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
+              <button id="delete-btn2" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
+              <button id="save-btn2" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
             </div>
           </div>
           <!-- 그리드 박스 -->

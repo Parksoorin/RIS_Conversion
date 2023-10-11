@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>예약 관리</title>
+    <title><spring:message code="text_022" text="예약 관리" /></title>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js" defer></script>
     <link rel="stylesheet" href="/css/appn/appnCommon.css">
     <style>
@@ -36,37 +37,37 @@ pageEncoding="UTF-8"%>
     <main class="main__container">
       <!-- 검색 -->
       <section class="search__container">
-        <p class="filter__keyword margin-10">조회일자 </p>
+        <p class="filter__keyword margin-10"><spring:message code="text_211" text="조회일자" /> </p>
         <input id="date1" type="date" class="margin-10">
         <p class="margin-10"> ~ </p>
         <input id="date2" type="date" class="margin-10">
-        <p class="filter__keyword margin-10">환자명 </p>
+        <p class="filter__keyword margin-10"><spring:message code="text_145" text="환자명" /> </p>
         <input id="ptntInput" type="text" class="margin-10">
-        <button id="ptntListBtn" class="all__btn img__btn img__btn update__btn margin-10 tooltip">찾기
+        <button id="ptntListBtn" class="all__btn img__btn img__btn update__btn margin-10 tooltip"><spring:message code="text_142" text="찾기" />
         	<span class="tooltiptext tooltip-top">환자 번호를 팝업창으로 찾을 수 있습니다.</span>
         </button>
-        <p class="filter__keyword margin-10">촬영구분환자명 </p>
+        <p class="filter__keyword margin-10"><spring:message code="text_100" text="촬영실구분환자명" /> </p>
         <select id="imagingDivision" class="margin-10">
           <!--  <option>전체</option> -->
             <c:forEach var="item" items="${imagingDivisionPatientList}">
             	<option value="${item.mddlCd}">${item.mddlKrNm}</option>
          	</c:forEach>
         </select>
-        <p class="filter__keyword margin-10">촬영실 </p>
+        <p class="filter__keyword margin-10"><spring:message code="text_104" text="촬영실" /> </p>
         <select id="imagingList" class="margin-10">
           <!--  <option>전체</option>  -->
           <c:forEach var="item" items="${imagingList}">
             	<option value="${item.mddlCd}">${item.mddlKrNm}</option>
          	</c:forEach>
         </select>
-        <p class="filter__keyword margin-10">예약 여부 </p>
+        <p class="filter__keyword margin-10"><spring:message code="text_160" text="예약 여부" /></p>
         <input type="radio" value="all" id="appointment-total" class="margin-10" name="appointment-gubun" checked>
-        <label for="appointment-total" class="filter__keyword margin-10">전체 </label>
+        <label for="appointment-total" class="filter__keyword margin-10"><spring:message code="text_161" text="전체" /> </label>
         <input type="radio" value="1" id="appointment-reserved" class="margin-10" name="appointment-gubun" >
-        <label for="appointment-reserved" class="filter__keyword margin-10">예약 </label>
+        <label for="appointment-reserved" class="filter__keyword margin-10"><spring:message code="button_017" text="예약" /> </label>
         <input type="radio" value="0" id="appointment-unreserved" class="margin-10" name="appointment-gubun" >
-        <label for="appointment-unreserved" class="filter__keyword margin-10">미예약 </label>
- 		<button class="all__btn img__btn img__btn update__btn margin-10 tooltip">검색
+        <label for="appointment-unreserved" class="filter__keyword margin-10"><spring:message code="text_162" text="미예약" /> </label>
+ 		<button class="all__btn img__btn img__btn update__btn margin-10 tooltip"><spring:message code="message_056" text="검색" />
  			<span class="tooltiptext tooltip-top">조회일자, 환자명, 촬영실, 예약여부를 입력받아 예약 현황을 조회할 수 있습니다.</span>
  		</button>
       </section>
@@ -84,22 +85,22 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>예약 상세정보</p>
+            <p><spring:message code="text_143" text="예약" /> <spring:message code="text_098" text="상세정보" /></p>
           </div>
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
             <section class="grid__box color-1 appointment-detail-container">
                <div class="mb-10">
-                    <label for="imaging">촬영실 : </label>
+                    <label for="imaging"><spring:message code="text_104" text="촬영실" /> : </label>
                     <select  id="imaging" disabled>
-                      <option>처방을 선택하세요</option>
+                      <option><spring:message code="text_154" text="처방을 선택하세요" /></option>
                     </select>
                 </div>
-                <div>처방참고내용</div>
+                <div><spring:message code="text_155" text="처방참고내용" /></div>
                 <div>
                   <textarea id="ordrNoteText" disabled></textarea>
                 </div>
-                <div>예약참고내용</div>
+                <div><spring:message code="text_156" text="예약참고내용" /></div>
                 <div>  
                   <textarea id="appnNoteText" disabled></textarea>
                 </div>
@@ -110,7 +111,7 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container">
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <p>예약일자</p>
+            <p><spring:message code="text_125" text="예약일자" /></p>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
@@ -156,7 +157,7 @@ pageEncoding="UTF-8"%>
          
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnBtn" class="all__btn img__btn save__btn tooltip">예약
+              <button id="appnBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_017" text="예약" />
               	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 할 수 있습니다.</span>
               </button>
             </div>
@@ -176,7 +177,7 @@ pageEncoding="UTF-8"%>
             <p id="appnTimeText"></p>
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip">취소
+              <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_004" text="취소" />
               	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 취소할 수 있습니다.</span>
               </button>
             </div>

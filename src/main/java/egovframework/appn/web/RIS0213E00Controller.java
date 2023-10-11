@@ -1,9 +1,12 @@
 package egovframework.appn.web;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,8 +46,12 @@ public class RIS0213E00Controller {
 	 */
 	
 	@GetMapping("/RIS0213E00.do")
-	public String ris0213ListGetMapping(Model model) throws JsonProcessingException {
+	public String ris0213ListGetMapping(HttpServletRequest request, Model model) throws JsonProcessingException {
 		System.out.println("/RIS0213E00.do Get Request!!!");
+		
+	
+		
+		
 		List<ImagingDTO> imagingList = risAppnCommonService.imagingSelect();
 		  ObjectMapper objectMapper = new ObjectMapper();
 		  String jsonImagingList =  objectMapper.writeValueAsString(imagingList);

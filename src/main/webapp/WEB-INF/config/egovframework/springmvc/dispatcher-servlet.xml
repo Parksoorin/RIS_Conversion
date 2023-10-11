@@ -30,6 +30,7 @@
 		</list>
 		</property> 
 	</bean>
+	
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <list>
@@ -38,11 +39,21 @@
         </property>
     </bean>
     
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
-    <!-- 쿠키를 이용한 Locale 이용시 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"/> -->
+     
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    	  <property name="defaultLocale" value="ko"></property>
+     </bean>
+     
+    <!-- 쿠키를 이용한 Locale 이용시 
+    
+     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+     	<property name="defaultLocale" value="ko_KR" />
+      </bean>-->
+
     <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-        <property name="paramName" value="language" />
+        <property name="paramName" value="lang" />
     </bean> 
+   
     <!-- 서블릿컨네이너상의 exception에 대한 오류 페이지를 연결하는 mvc 설정-->
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="defaultErrorView" value="cmm/error/egovError"/>
@@ -79,7 +90,6 @@
 
 	 
 
-          
 
 
     <!-- Annotation 을 사용하지 않는 경우에 대한 MVC 처리 설정 -->
