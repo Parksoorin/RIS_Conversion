@@ -80,6 +80,18 @@
       }
       
       
+      const dateConvert = () => {
+    	  const now = new Date();
+    	  const year = now.getFullYear();
+    	  const month = String(now.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1을 해줍니다.
+    	  const day = String(now.getDate()).padStart(2, '0');
+    	  const hours = String(now.getHours()).padStart(2, '0');
+    	  const minutes = String(now.getMinutes()).padStart(2, '0');
+    	  const seconds = String(now.getSeconds()).padStart(2, '0');
+		  console.log(year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+		  return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+      }
+      
       const dateValidateCheck = () => {
       	var strtDate = $('#date1').val();
           var endDate = $('#date2').val();
@@ -176,9 +188,12 @@
     
     
       $(document).ready(function () {
-       
+	  		var hsptId = "${hspt_id}";
+			var loginId = "${login_id}";
+			var loginName = "${login_name}";
+			var userGrade = "${user_grade}";
     	  init();
-
+			
           
           
           // 클릭 이벤트 처리 
@@ -268,8 +283,7 @@
           
             // selectOption[data.mddlCd] = data.mddlKrNm; 저장을 할 때 
             for (var i = 1; i <= totalRows; i++) {
-        		  	  
-          	  
+            	
   	        	  $("#list1").jqGrid('saveRow',i, false, 'clientArray');    
   	      		  	  
   	        	  let data = $("#list1").jqGrid("getRowData",i);
@@ -281,6 +295,27 @@
   		  		  		  return;
   		  		  	  }	  
   	        	  }	  
+  	        	  
+  	        	  if(data.flag === '입력'){
+
+  	  	        	$("#list1").jqGrid('editCell', i, "rgstId", true); // 2행, "Name" 열을 편집 모드로 변경
+  	  	      		  $("#list1").jqGrid('editCell', i, "rgstDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	  	        $("#list1").jqGrid('setCell',  i, "rgstId", loginId); // 값을 변경
+	  	  		    $("#list1").jqGrid('setCell',  i, "rgstDttm", dateConvert()); // 값을 변경
+	  	  	        $("#list1").jqGrid('saveCell', i, "rgstId"); // 현재 편집 중인 셀을 저장
+	  	  	 		   $("#list1").jqGrid('saveCell', i, "rgstDttm");
+  	        	  }
+  	        	  
+  	        	if(data.flag === '수정'){
+	        		 
+	  	        	$("#list1").jqGrid('editCell', i, "mdfcId", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	      		$("#list1").jqGrid('editCell', i, "mdfcDttm", true); // 2행, "Name" 열을 편집 모드로 변경
+	  	  	        $("#list1").jqGrid('setCell',  i, "mdfcId", loginId); // 값을 변경
+	  	  		    $("#list1").jqGrid('setCell',  i, "mdfcDttm", dateConvert()); // 값을 변경
+	  	  	        $("#list1").jqGrid('saveCell', i, "mdfcId"); // 현재 편집 중인 셀을 저장
+	  	  	 		$("#list1").jqGrid('saveCell', i, "mdfcDttm");
+	        	  }   
+	      		  	  
           	}
           
             var list = $("#list1").getRowData();
@@ -321,7 +356,7 @@
             root:'rows', //서버의 결과 내용에서 데이터를 읽어오는 기준점
             records:'records'  // 보여지는 데이터 갯수(레코드) totalRecord 
           },    
-          colNames: ["구분", "휴일 일자", "휴일 내용", "병원ID-Hidden"],
+          colNames: ["구분", "휴일 일자", "휴일 내용", "병원ID-Hidden", "등록아이디", "등록한날짜", "수정한아이디", "수정한날짜"],
           colModel: [
             { name: "flag", index: "flag", width: 40, align: "center" },
             { name: "hldyDate", index: "hldyDate", width: 100, align: "center", editable:true, editoptions: {type: "date"}},
@@ -332,7 +367,11 @@
               align: "center",
               editable:true
             },
-            { name: "hsptId", index: "hsptId", editoptions: { defaultValue: 'A001'}, hidden: true }
+            { name: "hsptId", index: "hsptId", editoptions: { defaultValue: 'A001'}, hidden: true },
+            { name: "rgstId", index: "rgstId", hidden: true },
+            { name: "rgstDttm", index: "rgstDttm", hidden: true },
+            { name: "mdfcId", index: "mdfcId", hidden: true },
+            { name: "mdfcDttm", index: "mdfcDttm", hidden: true },
           ],
           guiStyle: "bootstrap",
           autowidth: true,
