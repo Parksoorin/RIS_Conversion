@@ -29,4 +29,27 @@
 			LOGIN_ID = #{loginId}
 	</update>
 	
+	
+	<!--  메뉴 리스트 -->
+	<select id="menuList" parameterType="egovframework.login.model.RisUserDTO" resultType="egovframework.login.model.MenuDTO">
+			SELECT 		A.PGRM_ID
+						, A.MENU_NAME
+						, A.MENU_LEVEL
+						, A.MENU_ID
+						, A.MENU_NAME_SUB
+						, B.PGRM_URL
+						, A.UPPER_MENU_ID
+			FROM 		risgrmu A
+			LEFT JOIN 	rispgrm B
+				ON 		A.PGRM_ID 		= 		B.PGRM_ID
+					AND B.HSPT_ID 		=		 #{hsptId}
+				WHERE	MENU_GROUP_ID	= 	(SELECT 	 Menu_GROUP_ID		
+											 FROM  		 RISURMN
+											 WHERE 		 LOGIN_ID 		=	 #{loginId}
+												AND	 	 HSPT_ID 		= 	 #{hsptId})
+					AND A.HSPT_ID		= 	#{hsptId}
+	
+	</select>
+	
+	
 </mapper>

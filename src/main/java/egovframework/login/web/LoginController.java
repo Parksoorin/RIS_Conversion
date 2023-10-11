@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import egovframework.login.model.MenuDTO;
 import egovframework.login.model.RisUserDTO;
 import egovframework.login.service.LoginService;
 import egovframework.util.Sha256;
@@ -46,7 +47,8 @@ public class LoginController {
 		JSONObject json = new JSONObject();
 		
 		RisUserDTO result = loginService.loginId(dto);
-
+		List<MenuDTO> menuList = loginService.menuList(result);
+		
 		if (result == null) {
 			json.put("result", "none"); // 서비스에서 가져온걸 리턴. 거의 값 전달만 해줌.
 		} else {
@@ -54,7 +56,7 @@ public class LoginController {
 	        session.setAttribute("login_id", result.getLoginId());
 	        session.setAttribute("login_name", result.getLoginNm());
 	        session.setAttribute("user_grade", result.getUserGrade());
-			
+			session.setAttribute("menuList", menuList);
 			json.put("result", "success");
 			//session.setAttribute("login", result);
 		}
@@ -77,7 +79,7 @@ public class LoginController {
 		session.removeAttribute("login_id");
 		session.removeAttribute("login_name");
 		session.removeAttribute("user_grade");
-		
+		session.invalidate();
 		return "redirect:/?hspt_id=A001";
 	}
 	

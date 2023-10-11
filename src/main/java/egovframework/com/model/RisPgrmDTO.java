@@ -51,4 +51,5 @@ public class RisPgrmDTO {
 	// 완료여부
 	@Max(1)
 	private String endYn;
+	private String flag;
 }

@@ -2,6 +2,7 @@ package egovframework.stts.web;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import egovframework.stts.model.Ris0102DTO;
 import egovframework.stts.model.Ris1201DTO;
@@ -27,11 +29,16 @@ public class RIS1201Q01Controller {
 	SttsService sttsService;
 	
 	@RequestMapping(value = "/stts/RisImgnStts.do")
-	public String risDvsnSttsPage(Model model) throws Exception {
+	public String risDvsnSttsPage(HttpServletRequest request,Model model) throws Exception {
 		// 촬영 구분 리스트
 		List<Ris0102DTO> risDvsnList = sttsService.getRisDvsnList();
 		// 촬영실 리스트
 		List<Ris0102DTO> risRoomList = sttsService.getRisRoomList();
+		
+		HttpSession session = request.getSession();
+		Locale locale = new Locale("ko");
+		        
+		session.setAttribute(SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME, locale);
 		
 		model.addAttribute("risDvsnList", risDvsnList);
 		model.addAttribute("risRoomList", risRoomList);

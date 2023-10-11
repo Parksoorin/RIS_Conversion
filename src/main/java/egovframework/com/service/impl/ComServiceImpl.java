@@ -61,6 +61,24 @@ public class ComServiceImpl implements ComService {
 		// TODO Auto-generated method stub
 		return comMapper.RisPgrmList(hsptId);
 	}
+	@Override
+	public int updatePgrmData(RisPgrmDTO dto) {
+		// TODO Auto-generated method stub
+		// 시스템id 변경
+		String systemId = comMapper.selectSystemid(dto.getSystemName());
+		dto.setSystemId(systemId);
+		System.out.println(dto.toString());
+		return comMapper.updatePgrmData(dto);
+	}
+	@Override
+	public int addPgrmData(RisPgrmDTO dto) {
+		// TODO Auto-generated method stub
+		// 시스템id 변경
+		String systemId = comMapper.selectSystemid(dto.getSystemName());
+		dto.setSystemId(systemId);
+		System.out.println(dto.toString());
+		return comMapper.addPgrmData(dto);
+	}
 	
 	// 메뉴정보 관리
 	@Override

@@ -11,7 +11,7 @@ public interface RISAppnCommonMapper {
 	public List<ImagingDTO> imagingSelect();
 	public List<PatientDTO> patientSelect();
 	public List<RISAppnCalDTO> risappnCalSelect(RISAppnCalRequestDTO dto);
-	
+	public List<ImagingDTO> imagingSelectSearch(ImagingRequestDTO dto);
 	
 	
 }

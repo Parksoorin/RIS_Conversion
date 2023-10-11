@@ -41,15 +41,15 @@
     $(document).ready(function () {
     	var hsptId = "${hspt_id}";
         $("#list1").jqGrid({
-        	
         	url: "/RISPGRMQ00.do",   // 서버주소 
         	reordercolNames:true,
             postData : { hsptId: hsptId }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-       		colNames: ["flag", "시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방식", "사용", "완료"],
+       		colNames: ["flag", "hsptId", "시스템ID", "프로그램ID", "프로그램명", "프로그램 URL", "화면유형", "호출방식", "사용", "완료"],
        		colModel: [
        			{ name: 'flag', index: 'flag', hidden: true },
+       			{ name: 'hsptId', index: 'hsptId', hidden: true },
 	          	{ 
 	          		name: "systemName",
 	          		index: "systemName", 
@@ -57,7 +57,7 @@
 	          		align: "center", 
 	          		editable: true,
                 	edittype: 'select',
-                	editoptions: { value: "Option1:선택; Option2:진단검사; Option3:영상의학" }
+                	editoptions: { value: "선택:선택;진단검사:진단검사;영상의학:영상의학" }
 	          	},
 	            { name: "pgrmId", index: "pgrmId", width: 100, align: "center", editable: true },
 	            { name: "pgrmName", index: "pgrmName", width: 150, align: "center", editable: true },
@@ -68,10 +68,8 @@
 	            	width: 80, 
 	            	align: "center",
 	            	editable: true,
-	            	formatter:"select", 
-		    	 	formatoptions :{value: "W:등록; M:메뉴; Q:조회" }, //"출력, 배치 없앰"
                 	edittype: 'select',
-                	editoptions: { value: "Option1:메뉴; Option2:등록; Option3:조회" }
+                	editoptions: { value: "M:메뉴; W:등록; Q:조회" }
 	            },
 	            { 
 	            	name: "pgrmInfo",
@@ -79,10 +77,8 @@
 	            	width: 80, 
 	            	align: "center", 
 	            	editable: true,
-	            	formatter:"select", 
-		    	 	formatoptions :{value: "Z:메뉴헤더; M:메인화면; P:팝업화면" },
                 	edittype: 'select',
-                	editoptions: { value: "Option1:메인화면; Option2:팝업화면; Option3:메뉴헤더" }
+                	editoptions: { value: "M:메인화면; P:팝업화면; Z:메뉴헤더" }
 	            },
 	            { 
 	                name: "useYn", 
@@ -189,11 +185,15 @@
     
  	// 그리드1 입력
     $("#add-row__btn").on("click", function () {
+    	var hsptId = "${hspt_id}";
     	var newRowData = {};
     	var grid = $("#list1");
 	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
 	    newRowData.flag = 'I';
+	    newRowData.hsptId = hsptId;
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	   
+	    
 	    
 	    // 모든 열을 편집 가능하게 설정합니다.
 	    var allColumns = grid.jqGrid('getGridParam', 'colModel');

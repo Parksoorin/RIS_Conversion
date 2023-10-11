@@ -3,7 +3,185 @@
 <mapper namespace="egovframework.appn.mapper.RIS1211E00Mapper">
 	<!-- 작성자 : 송유근  -->
 	
-	<!-- 예약 관리 -->
 	
-
+	<!-- 예약 관리 -->
+	<select id="ris1211Select" parameterType="egovframework.appn.model.Ris1211RequestDTO" resultType="egovframework.appn.model.Ris1211DTO">
+		SELECT 	
+				  A.HSPT_ID
+				, A.PTNT_ID
+				, A.PKRIS1211
+				, CASE WHEN B.ORDR_PRGR_DVSN = "0" then "N" WHEN B.ORDR_PRGR_DVSN = "1" THEN "Y" END AS APPN_YN
+				, A.PMNT_YN
+				, A.PTNT_KR_NM
+				, A.DSRD_DATE
+				, A.DSRD_TIME
+				, CASE WHEN B.ORDR_PRGR_DVSN = "0" then NULL ELSE A.APPN_DATE END AS APPN_DATE 
+				, CASE WHEN B.ORDR_PRGR_DVSN = "0" then NULL ELSE A.APPN_TIME END AS APPN_TIME
+				, B.ORDR_DATE
+				, B.ORDR_CD
+				, B.ORDR_NM
+				, A.APPN_NOTE_TEXT
+				, B.ORDR_NOTE_TEXT
+				, A.IMGN_ROOM_CD
+				, B.ORDR_BDYP_CD
+				, (
+					SELECT MDDL_KR_NM 
+					FROM   RIS0102
+					WHERE  1 		=		 1
+				  	 AND   HSPT_ID 	=		 'A001'
+				   	 AND   LRGC_CD  = 		 'GWA_LIST'
+				     AND   MDDL_CD  =		 B.TRTM_DPRT_CD) AS appn_treatment
+				, CASE WHEN B.EMRG_YN = 'N' THEN '외래'
+				  	   WHEN B.EMRG_YN = 'Y' THEN '응급' ELSE 0 END AS gubun
+				, (SELECT MDDL_KR_NM FROM ris0102 WHERE 1=1
+				   AND HSPT_ID = 'A001'
+				   AND LRGC_CD = 'DOCTORLIST'
+				   AND MDDL_CD = ORDR_DOC_ID) AS DOC_NM	 	
+ 		  FROM 
+ 		  			RIS1211 A
+		  LEFT JOIN RIS1201 B
+		  ON 		A.FKRIS1201 = B.PKRIS1201
+		  LEFT OUTER JOIN RIS0201 C 
+			ON (B.HSPT_ID = C.HSPT_ID 
+			AND B.IMGN_CD = C.IMGN_CD 
+			AND (C.OUTP_APPN_YN = 'Y' OR INPT_APPN_YN ='Y')
+			<![CDATA[
+			AND ((CURDATE() < C.EXPR_DATE) AND (CURDATE() >= C.APPL_DATE))
+			]]>
+		)
+		  WHERE 	1					=			1
+		  	AND 	ORDR_DATE BETWEEN #{ordrStartDate} AND #{ordrEndDate}
+			<if test='ptntKrNm != null and ptntKrNm != ""'>
+			AND		A.PTNT_KR_NM 		= 			#{ptntKrNm}
+			</if>
+			<if test='ptntId != null and ptntId != ""'>
+			OR	 	A.PTNT_ID 			= 			#{ptntId}
+			</if>
+			<if test='ordrBdypCd != null and ordrBdypCd != ""'>
+			AND 	B.ORDR_BDYP_CD 		LIKE		#{ordrBdypCd}
+			</if>
+			<if test='imgnRoomCd != null and imgnRoomCd != ""'>
+			AND 	A.IMGN_ROOM_CD 		LIKE		#{imgnRoomCd}
+			</if>
+			AND 	A.HSPT_ID 			= 			#{hsptId}
+			<if test='ordrPrgrDvsn != null and ordrPrgrDvsn != "" and ordrPrgrDvsn.equals("1") or ordrPrgrDvsn.equals("0")'>
+			AND 	B.ORDR_PRGR_DVSN	= 			#{ordrPrgrDvsn}
+			</if>
+		   	<if test='ordrPrgrDvsn != null and ordrPrgrDvsn != "" and ordrPrgrDvsn.equals("all")'>
+		   	AND    (B.ORDR_PRGR_DVSN 	= '0' OR B.ORDR_PRGR_DVSN = '1')
+		   	AND C.IMGN_DVSN_CD IS NOT NULL
+		   	</if>
+	</select>
+	
+	<select id="ris1211SelectList2" parameterType="egovframework.appn.model.Ris1211List2RequestDTO" resultType="egovframework.appn.model.Ris1211List2DTO">
+			WITH C AS (			
+					SELECT 
+								HLDY_DATE 		 AS 	date
+					FROM 		  
+								RIS0212 
+					UNION
+					SELECT 		STRT_DATE 	 	 AS 	date
+		 			FROM 		RIS0213 
+		 			ORDER BY 	date
+					)	
+			SELECT 
+					A.HSPT_ID AS hspt_id
+					,A.IMGN_ROOM_CD AS imgn_room_cd
+					,A.EXMN_DATE as exmn_date
+					,DATE_FORMAT(A.STRT_TIME, '%H:%i') as strt_time
+					,CASE WHEN A.EXMN_DATE IN (SELECT date FROM C)
+					THEN 0 ELSE A.APPN_OUTP_PSSB_CNT END AS appn_outp_pssb_cnt
+					,CASE WHEN A.EXMN_DATE IN (SELECT date FROM C) THEN 0 
+			        ELSE A.APPN_INPT_PSSB_CNT END AS appn_inpt_pssb_cnt
+					,CASE WHEN A.EXMN_DATE IN (SELECT date FROM C) THEN 0 
+			        ELSE A.APPN_HLXM_PSSB_CNT END AS appn_hlxm_pssb_cnt
+					,CASE WHEN A.EXMN_DATE IN (SELECT date FROM C) THEN 0 
+			        ELSE IFNULL(B.APPN_SUM,0) END AS appn_sum
+					,IFNULL(B.OUTP_CNT,0) AS outp_cnt
+					,IFNULL(B.INPT_CNT,0) AS inpt_cnt
+					,IFNULL(B.HLXM_CNT,0) AS hlxm_cnt
+		 	FROM (
+		 		SELECT 
+		 				HSPT_ID
+		 				, IMGN_ROOM_CD
+		 				, EXMN_DATE
+		 				, STRT_TIME
+		 				, APPN_OUTP_PSSB_CNT
+		 				, APPN_INPT_PSSB_CNT
+		 				, APPN_HLXM_PSSB_CNT 
+		 		FROM ris0211 
+				WHERE 
+						HSPT_ID				 = 			#{hsptId}
+				 AND	IMGN_ROOM_CD		 = 			#{imgnRoomCd}
+				 AND 	EXMN_DATE			 =  		#{date}
+					-- AND STRT_TIME = '09:00:00'
+				) A	
+			LEFT JOIN (
+				SELECT 
+						HSPT_ID
+						, IMGN_ROOM_CD
+						, APPN_DATE
+						, APPN_TIME
+						,COUNT(APPN_TIME) AS APPN_SUM
+						,COUNT(CASE WHEN VIST_DVSN = 'O' then 1 END ) AS OUTP_CNT
+						,COUNT(CASE WHEN VIST_DVSN = 'I' then 1 END ) AS INPT_CNT
+						,COUNT(CASE WHEN VIST_DVSN = 'G' then 1 END ) AS HLXM_CNT
+				 FROM	 ris1211 
+				 WHERE 		HSPT_ID			= 		#{hsptId}
+				  AND 		IMGN_ROOM_CD 	=		#{imgnRoomCd}
+				  AND 		APPN_PRGR_DVSN 	=		 1
+				  AND 		APPN_DATE 		= 		#{date}
+					--	AND APPN_TIME = '09:00:00'
+				 GROUP BY APPN_DATE,APPN_TIME)B 
+			  ON (
+			  		A.HSPT_ID = B.HSPT_ID 
+			  	AND A.IMGN_ROOM_CD = B.IMGN_ROOM_CD 
+			  	AND A.EXMN_DATE = B.APPN_DATE
+			  	AND A.STRT_TIME = B.APPN_TIME
+			  	)
+	</select>
+	
+	<select id="ris1211SelectList3" parameterType="egovframework.appn.model.Ris1211List3RequestDTO" resultType="egovframework.appn.model.Ris1211List3DTO">
+		SELECT 
+					A.HSPT_ID
+					, A.PTNT_ID
+					, A.PTNT_KR_NM
+					, A.APPN_DATE
+					, A.APPN_TIME
+					, CASE WHEN B.EMRG_YN = 'N' THEN '외래'
+					  	   WHEN B.EMRG_YN = 'Y' THEN '응급' ELSE 0 END AS gubun
+					, A.IMGN_ROOM_CD
+		FROM 		RIS1211 A
+		LEFT JOIN 	RIS1201 B
+			ON 		A.FKRIS1201	 	= B.PKRIS1201
+		WHERE 		A.HSPT_ID 		= #{hsptId}
+			AND 	A.APPN_DATE 	= #{appnDate}
+			AND 	A.APPN_TIME 	= #{appnTime} 	
+			AND		A.IMGN_ROOM_CD	= #{imgnRoomCd}
+			AND 	A.APPN_PRGR_DVSN = 1
+	</select>
+	
+	<select id="getRis1101List" parameterType="egovframework.appn.model.Ris1211RequestDTO" resultType="egovframework.pandok.model.Ris1101DTO">
+		SELECT HSPT_ID, PTNT_ID, PTNT_KR_NM, BRTH, GNDR_DVSN, TIMESTAMPDIFF(YEAR, BRTH, CURDATE()) + 1 AS AGE
+		  FROM ris1101
+		 WHERE HSPT_ID = "A001"
+	 		<if test='ptntKrNm != null and ptntKrNm != ""'>
+			AND		PTNT_KR_NM 		= 			#{ptntKrNm}
+			</if>
+			<if test='ptntId != null and ptntId != ""	'>
+			OR	 	PTNT_ID 			= 			#{ptntId}
+			</if>
+	</select>
+	
+	<update id="ris1211Update" parameterType="egovframework.appn.model.Ris1211RequestDTO">
+		UPDATE 		RIS1211
+		SET			APPN_NOTE_TEXT	=	#{appnNoteText}
+					, APPN_DATE	 	=	#{appnDate}
+					, APPN_TIME		=	#{appnTime}
+		WHERE		HSPT_ID			=	#{hsptId}
+			AND		PKRIS1211 		=	#{pkris1211}
+	</update>
+	
+	
+	
 </mapper>

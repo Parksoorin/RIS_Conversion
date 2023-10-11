@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import egovframework.login.service.LoginService;
+import egovframework.login.model.MenuDTO;
 import egovframework.login.model.RisUserDTO;
 import egovframework.login.mapper.LoginMapper;
 
@@ -33,5 +34,11 @@ public class LoginServiceImpl implements LoginService {
 	public int userPasswordChange(RisUserDTO dtos) {
 		// TODO Auto-generated method stub
 		return loginMapper.userPasswordChange(dtos);
+	}
+
+	@Override
+	public List<MenuDTO> menuList(RisUserDTO result) {
+		// TODO Auto-generated method stub
+		return loginMapper.menuList(result);
 	}
 }

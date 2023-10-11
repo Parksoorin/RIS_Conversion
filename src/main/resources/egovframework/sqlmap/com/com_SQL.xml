@@ -53,15 +53,49 @@
 	
 	<!-- 프로그램 정보 관리 그리드(메뉴 2) -->
 	<select id="RisPgrmList" resultType="egovframework.com.model.RisPgrmDTO">
-		SELECT B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL, A.PGRM_TYPE, A.PGRM_INFO, A.USE_YN, A.END_YN
+		SELECT A.HSPT_ID, B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL,
+		CASE WHEN A.PGRM_TYPE = 'W' THEN '등록' WHEN A.PGRM_TYPE = 'M' THEN '메뉴' WHEN A.PGRM_TYPE = 'Q' THEN '조회' END AS PGRM_TYPE,
+		CASE WHEN A.PGRM_INFO = 'M' THEN '메인화면' WHEN A.PGRM_INFO = 'P' THEN '팝업화면' WHEN A.PGRM_INFO = 'Z' THEN '메뉴헤더' END AS PGRM_INFO, 
+		A.USE_YN, A.END_YN
 		FROM rispgrm A
 		LEFT JOIN rissytm B
 		ON A.HSPT_ID = B.HSPT_ID
 		AND A.SYSTEM_ID = B.SYSTEM_ID
 		WHERE A.HSPT_ID = #{hsptId}
 	</select>
-		
-		
+	
+	<!-- 사용자관리 권한 변경(메뉴 2) -->
+	<select id="selectSystemid" parameterType="string" resultType="string">
+		SELECT SYSTEM_ID
+		FROM rissytm
+		WHERE SYSTEM_NAME = #{systemName}
+	</select>
+	
+	<!--  프로그램 정보 관리 수정(메뉴 2) -->
+	<update id="updatePgrmData" parameterType="egovframework.com.model.RisPgrmDTO">
+		UPDATE rispgrm
+		SET
+			SYSTEM_ID = #{systemId},
+			PGRM_NAME = #{pgrmName},
+			PGRM_URL = #{pgrmUrl},
+			PGRM_TYPE = #{pgrmType},
+			PGRM_INFO = #{pgrmInfo},
+			USE_YN = #{useYn},
+			END_YN = #{endYn}
+		WHERE
+			HSPT_ID = #{hsptId} AND SYSTEM_ID = #{systemId} AND PGRM_ID = #{pgrmId}
+	</update>
+	
+	<!-- 프로그램 정보 관리 입력(메뉴 2) -->
+	<insert id="addPgrmData" parameterType="egovframework.com.model.RisPgrmDTO">
+		INSERT INTO rispgrm (
+			SYSTEM_ID, PGRM_ID, PGRM_NAME, PGRM_URL, PGRM_TYPE, PGRM_INFO, USE_YN, END_YN, HSPT_ID
+		)
+		VALUES (
+			#{systemId}, #{pgrmId}, #{pgrmName}, #{pgrmUrl}, #{pgrmType}, #{pgrmInfo}, #{useYn}, #{endYn}, #{hsptId}
+		); 
+	</insert>
+	
 	<!-- 메뉴 정보 관리 그리드1(메뉴 3) -->
 	<select id="RisGrupList" resultType="egovframework.com.model.RisGrupDTO">
 		SELECT DISTINCT MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN

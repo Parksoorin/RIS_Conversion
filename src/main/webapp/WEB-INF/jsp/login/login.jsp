@@ -52,7 +52,7 @@
 			success: function(data){
 				console.log(data);
 				if (data.result === "success"){
-					location.href="http://localhost:8080/stts/RisImgnStts.do";
+					location.href="/stts/RisImgnStts.do";
 				} 
 				else if (data.result === "none") {			
 					alert("없는 정보 입니다.");

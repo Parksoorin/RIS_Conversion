@@ -55,6 +55,16 @@ public class Ris1211DTO {
 	private String rgstId;
 	private String rgstDttm;
 	@Max(20)
+	private String appnYn;
 	private String mdfcId;
 	private String mdfcDttm;
+	private String ordrDate;
+	private String ordrCd;
+	private String ordrNm;
+	private String appnTreatment; // 진료과
+	private String gubun; // 외래, 응급
+	private String docNm; // 처방의사
+	private String ordrNoteText;
+	private String ordrBdypCd;
+	
 }
