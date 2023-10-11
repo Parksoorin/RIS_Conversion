@@ -100,6 +100,10 @@ pageEncoding="UTF-8"%>
        	margin-right: 40px;
        }
       
+      
+      	.cal-area{
+      		width : 70%;
+      	}
     </style>
   </head>
   <body>
@@ -127,15 +131,23 @@ pageEncoding="UTF-8"%>
         <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
         	<span class="tooltiptext tooltip-top">촬영실을 선택하여 시작일 ~ 종료일로 예약 현황을 조회할 수 있습니다.</span>
         </button>
-        <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_126" text="예약기준 적용" />
-        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 월요일~일요일의 예약 기준을 적용합니다.</span>
-        </button>
-        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_127" text="예약기준 삭제" />
-        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 해당 기간의 예약 기준을 삭제합니다.</span>
-        </button>
+        <c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						 <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_126" text="예약기준 적용" />
+				        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 월요일~일요일의 예약 기준을 적용합니다.</span>
+				        </button>
+				        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_127" text="예약기준 삭제" />
+				        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 해당 기간의 예약 기준을 삭제합니다.</span>
+				        </button>			
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+		</c:choose>
+       
 		</div>
-      <div class="grid__container main__container-twoGrid">
-        <div class="twoGrid__container">
+      <div class="grid__container main__container-twoGrid" >
+        <div class="twoGrid__container" id="hide-container">
           <div class="form__container padding-5">
               <div class="flex height-fix-50">
                 <div class="width-20">시간 설정</div>
@@ -145,9 +157,18 @@ pageEncoding="UTF-8"%>
                   <input type="radio" id="new-create" class="margin-10" name="create-gubun" checked>
                   <label for="addition-create" class="margin-10">추가 생성 </label>
                   <input class="margin-10"  type="radio" id="addition-create" name="create-gubun">
-                  <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10 tooltip">기준 생성 
-                  	<span class="tooltiptext tooltip-top"><div>새로 생성 : 기존 예약 기준을 삭제 후 새로운 예약 기준을 적용합니다.</div><div>추가 생성 : 기존 예약 기준에 예약 기준을 추가합니다.</div></span>
-                  </button>
+                  
+                  <c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						 <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10 tooltip">기준 생성 
+		                  	<span class="tooltiptext tooltip-top"><div>새로 생성 : 기존 예약 기준을 삭제 후 새로운 예약 기준을 적용합니다.</div><div>추가 생성 : 기존 예약 기준에 예약 기준을 추가합니다.</div></span>
+		                  </button>	
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
+                 
                 </div>
               </div>
               <div class="height-fix-50 flex ">
@@ -194,26 +215,34 @@ pageEncoding="UTF-8"%>
               
               <!-- 버튼 컨테이너 -->
               <div class="btn__container">
-                <button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-                <button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-                <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-                <button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+              	<c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						  <button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
+		                <button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
+		                <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
+		                <button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
               </div>
            </div>
           </div>
           <!-- 그리드 박스 -->
-          <div class="twoGrid__box height-65">
-            <section class="grid__box">
+          <div class="twoGrid__box height-65" >
+            <section class="grid__box" >
               <!-- 그리드 -->
               <table id="list1" class="grid1"></table>
             </section>
           </div>
         </div>
 
-        <div class="twoGrid__container">
+        <div id="calendar-area" class="twoGrid__container" >
           
            <!-- calendar 태그 -->
           <div id='calendar-container '>
+          	<button id="hideBtn" ><- 숨기기</button>
             <div class="btn__container center bold-text">
               <select  id="appointment-year">
              	 <c:forEach var="item" items="${yearList}">
@@ -256,18 +285,26 @@ pageEncoding="UTF-8"%>
           </div>
         </div>
 
-        <div class="twoGrid__container">
+        <div class="twoGrid__container" >
           <!-- 그리드 타이틀 -->
-          <div class="grid__title">
+          <div class="grid__title" style="display:none">
             <button id="reload-btn2" class="all__btn img__btn update__btn"><spring:message code="button_014" text="갱신" /></button>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
-              <button id="update-btn2" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-              <button id="input-btn2" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-              <button id="delete-btn2" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-              <button id="save-btn2" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
-            </div>
+            
+            	<c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						 <button id="update-btn2" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
+			              <button id="input-btn2" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
+			              <button id="delete-btn2" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
+			              <button id="save-btn2" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
+             </div>
           </div>
           <!-- 그리드 박스 -->
           <div class="twoGrid__box">
@@ -562,8 +599,28 @@ pageEncoding="UTF-8"%>
     
       $(document).ready(function () {
     	  init();
+    	  var btnFlag = false;
     	  
-    	 
+    	 $('#hideBtn').click(function(){
+    		 if(btnFlag){
+    			 $('#hide-container').show('slow');
+    			 setTimeout(function() {
+    				 $('#hide-container').css('display', 'block');
+    				 $('#calendar-area').removeClass('twoGrid__container').addClass('cal-area');
+    				}, 1000);
+    			
+    			 $('#hideBtn').text('<- 숨기기');
+    			 
+    		 } else{
+    			 $('#hide-container').hide('slow'); 
+    			 setTimeout(function() {
+    				 $('#hide-container').css('display', 'none');
+    				 $('#calendar-area').removeClass('cal-area').addClass('twoGrid__container');
+    				}, 1000); // 2000 밀리초는 2초를 나타냅니다.
+    			 $('#hideBtn').text('-> 열기');    			 
+    		 }
+    		 btnFlag = !btnFlag;
+    	 })
     	  
     	  // 클릭 이벤트 처리 
 		  // 9월 25일 처리할 것

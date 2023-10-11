@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,11 +36,19 @@
         </div>
         <!-- 버튼 컨테이너 -->
         <div class="btn__container">
-        	<button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-        	<button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-		    <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-    		<button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
-        </div>
+        		<c:choose>
+				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+						<button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
+			        	<button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
+					    <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
+			    		<button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+				    </c:when>
+				    <c:otherwise>
+				        <!-- 다른 경우 처리할 코드 -->
+				    </c:otherwise>
+				</c:choose>
+				
+        	 </div>
       </div>
       <!-- 그리드 -->
       <div class="grid__container">
