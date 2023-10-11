@@ -12,12 +12,14 @@ import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.model.RisPgrmDTO;
+import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
 @Controller
@@ -31,6 +33,7 @@ public class RISPGRMQ00Controller {
 		return ".main/com/RISPGRMQ00";
 	}
 	
+	// 그리드 불러오기
 	@RequestMapping(value = "/RISPGRMQ00.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject RISPGRMQ00(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
@@ -48,5 +51,55 @@ public class RISPGRMQ00Controller {
 			return json;
 		}
 	
+		// 저장
+		@RequestMapping(value = "/rispgrmSavaData.do", method = RequestMethod.POST)
+		@ResponseBody
+		public JSONObject saveBtn(@RequestBody List<RisPgrmDTO> dtos, HttpSession session, HttpServletRequest request,
+		                           HttpServletResponse response, Model model) throws Exception {
+			
+		    JSONObject json = new JSONObject();
+		    
+		    for (RisPgrmDTO dto : dtos) {
+		        String flag = dto.getFlag();
+		        // 화면유형 변환
+		        String pgrmType = dto.getPgrmType(); 
+		        if ("등록".equals(pgrmType)) {
+		        	pgrmType = "W";
+		        } else if ("메뉴".equals(pgrmType)) {
+		        	pgrmType = "M";
+		        } else if ("조회".equals(pgrmType)) {
+		        	pgrmType = "Q";
+		        }
+		        // 호출방식 변환
+		        String pgrmInfo = dto.getPgrmInfo(); 
+		        if ("메인화면".equals(pgrmInfo)) {
+		        	pgrmType = "M";
+		        } else if ("팝업화면".equals(pgrmInfo)) {
+		        	pgrmType = "P";
+		        } else if ("메뉴헤더".equals(pgrmInfo)) {
+		        	pgrmType = "Z";
+		        }
+
+		        System.out.println("-----------------------");
+		        System.out.println(flag);
+		        int result = 0;
+		        switch (flag) {
+		            case "U":
+		                result = comService.updatePgrmData(dto);
+		                break;
+		            case "I":
+		                result = comService.addPgrmData(dto);
+		                break;
+	                default:
+	                	continue;
+		        }
+		        if (result < 1) {
+		            json.put("result", "error");
+		            return json;
+		        }
+		    }
+		    json.put("result", "success");
+		    return json;
+		}
 }
 

@@ -25,6 +25,9 @@ public interface ComMapper {
 	
 	// 프로그램정보 관리
 	List<RisPgrmDTO> RisPgrmList(String hsptId);
+	int updatePgrmData(RisPgrmDTO dto);
+	int addPgrmData(RisPgrmDTO dto);
+	String selectSystemid(String selectSystemid);
 	
 	// 메뉴정보 관리
 	List<RisGrupDTO> RisGrupList();
