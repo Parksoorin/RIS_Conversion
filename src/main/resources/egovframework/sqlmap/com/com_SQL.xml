@@ -138,7 +138,7 @@
 		FROM risgrmu A
 		LEFT JOIN rispgrm B
 		ON A.PGRM_ID = B.PGRM_ID
-		WHERE MENU_GROUP_ID = #{type}
+		WHERE MENU_GROUP_ID = #{menuGroupId} AND A.HSPT_ID = #{hsptId}
 	</select>
 	
 	<!-- 메뉴 정보 관리 팝업(메뉴 3) -->

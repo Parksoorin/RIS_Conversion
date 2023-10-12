@@ -264,7 +264,7 @@
     }
 
  	// 검색 기능
-	const searchGrid = function(value, grid) {
+	var searchGrid = function(value, grid) {
 		// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
 		// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
 		$("#" + grid).jqGrid("setGridParam", {

@@ -111,9 +111,9 @@ public class ComServiceImpl implements ComService {
 		return comMapper.addMenuData(dto);
 	}
 	@Override
-	public List<RisGrmuDTO> RisGrmuList(String type) {
+	public List<RisGrmuDTO> RisGrmuList(Map<String, String> params) {
 		// TODO Auto-generated method stub
-		return comMapper.RisGrmuList(type);
+		return comMapper.RisGrmuList(params);
 	}
 	@Override
 	public List<RisGrmuDTO> popupGrmuList(String hsptId) {

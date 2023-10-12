@@ -35,7 +35,7 @@ public interface ComMapper {
 	List<RisGrupDTO> RisGrupList(String hsptId);
 	int updateMenuData(RisGrupDTO dto);
 	int addMenuData(RisGrupDTO dto);
-	List<RisGrmuDTO> RisGrmuList(String type);
+	List<RisGrmuDTO> RisGrmuList(Map<String, String> params);
 	List<RisGrmuDTO> popupGrmuList(String hsptId);
 	
 	// 사용자별 메뉴관리

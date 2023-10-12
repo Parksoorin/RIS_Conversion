@@ -150,7 +150,10 @@ pageEncoding="UTF-8"%>
 			$("#list2").jqGrid({
 	        	url: "/RISMENUE002.do",   // 서버주소 
 	            reordercolNames:true,
-	            postData : { type: menuGroupId }, // 보낼 파라미터
+	            postData : { 
+	            	menuGroupId: menuGroupId,
+	            	hsptId: hsptId
+	            }, // 보낼 파라미터
 	            mtype:'POST',   // 전송 타입
 	            datatype: "json",
 	            colNames: ["flag", "메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],

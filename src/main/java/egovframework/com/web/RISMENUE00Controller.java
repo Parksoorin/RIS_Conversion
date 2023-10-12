@@ -1,6 +1,8 @@
 package egovframework.com.web;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -63,13 +65,16 @@ public class RISMENUE00Controller {
 	// 그리드2 불러오기
 	@RequestMapping(value = "/RISMENUE002.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RISMENUE002(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISMENUE002(@RequestParam String menuGroupId, String hsptId, HttpSession session, HttpServletRequest request,
 	        HttpServletResponse response, Model model) throws Exception {
 		
 		System.out.println("/RISMENUE002.do POST!!!!");
 		
 		JSONObject json = new JSONObject(); 
-		List<RisGrmuDTO> data =comService.RisGrmuList(type); 
+		Map<String, String> params = new HashMap<>();
+        params.put("menuGroupId", menuGroupId);
+        params.put("hsptId", hsptId);
+		List<RisGrmuDTO> data =comService.RisGrmuList(params); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 

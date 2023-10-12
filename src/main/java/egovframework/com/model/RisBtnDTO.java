@@ -40,4 +40,5 @@ public class RisBtnDTO {
 	@Max(20)
 	private String mdfcId;
 	private String mdfcDttm;
+	private String pgrmName;
 }
