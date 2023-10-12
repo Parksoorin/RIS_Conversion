@@ -95,7 +95,7 @@
 		var menuList = "${menuList}";
 		console.log(loginName);
 		
-		if (!loginId) {
+		if (!menuList) {
 			window.location.href = "/?hspt_id=A001";
 		}	
 	})
