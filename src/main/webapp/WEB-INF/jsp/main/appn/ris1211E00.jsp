@@ -222,6 +222,23 @@ pageEncoding="UTF-8"%>
       }
 
       // 날짜 처리 시작 -------------
+      	function isValidDate(dateString) {
+		    var regex = /^\d{4}-\d{2}-\d{2}$/;
+		    if(!regex.test(dateString)) return false;
+		
+		    var parts = dateString.split("-");
+		    var year = parseInt(parts[0], 10);
+		    var month = parseInt(parts[1], 10);
+		    var day = parseInt(parts[2], 10);
+		
+		    if (month < 1 || month > 12) return false;
+		
+		    var lastDayOfMonth = new Date(year, month, 0).getDate();
+		    if (day < 1 || day > lastDayOfMonth) return false;
+		
+		    return true;
+		}
+
       
        const dateConvert = () => {
     	  const now = new Date();
@@ -488,6 +505,13 @@ pageEncoding="UTF-8"%>
                 "ptntId" : $('#ptntInput').val(),
                 'ordrPrgrDvsn' : $('input[name="appointment-gubun"]:checked').val(),
        	};
+	    
+	    
+	    if (!( isValidDate(postData.ordrStartDate)  &&  isValidDate(postData.ordrEndDate)) ) {
+	    	alert('유효한 날짜 형식이 아닙니다');
+	    	return;
+	    } 
+	    
 	    console.log(postData);
 		reloadGrid1('#list1', postData, '/appn/RIS1211E00/ris0211Search.do');
    

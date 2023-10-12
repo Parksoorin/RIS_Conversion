@@ -110,6 +110,12 @@
           console.log(date1);
           console.log(date2);
           
+          if (!( isValidDate(strtDate)  &&  isValidDate(endDate)) ) {
+        		alert('유효한 날짜 형식이 아닙니다');
+        		return false;
+        	} 
+          
+          
       	if(date1 > date2){
       		alert('조회 종료일은 조회 시작일 보다 높을 수 없습니다. 다시 선택해주세요. ');
       		return false;
@@ -195,6 +201,24 @@
           return false;
       }
     
+      
+      function isValidDate(dateString) {
+    	    var regex = /^\d{4}-\d{2}-\d{2}$/;
+    	    if(!regex.test(dateString)) return false;
+
+    	    var parts = dateString.split("-");
+    	    var year = parseInt(parts[0], 10);
+    	    var month = parseInt(parts[1], 10);
+    	    var day = parseInt(parts[2], 10);
+
+    	    if (month < 1 || month > 12) return false;
+
+    	    var lastDayOfMonth = new Date(year, month, 0).getDate();
+    	    if (day < 1 || day > lastDayOfMonth) return false;
+
+    	    return true;
+    	}
+
     
       $(document).ready(function () {
 	  		var hsptId = "${hspt_id}";
