@@ -91,9 +91,24 @@ public class ComServiceImpl implements ComService {
 	
 	// 메뉴정보 관리
 	@Override
+	public List<RisGrupDTO> RisGrupList(String hsptId) {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrupList(hsptId);
+	}
+	@Override
 	public List<RisGrupDTO> RisGrupList() {
 		// TODO Auto-generated method stub
 		return comMapper.RisGrupList();
+	}
+	@Override
+	public int updateMenuData(RisGrupDTO dto) {
+		// TODO Auto-generated method stub
+		return comMapper.updateMenuData(dto);
+	}
+	@Override
+	public int addMenuData(RisGrupDTO dto) {
+		// TODO Auto-generated method stub
+		return comMapper.addMenuData(dto);
 	}
 	@Override
 	public List<RisGrmuDTO> RisGrmuList(String type) {

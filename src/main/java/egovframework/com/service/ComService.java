@@ -26,6 +26,9 @@ public interface ComService {
 	
 	// 메뉴정보 관리
 	List<RisGrupDTO> RisGrupList();
+	List<RisGrupDTO> RisGrupList(String hsptId);
+	int updateMenuData(RisGrupDTO dto);
+	int addMenuData(RisGrupDTO dto);
 	List<RisGrmuDTO> RisGrmuList(String type);
 	
 	// 사용자별 메뉴관리

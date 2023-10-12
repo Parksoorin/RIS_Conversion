@@ -38,7 +38,6 @@ public class RISPGRMQ00Controller {
 	@ResponseBody
 	public JSONObject RISPGRMQ00(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
         HttpServletResponse response, Model model) throws Exception {
-		
 		System.out.println("/RISPGRMQ00.do POST!!!!");
 		JSONObject json = new JSONObject(); 
 		List<RisPgrmDTO> data =comService.RisPgrmList(hsptId); 

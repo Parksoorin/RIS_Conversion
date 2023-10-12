@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
             <div class="btn__container">
              	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn2">수정</button>
         		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn2">입력</button>
-        		<button class="all__btn img__btn fontawesome__btn insert2__icon">하위메뉴</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon">하위메뉴</button>
 		    	<button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn2">삭제</button>
     			<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn2">저장</button>
             </div>
@@ -66,16 +66,18 @@ pageEncoding="UTF-8"%>
 
     <script>
     $(document).ready(function () {
+    	var hsptId = "${hspt_id}";
     	$("#list1").jqGrid("GridUnload");
 		$("#list1").jqGrid({
         	url: "/RISMENUE00.do",   // 서버주소 
             reordercolNames:true,
-            postData : { type: 'A' }, // 보낼 파라미터
+            postData : { hsptId: hsptId }, // 보낼 파라미터
             mtype:'POST',   // 전송 타입
             datatype: "json",
-          	colNames: ["flag", "메뉴ID", "메뉴그룹명", "순서", "사용"],
+          	colNames: ["flag", "hsptId", "메뉴ID", "메뉴그룹명", "순서", "사용"],
           	colModel: [
           		{ name: "flag", index: "flag", hidden: true},
+          		{ name: "hsptId", index: "hsptId", hidden: true},
 	            { name: "menuGroupId", index: "menuGroupId", width: 90, align: "center", editable: true },
 	            { name: "menuGroupName", index: "menuGroupName", width: 200, align: "center", editable: true },
 	            { name: "otptSqnc", index: "otptSqnc", width: 60, align: "center", editable: true },
@@ -218,13 +220,16 @@ pageEncoding="UTF-8"%>
 		};        
     });
     
+    // 그리드1 --------------------------------------
  	// 그리드1 행 수정
     $("#update-row__btn").on("click", function(){
     	var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
         if (selectedRowId) {    	  	  	
         	// 선택한 행이 있는 경우 편집 모드로 진입
             var grid = $("#list1");
-            
+            var rowData = grid.jqGrid('getRowData', selectedRowId);
+		    rowData.flag = 'U';
+		    grid.jqGrid('setRowData', selectedRowId, rowData);
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
             
@@ -248,7 +253,80 @@ pageEncoding="UTF-8"%>
             alert("편집할 행을 먼저 선택하세요.");
         }
     })
+
+	// 그리드1 입력
+	$("#add-row__btn").on("click", function () {
+		var hsptId = "${hspt_id}";
+    	var newRowData = {};
+    	var grid = $("#list1");
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    newRowData.flag = 'I';
+	    newRowData.hsptId = hsptId;
+	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    
+	    // 모든 열을 편집 가능하게 설정합니다.
+	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
+	    for (var i = 0; i < allColumns.length; i++) {
+	        grid.jqGrid('setColProp', allColumns[i].name, { editable: true });
+	    }
+
+	    // 선택한 행을 편집 모드로 진입합니다.
+	    grid.jqGrid("editRow", newRowId, {
+	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+	    });
+    });
     
+ 	// 그리드1 삭제
+    $("#delete-row__btn").on("click", function () {
+    	var grid = $("#list1");
+	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
+	    if (selectedRowId) { 
+	    	alert('삭제할 수 없는 데이터입니다.');
+	    } else { 
+	    	alert('Please select a row to delete.');
+	    }
+    });
+
+ 	// 저장
+    $("#save__btn").click(function (){
+	    console.log('저장 버튼 눌림');
+	    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
+	    for (var i = 1; i <= totalRows; i++) {
+	    	// 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	        $("#list1").jqGrid('saveRow', i, false, 'clientArray');
+	        let data = $("#list1").jqGrid("getRowData", i);
+
+	        /* if (data.flag === 'U' || data.flag === 'I') {
+	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
+	                || data.userGrade === '' || data.appnImpsText === ''
+	                || data.startDate === '' || data.endDate === '') {
+	                alert('미입력 사항이 있습니다.');
+	                return;
+	            }
+	        } */
+	    }
+	
+	    var list1Data = $("#list1").getRowData();
+	    console.log(list1Data);
+	    $.ajax({
+	        type: 'post',
+	        url: '/rismenuSavaData.do',
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        data: JSON.stringify(list1Data),
+	        success: function (result) {
+	            console.log(result);
+	            reloadGrid();
+	        },
+	        error: function (error) {
+	            console.log(error)
+	        }
+	    });
+	});
+ 	
+ 	
+ 	// 그리드2 --------------------------------------
     // 그리드2 행 수정
     $("#update-row__btn2").on("click", function(){
     	var selectedRowId = $("#list2").jqGrid("getGridParam", "selrow");
@@ -279,35 +357,7 @@ pageEncoding="UTF-8"%>
             alert("편집할 행을 먼저 선택하세요.");
         }
     })
-	
-	// 그리드1 입력, 삭제
-	$("#add-row__btn").on("click", function () {
-    	var newRowData = {};
-    	var grid = $("#list1");
-	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-	    newRowData.flag = 'I';
-	    
-	    // 모든 열을 편집 가능하게 설정합니다.
-	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
-	    for (var i = 0; i < allColumns.length; i++) {
-	        grid.jqGrid('setColProp', allColumns[i].name, { editable: true });
-	    }
-
-	    // 선택한 행을 편집 모드로 진입합니다.
-	    grid.jqGrid("editRow", newRowId, {
-	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
-	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
-	    });
-    });
-    $("#delete-row__btn").on("click", function () {
-    	var grid = $("#list1");
-	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-	    } else { alert('Please select a row to delete.'); }
-    });
-	
- 	// 그리드2 입력, 삭제
+ 	// 그리드2 입력
 	$("#add-row__btn2").on("click", function () {
     	var newRowData = {};
     	var grid = $("#list2");
@@ -321,14 +371,20 @@ pageEncoding="UTF-8"%>
 	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
 	    });
     });
-    $("#delete-row__btn2").on("click", function () {
+	// 그리드2 삭제
+	$("#delete-row__btn2").on("click", function () {
     	var grid = $("#list2");
 	    var selectedRowId = grid.jqGrid('getGridParam', 'selrow');
-	    if (selectedRowId) { grid.jqGrid('delRowData', selectedRowId);
-	    } else { alert('Please select a row to delete.'); }
+	    if (selectedRowId) { 
+	    	alert('삭제할 수 없는 데이터입니다.');
+	    } else { 
+	    	alert('Please select a row to delete.');
+	    }
     });
-    
 
+	
+	
+	
  	// 검색 기능
 	const searchGrid = function(value, grid) {
 		// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.model.RisGrmuDTO;
 import egovframework.com.model.RisGrupDTO;
+import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
 @Controller
@@ -36,12 +37,13 @@ public class RISMENUE00Controller {
 	// 그리드1 불러오기
 	@RequestMapping(value = "/RISMENUE00.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RISMENUE00(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISMENUE00(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
 	        HttpServletResponse response, Model model) throws Exception {
 		
 		System.out.println("/RISMENUE00.do POST!!!!");
+		System.out.println(hsptId);
 		JSONObject json = new JSONObject(); 
-		List<RisGrupDTO> data =comService.RisGrupList(); 
+		List<RisGrupDTO> data =comService.RisGrupList(hsptId); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 
@@ -72,19 +74,25 @@ public class RISMENUE00Controller {
 	}
 	
 	
-	// 그리드1 저장
-	@RequestMapping(value = "/saveBtn.do", method = RequestMethod.POST)
+	// 저장
+	@RequestMapping(value = "/rismenuSavaData.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject saveData(@RequestBody List<RisGrupDTO> dtos, HttpSession session, 
-			HttpServletRequest request, HttpServletResponse response, Model model) throws Exception {
+	public JSONObject saveBtn(@RequestBody List<RisGrupDTO> dtos, HttpSession session, HttpServletRequest request,
+	                           HttpServletResponse response, Model model) throws Exception {
+		
 	    JSONObject json = new JSONObject();
-
 	    for (RisGrupDTO dto : dtos) {
-	        String flag = dto.getFlag();	        
-	        int result = 0;	        
+	        String flag = dto.getFlag();
+	        System.out.println("-----------------------");
+	        System.out.println(flag);
+	        System.out.println(dto);
+	        int result = 0;
 	        switch (flag) {
+	            case "U":
+	                result = comService.updateMenuData(dto);
+	                break;
 	            case "I":
-	                result = comService.addList1Data(dto);
+	                result = comService.addMenuData(dto);
 	                break;
                 default:
                 	continue;

@@ -192,9 +192,7 @@
 	    newRowData.flag = 'I';
 	    newRowData.hsptId = hsptId;
 	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
-	   
-	    
-	    
+
 	    // 모든 열을 편집 가능하게 설정합니다.
 	    var allColumns = grid.jqGrid('getGridParam', 'colModel');
 	    for (var i = 0; i < allColumns.length; i++) {
