@@ -67,8 +67,10 @@ public class RIS0601E00Controller {
 		
 		// 의사ID와 촬영구분 parameter로 설정
 		param.put("hsptId", map.get("hsptId").toString());
-		param.put("docId", map.get("docId").toString());
+		param.put("docId", "S".equals(userGrade) || "A".equals(userGrade) ? "all" : map.get("docId").toString());
 		param.put("imgnDvsn", "%".equals(map.get("imgnDvsn").toString()) ? "all" : map.get("imgnDvsn").toString());
+		
+		System.out.println(param);
 		
 		List<Ris0601DTO> ris0601Data = pandokService.getRis0601List(param);
 
