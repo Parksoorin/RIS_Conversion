@@ -30,6 +30,7 @@ public interface ComService {
 	int updateMenuData(RisGrupDTO dto);
 	int addMenuData(RisGrupDTO dto);
 	List<RisGrmuDTO> RisGrmuList(String type);
+	List<RisGrmuDTO> popupGrmuList(String hsptId);
 	
 	// 사용자별 메뉴관리
 	List<RisUserDTO> RisUserMenuList();

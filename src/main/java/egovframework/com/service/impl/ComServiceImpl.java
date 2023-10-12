@@ -115,6 +115,11 @@ public class ComServiceImpl implements ComService {
 		// TODO Auto-generated method stub
 		return comMapper.RisGrmuList(type);
 	}
+	@Override
+	public List<RisGrmuDTO> popupGrmuList(String hsptId) {
+		// TODO Auto-generated method stub
+		return comMapper.popupGrmuList(hsptId);
+	}
 	
 	// 사용자별 메뉴관리
 	@Override

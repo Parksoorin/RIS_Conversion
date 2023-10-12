@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.com.model.RisGrmuDTO;
 import egovframework.com.model.RisGrupDTO;
+import egovframework.com.model.RisUrmnDTO;
 import egovframework.com.model.RisUserDTO;
 import egovframework.com.service.ComService;
 
@@ -33,6 +34,11 @@ public class RISMENUE00Controller {
 		return ".main/com/RISMENUE00";
 	}
 	
+	// 그리드2 팝업창
+	@RequestMapping(value = "/RISMENUE00_POP.do")
+	public String menugruppopup(Model model) throws Exception {
+		return ".popup/RISMENUE00_POP";
+	}
 	
 	// 그리드1 불러오기
 	@RequestMapping(value = "/RISMENUE00.do", method = RequestMethod.POST)
@@ -106,20 +112,24 @@ public class RISMENUE00Controller {
 	    return json;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 팝업
+	@RequestMapping(value = "/RISMENUE00_POP.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject RISMENUE00_POP(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
+	        HttpServletResponse response, Model model) throws Exception {
+		
+		System.out.println("/RISMENUE00_POP.do POST!!!!");
+		JSONObject json = new JSONObject(); 
+		List<RisGrmuDTO> data =comService.popupGrmuList(hsptId); 
+		  
+		JSONArray rowsArray = new JSONArray(); 
+		JSONObject row = new JSONObject(); 
+		  
+		json.put("rows", data);
+
+		return json;
+	}
+
 	
 }
 

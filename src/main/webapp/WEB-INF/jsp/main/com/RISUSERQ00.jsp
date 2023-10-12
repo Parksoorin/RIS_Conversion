@@ -206,7 +206,7 @@
     });
     
     // 저장
-    $("#save__btn").click(function () {
+    $("#save__btn").click(function (){
 	    console.log('저장 버튼 눌림');
 	    var totalRows = $("#list1").jqGrid('getGridParam', 'records');
 	    for (var i = 1; i <= totalRows; i++) {

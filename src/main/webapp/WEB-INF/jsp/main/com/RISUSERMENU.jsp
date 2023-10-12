@@ -146,9 +146,7 @@ pageEncoding="UTF-8"%>
     	            	    name: "menuGroupId",
     	            	    index: "menuGroupId",
     	            	    width: 100,
-    	            	    align: "center",
-    	        
-    	            	    
+    	            	    align: "center"
     	            	},
     	              	{ name: "menuGroupName", index: "menuGroupName", width: 150, align: "center" },
     	              	{ name: "menuId", index: "menuId", width: 100, align: "center" },

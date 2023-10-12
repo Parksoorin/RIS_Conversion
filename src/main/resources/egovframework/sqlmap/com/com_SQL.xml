@@ -141,6 +141,15 @@
 		WHERE MENU_GROUP_ID = #{type}
 	</select>
 	
+	<!-- 메뉴 정보 관리 팝업(메뉴 3) -->
+	<select id="popupGrmuList" resultType="egovframework.com.model.RisGrmuDTO">
+		SELECT A.HSPT_ID, A.PGRM_ID, B.PGRM_NAME
+		FROM risgrmu A
+		LEFT JOIN rispgrm B
+		ON A.PGRM_ID = B.PGRM_ID
+		WHERE A.HSPT_ID = #{hsptId}
+	</select>
+	
 	<!-- risMenuE00 그리드1 저장(메뉴정보 관리)
 	<insert id="addList1Data" parameterType="egovframework.com.model.RisGrupDTO">
 		INSERT INTO risgrup (

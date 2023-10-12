@@ -370,7 +370,46 @@ pageEncoding="UTF-8"%>
 	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
 	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
 	    });
+	    
+	    grid.jqGrid('setRowData', newRowId, { "pgrmId": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopup()"></button>'});
     });
+ 	
+ 	// 팝업 열기
+    function openPopup() {
+        // 팝업 창에 표시할 URL
+        var url = "/RISMENUE00_POP.do";
+
+        // 팝업 창의 크기와 위치 설정
+        var width = 800;
+        var height = 400;
+        var left = (window.innerWidth - width) / 2;
+        var top = (window.innerHeight - height) / 2;
+
+        // 팝업 창을 열기
+        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+        // 팝업 창이 차단되었을 때 처리
+        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+        }
+    }
+ 	
+ 	// 부모 창에서 정의된 함수
+    function ReturnSelValue(pgrmId, pgrmName) {		
+        // 함수 내에서 선택한 데이터를 처리하고 원하는 작업을 수행합니다.
+        console.log("선택한 프로그램 ID:", pgrmId);
+        console.log("선택한 프로그램명:", pgrmName);
+        
+        var grid = $("#list2");
+    	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
+	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+
+	    rowData.pgrmId = pgrmId;
+	    rowData.pgrmName = pgrmName;
+
+	    grid.jqGrid('setRowData', selectedRowId, rowData);
+    }
+ 
 	// 그리드2 삭제
 	$("#delete-row__btn2").on("click", function () {
     	var grid = $("#list2");
