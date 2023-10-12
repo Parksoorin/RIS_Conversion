@@ -92,6 +92,7 @@
 		var loginId = "${login_id}";
 		var loginName = "${login_name}";
 		var userGrade = "${user_grade}";
+		var menuList = "${menuList}";
 		console.log(loginName);
 		
 		if (!loginId) {
