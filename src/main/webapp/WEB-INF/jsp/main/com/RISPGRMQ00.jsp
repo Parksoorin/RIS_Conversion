@@ -211,7 +211,23 @@
  	// 그리드1 삭제
     $("#delete-row__btn").click(function(){
     	var rowid  = $("#list1").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값
+    	var list1Data = $("#list1").getRowData(rowid);
+    	console.log(list1Data);
     	if(confirm("삭제시 메뉴도 같이 삭제됩니다. 해당 프로그램 정보를 삭제하시겠습니까?") == true){
+    		$.ajax({
+    	        type: 'post',
+    	        url: '/rispgrmDeleteData.do',
+    	        contentType: 'application/json',
+    	        dataType: 'json',
+    	        data: JSON.stringify(list1Data),
+    	        success: function (result) {
+    	            console.log(result);
+    	            reloadGrid();
+    	        },
+    	        error: function (error) {
+    	            console.log(error)
+    	        }
+    	    });
     		$("#list1").jqGrid('delRowData', rowid);
             alert("삭제되었습니다");
         }

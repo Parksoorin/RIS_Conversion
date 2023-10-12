@@ -22,6 +22,7 @@ public interface ComService {
 	List<RisPgrmDTO> RisPgrmList(String hsptId);
 	int updatePgrmData(RisPgrmDTO dto);
 	int addPgrmData(RisPgrmDTO dto);
+	int deletePgrmData(RisPgrmDTO dto);
 	
 	// 메뉴정보 관리
 	List<RisGrupDTO> RisGrupList();
@@ -33,6 +34,5 @@ public interface ComService {
 	List<RisUrmnDTO> popupUrmnList();
 	
 	// 프로그램 기능 권한 관리
-	List<RisBtnDTO> RisBtnList();
-	
+	List<RisBtnDTO> RisBtnList();	
 }

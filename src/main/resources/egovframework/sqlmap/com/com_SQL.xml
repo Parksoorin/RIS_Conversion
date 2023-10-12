@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="egovframework.com.mapper.ComMapper">
-	<!-- 사용자관리 그리드1(메뉴 1) -->
+	<!-- 사용자관리 그리드1(메뉴 1)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisUserList" resultType="egovframework.com.model.RisUserDTO">
 		SELECT A.LOGIN_ID, A.LOGIN_NM, '********' as LOGIN_PWD, B.MDDL_KR_NM, A.START_DATE, A.END_DATE, A.ERROR_CNT
 		FROM risuser A
@@ -51,7 +51,7 @@
 	</update>
 	
 	
-	<!-- 프로그램 정보 관리 그리드(메뉴 2) -->
+	<!-- 프로그램 정보 관리 그리드(메뉴 2)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisPgrmList" resultType="egovframework.com.model.RisPgrmDTO">
 		SELECT A.HSPT_ID, B.SYSTEM_NAME, A.PGRM_ID, A.PGRM_NAME, A.PGRM_URL,
 		CASE WHEN A.PGRM_TYPE = 'W' THEN '등록' WHEN A.PGRM_TYPE = 'M' THEN '메뉴' WHEN A.PGRM_TYPE = 'Q' THEN '조회' END AS PGRM_TYPE,
@@ -96,7 +96,15 @@
 		); 
 	</insert>
 	
-	<!-- 메뉴 정보 관리 그리드1(메뉴 3) -->
+	<!-- 프로그램 정보 관리 삭제(메뉴 2) -->
+	<delete id="deletePgrmData" parameterType="egovframework.com.model.RisPgrmDTO">
+		DELETE FROM rispgrm
+		WHERE
+			HSPT_ID = #{hsptId} AND SYSTEM_ID = #{systemId} AND PGRM_ID = #{pgrmId}
+	</delete>
+	
+	
+	<!-- 메뉴 정보 관리 그리드1(메뉴 3)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisGrupList" resultType="egovframework.com.model.RisGrupDTO">
 		SELECT DISTINCT MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
 		FROM risgrup
@@ -124,7 +132,7 @@
 	 -->
 		
 		
-	<!-- 사용자별 메뉴관리 그리드1(메뉴 4) -->
+	<!-- 사용자별 메뉴관리 그리드1(메뉴 4)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisUserMenuList" resultType="egovframework.com.model.RisUserDTO">
 		SELECT DISTINCT A.LOGIN_ID, A.LOGIN_NM, B.MDDL_KR_NM, A.HSPT_ID
 		FROM risuser A
@@ -156,7 +164,7 @@
 		
 		
 		
-	<!-- 프로그램 기능 권한 그리드(메뉴 5) -->
+	<!-- 프로그램 기능 권한 그리드(메뉴 5)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisBtnList" resultType="egovframework.com.model.RisBtnDTO">
 		SELECT A.DATA_GUBUN, A.USER_GRADE, B.PGRM_NAME, A.PGRM_BTN, A.USE_YN
 		FROM risbtn A
