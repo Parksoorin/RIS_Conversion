@@ -29,7 +29,8 @@
 	</select>
 	
 	<select id="getRis1301List" parameterType="java.util.HashMap" resultType="egovframework.pandok.model.Ris1301DTO">
-		SELECT A.ORDR_FK, 
+		SELECT A.HSPT_ID,
+			   A.ORDR_FK, 
 			   B.PTNT_ID, 
 			   B.PTNT_NM, 
 			   B.ORDR_DATE, 
@@ -79,18 +80,18 @@
 			   VIEW_NOTE_TEXT
 		  FROM ris1301 A
 	 LEFT JOIN ris1201 B
-		    ON A.ORDR_FK = B.ORDR_FK AND B.HSPT_ID = 'A001'
+		    ON A.ORDR_FK = B.ORDR_FK AND B.HSPT_ID = #{hsptId}
 	 LEFT JOIN ris0102 C
-		    ON C.LRGC_CD = "IMGN_DVSN_CD" AND B.ORDR_BDYP_CD = C.MDDL_CD AND C.HSPT_ID = 'A001'
+		    ON C.LRGC_CD = "IMGN_DVSN_CD" AND B.ORDR_BDYP_CD = C.MDDL_CD AND C.HSPT_ID = #{hsptId}
 	 LEFT JOIN ris0102 D
-		    ON A.VIST_DVSN = D.MDDL_CD AND D.HSPT_ID = 'A001' AND D.LRGC_CD = "VIST_DVSN_CD"
+		    ON A.VIST_DVSN = D.MDDL_CD AND D.HSPT_ID = #{hsptId} AND D.LRGC_CD = "VIST_DVSN_CD"
 	 LEFT JOIN ris0102 E
-		    ON B.TRTM_DPRT_CD = E.MDDL_CD AND E.HSPT_ID = 'A001' AND E.LRGC_CD = "GWA_LIST"
+		    ON B.TRTM_DPRT_CD = E.MDDL_CD AND E.HSPT_ID = #{hsptId} AND E.LRGC_CD = "GWA_LIST"
 	 LEFT JOIN ris0102 F
-		    ON B.ORDR_DOC_ID = F.MDDL_CD AND F.HSPT_ID = 'A001' AND F.LRGC_CD = "DOCTORLIST"
+		    ON B.ORDR_DOC_ID = F.MDDL_CD AND F.HSPT_ID = #{hsptId} AND F.LRGC_CD = "DOCTORLIST"
   	 LEFT JOIN risuser G
-		    ON A.VIEW_DOC_ID = G.LOGIN_ID AND G.HSPT_ID = 'A001'
-	   <where> A.HSPT_ID = 'A001'
+		    ON A.VIEW_DOC_ID = G.LOGIN_ID AND G.HSPT_ID = #{hsptId}
+	   <where> A.HSPT_ID = #{hsptId}
        	   <choose>
        	     <when test="viewYn == 'doneView'">
        	       AND A.VIEW_DTTM IS NOT NULL
@@ -108,8 +109,8 @@
 	       <if test="ris1301Dvsn != null and ris1301Dvsn != 'all'">
 	           AND C.MDDL_CD = #{ris1301Dvsn}
 	       </if>
-	       <if test="ptntName != null and ptntName != ''">
-	           AND B.PTNT_NM = #{ptntName}
+	       <if test="ptntId != null and ptntId != ''">
+	           AND B.PTNT_ID = #{ptntId}
 	       </if>
 	       <choose>
        	     <when test="voicViewYn == 'doneView'">
@@ -183,52 +184,122 @@
 	<update id="saveTempRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
 		UPDATE ris1301 
 		   SET VIEW_TEXT = #{viewText},
-		   	   MDFC_ID = 'admin',
-		   	   MDFC_DTTM = NOW()
-		 WHERE HSPT_ID = 'A001' AND
-		       VIST_DVSN = #{vistDvsn} AND
-		       ORDR_FK = #{ordrFk};
+		   	   MDFC_ID = #{mdfcId},
+		   	   MDFC_DTTM = NOW(),
+			   VOIC_VIEW_YN = 
+			   CASE 
+			       WHEN #{voicViewYn} = 'Y' THEN 'Y'
+	               ELSE VOIC_VIEW_YN
+	           END,
+			   VOIC_RGST_DTTM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN NOW()
+			       ELSE VOIC_RGST_DTTM
+			   END,
+			   VOIC_VIEW_FILE_NM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN #{voicViewFileNm}
+			       ELSE VOIC_VIEW_FILE_NM
+			   END,
+			   VOIC_VIEW_DRTR_NM = 
+			   CASE WHEN #{voicViewYn} = 'Y' THEN #{voicViewDrtrNm}
+			       ELSE VOIC_VIEW_DRTR_NM
+			   END,
+			   VOIC_FILE_NM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN #{voicFileNm}
+			       ELSE VOIC_FILE_NM
+			   END
+	 	 WHERE HSPT_ID = #{hsptId} AND 
+	 	 	   VIST_DVSN = #{vistDvsn} AND 
+	 	 	   ORDR_FK = #{ordrFk};
 	</update>
 	
-	<update id="saveTempRis1201List" parameterType="java.util.HashMap">	
+	<update id="saveTempRis1201List" parameterType="egovframework.pandok.model.Ris1201DTO">	
 		UPDATE ris1201
-		   SET ORDR_PRGR_DVSN = '5'
-		 WHERE HSPT_ID = 'A001' AND
-		 	   PKRIS1201 = #{pkRis1201} AND
+		   SET ORDR_PRGR_DVSN = '5',
+		       MDFC_ID = #{mdfcId},
+		       MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
+		 	   PKRIS1201 = #{pkris1201} AND
 		 	   ORDR_FK = #{ordrFk};
 	</update>
 	
+	<update id="voiceRis1201List" parameterType="egovframework.pandok.model.Ris1201DTO">	
+		UPDATE ris1201
+		   SET ORDR_PRGR_DVSN = '4',
+		       MDFC_ID = #{mdfcId},
+		       MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
+		 	   PKRIS1201 = #{pkris1201} AND
+		 	   ORDR_FK = #{ordrFk};
+	</update>
+	
+	<select id="voiceDownload" parameterType="egovframework.pandok.model.Ris1301DTO" resultType="java.util.HashMap">
+		SELECT VOIC_VIEW_DRTR_NM, VOIC_FILE_NM
+		  FROM ris1301
+		 WHERE HSPT_ID = #{hsptId} AND
+		       VIST_DVSN = #{vistDvsn} AND
+		       ORDR_FK = #{ordrFk};
+	</select>
+	
 	<update id="finishRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
 		UPDATE ris1301 
-		   SET VIEW_TEXT = '',
-			   VIEW_NOTE_TEXT = CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
-		 WHERE HSPT_ID = 'A001' AND
+		   SET VIEW_TEXT = NULL,
+			   VIEW_NOTE_TEXT = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n[음성판독]')
+			       ELSE CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
+			   END,
+			   VIEW_DOC_ID = #{mdfcId},
+		       VIEW_DATE = CURDATE(),
+		       VIEW_DTTM = NOW(),
+		       MDFC_ID = #{mdfcId},
+		   	   MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
 		       VIST_DVSN = #{vistDvsn} AND
 		       ORDR_FK = #{ordrFk};
 	</update>
 	
-	<update id="finishRis1201List" parameterType="java.util.HashMap">	
+	<update id="finishRis1201List" parameterType="egovframework.pandok.model.Ris1201DTO">	
 		UPDATE ris1201
-		   SET ORDR_PRGR_DVSN = '6'
-		 WHERE HSPT_ID = 'A001' AND
-		 	   PKRIS1201 = #{pkRis1201} AND
+		   SET ORDR_PRGR_DVSN = '6',
+		       MDFC_ID = #{mdfcId},
+		       MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
+		 	   PKRIS1201 = #{pkris1201} AND
 		 	   ORDR_FK = #{ordrFk};
 	</update>
 	
 	<update id="deleteRis1301List" parameterType="egovframework.pandok.model.Ris1301DTO">
 		UPDATE ris1301 
-		   SET VIEW_TEXT = '',
-			   VIEW_NOTE_TEXT = ''
-		 WHERE HSPT_ID = 'A001' AND
+		   SET VIEW_TEXT = NULL,
+		       VIEW_DATE = NULL,
+		       VIEW_DTTM = NULL,
+		       RDLG_ID = NULL,
+		       VIEW_DOC_ID = NULL,
+		       VOIC_RGST_DTTM = NULL,
+		       VOIC_VIEW_FILE_NM = NULL,
+		       VOIC_VIEW_DRTR_NM = NULL,
+		       VOIC_FILE_NM = NULL,
+		       VOIC_VIEW_YN = NULL,
+		       MDFC_ID = #{mdfcId},
+		       MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
 		       VIST_DVSN = #{vistDvsn} AND
 		       ORDR_FK = #{ordrFk};
 	</update>
 	
-	<update id="deleteRis1201List" parameterType="java.util.HashMap">	
+	<update id="deleteRis1201List" parameterType="egovframework.pandok.model.Ris1201DTO">	
 		UPDATE ris1201
-		   SET ORDR_PRGR_DVSN = '3'
-		 WHERE HSPT_ID = 'A001' AND
-		 	   PKRIS1201 = #{pkRis1201} AND
+		   SET ORDR_PRGR_DVSN = '3',
+		       VIEW_DOC_ID = NULL,
+		       VIEW_DATE = NULL,
+		       VIEW_DTTM = NULL,
+		       MDFC_ID = #{mdfcId},
+		       MDFC_DTTM = NOW()
+		 WHERE HSPT_ID = #{hsptId} AND
+		 	   PKRIS1201 = #{pkris1201} AND
 		 	   ORDR_FK = #{ordrFk};
 	</update>
 </mapper>

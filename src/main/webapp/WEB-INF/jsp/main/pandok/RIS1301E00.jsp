@@ -83,9 +83,12 @@ pageEncoding="UTF-8"%>
 	          
               <!-- 음성판독 버튼 컨테이너 -->
               <div class="btn__container">
-                <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon" disabled>음성녹음</button>
-        	    <button id="voicPlayBtn" class="all__btn img__btn fontawesome__btn play__icon" disabled>음성듣기</button>
-	  	        <button id="voicDownloadBtn" class="all__btn img__btn fontawesome__btn download__icon" disabled>다운로드</button>
+                <c:choose>
+          		  <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+                     <button id="recordBtn" class="all__btn img__btn fontawesome__btn record__icon" disabled>음성녹음</button>
+                  </c:when>
+                </c:choose>
+	  	        <button id="voicDownloadBtn" class="all__btn img__btn fontawesome__btn download__icon" disabled>음성파일 다운로드</button>
       		    <button class="all__btn text__btn">PACS 뷰어 조회</button>
               </div>
 	        </div>
@@ -134,8 +137,12 @@ pageEncoding="UTF-8"%>
 			    <button id="updateBtn" class="all__btn img__btn fontawesome__btn sub__btn update__icon">수정</button>
 	            <button id="tempSaveBtn" class="all__btn img__btn fontawesome__btn sub__btn save__icon">임시저장</button>
 			    <button id="clearBtn" class="all__btn img__btn fontawesome__btn sub__btn clear__icon">비우기</button>
-	        	<button id="saveBtn" class="all__btn img__btn fontawesome__btn sub__btn done__icon">판독완료</button>
-	    	    <button id="deleteBtn" class="all__btn img__btn fontawesome__btn sub__btn delete__icon">판독취소</button>
+			    <c:choose>
+          		  <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
+	        	    <button id="saveBtn" class="all__btn img__btn fontawesome__btn sub__btn done__icon">판독완료</button>
+  	    	        <button id="deleteBtn" class="all__btn img__btn fontawesome__btn sub__btn delete__icon">판독취소</button>
+	        	  </c:when>
+	        	</c:choose>
 	          </div>
 	        </div>
 	        
@@ -159,32 +166,41 @@ pageEncoding="UTF-8"%>
     </main>
 
     <script>
+      var hsptId = "${hspt_id}";
+ 	  var loginId = "${login_id}";
+ 	  var userGrade = "${user_grade}";
+ 	  
+ 	  
 	  function drawGrid1() {
 		var viewYn = $("input[name='viewYn']:checked").val();
 		var voicViewYn = $("input[name='voicViewYn']:checked").val();
 		var startDate = $("#startDate").val();
 		var endDate = $("#endDate").val();
 		var ris1301Dvsn = $("#ris1301Dvsn").val();
-		var ptntName = $("#ptntName").prop("value");
+		var ptntId = $("#ptntId").prop("value");
+		$("#viewTextArea").val("");
+		$("#viewNoteTextArea").val("");
 		
 	  	$("#list1").jqGrid("GridUnload"); // 첫 번째 조회했던 그 값으로만 조회될 때 초기화
 	    $("#list1").jqGrid({
 	      url: "/pandok/ris1301List.do",
 	      reordercolNames:true,
 	      postData : {
+	    	hsptId: hsptId,
 	    	viewYn: viewYn,
 	    	voicViewYn: voicViewYn,
 	    	startDate: startDate,
 	    	endDate: endDate,
 	    	ris1301Dvsn: ris1301Dvsn,
-	    	ptntName: ptntName
+	    	ptntId: ptntId
 	      }, // 보낼 파라미터
 		  mtype:'POST',	// 전송 타입
 	      datatype: "json",
 	      colNames: [
-	    	  "처방FK", "환자ID", "환자명", "처방일", "촬영일자", "촬영명", "촬영구분코드", "내원구분코드", "내원구분", "진료과코드", "진료과", "처방의사ID", "처방의사", "판독완료", "판독일자", "판독시간", "판독의사ID", "판독의사", "음성판독여부", "방사선사ID", "방사선사", "처방진행구분코드", "처방상태", "판독내용", "판독이력"
+	    	  "병원ID", "처방FK", "환자ID", "환자명", "처방일", "촬영일자", "촬영명", "촬영구분코드", "내원구분코드", "내원구분", "진료과코드", "진료과", "처방의사ID", "처방의사", "판독완료", "판독일자", "판독시간", "판독의사ID", "판독의사", "음성판독여부", "방사선사ID", "방사선사", "처방진행구분코드", "처방상태", "판독내용", "판독이력"
 	      ],
 	      colModel: [
+	    	{ name: "hsptId", 				index: "hsptId", 			hidden: true },
 	    	{ name: "ordrFk", 				index: "ordrFk", 			hidden: true },
 	        { name: "ptntId", 				index: "ptntId", 			width: 100, 	align: "center", sortable: false },
 	        { name: "ptntNm", 				index: "ptntNm", 			width: 60, 		align: "center", sortable: false },
@@ -256,15 +272,15 @@ pageEncoding="UTF-8"%>
 	          $("#viewNoteTextArea").val(rowData.viewNoteText);
 	          
 	          // 음성판독여부에 따라 버튼 속성 변경
-	          if (rowData.voicViewYn === 'N') {
-				  $("#recordBtn").prop("disabled", false);
-				  $("#voicPlayBtn").prop("disabled", true);
-				  $("#voicDownloadBtn").prop("disabled", true);
-			  } else {
-				  $("#recordBtn").prop("disabled", true);
+        	  if (rowData.voicViewYn === 'Y') {
+        		  $("#recordBtn").prop("disabled", false);
 				  $("#voicPlayBtn").prop("disabled", false);
 				  $("#voicDownloadBtn").prop("disabled", false);
-			  }
+        	  } else {
+        		  $("#recordBtn").prop("disabled", false);
+				  $("#voicPlayBtn").prop("disabled", true);
+				  $("#voicDownloadBtn").prop("disabled", true);
+        	  }
 	      }
 	    });
       };
@@ -277,7 +293,8 @@ pageEncoding="UTF-8"%>
     	  url: "/pandok/getRis0601List.do",
           reordercolNames:true,
           postData: {
-        	  docId: "all",
+        	  hsptId: hsptId,
+        	  docId: loginId,
         	  imgnDvsn: ris0601Dvsn
           },
           mtype: 'POST',
@@ -318,13 +335,17 @@ pageEncoding="UTF-8"%>
           onSelectRow: function (rowid) {
             var rowData = $("#list2").getRowData(rowid);
             console.log(rowData);
-            var selectedRowId = $("#list1").getGridParam("selrow");
-  		    var grid1RowData = $("#list1").getRowData(selectedRowId);
-           	var currentText = grid1RowData.viewText;
+            // var selectedRowId = $("#list1").getGridParam("selrow");
+  		    // var grid1RowData = $("#list1").getRowData(selectedRowId);
+           	var currentText = $("#viewTextArea").val();
             
             // 수정 상태일 경우만 판독내용 변경
             if (!($("#viewTextArea").is(":disabled") || $("#viewTextArea").attr("readonly"))) {
-            	var updatedText = currentText + '\n' + rowData.viewText;
+            	if (currentText) {            		
+	            	var updatedText = currentText + '\n' + rowData.viewText;
+            	} else {
+            		var updatedText = rowData.viewText;
+            	}
             	
             	$("#viewTextArea").val(updatedText);
             }
@@ -346,18 +367,22 @@ pageEncoding="UTF-8"%>
 			  
 			  // 환자 리스트 팝업에서 선택한 데이터
               var selectedData = event.data;
-              // console.log(selectedData);
+			  console.log(selectedData.msg);
               
-              // 환자정보 값 업데이트
-              $("#ptntId").val(selectedData.ptntId);
-              $("#ptntName").val(selectedData.ptntKrNm);
-              $("#ptntAge").val(selectedData.age + "세");
-              
-              if (selectedData.gndrDvsn === "M") {
-	              $("#ptntSex").val("남");              
-              } else {
-            	  $("#ptntSex").val("여");
+			  // 환자 리스트 팝업에서 선택한 데이터가 있을 경우(환자 팝업 선택 후)
+              if (selectedData.msg !== "success") {
+	              // 환자정보 값 업데이트
+	              $("#ptntId").val(selectedData.ptntId);
+	              $("#ptntName").val(selectedData.ptntKrNm);
+	              $("#ptntAge").val(selectedData.age + "세");
+	              
+	              if (selectedData.gndrDvsn === "M") {
+		              $("#ptntSex").val("남");              
+	              } else {
+	            	  $("#ptntSex").val("여");
+	              }            	  
               }
+			  // else는 음성녹음 팝업 선택 후
               
               drawGrid1();
           });
@@ -387,7 +412,14 @@ pageEncoding="UTF-8"%>
 	  
 	  // 음성녹음 버튼 팝업 열기
 	  $("#recordBtn").click(function() {
-		  var url = "/pandok/filePopup.do";
+		  var selectedRowId = $("#list1").getGridParam("selrow");
+		  var selectedRowData = $("#list1").getRowData(selectedRowId);
+		  
+		  // 선택된 행의 데이터를 URL 인코딩하여 쿼리 매개변수로 전달
+		  var rowDataAsQueryString = $.param(selectedRowData);
+		  
+		  // URL과 쿼리 매개변수를 조합하여 팝업 열기
+		  var url = "/pandok/filePopup.do?" + rowDataAsQueryString;
 	
 	      // 팝업 창의 크기와 위치 설정
 	      var width = 800;
@@ -492,6 +524,26 @@ pageEncoding="UTF-8"%>
 	  });
 	  
 	  
+	  // 음성파일 다운로드 버튼
+	  $("#voicDownloadBtn").click(function() {
+	      var selectedRowId = $("#list1").getGridParam("selrow");
+	      var rowData = $("#list1").getRowData(selectedRowId);
+
+	      $.ajax({
+	          url: "/pandok/voiceDownload.do",
+	          method: "POST",
+	          contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+	          data: JSON.stringify(rowData),
+	          success: function(data, textStatus, xhr) {
+	        	  console.log(data);
+	          },
+	          error: function(xhr, status, error) {
+	              console.error(error);
+	          }
+	      });
+	  });
+	  
+	  
 	  // 수정 버튼
 	  $("#updateBtn").click(function() {
 		  var selectedRowId = $("#list1").getGridParam("selrow");
@@ -507,11 +559,12 @@ pageEncoding="UTF-8"%>
 		  var selectedRowId = $("#list1").getGridParam("selrow");
 		  var rowData = $("#list1").getRowData(selectedRowId);
 		  
-		  // 처방상태 변경
 		  // 판독내용 변경
 		  rowData.viewText = $("#viewTextArea").val();
 		  $("#list1").setRowData(selectedRowId);
 		  
+		  // 수정ID 변경
+		  rowData["mdfcId"] = loginId;
 		  console.log(rowData);
 		  
 		  $.ajax({
@@ -542,10 +595,35 @@ pageEncoding="UTF-8"%>
 	  
 	  // 판독완료 버튼
 	  $("#saveBtn").click(function() {
-		  // 판독완료 Y로 변경
-		  // 판독일자, 판독시간 현재로 변경
-		  // 판독의사 변경
-		  // 판독이력 추가
+		  var selectedRowId = $("#list1").getGridParam("selrow");
+		  var rowData = $("#list1").getRowData(selectedRowId);
+		  
+		  // 판독내용 변경
+		  rowData.viewText = $("#viewTextArea").val();
+		  $("#list1").setRowData(selectedRowId);
+		  
+		  // 수정ID 변경
+		  rowData["mdfcId"] = loginId;
+		  
+		  console.log(rowData);
+		  
+		  $.ajax({
+    		  url: "/pandok/finishRis1301List.do",
+    		  method: "POST",
+    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+    		  data: JSON.stringify(rowData),
+    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
+    		  success: function(data) {
+    		      // 성공적으로 응답을 받았을 때 실행되는 함수
+    		      console.log(data);
+    		      alert(data.cnt + '건이 판독 완료되었습니다.');
+    		      drawGrid1();
+    		  },
+    		  error: function(xhr, status, error) {
+    		      // 요청 중 오류가 발생했을 때 실행되는 함수
+    		      console.error(error);
+    		  }
+    	  })
 	  });
 	  
 	  
@@ -554,12 +632,31 @@ pageEncoding="UTF-8"%>
 		  var checkDelete = confirm("정말 판독을 취소하시겠습니까?");
 		  
 		  if (checkDelete) {
-			  // 판독내용 삭제
-			  // 판독완료 N으로 변경
-			  // 판독일자, 판독시간 삭제
-			  // 판독이력 삭제
-			  // 방사선사 삭제
-			  // 처방상태 실시로 변경
+			  var selectedRowId = $("#list1").getGridParam("selrow");
+			  var rowData = $("#list1").getRowData(selectedRowId);
+			  
+			  // 수정ID 변경
+			  rowData["mdfcId"] = loginId;
+			  
+			  console.log(rowData);
+			  
+			  $.ajax({
+	    		  url: "/pandok/deleteRis1301List.do",
+	    		  method: "POST",
+	    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+	    		  data: JSON.stringify(rowData),
+	    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
+	    		  success: function(data) {
+	    		      // 성공적으로 응답을 받았을 때 실행되는 함수
+	    		      console.log(data);
+	    		      alert(data.cnt + '건이 판독 취소되었습니다.');
+	    		      drawGrid1();
+	    		  },
+	    		  error: function(xhr, status, error) {
+	    		      // 요청 중 오류가 발생했을 때 실행되는 함수
+	    		      console.error(error);
+	    		  }
+	    	  })
 		  }
 	  });
     </script>
