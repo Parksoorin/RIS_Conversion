@@ -159,6 +159,7 @@
 	
 		var mydata = [];		
 
+		
       $(document).ready(function () {
     	$("#list1").jqGrid("GridUnload");
         $("#list1").jqGrid({
@@ -167,10 +168,11 @@
  			postData : { type: 'A' },
  			mtype:'POST',
           	datatype: "json",
-          	colNames: ["pk", "hsptId", "처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
+          	colNames: ["pk", "hsptId", "vistDvsn", "처방일", "환자ID", "환자명", "성별", "나이", "진료과", "처방의사", "병동", "병실" ],
           	colModel: [
             	{ name: "pkris1201", index: "pkris1201", width: 120, align: "center", hidden: true },
             	{ name: "hsptId", index: "hsptId", width: 120, align: "center", hidden: true },
+            	{ name: "vistDvsn", index: "vistDvsn", width: 120, align: "center", hidden: true },
             	{ name: "ordrDate", index: "ordrDate", width: 120, align: "center" },
             	{ name: "ptntId", index: "ptntId", width: 120, align: "center" },
 	            { name: "ptntNm", 	index: "ptntNm", width: 80, align: "center" },
@@ -353,7 +355,7 @@
 		          	height: "85%",
 		          	rownumbers: true,
 		          	rowNum: 9999,
-		          	multiselect: true,
+		          	multiselect: false,
 		          	sortname: "id",
 		          	sortorder: "asc",
 		          	cellEdit: true,
@@ -481,6 +483,8 @@
   	});
    
   	
+ 	
+  	
  	// flag를 선언
 	var flag;
 	
@@ -605,7 +609,7 @@
 	    
 	    // errorCnt 컬럼을 제외하고 모든 컬럼을 편집 가능하게 설정합니다.
 	    allColumns.forEach(function (column) {
-	            grid.jqGrid('setColProp', column.name, { editable: true });
+            grid.jqGrid('setColProp', column.name, { editable: true });
 	    });
 	    
 	    // 선택한 행을 편집 모드로 진입
@@ -647,7 +651,58 @@
         }
     }
 	
+ 	// 부모 창에서 데이터 가져오기
+    function ReturnSelValue(imgnCd, ordrNm) {		
+        // 함수 내에서 선택한 데이터를 처리하고 원하는 작업을 수행합니다.
+        console.log("선택한 촬영코드:", imgnCd);
+        console.log("선택한 촬영명:", ordrNm);
+        
+        var grid = $("#list3");
+    	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
+	    var rowData = grid.jqGrid('getRowData', selectedRowId);
+	    
+	    //console.log('========================');
+	    //console.log(rowData);
+	    
+	    rowData.flag = "I";
+	    
+	 	// 마지막 pkris1201 값을 찾아서 1을 더함
+	    var lastPK = getLastPKris1201();
+	    
+	    rowData.pkris1201 = parseInt(lastPK) + 1;
+	    
+	    rowData.elctTrtmYn = "N"; 
+	    rowData.pmntYn = "N"; 
+	    rowData.prtbImgnYn = "N"; 
+	    rowData.emrgYn = "N"; 
+	    rowData.dcYn = "N"; 
+	    rowData.retkYn = "N"; 
+	    
+	    rowData.imgnCd = imgnCd;
+	    rowData.ordrNm = ordrNm;
+
+	    grid.jqGrid('setRowData', selectedRowId, rowData);
+	    console.log("rowData:", rowData);
+
+    }
+ 	
+ 	
+ 	// pkris 값 가져오기
+ 	function getLastPKris1201() {
+	    // jqGrid 데이터 ID 배열 가져오기
+	    var dataIDs = $("#list3").jqGrid("getDataIDs");
+	    
+	    // 마지막 데이터 ID 가져오기
+	    var lastDataID = dataIDs[dataIDs.length - 1];
 	
+	    // 해당 데이터 ID의 pkris1201 값 가져오기
+	    var lastPK = $("#list3").jqGrid('getCell', lastDataID, 'pkris1201');
+	    
+	    return parseInt(lastPK, 10);
+	}
+	
+	
+ 	// 처방 정보 참고 내용 팝업창
 	function openordrNoteTextPopUp() {
 		// 팝업 창에 표시할 URL
         var url = "/popup/RIS1201E03ordrNoteTextDetail_POP.do";
@@ -671,32 +726,85 @@
         }
 	}
 	
+ 	
+ 	
+	function receiveTextValue(textValue) {
+	    // 팝업 창에서 받은 텍스트 값을 처리하거나 표시
+	    console.log("받은 텍스트 값:", textValue);
+	    
+	 	// 팝업으로부터 받은 초기 텍스트 저장
+	    initialText = textValue; 
+	}
+	
+	function getInitialText() {
+	    return initialText;
+	}
+	
+	
+	
 	
   	// 저장버튼 이벤트
   	document.getElementById("ris1201DataSave").addEventListener("click", function() {
 
   		// list3 데이터 가져오기
 		var listDatas = $("#list3").jqGrid("getRowData");
- 
-		listDatas.forEach(listData =>{
+  		
+		// list1 요소의 현재 선택된 행의 ID를 가져옴
+	    var selectedRowId = $("#list1").jqGrid("getGridParam", "selrow");
+	    
+		// grid에서 선택한 행의 데이터를 가져온다.
+	    var rowData = $("#list1").jqGrid('getRowData', selectedRowId);
+		
+	    // trtmDprtCd 의 원본 값으로 저장하기 위한 변수
+		var originalTrtmDprtCd = rowData.trtmDprtCd;
+	    
+	    if (originalTrtmDprtCd === '내과') {
+	    	rowData.trtmDprtCd = 'IM';
+	    } else if (rowData.trtmDprtCd === '정형외과') {
+	        rowData.trtmDprtCd = 'OS';
+	    }
+		
+		
+	    // 희망일
+ 		var dsrdDateInput = document.getElementById("dsrdDateInput");
+ 		var dsrdDateValue = dsrdDateInput.value;
+		
+		listDatas.forEach(listData => {
+			listDatas[0].ordrDate = rowData.ordrDate;
+			listDatas[0].hsptId = rowData.hsptId;
+			listDatas[0].vistDvsn = rowData.vistDvsn;
+			listDatas[0].ptntId = rowData.ptntId;
+			listDatas[0].ptntNm = rowData.ptntNm;
+			listDatas[0].trtmDprtCd = rowData.trtmDprtCd;
+			listDatas[0].wardCd = rowData.wardCd;
+			listDatas[0].unitCd = rowData.unitCd;
+			listDatas[0].dsrdDate = dsrdDateValue;
 			
-			console.log("sendData :", JSON.stringify(listData))
+			
+			if ( listData.flag === "I" || listData.flag === "U" ) {
+				
+				console.log("listDatas :", listDatas[0])
+				console.log("sendData :", JSON.stringify(listData))
+				
+				
+				$.ajax({
+					type: 'POST',
+					url: "/jubsu/RIS1201E03UpdateInsert.do",
+					data: JSON.stringify(listData),
+					contentType: "application/json; charset=utf-8",
+					dataType: 'json',
+					success: function (result) {
+						console.log("데이터 전송 성공: ", result);
+					},
+					error: function (error) {
+			    		console.log("데이터 전송 실패: ", error);
+			    	}
+				});
+				
+			}
 		
 		
-			$.ajax({
-				type: 'POST',
-				url: "/jubsu/RIS1201E03UpdateInsert.do",
-				data: JSON.stringify(listData),
-				contentType: "application/json; charset=utf-8",
-				dataType: 'json',
-				success: function (result) {
-					console.log("데이터 전송 성공: ", result);
-				},
-				error: function (error) {
-		    		console.log("데이터 전송 실패: ", error);
-		    	}
-			});
-		})
+		});
   	});
 
 

@@ -1,6 +1,7 @@
 package egovframework.pandok.model;
 
 public class Ris1301DTO {
+	private String hsptId;			// 병원ID
 	private String ordrFk;			// 처방FK
 	private String ptntId;			// 환자ID
 	private String ptntNm;			// 환자명
@@ -19,14 +20,26 @@ public class Ris1301DTO {
 	private String viewTime;		// 판독시간(판독일시에서 시간만)
 	private String viewDocId;		// 판독의사ID
 	private String viewDocNm;		// 판독의사 이름
+	private String voicRgstDttm;	// 음성등록일시
+	private String voicViewFileNm;	// 음성 판독 파일명
+	private String voicViewDrtrNm;	// 음성 판독 경로명
+	private String voicFileNm;		// 음성파일명
 	private String voicViewYn;		// 음성판독여부
 	private String rdlgId;			// 방사선사ID
 	private String rdlgNm;			// 방사선사 이름
+	private String mdfcId;			// 수정ID
+	private String mdfcDttm;		// 수정 일자
 	private String ordrPrgrDvsn;	// 처방진행구분 숫자
 	private String ordrPrgrKr;		// 처방진행구분
 	private String viewText;		// 판독내용
 	private String viewNoteText;	// 판독이력
 	
+	public String getHsptId() {
+		return hsptId;
+	}
+	public void setHsptId(String hsptId) {
+		this.hsptId = hsptId;
+	}
 	public String getOrdrFk() {
 		return ordrFk;
 	}
@@ -135,6 +148,30 @@ public class Ris1301DTO {
 	public void setViewDocNm(String viewDocNm) {
 		this.viewDocNm = viewDocNm;
 	}
+	public String getVoicRgstDttm() {
+		return voicRgstDttm;
+	}
+	public void setVoicRgstDttm(String voicRgstDttm) {
+		this.voicRgstDttm = voicRgstDttm;
+	}
+	public String getVoicViewFileNm() {
+		return voicViewFileNm;
+	}
+	public void setVoicViewFileNm(String voicViewFileNm) {
+		this.voicViewFileNm = voicViewFileNm;
+	}
+	public String getVoicViewDrtrNm() {
+		return voicViewDrtrNm;
+	}
+	public void setVoicViewDrtrNm(String voicViewDrtrNm) {
+		this.voicViewDrtrNm = voicViewDrtrNm;
+	}
+	public String getVoicFileNm() {
+		return voicFileNm;
+	}
+	public void setVoicFileNm(String voicFileNm) {
+		this.voicFileNm = voicFileNm;
+	}
 	public String getVoicViewYn() {
 		return voicViewYn;
 	}
@@ -152,6 +189,18 @@ public class Ris1301DTO {
 	}
 	public void setRdlgNm(String rdlgNm) {
 		this.rdlgNm = rdlgNm;
+	}
+	public String getMdfcId() {
+		return mdfcId;
+	}
+	public void setMdfcId(String mdfcId) {
+		this.mdfcId = mdfcId;
+	}
+	public String getMdfcDttm() {
+		return mdfcDttm;
+	}
+	public void setMdfcDttm(String mdfcDttm) {
+		this.mdfcDttm = mdfcDttm;
 	}
 	public String getOrdrPrgrDvsn() {
 		return ordrPrgrDvsn;

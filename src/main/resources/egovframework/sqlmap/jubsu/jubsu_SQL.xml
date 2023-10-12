@@ -45,7 +45,7 @@
 	</select>
 
 	
-	<update id="updateData" parameterType="egovframework.jubsu.model.RIS1201E0302DTO">
+	<update id="updateData" parameterType="egovframework.jubsu.model.RIS1201DTO">
 		UPDATE ris1201 
    			SET IMGN_CD = #{imgnCd},			
    				ORDR_NM = #{ordrNm},	
@@ -56,9 +56,9 @@
 
 	<select id="ris0102JoinRis1201PopData" resultType="egovframework.jubsu.model.RIS0102JoinRIS1201DTO" >
 		SELECT DISTINCT
-			    ris1201 .PKRIS1201,
-			    ris1201 .IMGN_CD,
-			    ris1201 .ORDR_NM,
+			    ris1201.PKRIS1201,
+			    ris1201.IMGN_CD,
+			    ris1201.ORDR_NM,
 			    r1.MDDL_KR_NM AS MDDL_KR_NM_ONE,
 			    r2.MDDL_KR_NM AS MDDL_KR_NM_TWO
 			FROM ris1201 
@@ -66,6 +66,58 @@
 			LEFT JOIN ris0102 r2 ON r2.LRGC_CD = 'IMGN_DVSN_CD' AND r2.MDDL_CD = ris1201.ORDR_BDYP_CD;
 	</select>
 	
+	
+	<select id="changePkris" resultType="int">
+		SELECT PKRIS1201 + 1 
+			FROM ris1201
+		ORDER BY PKRIS1201 
+			DESC LIMIT 1;
+	</select>
+	
+	
+	<insert id="insertData" parameterType="egovframework.jubsu.model.RIS1201DTO">
+		INSERT INTO ris1201(PKRIS1201, 
+							ORDR_FK, 
+							AGRM_YN,
+							HSPT_ID, 
+							ORDR_DATE,
+							PTNT_ID, 
+							PTNT_NM, 
+							TRTM_DPRT_CD,
+							WARD_CD,
+							UNIT_CD,
+							VIST_DVSN,
+							DSRD_DATE,
+							ELCT_TRTM_YN, 
+							IMGN_CD, 
+							ORDR_NM,
+							PMNT_YN,
+			   				PRTB_IMGN_YN,
+			   				EMRG_YN,
+			   				DC_YN,
+			   				RETK_YN)
+					VALUES (#{pkris1201},
+							#{ordrFk},
+							#{agrmYn},
+							#{hsptId},
+							#{ordrDate},
+							#{ptntId},
+							#{ptntNm},
+							#{trtmDprtCd},
+							#{wardCd},
+							#{unitCd},
+							#{vistDvsn},
+							#{dsrdDate},
+							#{elctTrtmYn},
+							#{imgnCd},
+							#{ordrNm},
+							#{pmntYn},
+							#{prtbImgnYn},
+							#{emrgYn},
+							#{dcYn},
+							#{retkYn}						
+							);		 
+	</insert>
 	
 
 </mapper>

@@ -489,7 +489,8 @@ pageEncoding="UTF-8"%>
       // 공용코드
       $("#commonCheck").change(function() {
     	  if ($("#commonCheck").is(":checked")) {    		  
-	    	  if (userGrade !== 'S' && userGrade !== 'U') {
+	    	  if (userGrade !== 'S' && userGrade !== 'A') {
+	    		  console.log("공용 체크");
 	    		  $(".btn__container").css("display", "none");
 	    	  }
     	  } else {

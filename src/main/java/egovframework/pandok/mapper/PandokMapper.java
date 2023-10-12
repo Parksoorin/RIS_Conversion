@@ -2,13 +2,12 @@ package egovframework.pandok.mapper;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 import org.egovframe.rte.psl.dataaccess.mapper.Mapper;
 
 import egovframework.pandok.model.Ris0102DTO;
 import egovframework.pandok.model.Ris0601DTO;
 import egovframework.pandok.model.Ris1101DTO;
+import egovframework.pandok.model.Ris1201DTO;
 import egovframework.pandok.model.Ris1301DTO;
 import egovframework.pandok.model.RisUserDTO;
 
@@ -22,9 +21,11 @@ public interface PandokMapper {
 	int duplicateCheck(Ris0601DTO dto);
 	int saveRis0601List(Ris0601DTO dto);
 	int saveTempRis1301List(Ris1301DTO dto);
-	int saveTempRis1201List(Map<String, Object> param);
+	int saveTempRis1201List(Ris1201DTO dto);
+	int voiceRis1201List(Ris1201DTO dto);
+	Map<String, String> voiceDownload(Ris1301DTO dto);
 	int finishRis1301List(Ris1301DTO dto);
-	int finishRis1201List(Map<String, Object> param);
+	int finishRis1201List(Ris1201DTO dto);
 	int deleteRis1301List(Ris1301DTO dto);
-	int deleteRis1201List(Map<String, Object> param);
+	int deleteRis1201List(Ris1201DTO dto);
 }

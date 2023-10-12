@@ -28,10 +28,15 @@ public interface ComMapper {
 	int updatePgrmData(RisPgrmDTO dto);
 	int addPgrmData(RisPgrmDTO dto);
 	String selectSystemid(String selectSystemid);
+	int deletePgrmData(RisPgrmDTO dto);
 	
 	// 메뉴정보 관리
 	List<RisGrupDTO> RisGrupList();
-	List<RisGrmuDTO> RisGrmuList(String type);
+	List<RisGrupDTO> RisGrupList(String hsptId);
+	int updateMenuData(RisGrupDTO dto);
+	int addMenuData(RisGrupDTO dto);
+	List<RisGrmuDTO> RisGrmuList(Map<String, String> params);
+	List<RisGrmuDTO> popupGrmuList(String hsptId);
 	
 	// 사용자별 메뉴관리
 	List<RisUserDTO> RisUserMenuList();

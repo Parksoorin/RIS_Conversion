@@ -22,10 +22,10 @@ public class RisGrupDTO {
 	@Max(10)
 	private String userId;
 	// 최종변경일시
-	private String udpDate;
+	private String updDate;
 	// 병원(회원) ID
 	@Max(10)
-	private String heptId;
+	private String hsptId;
 	// 시스템ID
 	@Max(10)
 	private String systemId;

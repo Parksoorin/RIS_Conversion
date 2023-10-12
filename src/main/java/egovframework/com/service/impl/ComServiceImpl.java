@@ -64,6 +64,10 @@ public class ComServiceImpl implements ComService {
 	@Override
 	public int updatePgrmData(RisPgrmDTO dto) {
 		// TODO Auto-generated method stub
+		// 시스템id 변경
+		String systemId = comMapper.selectSystemid(dto.getSystemName());
+		dto.setSystemId(systemId);
+		System.out.println(dto.toString());
 		return comMapper.updatePgrmData(dto);
 	}
 	@Override
@@ -75,17 +79,46 @@ public class ComServiceImpl implements ComService {
 		System.out.println(dto.toString());
 		return comMapper.addPgrmData(dto);
 	}
+	@Override
+	public int deletePgrmData(RisPgrmDTO dto) {
+		// TODO Auto-generated method stub
+		// 시스템id 변경
+		String systemId = comMapper.selectSystemid(dto.getSystemName());
+		dto.setSystemId(systemId);
+		System.out.println(dto.toString());
+		return comMapper.deletePgrmData(dto);
+	}
 	
 	// 메뉴정보 관리
+	@Override
+	public List<RisGrupDTO> RisGrupList(String hsptId) {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrupList(hsptId);
+	}
 	@Override
 	public List<RisGrupDTO> RisGrupList() {
 		// TODO Auto-generated method stub
 		return comMapper.RisGrupList();
 	}
 	@Override
-	public List<RisGrmuDTO> RisGrmuList(String type) {
+	public int updateMenuData(RisGrupDTO dto) {
 		// TODO Auto-generated method stub
-		return comMapper.RisGrmuList(type);
+		return comMapper.updateMenuData(dto);
+	}
+	@Override
+	public int addMenuData(RisGrupDTO dto) {
+		// TODO Auto-generated method stub
+		return comMapper.addMenuData(dto);
+	}
+	@Override
+	public List<RisGrmuDTO> RisGrmuList(Map<String, String> params) {
+		// TODO Auto-generated method stub
+		return comMapper.RisGrmuList(params);
+	}
+	@Override
+	public List<RisGrmuDTO> popupGrmuList(String hsptId) {
+		// TODO Auto-generated method stub
+		return comMapper.popupGrmuList(hsptId);
 	}
 	
 	// 사용자별 메뉴관리

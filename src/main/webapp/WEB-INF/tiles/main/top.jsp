@@ -7,9 +7,7 @@
 <div class="all__header">
     <div class="header__flex">
         <img src="/images/logo2.png" class="logo-img" />
-       
-        
-       
+
         <ul>
             <li class="main__menu-items">
                 업무메뉴
@@ -34,7 +32,6 @@
 			    	</div>
 				</li>
 			</c:if>
-			
 			</c:forEach>
         </ul>
     </div>
@@ -99,9 +96,6 @@
 		
 		if (!loginId) {
 			window.location.href = "/?hspt_id=A001";
-		}
-		
-		
-		
+		}	
 	})
 </script>

@@ -30,14 +30,15 @@ public class RISUSERMENUController {
 	@Resource(name="ComService")
 	private ComService comService;
 	
-	@RequestMapping(value = "/RISUSERMENU_POP.do")
-	public String menupopup(Model model) throws Exception {
-		return ".popup/RISUSERMENU_POP";
-	}
-	
 	@RequestMapping(value = "/RISUSERMENU.do")
 	public String menu(Model model) throws Exception {
 		return ".main/com/RISUSERMENU";
+	}
+	
+	// 그리드2 팝업창
+	@RequestMapping(value = "/RISUSERMENU_POP.do")
+	public String menupopup(Model model) throws Exception {
+		return ".popup/RISUSERMENU_POP";
 	}
 	
 	// 그리드1

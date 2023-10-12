@@ -146,9 +146,7 @@ pageEncoding="UTF-8"%>
     	            	    name: "menuGroupId",
     	            	    index: "menuGroupId",
     	            	    width: 100,
-    	            	    align: "center",
-    	        
-    	            	    
+    	            	    align: "center"
     	            	},
     	              	{ name: "menuGroupName", index: "menuGroupName", width: 150, align: "center" },
     	              	{ name: "menuId", index: "menuId", width: 100, align: "center" },
@@ -159,11 +157,8 @@ pageEncoding="UTF-8"%>
     	            	  	width: 80,
     	            	  	align: "center",
    	            		  	editable: true,
-   	            			
 			    	 		edittype: 'select',
 			    	 		editoptions: { value: "W:등록; V: 조회" },
-    	                 	
-   	            			
     	              	},
     	              	{ 
     	              		name: "useYn",
@@ -290,19 +285,11 @@ pageEncoding="UTF-8"%>
 	        var grid = $("#list2");
         	var selectedRowId = grid.jqGrid("getGridParam", "selrow");
     	    var rowData = grid.jqGrid('getRowData', selectedRowId);
-    	    console.log('========================');
-    	    
-    	    console.log(rowData);
+
     	    rowData.menuGroupId = menuGroupId;
     	    rowData.menuGroupName = menuName;
 
     	    grid.jqGrid('setRowData', selectedRowId, rowData);
-    	    
-    	    
-    		
-    	    
-    	    
-
 	    }
 	    
 	    // 삭제
