@@ -43,7 +43,8 @@ public class RIS1201E0301DTO {
 	// 처방 정보 상세
 	private String elctTrtmYn;  	// V
 	private String imgnCd;  		// 촬영코드
-	private String ordrNm;  		// 촬영명
+	private String ordrCd;  		// 처방코드
+	private String ordrNm;  		// 촬영명(처방명)
 	private String exmnNoteText;  	// FIND
 	private String ordrNoteText;  	// 참고내용(처방참고내용)
 	private String pmntYn;  		// 수납(수납여부)

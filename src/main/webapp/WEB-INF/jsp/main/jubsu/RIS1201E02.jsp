@@ -20,7 +20,7 @@
 				<input type="date" class="inputDateEnd " />
 				<p class="ptntNmClass">환자명</p>
 				<input type="text" class="ptntNmInputClass" />
-				<button class="all__btn fontawesome__btn list__icon"></button>
+				<button onclick="openPopup()" class="all__btn fontawesome__btn list__icon icon_margin"></button>
 			</div>
 			
 			<div class="searchKubun__div">
@@ -114,6 +114,31 @@
             //alert(index+'/'+idxcol+'/'+sortorder);
           },
         });
+        
+        
+        
+     	// 팝업 열기
+        function openPopup() {
+            // 팝업 창에 표시할 URL
+            var url = "/popup/RIS1201E03_POP.do";
+
+            // 팝업 창의 크기와 위치 설정
+            var width = 800;
+            var height = 500;
+            var left = (window.innerWidth - width) / 2;
+            var top = (window.innerHeight - height) / 2;
+
+            // 팝업 창을 열기
+            var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+
+            console.log("popup : ", popup);
+            
+            // 팝업 창이 차단되었을 때 처리
+            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+                alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+            }
+        }
+        
     </script>
 </body>
 </html>
