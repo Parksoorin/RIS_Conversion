@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import egovframework.jubsu.model.RIS0102JoinRIS1201DTO;
+import egovframework.jubsu.model.RIS1201DTO;
 import egovframework.jubsu.model.RIS1201E0301DTO;
 import egovframework.jubsu.model.RIS1201E0302DTO;
 import egovframework.jubsu.service.RIS1201E03Service;
@@ -132,7 +133,7 @@ public class RIS1201E03Controller {
 		return json;
 	}
 	
-	/*
+	
 	// 처방 정보 관리 페이지 - 처방추가 데이터
 	@RequestMapping(value = "/popup/RIS1201E03ordrNoteTextDetail_POP.do", method =  RequestMethod.POST)
 	@ResponseBody
@@ -143,13 +144,13 @@ public class RIS1201E03Controller {
 		
 		return json;
 	}
-	*/
+	
 	
 	
 	// 처방 정보 관리 페이지 수정 및 입력
 	@RequestMapping(value = "/jubsu/RIS1201E03UpdateInsert.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RIS1201E00UpdateInsert(@RequestBody RIS1201E0302DTO dto, HttpSession session, HttpServletRequest request,
+	public JSONObject RIS1201E00UpdateInsert(@RequestBody RIS1201DTO dto, HttpSession session, HttpServletRequest request,
 			HttpServletResponse response, Model model) throws Exception {
 	
 		JSONObject json = new JSONObject();
@@ -159,6 +160,7 @@ public class RIS1201E03Controller {
 		
 		
 		int result = 0;
+		int changePkris = 0;
 		
 		String flag = dto.getFlag();
 		
@@ -166,9 +168,20 @@ public class RIS1201E03Controller {
 		case "U":
 			result = ris1201E03Service.updateData(dto);
 			break;
-//		case "I":
-//			result = RIS1201E03Service.insertData(dto);
-//			break;
+		case "I":
+			changePkris = ris1201E03Service.changePkris();
+			dto.setPkris1201(changePkris);
+			dto.setOrdrFk("RIS" + changePkris);
+			dto.setAgrmYn("N");
+			
+			if(dto.getDsrdDate().equals("")) {
+			dto.setDsrdDate(null);
+			}
+			
+			System.out.println(dto);
+			
+			result = ris1201E03Service.insertData(dto);
+			break;
 		}
 		
 		if (result < 1) {
