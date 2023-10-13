@@ -32,7 +32,27 @@
 	    </div>
 	</body>  
 	<script>
-		$('#loginBtn').on("click", function(){
+		// 팝업 열기
+		function openPopup() {
+		    // 팝업 창에 표시할 URL
+		    var url = "/RISUSERE00.do";
+		
+		    // 팝업 창의 크기와 위치 설정
+		    var width = 600;
+		    var height = 300;
+		    var left = (window.innerWidth - width) / 2;
+		    var top = (window.innerHeight - height) / 2;
+		
+		    // 팝업 창을 열기
+		    var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+		
+		    // 팝업 창이 차단되었을 때 처리
+		    if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+		        alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+		    }
+		}
+		
+		function loginFn() {
 			var id = $('#loginId').val();
 			var password = $('#loginPw').val();
 			var currentURL = window.location.href;
@@ -68,28 +88,26 @@
 					}
 				})
 			}
-			
+		}
+		
+		
+		$(document).ready(function() {
+			// 비밀번호 input에서 keypress 함수 호출
+			$("#loginPw").on("keypress", function(event) {
+				// 입력된 키의 코드를 가져옵니다
+				const keyCode = event.which;
+				
+				// 엔터키 입력 시 로그인 함수 실행
+				if (keyCode === 13) {
+					  loginFn();
+				}
+			});
+		});
+		
+		
+		// 로그인 버튼
+		$('#loginBtn').on("click", function(){
+			loginFn();
 		})
-	
-		// 팝업 열기
-	    function openPopup() {
-	        // 팝업 창에 표시할 URL
-	        var url = "/RISUSERE00.do";
-	
-	        // 팝업 창의 크기와 위치 설정
-	        var width = 600;
-	        var height = 300;
-	        var left = (window.innerWidth - width) / 2;
-	        var top = (window.innerHeight - height) / 2;
-	
-	        // 팝업 창을 열기
-	        var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
-	
-	        // 팝업 창이 차단되었을 때 처리
-	        if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-	            alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
-	        }
-	    }
-	
 	</script>
 </html>
