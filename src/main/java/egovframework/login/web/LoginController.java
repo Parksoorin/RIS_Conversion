@@ -66,7 +66,15 @@ public class LoginController {
 	
 	// 메인 페이지 이동
 	@GetMapping("/RISMAIN.do")
-	public String risMainPage() {
+	public String risMainPage(HttpSession session) {
+		RisUserDTO result = RisUserDTO.builder()
+			.hsptId(session.getAttribute("hspt_id").toString())
+			.loginId(session.getAttribute("login_id").toString())
+			.loginPwd("1")
+		.build();
+		
+		List<MenuDTO> menuList = loginService.menuList(result);
+		session.setAttribute("menuList", menuList);
 		return ".main/RISMAIN";
 	}
 	
