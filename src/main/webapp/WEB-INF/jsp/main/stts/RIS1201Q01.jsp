@@ -339,6 +339,7 @@
       $("#downloadExcel").click(function () {
    	    // jqGrid에서 데이터를 가져오는 코드를 작성합니다.
    	    var gridData = $("#list1").jqGrid("getGridParam", "data");
+   	    var year = $("#selectYear").val();
 
    	    // 헤더를 정의합니다.
    	    var header = ["촬영실별 통계"]; // 제목 행
@@ -389,7 +390,7 @@
    	    XLSX.utils.book_append_sheet(workbook, ws_data, ws_name);
 
    	    // XLSX 파일 다운로드
-   	    XLSX.writeFile(workbook, "촬영실별통계.xlsx");
+   	    XLSX.writeFile(workbook, year + "년도_촬영실별통계.xlsx");
    	  });
     </script>
 </body>

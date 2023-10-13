@@ -9,6 +9,8 @@
 <link rel="stylesheet" href="/css/stts/RIS1201Q01.css" />
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.4/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
 	<main class="main__container">
@@ -338,6 +340,7 @@
       $("#downloadExcel").click(function () {
    	    // jqGrid에서 데이터를 가져오는 코드를 작성합니다.
    	    var gridData = $("#list1").jqGrid("getGridParam", "data");
+   	 	var year = $("#selectYear").val();
 
    	    // 헤더를 정의합니다.
    	    var header = ["판독의별 통계"]; // 제목 행
@@ -388,7 +391,7 @@
    	    XLSX.utils.book_append_sheet(workbook, ws_data, ws_name);
 
    	    // XLSX 파일 다운로드
-   	    XLSX.writeFile(workbook, "판독의별통계.xlsx");
+   	    XLSX.writeFile(workbook, year + "년도_판독의별통계.xlsx");
    	  });
     </script>
 </body>
