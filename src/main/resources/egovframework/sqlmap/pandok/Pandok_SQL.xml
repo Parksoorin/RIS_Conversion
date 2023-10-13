@@ -251,6 +251,30 @@
 			       WHEN #{voicViewYn} = 'Y' THEN CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n[음성판독]')
 			       ELSE CONCAT(VIEW_NOTE_TEXT, '\n\n', NOW(), '\n', #{viewText})
 			   END,
+			   VOIC_VIEW_YN = 
+			   CASE 
+			       WHEN #{voicViewYn} = 'Y' THEN 'Y'
+	               ELSE VOIC_VIEW_YN
+	           END,
+			   VOIC_RGST_DTTM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN NOW()
+			       ELSE VOIC_RGST_DTTM
+			   END,
+			   VOIC_VIEW_FILE_NM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN #{voicViewFileNm}
+			       ELSE VOIC_VIEW_FILE_NM
+			   END,
+			   VOIC_VIEW_DRTR_NM = 
+			   CASE WHEN #{voicViewYn} = 'Y' THEN #{voicViewDrtrNm}
+			       ELSE VOIC_VIEW_DRTR_NM
+			   END,
+			   VOIC_FILE_NM = 
+			   CASE
+			       WHEN #{voicViewYn} = 'Y' THEN #{voicFileNm}
+			       ELSE VOIC_FILE_NM
+			   END,
 			   VIEW_DOC_ID = #{mdfcId},
 		       VIEW_DATE = CURDATE(),
 		       VIEW_DTTM = NOW(),

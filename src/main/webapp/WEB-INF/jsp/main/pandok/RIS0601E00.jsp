@@ -396,69 +396,81 @@ pageEncoding="UTF-8"%>
       
       // 저장 버튼
       $("#saveBtn").click(function() {
-    	  var totalRecords = $("#list1").jqGrid("getGridParam", "reccount");
-    	  console.log($("#list1").getRowData());
-    	  
-    	  for (var i = 1; i <= totalRecords; i++) {
-    		  // 입력 후 수정했을 경우 editable 옵션이 false가 되어 입력이 제대로 되지 않음
-    		  // tmplCd의 editable 옵션 재설정
-    		  $("#list1").setColProp('tmplCd', { editable: true });
-    		  
-    		  // input, select 값들을 모두 값으로 저장
-   			  $("#list1").saveRow(i);
-   			  
-   			  var rowData = $("#list1").getRowData(i);
-   			  var mddlKrNmData = $("#list1").getCell(i, "mddlKrNm");
-   			  var imgnDvsnCdData = Object.keys(selectOption).find(key => selectOption[key] === mddlKrNmData);
-   			  
-   			  // select 태그인 촬영구분에서 촬영구분 코드를 저장
-   			  $("#list1").setCell(i, "imgnDvsnCd", imgnDvsnCdData);
-   			  
-   			  // 데이터가 공백이 있을 경우
-   			  if (!rowData.tmplCd) {
-   				  alert(i + "번째 행 정형문 코드가 비어있습니다.\n정형문 코드를 입력해주세요.");
-   				  $("#list1").editRow(i, true);
-   				  $("#list1").setSelection(i);
-   				  break
-   			  } else if (!rowData.viewText) {
-   				  alert(i + "번째 행 판독 내용이 비어있습니다.\n판독 내용을 입력해주세요.");
-   				  $("#list1").editRow(i, true);
-   				$("#list1").setSelection(i);
-   			  }
-    	  }
-    	  
+    	  var editCnt = 0;
     	  var rowDatas = $("#list1").getRowData();
+    	  var totalRecords = $("#list1").jqGrid("getGridParam", "reccount");
     	  
-    	  $.ajax({
-    		  url: "/pandok/saveRis0601List.do",
-    		  method: "POST",
-    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
-    		  data: JSON.stringify(rowDatas),
-    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
-    		  success: function(data) {
-    		      // 성공적으로 응답을 받았을 때 실행되는 함수
-    		      console.log(data);
-    		      if (data.msg === "중복") {
-    		    	  alert("중복된 데이터가 있습니다.");
-    		    	  
-    		    	  var rowDatas = $("#list1").getRowData();
-    		    	  
-    		    	  for (var i = 0; i < rowDatas.length; i++) {
-    		    		  if (rowDatas[i].flag) {
-    		    			  $("#list1").editRow(i + 1, true);
-    		    		  }
-    		    	  }
-    		      } else if (data.msg === "success") {
-    		    	  alert("총 " + data.cnt + "건의 데이터가 처리되었습니다.");
-    		    	  
-    		    	  refreshPage();
-    		      }
-    		  },
-    		  error: function(xhr, status, error) {
-    		      // 요청 중 오류가 발생했을 때 실행되는 함수
-    		      console.error(error);
+    	  rowDatas.forEach((rowData) => {
+    		  if (rowData.flag !== "") {
+    			  editCnt += 1;
     		  }
     	  })
+    	  
+    	  if (editCnt !== 0) {
+	    	  for (var i = 1; i <= totalRecords; i++) {
+	    		  console.log("check");
+	    		  // 입력 후 수정했을 경우 editable 옵션이 false가 되어 입력이 제대로 되지 않음
+	    		  // tmplCd의 editable 옵션 재설정
+	    		  $("#list1").setColProp('tmplCd', { editable: true });
+	    		  
+	    		  // input, select 값들을 모두 값으로 저장
+	   			  $("#list1").saveRow(i);
+	   			  
+	   			  var rowData = $("#list1").getRowData(i);
+	   			  var mddlKrNmData = $("#list1").getCell(i, "mddlKrNm");
+	   			  var imgnDvsnCdData = Object.keys(selectOption).find(key => selectOption[key] === mddlKrNmData);
+	   			  
+	   			  // select 태그인 촬영구분에서 촬영구분 코드를 저장
+	   			  $("#list1").setCell(i, "imgnDvsnCd", imgnDvsnCdData);
+	   			  
+	   			  // 데이터가 공백이 있을 경우
+	   			  if (!rowData.tmplCd) {
+	   				  alert(i + "번째 행 정형문 코드가 비어있습니다.\n정형문 코드를 입력해주세요.");
+	   				  $("#list1").editRow(i, true);
+	   				  $("#list1").setSelection(i);
+	   				  break
+	   			  } else if (!rowData.viewText) {
+	   				  alert(i + "번째 행 판독 내용이 비어있습니다.\n판독 내용을 입력해주세요.");
+	   				  $("#list1").editRow(i, true);
+	   				$("#list1").setSelection(i);
+	   			  }
+	    	  }
+	    	  
+	    	  rowDatas = $("#list1").getRowData();
+	    	  
+	    	  $.ajax({
+	    		  url: "/pandok/saveRis0601List.do",
+	    		  method: "POST",
+	    		  contentType: 'application/json', // 클라이언트에서 JSON 형식으로 보내기
+	    		  data: JSON.stringify(rowDatas),
+	    		  dataType: "json", // 응답 데이터 형식 (JSON, XML, HTML 등)
+	    		  success: function(data) {
+	    		      // 성공적으로 응답을 받았을 때 실행되는 함수
+	    		      console.log(data);
+	    		      if (data.msg === "중복") {
+	    		    	  alert("중복된 데이터가 있습니다.");
+	    		    	  
+	    		    	  var rowDatas = $("#list1").getRowData();
+	    		    	  
+	    		    	  for (var i = 0; i < rowDatas.length; i++) {
+	    		    		  if (rowDatas[i].flag) {
+	    		    			  $("#list1").editRow(i + 1, true);
+	    		    		  }
+	    		    	  }
+	    		      } else if (data.msg === "success") {
+	    		    	  alert("총 " + data.cnt + "건의 데이터가 처리되었습니다.");
+	    		    	  
+	    		    	  refreshPage();
+	    		      }
+	    		  },
+	    		  error: function(xhr, status, error) {
+	    		      // 요청 중 오류가 발생했을 때 실행되는 함수
+	    		      console.error(error);
+	    		  }
+	    	  })
+    	  } else {
+    		  alert("변경 데이터가 없습니다.");
+    	  }
       });
       
       

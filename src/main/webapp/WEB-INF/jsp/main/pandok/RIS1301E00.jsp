@@ -135,12 +135,12 @@ pageEncoding="UTF-8"%>
 	          <!-- 버튼 컨테이너 -->
 	          <div class="btn__container">
 			    <button id="updateBtn" class="all__btn img__btn fontawesome__btn sub__btn update__icon">수정</button>
-	            <button id="tempSaveBtn" class="all__btn img__btn fontawesome__btn sub__btn save__icon">임시저장</button>
-			    <button id="clearBtn" class="all__btn img__btn fontawesome__btn sub__btn clear__icon">비우기</button>
+	            <button id="tempSaveBtn" class="all__btn img__btn fontawesome__btn sub__btn save__icon" disabled>임시저장</button>
+			    <button id="clearBtn" class="all__btn img__btn fontawesome__btn sub__btn clear__icon" disabled>비우기</button>
 			    <c:choose>
           		  <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-	        	    <button id="saveBtn" class="all__btn img__btn fontawesome__btn sub__btn done__icon">판독완료</button>
-  	    	        <button id="deleteBtn" class="all__btn img__btn fontawesome__btn sub__btn delete__icon">판독취소</button>
+	        	    <button id="saveBtn" class="all__btn img__btn fontawesome__btn sub__btn done__icon" disabled>판독완료</button>
+  	    	        <button id="deleteBtn" class="all__btn img__btn fontawesome__btn sub__btn delete__icon" disabled>판독취소</button>
 	        	  </c:when>
 	        	</c:choose>
 	          </div>
@@ -169,6 +169,7 @@ pageEncoding="UTF-8"%>
       var hsptId = "${hspt_id}";
  	  var loginId = "${login_id}";
  	  var userGrade = "${user_grade}";
+ 	  var editYn = false;
  	  
  	  
 	  function drawGrid1() {
@@ -254,6 +255,7 @@ pageEncoding="UTF-8"%>
 	          }
 	      }, // loadComplete END
 	      onSelectRow: function (rowid) {
+	    	  editYn = false;
 	          var rowData = $("#list1").getRowData(rowid);
 	          
 	          console.log(rowData);
@@ -281,6 +283,21 @@ pageEncoding="UTF-8"%>
 				  $("#voicPlayBtn").prop("disabled", true);
 				  $("#voicDownloadBtn").prop("disabled", true);
         	  }
+	          
+	          // 수정 여부에 따라 버튼 속성 변경
+        	  if (editYn) {
+				  $("#recordBtn").prop("disabled", false);
+				  $("#tempSaveBtn").prop("disabled", false);
+				  $("#clearBtn").prop("disabled", false);
+				  $("#saveBtn").prop("disabled", false);
+				  $("#deleteBtn").prop("disabled", false);
+			  } else {
+				  $("#recordBtn").prop("disabled", true);
+				  $("#tempSaveBtn").prop("disabled", true);
+				  $("#clearBtn").prop("disabled", true);
+				  $("#saveBtn").prop("disabled", true);
+				  $("#deleteBtn").prop("disabled", true);
+			  }
 	      }
 	    });
       };
@@ -546,11 +563,27 @@ pageEncoding="UTF-8"%>
 	  
 	  // 수정 버튼
 	  $("#updateBtn").click(function() {
+		  editYn = true;
 		  var selectedRowId = $("#list1").getGridParam("selrow");
 		  var rowData = $("#list1").getRowData(selectedRowId);
 		  
 		  $("#viewTextArea").prop("disabled", false);
 		  $("#viewTextArea").prop("readonly", false);
+		  
+		  // 수정 여부에 따라 버튼 속성 변경
+		  if (editYn) {
+			  $("#recordBtn").prop("disabled", false);
+			  $("#tempSaveBtn").prop("disabled", false);
+			  $("#clearBtn").prop("disabled", false);
+			  $("#saveBtn").prop("disabled", false);
+			  $("#deleteBtn").prop("disabled", false);
+		  } else {
+			  $("#recordBtn").prop("disabled", true);
+			  $("#tempSaveBtn").prop("disabled", true);
+			  $("#clearBtn").prop("disabled", true);
+			  $("#saveBtn").prop("disabled", true);
+			  $("#deleteBtn").prop("disabled", true);
+		  }
 	  });
 	  
 	  

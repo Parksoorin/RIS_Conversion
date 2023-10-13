@@ -120,31 +120,31 @@ public class RIS1301E00Controller {
 	    String dateString = dateFormat.format(currentDate);
 	    
 	    // 새로운 폴더 경로 생성
-	    String folderPath = "static" + File.separator + "upload" + File.separator + dateString;
-	    
-	    System.out.println(folderPath);
-	    
-	    // 새로운 폴더 생성
-	    File folder = new File(folderPath);
-	    if (!folder.exists()) {
-	        folder.mkdirs();
-	        System.out.println("폴더 생성");
-	    }
-	    
-	    System.out.println(folderPath + File.separator + ptntId + "_" + dateString + "-" + size + fileExtension);
-
-	    // 파일 저장
-	    File saveFile = new File(folderPath + File.separator + ptntId + "_" + dateString + "-" + size + fileExtension);
-
-	    try (OutputStream os = new FileOutputStream(saveFile)) {
-	        StreamUtils.copy(localFile.getInputStream(), os);
-	        System.out.println("파일 저장 완료");
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+	    String folderPath = "static/upload" + dateString;
+//	    
+//	    System.out.println(folderPath);
+//	    
+//	    // 새로운 폴더 생성
+//	    File folder = new File(folderPath);
+//	    if (!folder.exists()) {
+//	        folder.mkdirs();
+//	        System.out.println("폴더 생성");
+//	    }
+//	    
+//	    System.out.println(folderPath + File.separator + ptntId + "_" + dateString + "-" + size + fileExtension);
+//
+//	    // 파일 저장
+//	    File saveFile = new File(folderPath + File.separator + ptntId + "_" + dateString + "-" + size + fileExtension);
+//
+//	    try (OutputStream os = new FileOutputStream(saveFile)) {
+//	        StreamUtils.copy(localFile.getInputStream(), os);
+//	        System.out.println("파일 저장 완료");
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
 	    
 	    json.put("voicViewFileNm", fileRealName);
-	    json.put("voicViewDrtrNm", folderPath + File.separator);
+	    json.put("voicViewDrtrNm", folderPath + "/");
 	    json.put("voicFileNm", (ptntId + "_" + dateString + "-" + size + fileExtension).toString());
 	    json.put("cnt", 1);
 	    
@@ -198,7 +198,7 @@ public class RIS1301E00Controller {
 		subDto.setOrdrFk(dto.getOrdrFk());
 		subDto.setMdfcId(dto.getMdfcId());
 		
-		int ris1301Data = pandokService.saveTempRis1301List(dto);
+		int ris1301Data = pandokService.finishRis1301List(dto);
 		int ris1201Data = pandokService.voiceRis1201List(subDto);
 		
 		if (ris1301Data * ris1201Data == 1) {
@@ -214,41 +214,41 @@ public class RIS1301E00Controller {
 	
 	@RequestMapping(value = "/pandok/voiceDownload.do", method = RequestMethod.POST)
 	public void voiceDownload(@RequestBody Ris1301DTO dto, HttpSession session, HttpServletResponse response) {
-        Map<String, String> map = pandokService.voiceDownload(dto);
-
-        String filePath = map.get("VOIC_VIEW_DRTR_NM");
-        String fileName = map.get("VOIC_FILE_NM");
-        
-        System.out.println(filePath + fileName);
-
-        File file = new File(filePath);
-        
-        try {
-            if (file.exists()) {
-                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-                response.setContentLength((int) file.length());
-                
-                // 파일을 읽어와서 클라이언트로 복사합니다.
-                FileInputStream inputStream = new FileInputStream(file);
-                OutputStream outputStream = response.getOutputStream();
-                
-                byte[] buffer = new byte[4096];
-                int bytesRead = -1;
-                while ((bytesRead = inputStream.read(buffer)) != -1) {
-                    outputStream.write(buffer, 0, bytesRead);
-                }
-
-                inputStream.close();
-                outputStream.close();
-            } else {
-                // 파일이 존재하지 않을 때 처리
-                response.sendError(HttpServletResponse.SC_NOT_FOUND);
-            }
-        } catch (IOException e) {
-            // IOException 처리
-            e.printStackTrace();
-            // 또는 다른 오류 처리 로직을 추가할 수 있습니다.
-        }
+//        Map<String, String> map = pandokService.voiceDownload(dto);
+//
+//        String filePath = map.get("VOIC_VIEW_DRTR_NM");
+//        String fileName = map.get("VOIC_FILE_NM");
+//        
+//        System.out.println(filePath + fileName);
+//
+//        File file = new File(filePath);
+//        
+//        try {
+//            if (file.exists()) {
+//                response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+//                response.setContentLength((int) file.length());
+//                
+//                // 파일을 읽어와서 클라이언트로 복사합니다.
+//                FileInputStream inputStream = new FileInputStream(file);
+//                OutputStream outputStream = response.getOutputStream();
+//                
+//                byte[] buffer = new byte[4096];
+//                int bytesRead = -1;
+//                while ((bytesRead = inputStream.read(buffer)) != -1) {
+//                    outputStream.write(buffer, 0, bytesRead);
+//                }
+//
+//                inputStream.close();
+//                outputStream.close();
+//            } else {
+//                // 파일이 존재하지 않을 때 처리
+//                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+//            }
+//        } catch (IOException e) {
+//            // IOException 처리
+//            e.printStackTrace();
+//            // 또는 다른 오류 처리 로직을 추가할 수 있습니다.
+//        }
 	}
 	
 	
@@ -268,12 +268,8 @@ public class RIS1301E00Controller {
 		subDto.setOrdrFk(dto.getOrdrFk());
 		subDto.setMdfcId(dto.getMdfcId());
 		
-		System.out.println(dto);
-		System.out.println(subDto);
 		int ris1301Data = pandokService.finishRis1301List(dto);
-		System.out.println(ris1301Data);
 		int ris1201Data = pandokService.finishRis1201List(subDto);
-		System.out.println(ris1201Data);
 		
 		if (ris1301Data * ris1201Data == 1) {
 			cnt += 1;
