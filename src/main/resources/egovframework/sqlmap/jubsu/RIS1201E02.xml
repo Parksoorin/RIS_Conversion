@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egovframework.jubsu.mapper.RIS1201E02Mapper">
+
+
+<select id="ris1201E0302datas" resultType="egovframework.jubsu.model.RIS1201E0302DTO">
+		SELECT ris1201.PKRIS1201,
+			   ris1201.PTNT_ID, 
+			   ris1201.PTNT_NM,
+			   ris1101.GNDR_DVSN,
+			   ris1101.BRTH,
+			   ris1201.VIST_DVSN, 
+			   ris1201.ORDR_DATE,
+			   ris1201.ORDR_CD,
+			   ris1201.ORDR_NM,
+			   ris0102.MDDL_KR_NM,
+			   ris1201.EMRG_YN,
+			   ris1201.PMNT_YN,
+			   ris1201.DC_YN,
+			   ris1201.RCPT_DATE,
+			   ris1201.RCPT_DTTM,
+			   ris1201.RCPT_PRSN_ID
+		  FROM ris1201
+	 LEFT JOIN ris1101
+			ON ris1201.PTNT_ID = ris1101.PTNT_ID
+	 LEFT JOIN ris0102
+			ON ris0102.LRGC_CD = 'IMGN_ROOM_CD' 
+		   AND ris0102.MDDL_CD = ris1201.IMGN_ROOM_CD
+		 WHERE ris1201.PRTB_IMGN_YN = 'Y'
+      GROUP BY ris1201.ORDR_DATE, ris1201.PTNT_ID
+	  ORDER BY ris1201.PKRIS1201;
+	</select>
+
+
+
+</mapper>

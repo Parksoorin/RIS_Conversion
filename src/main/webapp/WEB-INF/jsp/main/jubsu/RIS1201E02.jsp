@@ -55,90 +55,94 @@
 	</main>
 
 	<script>
-        $("#list1").jqGrid({
-          datatype: "local",
-          
-          colNames: ["환자ID", "환자명", "성별", "나이", "생년월일", "내원구분", "처방일", "처방코드", "처방명", "촬영실", "응급", "수납", "DC", "접수일자", "접수시간", "접수자"],
-          colModel: [
-            { name: "PTNT_ID", index: "PTNT_ID", width: 90, align: "center" },
-            { name: "PTNT_NM", index: "PTNT_NM", width: 100, align: "center" },
-            { name: "??", index: "??", width: 150, align: "center" }, 
-            { name: "??", index: "??", width: 150, align: "center" },
-            { name: "??", index: "??", width: 150, align: "center" },
-            { name: "VIST_DVSN", index: "VIST_DVSN", width: 80, align: "center" },
-            { name: "ORDR_DATE", index: "ORDR_DATE", width: 80, align: "center" },
-            { name: "ORDR_CD", index: "ORDR_CD", width: 80, align: "center" },
-            { name: "ORDR_NM", index: "ORDR_NM", width: 80, align: "center" },
-            { name: "??", index: "??", width: 80, align: "center" },
-            { name: "EMRG_YN", index: "EMRG_YN", width: 80, align: "center" },
-            { name: "PMNT_YN", index: "PMNT_YN", width: 80, align: "center" },
-            { name: "DC_YN", index: "DC_YN", width: 80, align: "center" },
-            { name: "RCPT_DATE", index: "RCPT_DATE", width: 80, align: "center" },
-            { name: "RCPT_DTTM", index: "RCPT_DTTM", width: 80, align: "center" },
-            { name: "RCPT_PRSN_ID", index: "RCPT_PRSN_ID", width: 80, align: "center" },
-          ],
-          guiStyle: "bootstrap",
-          autowidth: true,
-          height: "94%",
-          rownumbers: true,
-          multiselect: true,
-          sortname: "id",
-          sortorder: "asc",
-          gridview: true, // 선표시 true/false
-          viewsortcols: [true, "vertical", true],
-          loadComplete: function (data) {
-            console.log(data);
-          }, // loadComplete END
-          onSelectRow: function (rowid) {
-            console.log(rowid);
-          },
-          onSortCol: function (index, idxcol, sortorder) {
-            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
-            // (화살표 css 변경하기 전 Frozen을 풀어주고)
-            $("#list1").jqGrid("destroyFrozenColumns");
-            var $icons = $(this.grid.headers[idxcol].el).find(
-              ">div.ui-jqgrid-sortable>span.s-ico"
-            );
-            if (this.p.sortorder === "asc") {
-              //$icons.find('>span.ui-icon-asc').show();
-              $icons.find(">span.ui-icon-asc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
-              $icons.find(">span.ui-icon-desc").hide();
-            } else {
-              //$icons.find('>span.ui-icon-desc').show();
-              $icons.find(">span.ui-icon-desc")[0].style.display = "";
-              $icons.find(">span.ui-icon-asc").hide();
-            }
-            // (화살표 css 변경 후 Frozen을 다시 설정)
-            $("#list1").jqGrid("setFrozenColumns");
-            //alert(index+'/'+idxcol+'/'+sortorder);
-          },
-        });
-        
-        
-        
-     	// 팝업 열기
-        function openPopup() {
-            // 팝업 창에 표시할 URL
-            var url = "/popup/RIS1201E03_POP.do";
-
-            // 팝업 창의 크기와 위치 설정
-            var width = 800;
-            var height = 500;
-            var left = (window.innerWidth - width) / 2;
-            var top = (window.innerHeight - height) / 2;
-
-            // 팝업 창을 열기
-            var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
-
-            console.log("popup : ", popup);
-            
-            // 팝업 창이 차단되었을 때 처리
-            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
-                alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
-            }
-        }
-        
+	$(document).ready(function() {
+		$("#list1").jqGrid("GridUnload");
+		$("#list1").jqGrid({
+			url: "/jubsu/RIS1201E02.do",
+			reordercolNames:true,
+			postData : { type: 'A' },
+			mtype:'POST',
+			datatype : "json",
+            colNames: ["환자ID", "환자명", "성별", "나이", "생년월일", "내원구분", "처방일", "처방코드", "처방명", "촬영실", "응급", "수납", "DC", "접수일자", "접수시간", "접수자"],
+            colModel: [
+	            { name: "ptntId", index: "ptntId", width: 90, align: "center" },
+	            { name: "ptntNm", index: "ptntNm", width: 100, align: "center" },
+	            { name: "gndrDvsn", index: "gndrDvsn", width: 150, align: "center" }, 
+	            { name: "brth", index: "brth", width: 150, align: "center" },
+	            { name: "brth", index: "brth", width: 150, align: "center" },
+	            { name: "vistDvsn", index: "vistDvsn", width: 80, align: "center" },
+	            { name: "ordrDate", index: "ordrDate", width: 80, align: "center" },
+	            { name: "ordrCd", index: "ordrCd", width: 80, align: "center" },
+	            { name: "ordrNm", index: "ordrNm", width: 80, align: "center" },
+	            { name: "mddlKrNm", index: "mddlKrNm", width: 80, align: "center" },
+	            { name: "emrgYn", index: "emrgYn", width: 80, align: "center" },
+	            { name: "pmntYn", index: "pmntYn", width: 80, align: "center" },
+	            { name: "dcYn", index: "dcYn", width: 80, align: "center" },
+	            { name: "rcptDate", index: "rcptDate", width: 80, align: "center" },
+	            { name: "rcptDttm", index: "rcptDttm", width: 80, align: "center" },
+	            { name: "rcptPrsnId", index: "rcptPrsnId", width: 80, align: "center" },
+	          ],
+	          autowidth: true,
+	          height: "94%",
+	          rownumbers: true,
+	          multiselect: true,
+	          sortname: "id",
+	          sortorder: "asc",
+	          gridview: true, // 선표시 true/false
+	          viewsortcols: [true, "vertical", true],
+	          loadComplete: function (data) {
+	            console.log(data);
+	          }, // loadComplete END
+	          onSelectRow: function (rowid) {
+	            console.log(rowid);
+	          },
+	          onSortCol: function (index, idxcol, sortorder) {
+	            // 그리드 Frozen Column에 정렬 화살표 표시 안되는 버그 수정
+	            // (화살표 css 변경하기 전 Frozen을 풀어주고)
+	            $("#list1").jqGrid("destroyFrozenColumns");
+	            var $icons = $(this.grid.headers[idxcol].el).find(
+	              ">div.ui-jqgrid-sortable>span.s-ico"
+	            );
+	            if (this.p.sortorder === "asc") {
+	              //$icons.find('>span.ui-icon-asc').show();
+	              $icons.find(">span.ui-icon-asc")[0].style.display = "";
+	              $icons.find(">span.ui-icon-asc")[0].style.marginTop = "1px";
+	              $icons.find(">span.ui-icon-desc").hide();
+	            } else {
+	              //$icons.find('>span.ui-icon-desc').show();
+	              $icons.find(">span.ui-icon-desc")[0].style.display = "";
+	              $icons.find(">span.ui-icon-asc").hide();
+	            }
+	            // (화살표 css 변경 후 Frozen을 다시 설정)
+	            $("#list1").jqGrid("setFrozenColumns");
+	            //alert(index+'/'+idxcol+'/'+sortorder);
+	          },
+	        });
+		});
+	        
+	        
+	     	// 팝업 열기
+	        function openPopup() {
+	            // 팝업 창에 표시할 URL
+	            var url = "/popup/RIS1201E03_POP.do";
+	
+	            // 팝업 창의 크기와 위치 설정
+	            var width = 800;
+	            var height = 500;
+	            var left = (window.innerWidth - width) / 2;
+	            var top = (window.innerHeight - height) / 2;
+	
+	            // 팝업 창을 열기
+	            var popup = window.open(url, "팝업 창", "width=" + width + ",height=" + height + ",left=" + left + ",top=" + top);
+	
+	            console.log("popup : ", popup);
+	            
+	            // 팝업 창이 차단되었을 때 처리
+	            if (!popup || popup.closed || typeof popup.closed == 'undefined') {
+	                alert("팝업 차단이 감지되었습니다. 팝업 차단을 해제해주세요.");
+	            }
+	        };
+	        
     </script>
 </body>
 </html>

@@ -53,4 +53,11 @@ public class RIS1201E0301DTO {
 	private String dcYn;  			// DC(DC여부)
 	private String retkYn;  		// 재촬영(재촬영 여부)	
 	
+	private String imgnRoomCd; 		// 촬영실 코드
+	private String ordrBdypCd; 		// 처방 부위 코드
+	
+	
+	
+	
+	
 }

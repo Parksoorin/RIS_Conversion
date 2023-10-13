@@ -261,7 +261,6 @@
           	 //alert(index+'/'+idxcol+'/'+sortorder);
          	 },
        	 });
-      
      });
       
       
@@ -403,81 +402,70 @@
    
    // 검색 기능
   	const searchGrid = function(startDate, endDate, keyword, grid) {
-	  	// searchGrid 함수는 검색어(value)와 데이터 그리드(grid)의 ID를 인수로 받고,
-	  	// 데이터 그리드를 검색어로 필터링하고 새로 고침하는 역할을 한다.			
-	  	$("#" + grid).jqGrid("setGridParam", {
-	  		datatype: "json", 
-	  		page: 1
-	  	}).trigger("reloadGrid");
-	  	// 파라미터를 설정하고, 새로고침하여 페이지를 1로 설정하고, 데이터 타입을 JSON으로 변경한다.
-	  			
-	  	$("#" + grid).jqGrid("setGridParam", {
-	  	// beforeProcessing 은 데이터를 처리하기 전에 호출되며, 데이터 그리드를 필터링한다.
-	  	beforeProcessing: function(data) {
-  			var filteredData = [];
-  					
-  			for (var i = 0; i < data.rows.length; i++) {
-  				var rowData = data.rows[i];
-  				var matched = false;
-  						
-	  			// 검색어와 일치하는지 확인
-	  			if(keyword) {
-	  				for (var key in rowData) {
-	  					var cellValue = rowData[key];
-	  							
-	  					if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(keyword)) {
-	  						matched = true;
-	  						break;
-	  					}
-	  				}
-	  			} else {
-	  				// 검색어가 비어 있을 때 모든 데이터를 포함
-	  				matched = true;
-	  			}
-	  			
-  				// 날짜 범위 내에 있는지 확인
-                  if (startDate && endDate) {
-                      var dateCellValue = rowData.ordrDate; // 날짜가 있는 열의 이름을 지정해야 합니다.
-                      if (dateCellValue) {
-                      	
-                          var dateValue = new Date(dateCellValue);
-                          
-                          if (dateValue >= startDate && dateValue <= endDate) {
-                        	  console.log(dateValue >= startDate, dateValue <= endDate);
-                              matched = true;
-                          } else {
-                        	  matched = false;
-                          }
-                      }
-                  } 
-  			
-		  			
-		  			if (matched) {
-  						filteredData.push(rowData);
-  					}
-  				}
-  			
-  			
-  				data.rows = filteredData;
-  			}
-  		});	
+	   // 데이터 그리드 설정
+  		$("#" + grid).jqGrid("setGridParam", {
+  			// 데이터 타입 및 페이지 설정
+  	        datatype: "json",
+  	        page: 1,
+  	        // 데이터를 처리하기 전 호출되며, 데이터 그리드를 필터링하는 주요 부분
+  	        beforeProcessing: function(data) {
+  	        	// 검색 조건에 부합하는 행을 저장하기 위한 배열
+  	            var filteredData = [];
+
+  	        	// 데이터 그리드의 각 행을 반복
+  	            for (var i = 0; i < data.rows.length; i++) {
+  	                var rowData = data.rows[i];
+  	                // matched 변수는 현재 행이 검색 조건과 일치하는지 여부를 나타내는 변수.
+  	                var matched = true; // 기본값을 true로 설정
+
+  	                // 날짜 범위 내에 있는지 확인
+					// 시작 날짜와 종료 날짜가 설정되어 있으면, 날짜 범위를 검사  	                
+  	                if (startDate && endDate) {
+  	                	// 현재 행의 날짜 값을 가져온다.
+  	                    var dateCellValue = rowData.ordrDate; // 날짜가 있는 열의 이름을 지정해야 합니다.
+  	                    // 날짜 값이 존재하면, 시작 및 종료 날짜와 비교하여 matched 변수를 업데이트 한다.
+  	                    if (dateCellValue) {
+  	                        var dateValue = new Date(dateCellValue);
+
+  	                        if (dateValue < startDate || dateValue > endDate) {
+  	                            matched = false; // 날짜 범위 밖에 있는 경우 false로 설정
+  	                        }
+  	                    }
+  	                }
+
+  	                // 검색어와 일치하는지 확인
+  	                // 검색어가 있고, matched가 true이면 현재 행의 모든 열 값을 검사하여 검색어와 일치하는지 확인한다.
+  	                if (keyword && matched) {
+  	                    var rowValues = Object.values(rowData);
+  	                    for (var j = 0; j < rowValues.length; j++) {
+  	                        var cellValue = rowValues[j];
+  	                        if (cellValue && cellValue.toString().replace(/\s+/g, "").toLowerCase().includes(keyword)) {
+  	                            matched = true;
+  	                            break;
+  	                        } else {
+  	                            matched = false; // 검색어와 일치하지 않는 경우 false로 설정
+  	                        }
+  	                    }
+  	                }
+					// matched 가 true이면 검색 조건에 부합하므로 filteredData 배열에 추가한다.
+  	                if (matched) {
+  	                    filteredData.push(rowData);
+  	                }
+  	            }
+				// 검색 조건에 부합하는 행으로 데이터를 업데이트 한다.
+  	            data.rows = filteredData;
+  	        }
+  		// 데이터 그리드를 새로 고침하여 변경된 데이터를 표시하도록 한다.
+  	    }).trigger("reloadGrid");
   	};
 
   		
-  	// date input 값 변경 이벤트 처리
-  	$(".inputDateClass").on("change", function() {
+ 	// date input 값 변경 이벤트 처리
+ 	// 날짜 및 섬색어 입력값이 변경될 때 searchGrid 함수를 호출한다.
+  	$(".inputDateClass, #inputKeyword").on("input change", function() {
   	    var startDate = new Date($("#startDateInput").val());
   	    var endDate = new Date($("#endDateInput").val());
   	    var keyword = $("#inputKeyword").val().replace(/\s+/g, "").toLowerCase();
-
-  	    searchGrid(startDate, endDate, keyword, "list1");
-  	});
-  		
-  	// list1 검색
-  	$("#inputKeyword").on("input", function() {
-  		var startDate = new Date($("#startDateInput").val());
-  	    var endDate = new Date($("#endDateInput").val());
-  	    var keyword = $(this).val().replace(/\s+/g, "").toLowerCase();
 
   	    searchGrid(startDate, endDate, keyword, "list1");
   	});

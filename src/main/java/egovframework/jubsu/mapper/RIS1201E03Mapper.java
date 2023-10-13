@@ -20,4 +20,6 @@ public interface RIS1201E03Mapper {
 	int changePkris();
 	int insertData(RIS1201DTO dto);
 	
+	
+	
 }
