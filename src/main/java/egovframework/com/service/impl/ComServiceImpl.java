@@ -133,9 +133,9 @@ public class ComServiceImpl implements ComService {
 	
 	// 사용자별 메뉴관리
 	@Override
-	public List<RisUserDTO> RisUserMenuList() {
+	public List<RisUserDTO> RisUserMenuList(String hsptId) {
 		// TODO Auto-generated method stub
-		return comMapper.RisUserMenuList();
+		return comMapper.RisUserMenuList(hsptId);
 	}
 	@Override
 	public List<RisUrmnDTO> RisUserMenuList2(Map<String, String> params) {

@@ -44,12 +44,12 @@ public class RISUSERMENUController {
 	// 그리드1
 	@RequestMapping(value = "/RISUSERMENU.do", method = RequestMethod.POST)
 	@ResponseBody
-	public JSONObject RISUSERMENU(@RequestParam String type, HttpSession session, HttpServletRequest request,
+	public JSONObject RISUSERMENU(@RequestParam String hsptId, HttpSession session, HttpServletRequest request,
 	        HttpServletResponse response, Model model) throws Exception {
 		
 		System.out.println("/RISUSERMENU.do POST!!!!");
 		JSONObject json = new JSONObject(); 
-		List<RisUserDTO> data =comService.RisUserMenuList(); 
+		List<RisUserDTO> data =comService.RisUserMenuList(hsptId); 
 		  
 		JSONArray rowsArray = new JSONArray(); 
 		JSONObject row = new JSONObject(); 

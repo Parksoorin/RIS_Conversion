@@ -57,20 +57,21 @@ pageEncoding="UTF-8"%>
 
     <script>
       	$(document).ready(function () {
+      		var hsptId = "${hspt_id}";
     	  	$("#list1").jqGrid("GridUnload");
       		$("#list1").jqGrid({
 	        	url: "/RISUSERMENU.do",   // 서버주소 
 	            reordercolNames:true,
-	            postData : { type: 'A' }, // 보낼 파라미터
+	            postData : { hsptId: hsptId }, // 보낼 파라미터
 	            mtype:'POST',   // 전송 타입
 	            datatype: "json",
-	          	colNames: ["사용자ID", "사용자명", "권한", "유효여부", "hsptId"],
+	          	colNames: ["hsptId", "사용자ID", "사용자명", "권한", "유효여부"],
 	          	colModel: [
+	          		{ name: "hsptId", index: "hsptId", hidden: true },
 		            { name: "loginId", index: "loginId", width: 135, align: "center" },
 		            { name: "loginNm", index: "loginNm", width: 135, align: "center" },
 		            { name: "mddlKrNm", index: "mddlKrNm", width: 135, align: "center" },
-		            { name: "useYn", index: "useYn", width: 80, align: "center" },
-		            { name: "hsptId", index: "hsptId", hidden: true },
+		            { name: "useYn", index: "useYn", width: 80, align: "center" }
 	          	],
 	          	jsonReader: 
 			  	{
