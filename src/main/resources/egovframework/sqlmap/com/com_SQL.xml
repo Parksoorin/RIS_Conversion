@@ -112,7 +112,7 @@
 		ORDER BY OTPT_SQNC ASC
 	</select>
 	
-	<!-- 메뉴 정보 관리 수정(메뉴 3) -->
+	<!-- 메뉴 정보 관리 그리드1 수정(메뉴 3) -->
 	<update id="updateMenuData" parameterType="egovframework.com.model.RisGrupDTO">
 		UPDATE risgrup
 		SET
@@ -122,7 +122,7 @@
 			HSPT_ID = #{hsptId} AND SYSTEM_ID = "XRTS" AND MENU_GROUP_ID = #{menuGroupId}
 	</update>
 	
-	<!-- 메뉴 정보 관리 입력(메뉴 3) -->
+	<!-- 메뉴 정보 관리 그리드1 입력(메뉴 3) -->
 	<insert id="addMenuData" parameterType="egovframework.com.model.RisGrupDTO">
 		INSERT INTO risgrup (
 			HSPT_ID, MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN, SYSTEM_ID
@@ -134,12 +134,37 @@
 		
 	<!-- 메뉴 정보 관리 그리드2(메뉴 3) -->
 	<select id="RisGrmuList" parameterType="String" resultType="egovframework.com.model.RisGrmuDTO">
-		SELECT A.MENU_ID, A.PGRM_ID, B.PGRM_NAME, A.MENU_NAME, A.MENU_NAME_SUB, A.UPPER_MENU_ID, A.MENU_LEVEL, A.OTPT_SQNC, A.USE_YN
+		SELECT A.HSPT_ID, A.MENU_GROUP_ID, A.MENU_ID, A.PGRM_ID, B.PGRM_NAME, A.MENU_NAME, A.MENU_NAME_SUB, A.UPPER_MENU_ID, A.MENU_LEVEL, A.OTPT_SQNC, A.USE_YN
 		FROM risgrmu A
+		LEFT JOIN risgrup M
+		ON A.MENU_GROUP_ID = M.MENU_GROUP_ID AND A.HSPT_ID = M.HSPT_ID 
+		
 		LEFT JOIN rispgrm B
 		ON A.PGRM_ID = B.PGRM_ID
-		WHERE MENU_GROUP_ID = #{menuGroupId} AND A.HSPT_ID = #{hsptId}
+		WHERE A.MENU_GROUP_ID = #{menuGroupId} AND A.HSPT_ID = #{hsptId}
 	</select>
+	
+	<!-- 메뉴 정보 관리 그리드2 수정(메뉴 3) -->
+	<update id="updateMenuData2" parameterType="egovframework.com.model.RisGrmuDTO">
+		UPDATE risgrmu
+		SET
+			PGRM_ID = #{pgrmId}, 
+			MENU_NAME = #{menuName}, 
+			MENU_NAME_SUB = #{menuNameSub}, 
+			OTPT_SQNC = #{otptSqnc}, 
+			USE_YN = #{useYn}
+		WHERE
+			HSPT_ID = #{hsptId} AND SYSTEM_ID = "XRTS" AND MENU_ID = #{menuId} AND PGRM_ID = #{pgrmId}
+	</update>
+	
+	<insert id="addMenuData2" parameterType="egovframework.com.model.RisGrmuDTO">
+		INSERT INTO risgrmu (
+			HSPT_ID, MENU_GROUP_ID, MENU_ID, PGRM_ID, MENU_NAME, MENU_NAME_SUB, UPPER_MENU_ID, MENU_LEVEL, OTPT_SQNC, USE_YN, SYSTEM_ID
+		)
+		VALUES (
+			'A001', #{menuGroupId}, #{menuId}, #{pgrmId}, #{menuName}, #{menuNameSub}, #{upperMenuId}, #{menuLevel}, #{otptSqnc}, #{useYn}, "XRTS"
+		); 
+	</insert>
 	
 	<!-- 메뉴 정보 관리 팝업(메뉴 3) -->
 	<select id="popupGrmuList" resultType="egovframework.com.model.RisGrmuDTO">
@@ -150,17 +175,7 @@
 		WHERE A.HSPT_ID = #{hsptId}
 	</select>
 	
-	<!-- risMenuE00 그리드1 저장(메뉴정보 관리)
-	<insert id="addList1Data" parameterType="egovframework.com.model.RisGrupDTO">
-		INSERT INTO risgrup (
-			MENU_GROUP_ID, MENU_GROUP_NAME, OTPT_SQNC, USE_YN
-		)
-		VALUES (
-			#{menuGroupId}, #{menuGroupName}, #{otptSqnc}, #{useYn}
-		)
-	</insert>
-	 -->
-		
+	
 		
 	<!-- 사용자별 메뉴관리 그리드1(메뉴 4)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisUserMenuList" resultType="egovframework.com.model.RisUserDTO">

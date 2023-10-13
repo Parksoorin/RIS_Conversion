@@ -156,9 +156,11 @@ pageEncoding="UTF-8"%>
 	            }, // 보낼 파라미터
 	            mtype:'POST',   // 전송 타입
 	            datatype: "json",
-	            colNames: ["flag", "메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
+	            colNames: ["hsptId", "flag", "menuGroupId", "메뉴ID", "프로그램ID", "프로그램명", "메뉴명", "메뉴 서브 네임", "상위메뉴", "LEV", "순서", "사용"],
 	            colModel: [
+	            	{ name: "hsptId", index: "hsptId", hidden: true},
 	            	{ name: "flag", index: "flag", hidden: true},
+	            	{ name: "menuGroupId", index: "menuGroupId", hidden: true},
 		            { name: "menuId", index: "menuId", width: 50, align: "center", editable: true },
 		            { name: "pgrmId", index: "pgrmId", width: 90, align: "center", editable: true },
 		            { name: "pgrmName", index: "pgrmName", width: 150, align: "center" },
@@ -187,6 +189,7 @@ pageEncoding="UTF-8"%>
 	          	autowidth: true,
 	          	height: "93%",
 	          	rownumbers: true,
+	          	rowNum: 999, // 페이징 해제
 	          	sortname: "id",
 	          	sortorder: "asc",
 	          	gridview: true, // 선표시 true/false
@@ -338,6 +341,7 @@ pageEncoding="UTF-8"%>
             var grid = $("#list2");
             var rowData = grid.jqGrid('getRowData', selectedRowId);
 		    rowData.flag = 'U';
+		    grid.jqGrid('setRowData', selectedRowId, rowData);
 		    
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
@@ -371,6 +375,11 @@ pageEncoding="UTF-8"%>
 	    var rowId = $("#list2").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
       	var selectedRowId = $("#list2").jqGrid('getGridParam', 'selrow');
 	    newRowData.flag = 'I';
+	    newRowData.menuLevel = '';
+	    var rowid2, menuGroupId;
+        rowid2  = $("#list1").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값 */
+	    menuGroupId = $("#list1").jqGrid('getRowData', rowid2).menuGroupId;
+	    newRowData.menuGroupId = menuGroupId;
 	    if (!selectedRowId) {
 	    	grid.jqGrid("addRowData", rowId+1, newRowData, 'last');
 	    
@@ -396,6 +405,10 @@ pageEncoding="UTF-8"%>
       	var selectedRowId = $("#list2").jqGrid('getGridParam', 'selrow');
 	    newRowData.flag = 'I';
 	    newRowData.menuLevel = 'LV2';
+	    var rowid2, menuGroupId;
+        rowid2  = $("#list1").jqGrid('getGridParam', 'selrow' );  // 선택한 열의 아이디값 */
+	    menuGroupId = $("#list1").jqGrid('getRowData', rowid2).menuGroupId;
+	    newRowData.menuGroupId = menuGroupId;
 	    if (!selectedRowId) {
 	    	grid.jqGrid("addRowData", rowId+1, newRowData, 'last');
 	    
@@ -458,7 +471,43 @@ pageEncoding="UTF-8"%>
 	    }
     });
 
+	// 그리드2 저장
+	$("#save__btn2").click(function (){
+	    console.log('저장 버튼 눌림');
+	    var hsptId = "${hspt_id}";
+	    var totalRows = $("#list2").jqGrid('getGridParam', 'records');
+	    for (var i = 1; i <= totalRows; i++) {
+	    	// 나머지 코드는 그대로 두고 loginPwd 값을 설정한 후 saveRow 호출
+	        $("#list2").jqGrid('saveRow', i, false, 'clientArray');
+	        let data = $("#list2").jqGrid("getRowData", i);
+
+	        /* if (data.flag === 'U' || data.flag === 'I') {
+	            if (data.loginId === '' || data.loginNm === '' || data.loginPwd === ''
+	                || data.userGrade === '' || data.appnImpsText === ''
+	                || data.startDate === '' || data.endDate === '') {
+	                alert('미입력 사항이 있습니다.');
+	                return;
+	            }
+	        } */
+	    }
 	
+	    var list2Data = $("#list2").getRowData();
+	    console.log(list2Data);
+	    $.ajax({
+	        type: 'post',
+	        url: '/rismenuSavaData2.do',
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        data: JSON.stringify(list2Data),
+	        success: function (result) {
+	            console.log(result);
+	            reloadGrid();
+	        },
+	        error: function (error) {
+	            console.log(error)
+	        }
+	    });
+	});
 	
 	
  	// 검색 기능

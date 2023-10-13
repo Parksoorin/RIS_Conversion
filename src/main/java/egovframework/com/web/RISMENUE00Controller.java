@@ -85,7 +85,7 @@ public class RISMENUE00Controller {
 	}
 	
 	
-	// 저장
+	// 그리드1 저장
 	@RequestMapping(value = "/rismenuSavaData.do", method = RequestMethod.POST)
 	@ResponseBody
 	public JSONObject saveBtn(@RequestBody List<RisGrupDTO> dtos, HttpSession session, HttpServletRequest request,
@@ -104,6 +104,38 @@ public class RISMENUE00Controller {
 	                break;
 	            case "I":
 	                result = comService.addMenuData(dto);
+	                break;
+                default:
+                	continue;
+	        }
+	        if (result < 1) {
+	            json.put("result", "error");
+	            return json;
+	        }
+	    }
+	    json.put("result", "success");
+	    return json;
+	}
+	
+	// 그리드2 저장
+	@RequestMapping(value = "/rismenuSavaData2.do", method = RequestMethod.POST)
+	@ResponseBody
+	public JSONObject saveBtn2(@RequestBody List<RisGrmuDTO> dtos, HttpSession session, HttpServletRequest request,
+	                           HttpServletResponse response, Model model) throws Exception {
+		
+	    JSONObject json = new JSONObject();
+	    for (RisGrmuDTO dto : dtos) {
+	        String flag = dto.getFlag();
+	        System.out.println("-----------------------");
+	        System.out.println(flag);
+	        System.out.println(dto);
+	        int result = 0;
+	        switch (flag) {
+	            case "U":
+	                result = comService.updateMenuData2(dto);
+	                break;
+	            case "I":
+	                result = comService.addMenuData2(dto);
 	                break;
                 default:
                 	continue;

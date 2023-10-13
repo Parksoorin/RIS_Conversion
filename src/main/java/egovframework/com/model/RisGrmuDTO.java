@@ -55,4 +55,5 @@ public class RisGrmuDTO {
 	@Max(50)
 	private String menuNameSub;
 	private String pgrmName;
+	private String flag;
 }
