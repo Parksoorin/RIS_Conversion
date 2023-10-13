@@ -19,7 +19,7 @@
              <c:forEach var="menu" items="${sessionScope.menuList}">
     		<fmt:parseNumber var="menuInt" type="number" value="${menu.menuId}" />
 		
-			<c:if test="${menuInt % 10 == 0}">
+			<c:if test="${empty menu.menuLevel}">
 				<li class="main__menu-items">
                 	${menu.menuName} 
 					<div class="sub__menu-item">
