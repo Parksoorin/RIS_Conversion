@@ -287,7 +287,7 @@ pageEncoding="UTF-8"%>
 
         <div class="twoGrid__container" >
           <!-- 그리드 타이틀 -->
-          <div class="grid__title" style="display:none">
+          <div class="grid__title">
             <button id="reload-btn2" class="all__btn img__btn update__btn"><spring:message code="button_014" text="갱신" /></button>
 
             <!-- 버튼 컨테이너 -->
