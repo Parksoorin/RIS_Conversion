@@ -48,7 +48,7 @@ pageEncoding="UTF-8"%>
             <div class="btn__container">
              	<button class="all__btn img__btn fontawesome__btn update__icon" id="update-row__btn2">수정</button>
         		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn2">입력</button>
-        		<button class="all__btn img__btn fontawesome__btn insert__icon">하위메뉴</button>
+        		<button class="all__btn img__btn fontawesome__btn insert__icon" id="add-row__btn3">하위메뉴</button>
 		    	<button class="all__btn img__btn fontawesome__btn delete__icon" id="delete-row__btn2">삭제</button>
     			<button class="all__btn img__btn fontawesome__btn save__icon" id="save__btn2">저장</button>
             </div>
@@ -336,7 +336,9 @@ pageEncoding="UTF-8"%>
         if (selectedRowId) {    	  	  	
         	// 선택한 행이 있는 경우 편집 모드로 진입
             var grid = $("#list2");
-            
+            var rowData = grid.jqGrid('getRowData', selectedRowId);
+		    rowData.flag = 'U';
+		    
             // 모든 컬럼을 가져옵니다.
             var allColumns = grid.jqGrid('getGridParam', 'colModel');
             
@@ -360,20 +362,52 @@ pageEncoding="UTF-8"%>
             alert("편집할 행을 먼저 선택하세요.");
         }
     })
+    
  	// 그리드2 입력
 	$("#add-row__btn2").on("click", function () {
     	var newRowData = {};
     	var grid = $("#list2");
 	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
-	    grid.jqGrid("addRowData", newRowId, newRowData, "first");
+	    var rowId = $("#list2").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
+      	var selectedRowId = $("#list2").jqGrid('getGridParam', 'selrow');
 	    newRowData.flag = 'I';
-
+	    if (!selectedRowId) {
+	    	grid.jqGrid("addRowData", rowId+1, newRowData, 'last');
+	    
+      	} else {
+      		grid.jqGrid("addRowData", rowId +1, newRowData, 'after', selectedRowId);
+      		
+      	}
 	    // 선택한 행을 편집 모드로 진입합니다.
 	    grid.jqGrid("editRow", newRowId, {
 	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
 	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
 	    });
 	    
+	    grid.jqGrid('setRowData', newRowId, { "pgrmId": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopup()"></button>'});
+    });
+ 	
+ 	// 그리드2 하위메뉴
+	$("#add-row__btn3").on("click", function () {
+    	var newRowData = {};
+    	var grid = $("#list2");
+	    var newRowId = grid.jqGrid("getGridParam", "reccount") + 1;
+	    var rowId = $("#list2").getGridParam("reccount"); // 페이징 처리 시 현 페이지의 Max RowId 값
+      	var selectedRowId = $("#list2").jqGrid('getGridParam', 'selrow');
+	    newRowData.flag = 'I';
+	    newRowData.menuLevel = 'LV2';
+	    if (!selectedRowId) {
+	    	grid.jqGrid("addRowData", rowId+1, newRowData, 'last');
+	    
+      	} else {
+      		grid.jqGrid("addRowData", rowId +1, newRowData, 'after', selectedRowId);
+      		
+      	}
+	    // 선택한 행을 편집 모드로 진입합니다.
+	    grid.jqGrid("editRow", newRowId, {
+	        keys: true,  // 엔터 키를 누를 때 저장되도록 설정합니다.
+	        focusField: 1  // 수정을 시작할 필드의 인덱스를 설정합니다.
+	    });
 	    grid.jqGrid('setRowData', newRowId, { "pgrmId": '<button class="all__btn fontawesome__btn list__icon" onclick="openPopup()"></button>'});
     });
  	
