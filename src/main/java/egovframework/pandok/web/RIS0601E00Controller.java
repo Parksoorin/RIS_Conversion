@@ -62,12 +62,22 @@ public class RIS0601E00Controller {
 		JSONObject json = new JSONObject();
 		
 		String userGrade = session.getAttribute("user_grade").toString();
+		String docId = map.get("docId").toString();
 		
 		Map<String, String> param = new HashMap<>();
 		
 		// 의사ID와 촬영구분 parameter로 설정
 		param.put("hsptId", map.get("hsptId").toString());
-		param.put("docId", "S".equals(userGrade) || "A".equals(userGrade) ? "all" : map.get("docId").toString());
+		
+		if (!"COMMON".equals(docId)) {
+			if ("S".equals(userGrade) || "A".equals(userGrade)) {
+				docId = "all";
+			}
+		} else {
+			docId = "COMMON";
+		}
+		
+		param.put("docId", docId);
 		param.put("imgnDvsn", "%".equals(map.get("imgnDvsn").toString()) ? "all" : map.get("imgnDvsn").toString());
 		
 		System.out.println(param);
