@@ -171,6 +171,16 @@ pageEncoding="UTF-8"%>
  	  var userGrade = "${user_grade}";
  	  var editYn = false;
  	  
+	  var date = new Date();
+	  var day = date.getDate();
+	  var month = date.getMonth() + 1;
+	  var year = date.getFullYear();
+
+	  if (month < 10) month = "0" + month;
+	  if (day < 10) day = "0" + day;
+
+	  var today = year + "-" + month + "-" + day;  
+ 	  
  	  
 	  function drawGrid1() {
 		var viewYn = $("input[name='viewYn']:checked").val();
@@ -385,7 +395,10 @@ pageEncoding="UTF-8"%>
       
 	  
 	  // 페이지 로드시 
-	  $(document).ready(function () {
+	  $(document).ready(function () {     
+		  $("#startDate").val(today);
+		  $("#endDate").val(today);
+		  
 		  drawGrid1();
 		  drawGrid2();
 		  
@@ -527,8 +540,8 @@ pageEncoding="UTF-8"%>
 		  $("#ptntSex").val("");
 		  $("input[name='viewYn']:input[value='allView']").prop('checked', true);
 		  $("input[name='voicViewYn']:input[value='allView']").prop('checked', true);
-		  $("#startDate").val("");
-		  $("#endDate").val("");
+		  $("#startDate").val(today);
+		  $("#endDate").val(today);
 		  $("#ris1301Dvsn").val("%");
 		  $("#ris0601Dvsn").val("%");
 		  
