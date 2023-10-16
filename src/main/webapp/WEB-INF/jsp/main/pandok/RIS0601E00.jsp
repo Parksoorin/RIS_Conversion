@@ -141,6 +141,7 @@ pageEncoding="UTF-8"%>
               url: "/pandok/getRis0601List.do",
               reordercolNames:true,
               postData: {
+            	  common: 'false',
             	  hsptId: hsptId,
             	  docId: selectDocId,
             	  imgnDvsn: selectImgnDvsn 

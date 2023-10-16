@@ -66,6 +66,7 @@ public class RIS0601E00Controller {
 		Map<String, String> param = new HashMap<>();
 		
 		// 의사ID와 촬영구분 parameter로 설정
+		param.put("common", map.get("common").toString());
 		param.put("hsptId", map.get("hsptId").toString());
 		param.put("docId", map.get("docId").toString());
 		param.put("imgnDvsn", "%".equals(map.get("imgnDvsn").toString()) ? "all" : map.get("imgnDvsn").toString());

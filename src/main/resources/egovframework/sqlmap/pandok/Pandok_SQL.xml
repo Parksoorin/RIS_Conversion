@@ -5,7 +5,7 @@
 		SELECT DOC_ID, TMPL_CD, IMGN_DVSN_CD, B.MDDL_KR_NM, VIEW_ABBR_NM, VIEW_TEXT
           FROM ris0601 A
           JOIN ris0102 B
-            ON B.LRGC_CD = "IMGN_DVSN_CD" AND A.IMGN_DVSN_CD = B.MDDL_CD
+            ON B.LRGC_CD = 'IMGN_DVSN_CD' AND A.IMGN_DVSN_CD = B.MDDL_CD
          <where>B.HSPT_ID = #{hsptId}
          	<if test="imgnDvsn != 'all'">
          		AND A.IMGN_DVSN_CD = #{imgnDvsn}
@@ -13,7 +13,21 @@
          	<if test="docId != 'all'">
          		AND DOC_ID = #{docId}
          	</if>
-         </where>;
+         </where>
+         
+         <if test="common == 'true'">
+	         UNION
+	        SELECT DOC_ID, TMPL_CD, IMGN_DVSN_CD, B.MDDL_KR_NM, VIEW_ABBR_NM, VIEW_TEXT
+	          FROM ris0601 A
+	          JOIN ris0102 B
+	            ON B.LRGC_CD = 'IMGN_DVSN_CD' AND A.IMGN_DVSN_CD = B.MDDL_CD
+	         <where>B.HSPT_ID = #{hsptId}
+	         	<if test="imgnDvsn != 'all'">
+	         		AND A.IMGN_DVSN_CD = #{imgnDvsn}
+	         	</if>
+	         		AND DOC_ID = 'COMMON'
+	         </where>
+         </if>
 	</select>
 	
 	<select id="getRis0102List" parameterType="java.lang.String" resultType="egovframework.pandok.model.Ris0102DTO">
