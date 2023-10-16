@@ -235,7 +235,6 @@ pageEncoding="UTF-8"%>
 	 	  },
 	      autowidth: true,
 	      height: "83%",
-	      scroll: true,
 	      loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때   
 		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
 		  rowNum: 999999,
@@ -305,6 +304,14 @@ pageEncoding="UTF-8"%>
       function drawGrid2() {
     	var ris0601Dvsn = $("#ris0601Dvsn").val();
     	
+    	console.log(userGrade);
+    	
+    	if (userGrade === 'S' || userGrade === 'A') {
+    		loginId = 'all';
+    	}
+    	
+    	console.log(loginId);
+    	
     	$("#list2").jqGrid("GridUnload");
     	$("#list2").jqGrid({
     	  url: "/pandok/getRis0601List.do",
@@ -320,19 +327,24 @@ pageEncoding="UTF-8"%>
           colModel: [
             { name: "docId",      index: "docId",      hidden: true },
             { name: "tmplCd",     index: "tmplCd",     hidden: true },
-            { name: "mddlKrNm",   index: "mddlKrNm",   width: 100,   align: "left" },
+            { name: "mddlKrNm",   index: "mddlKrNm",   width: 150,   align: "left" },
             { name: "viewAbbrNm", index: "viewAbbrNm", width: 100,   align: "left" },
             { name: "viewText",   index: "viewText",   width: 200,   align: "left" },
           ],
           jsonReader: {
-   		  repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
-   		  root:'ris0601Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
-   		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
+	   		  repeatitems: false, //서버에서 받은 data와 Grid 상의 column 순서를 맞출것인지?
+	   		  root:'ris0601Data', //서버의 결과 내용에서 데이터를 읽어오는 기준점
+	   		  records:'records'  // 보여지는 데이터 개수(레코드) totalRecord 
    	      },
           autowidth: true,
           height: "85%",
+          autoScroll: true,
+          loadtext : "자료 조회중입니다. 잠시만 기다리세요..." ,   // 데이터 로드중일때      
+  		  emptyrecords: "데이터가 존재하지 않습니다.",  // 데이터 없을때
+          rowNum: 999999,
           rownumbers: true,
           gridview: true, // 선표시 true/false
+          loadonce: true,
           rowattr: function (rowData, currentObj, rowId) {
         	// 행의 최대 높이 설정(작동 안함)
        	    return { 'class': 'max-height-row' };
