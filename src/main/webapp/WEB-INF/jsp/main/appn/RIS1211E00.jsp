@@ -43,7 +43,7 @@ pageEncoding="UTF-8"%>
         <input id="date2" type="date" class="margin-10">
         <p class="filter__keyword margin-10"><spring:message code="text_145" text="환자명" /> </p>
         <input id="ptntInput" type="text" class="margin-10">
-        <button id="ptntListBtn" class="all__btn img__btn img__btn update__btn margin-10 tooltip"><spring:message code="text_142" text="찾기" />
+        <button id="ptntListBtn" class="all__btn   update__btn margin-10 tooltip"><spring:message code="text_142" text="찾기" />
         	<span class="tooltiptext tooltip-top">환자 번호를 팝업창으로 찾을 수 있습니다.</span>
         </button>
         <p class="filter__keyword margin-10"><spring:message code="text_100" text="촬영실구분환자명" /> </p>
@@ -67,7 +67,7 @@ pageEncoding="UTF-8"%>
         <label for="appointment-reserved" class="filter__keyword margin-10"><spring:message code="button_017" text="예약" /> </label>
         <input type="radio" value="0" id="appointment-unreserved" class="margin-10" name="appointment-gubun" >
         <label for="appointment-unreserved" class="filter__keyword margin-10"><spring:message code="text_162" text="미예약" /> </label>
- 		<button class="all__btn img__btn img__btn update__btn margin-10 tooltip"><spring:message code="message_056" text="검색" />
+ 		<button class="all__btn   update__btn margin-10 tooltip"><spring:message code="message_056" text="검색" />
  			<span class="tooltiptext tooltip-top">조회일자, 환자명, 촬영실, 예약여부를 입력받아 예약 현황을 조회할 수 있습니다.</span>
  		</button>
       </section>
@@ -159,7 +159,7 @@ pageEncoding="UTF-8"%>
             <div class="btn__container">
               	<c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						<button id="appnBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_017" text="예약" />
+						<button id="appnBtn" class="all__btn tooltip"><spring:message code="button_017" text="예약" />
 			              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 할 수 있습니다.</span>
 			             </button>
 				    </c:when>
@@ -188,7 +188,7 @@ pageEncoding="UTF-8"%>
             <div class="btn__container">
             		<c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						  <button id="appnCancelBtn" class="all__btn img__btn save__btn tooltip"><spring:message code="button_004" text="취소" />
+						  <button id="appnCancelBtn" class="all__btn  save__btn tooltip"><spring:message code="button_004" text="취소" />
 			              	<span class="tooltiptext tooltip-top">환자 정보를 클릭 후 예약을 취소할 수 있습니다.</span>
 			              </button>		
 				    </c:when>

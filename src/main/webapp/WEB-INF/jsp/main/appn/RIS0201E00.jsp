@@ -128,15 +128,15 @@ pageEncoding="UTF-8"%>
         <input id="date1" type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input id="date2" type="date">
-        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
+        <button id="search-btn" class="all__btn  search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
         	<span class="tooltiptext tooltip-top">촬영실을 선택하여 시작일 ~ 종료일로 예약 현황을 조회할 수 있습니다.</span>
         </button>
         <c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						 <button id="appn-apply-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_126" text="예약기준 적용" />
+						 <button id="appn-apply-btn" class="all__btn  search__btn ma_left_1 tooltip"><spring:message code="text_126" text="예약기준 적용" />
 				        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 월요일~일요일의 예약 기준을 적용합니다.</span>
 				        </button>
-				        <button id="appn-delete-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="text_127" text="예약기준 삭제" />
+				        <button id="appn-delete-btn" class="all__btn  search__btn ma_left_1 tooltip"><spring:message code="text_127" text="예약기준 삭제" />
 				        	<span class="tooltiptext tooltip-top">촬영실, 시작일~종료일을 입력받아 해당 기간의 예약 기준을 삭제합니다.</span>
 				        </button>			
 				    </c:when>
@@ -160,7 +160,7 @@ pageEncoding="UTF-8"%>
                   
                   <c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						 <button id="rule-btn" class="all__btn img__btn update__btn top-25 margin-10 tooltip">기준 생성 
+						 <button id="rule-btn" class="all__btn  update__btn top-25 margin-10 tooltip">기준 생성 
 		                  	<span class="tooltiptext tooltip-top"><div>새로 생성 : 기존 예약 기준을 삭제 후 새로운 예약 기준을 적용합니다.</div><div>추가 생성 : 기존 예약 기준에 예약 기준을 추가합니다.</div></span>
 		                  </button>	
 				    </c:when>
@@ -210,17 +210,17 @@ pageEncoding="UTF-8"%>
             <div class="grid__title__flex">
               <div class="flex">
                 <p class="line-height-50 margin-10"><spring:message code="text_128" text="요일설정" /></p>
-                <button id="reload-btn" class="all__btn img__btn update__btn top-25"><spring:message code="button_014" text="갱신" /></button>
+                <button id="reload-btn" class="all__btn  update__btn top-25"><spring:message code="button_014" text="갱신" /></button>
               </div>
               
               <!-- 버튼 컨테이너 -->
               <div class="btn__container">
               	<c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						  <button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-		                <button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-		                <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-		                <button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+						  <button id="update-btn" class="all__btn  update__btn"><spring:message code="button_005" text="수정" /></button>
+		                <button id="input-btn" class="all__btn  insert__btn"><spring:message code="button_007" text="입력" /></button>
+		                <button id="delete-btn" class="all__btn  delete__btn"><spring:message code="button_006" text="삭제" /></button>
+		                <button id="save-btn" class="all__btn  save__btn"><spring:message code="button_008" text="저장" /></button>
 				    </c:when>
 				    <c:otherwise>
 				        <!-- 다른 경우 처리할 코드 -->
@@ -288,17 +288,17 @@ pageEncoding="UTF-8"%>
         <div class="twoGrid__container" >
           <!-- 그리드 타이틀 -->
           <div class="grid__title">
-            <button id="reload-btn2" class="all__btn img__btn update__btn"><spring:message code="button_014" text="갱신" /></button>
+            <button id="reload-btn2" class="all__btn  update__btn"><spring:message code="button_014" text="갱신" /></button>
 
             <!-- 버튼 컨테이너 -->
             <div class="btn__container">
             
             	<c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						 <button id="update-btn2" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-			              <button id="input-btn2" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-			              <button id="delete-btn2" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-			              <button id="save-btn2" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+						 <button id="update-btn2" class="all__btn  update__btn"><spring:message code="button_005" text="수정" /></button>
+			              <button id="input-btn2" class="all__btn  insert__btn"><spring:message code="button_007" text="입력" /></button>
+			              <button id="delete-btn2" class="all__btn  delete__btn"><spring:message code="button_006" text="삭제" /></button>
+			              <button id="save-btn2" class="all__btn  save__btn"><spring:message code="button_008" text="저장" /></button>
 				    </c:when>
 				    <c:otherwise>
 				        <!-- 다른 경우 처리할 코드 -->

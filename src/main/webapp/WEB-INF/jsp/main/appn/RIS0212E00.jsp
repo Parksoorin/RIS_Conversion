@@ -22,7 +22,7 @@
         <input id="date1" type="date">
         <p class="filter__keyword ma_left_1"> ~</p>
         <input id="date2" type="date">
-        <button id="search-btn" class="all__btn img__btn search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
+        <button id="search-btn" class="all__btn  search__btn ma_left_1 tooltip"><spring:message code="message_056" text="검색" />
         	<span class="tooltiptext tooltip-top">시작일 ~ 종료일로 휴일목록을 조회할 수 있습니다.</span>
         </button>
       		
@@ -38,10 +38,10 @@
         <div class="btn__container">
         		<c:choose>
 				    <c:when test="${sessionScope.user_grade eq 'S' || sessionScope.user_grade eq 'A' || sessionScope.user_grade eq 'D'}">
-						<button id="update-btn" class="all__btn img__btn update__btn"><spring:message code="button_005" text="수정" /></button>
-			        	<button id="input-btn" class="all__btn img__btn insert__btn"><spring:message code="button_007" text="입력" /></button>
-					    <button id="delete-btn" class="all__btn img__btn delete__btn"><spring:message code="button_006" text="삭제" /></button>
-			    		<button id="save-btn" class="all__btn img__btn save__btn"><spring:message code="button_008" text="저장" /></button>
+						<button id="update-btn" class="all__btn  update__btn"><spring:message code="button_005" text="수정" /></button>
+			        	<button id="input-btn" class="all__btn  insert__btn"><spring:message code="button_007" text="입력" /></button>
+					    <button id="delete-btn" class="all__btn  delete__btn"><spring:message code="button_006" text="삭제" /></button>
+			    		<button id="save-btn" class="all__btn  save__btn"><spring:message code="button_008" text="저장" /></button>
 				    </c:when>
 				    <c:otherwise>
 				        <!-- 다른 경우 처리할 코드 -->
