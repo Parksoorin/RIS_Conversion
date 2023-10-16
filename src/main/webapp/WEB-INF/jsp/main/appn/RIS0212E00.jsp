@@ -391,13 +391,13 @@
           },    
           colNames: ["구분", "휴일 일자", "휴일 내용", "병원ID-Hidden", "등록아이디", "등록한날짜", "수정한아이디", "수정한날짜"],
           colModel: [
-            { name: "flag", index: "flag", width: 40, align: "center" },
-            { name: "hldyDate", index: "hldyDate", width: 100, align: "center", editable:true, editoptions: {type: "date"}},
+            { name: "flag", index: "flag", width: 30, align: "center" },
+            { name: "hldyDate", index: "hldyDate", width: 50, align: "center", editable:true, editoptions: {type: "date"}},
             {
               name: "hldyText",
               index: "hldyText",
               width: 150,
-              align: "center",
+              align: "left",
               editable:true
             },
             { name: "hsptId", index: "hsptId", editoptions: { defaultValue: 'A001'}, hidden: true },
