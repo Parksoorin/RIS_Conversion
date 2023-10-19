@@ -211,11 +211,16 @@
 		
 	<!-- 프로그램 기능 권한 그리드(메뉴 5)ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ -->
 	<select id="RisBtnList" resultType="egovframework.com.model.RisBtnDTO">
-		SELECT A.DATA_GUBUN, A.USER_GRADE, B.PGRM_NAME, A.PGRM_BTN, A.USE_YN
+		SELECT A.DATA_GUBUN, C.MDDL_KR_NM, B.PGRM_NAME, A.PGRM_BTN, A.USE_YN
 		FROM risbtn A
 		LEFT JOIN rispgrm B
 		ON A.HSPT_ID = B.HSPT_ID 
 		AND A.PGRM_ID = B.PGRM_ID
+		
+		LEFT JOIN ris0102 C
+		ON A.HSPT_ID = C.HSPT_ID 
+		AND A.USER_GRADE = C.MDDL_CD
+		WHERE C.LRGC_CD = "GRADE"
 	</select>
 	
 </mapper>

@@ -41,4 +41,5 @@ public class RisBtnDTO {
 	private String mdfcId;
 	private String mdfcDttm;
 	private String pgrmName;
+	private String mddlKrNm;
 }

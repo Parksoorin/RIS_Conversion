@@ -48,8 +48,8 @@
           colNames: ["구분", "사용자명", "프로그램명", "기능명", "사용"],
           colModel: [
             { name: "dataGubun", index: "dataGubun", width: 50, align: "center" },
-            { name: "userGrade", index: "userGrade", width: 100, align: "center" },
-            { name: "pgrmId", index: "pgrmId", width: 100, align: "center" },
+            { name: "mddlKrNm", index: "mddlKrNm", width: 100, align: "center" },
+            { name: "pgrmName", index: "pgrmName", width: 100, align: "center" },
             { name: "pgrmBtn", index: "pgrmBtn", width: 100, align: "center" },
             { 
                 name: "useYn", 
