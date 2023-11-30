@@ -51,14 +51,41 @@
 > 메뉴 정보관리 화면
 <br />
 
+![메뉴정보관리_팝업](https://github.com/Parksoorin/WeatherApp/assets/101718825/b3fc4da7-e267-4cb0-9e5e-554cd383ff4a)
+<br />
+> 입력 후 추가된 행의 버튼을 누르면 나오는 팝업
+<br />
 
+![메뉴정보관리_팝업선택상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/1013eca3-a2d5-4092-80b4-b884879e3b8b)<br />
+> 팝업에서 행 선택 시 
+<br />
 
+![메뉴정보관리_상위메뉴추가상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/29c1f696-953e-47a8-934c-272ff7ce76b2)<br />
+> 나머지 값 입력
+<br />
+
+![메뉴정보관리_재생성](https://github.com/Parksoorin/WeatherApp/assets/101718825/839eb1c0-4a90-4aea-9ccf-7e773d9816db)
+<br />
+> 입력값 저장 후 메뉴재생성 클릭 시 상위메뉴 "1"이 추가된다. 
+<br />
+
+![메뉴정보관리_하위메뉴수정상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/fd798131-80c2-4a10-ac0c-dffe17502ff5)<br />
+> 하위메뉴 수정
+<br />
+
+![메뉴정보관리_하위메뉴수정결과](https://github.com/Parksoorin/WeatherApp/assets/101718825/b8fe9797-51e6-4e2a-802e-e5c1abd75cec)<br />
+> 하위메뉴 수정 후 메뉴재생성 클릭 시 결과
+<br />
 
 ### 메뉴관리 : 사용자별 메뉴관리
-
+![사용자별메뉴관리_기본](https://github.com/Parksoorin/WeatherApp/assets/101718825/e42b099c-32e9-403e-89d4-602e262d0cd5)<br />
+> 사용자별 메뉴관리 화면
+<br />
 
 ### 메뉴관리 : 프로그램 기능권한관리
-
+![프로그램기능권한관리_기본](https://github.com/Parksoorin/WeatherApp/assets/101718825/c2628ba7-fc3c-42fd-a8cd-5115fc718273)<br />
+> 프로그램 기능권한관리 화면
+<br />
 
 
 
