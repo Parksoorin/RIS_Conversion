@@ -1,7 +1,7 @@
 # RIS : 방사선 정보 시스템
 개발 환경 - HeidiSQL, Postman, Eclipse, Fork, Notion<br />
 JQGrid를 사용한 조회 및 입력 수정 삭제 로직 구현 위주의 프로그램이다.
-Mybatis를 이용한 MtSQL DB를 연결했다.
+Mybatis를 이용한 MySQL DB를 연결했다.
 <br /><br />
 
 ## 역할
