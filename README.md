@@ -19,12 +19,13 @@ Mybatis를 이용한 MtSQL DB를 연결했다.
 <br />
 
 ![비밀번호변경1](https://github.com/Parksoorin/WeatherApp/assets/101718825/f8bce7c4-70d3-45b2-b44d-90d79dbf641e)<br />
-> 비밀번호 변경 실패
+> 비밀번호 변경 실패<br />
+> : 기존 비밀번호 확인과 새 비밀번호가 일치한지 확인한다.<br />
+> : 취소를 누를 시 해당 팝업을 닫는다. <br />
 <br />
 
 ![비밀번호변경2](https://github.com/Parksoorin/WeatherApp/assets/101718825/aac43f1a-67fe-443a-b690-1491222ef41d)<br />
 > 비밀번호 변경 성공
-<br />
 <br />
 
 ### 메뉴관리 : 사용자관리
@@ -52,16 +53,22 @@ Mybatis를 이용한 MtSQL DB를 연결했다.
 ### 메뉴관리 : 메뉴 정보관리
 ![메뉴정보관리_기본](https://github.com/Parksoorin/WeatherApp/assets/101718825/03f78cca-9a92-43ef-947f-1f84156836de)
 <br />
-> 메뉴 정보관리 화면
+> 메뉴 정보관리 화면<br />
+> : 프로그램을 그룹으로 설정하는 화면<br />
+> : Grid1 - 메뉴 그룹 리스트<br />
+> : Grid2 - 메뉴 리스트<br />
 <br />
 
 ![메뉴정보관리_팝업](https://github.com/Parksoorin/WeatherApp/assets/101718825/b3fc4da7-e267-4cb0-9e5e-554cd383ff4a)
 <br />
-> 입력 후 추가된 행의 버튼을 누르면 나오는 팝업
+> 입력 후 추가된 행의 버튼을 누르면 나오는 팝업 화면<br />
+> : 프로그램 정보 관리에 등록된 프로그램을 조회하고 선택하는 팝업<br />
+> : 프로그램 ID 혹은 프로그램 명을 조건으로 등록된 프로그램 조회 <br />
 <br />
 
 ![메뉴정보관리_팝업선택상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/1013eca3-a2d5-4092-80b4-b884879e3b8b)<br />
-> 팝업에서 행 선택 시 
+> 팝업에서 행 선택 시<br />
+> : 선택한 프로그램ID의 프로그램 명을 메뉴정보관리 화면에 입력한다. <br />
 <br />
 
 ![메뉴정보관리_상위메뉴추가상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/29c1f696-953e-47a8-934c-272ff7ce76b2)<br />
@@ -74,7 +81,8 @@ Mybatis를 이용한 MtSQL DB를 연결했다.
 <br />
 
 ![메뉴정보관리_하위메뉴수정상세](https://github.com/Parksoorin/WeatherApp/assets/101718825/fd798131-80c2-4a10-ac0c-dffe17502ff5)<br />
-> 하위메뉴 수정
+> 하위메뉴 수정<br />
+> : 하위메뉴 - 선택한 프로그램을 상위메뉴로 갖는 하위메뉴
 <br />
 
 ![메뉴정보관리_하위메뉴수정결과](https://github.com/Parksoorin/WeatherApp/assets/101718825/b8fe9797-51e6-4e2a-802e-e5c1abd75cec)<br />
